@@ -7,13 +7,21 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="">
   <title>Fancy Point | Staff Portal</title>
-  <link rel="icon" type="image/png" href="<?=base_url()?>assets/img/favicon.png">
+  <link rel="icon" type="image/png" href="<?=base_url()?>assets/img/favicon_io/favicon-32x32.png">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" href="<?=base_url()?>assets/css/vendor.css">
   <link rel="stylesheet" href="<?=base_url()?>assets/css/cosmos.css">
   <link rel="stylesheet" href="<?=base_url()?>assets/css/application.css">
   <link rel="stylesheet" href="<?=base_url()?>assets/css/waitMe.css">
+  <style>
+    .btn-info {
+      border-color: #c5ab22;
+      background-color: #fff;
+      color: #c5ab22;
+      font-weight: bold;
+    }
+  </style>
 </head>
   <body class="authentication-body">
     <div class="container-fluid">
@@ -42,7 +50,7 @@
         </div>
       </div>
       <div class="authentication-footer">
-        <span class="text-muted">Need help? Contact us info@fancypoint.com</span>
+        <span class="text-muted">Need help? Contact us info@testmail.com</span>
       </div>
     </div>
     <script src="<?=base_url()?>assets/js/vendor.js"></script>
