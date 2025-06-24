@@ -1,0 +1,8 @@
+ALTER TABLE product_attr_val ADD FOREIGN KEY (pro_id) REFERENCES products(pro_id) on delete cascade
+ALTER TABLE sub_product ADD FOREIGN KEY (pro_id) REFERENCES products(pro_id) on delete cascade
+ALTER TABLE sub_pro_sepc ADD FOREIGN KEY (sub_pro_id) REFERENCES sub_product(sub_pro_id) on delete cascade
+ALTER TABLE orders ADD FOREIGN KEY (add_id) REFERENCES addresses(add_id) on delete cascade
+ALTER TABLE order_details ADD FOREIGN KEY (order_id) REFERENCES orders(order_id) on delete cascade
+ALTER TABLE order_product_specs ADD FOREIGN KEY (odet_id) REFERENCES order_details(det_id) on delete cascade
+ALTER TABLE order_payment_det ADD FOREIGN KEY (order_id) REFERENCES orders(order_id) on delete cascade
+ALTER TABLE order_status_det ADD FOREIGN KEY (order_id) REFERENCES orders(order_id) on delete cascade

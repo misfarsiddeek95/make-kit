@@ -1,0 +1,41 @@
+/* jQuery Gridly
+ * Copyright 2015 Kevin Sylvestre
+ * 1.2.9
+ */
+.gridly, .gridly > :not(.dragging) {
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+.gridly .dragging {
+  z-index: 800;
+}
+.example {
+  position: relative; 
+}
+.example .brick {
+	opacity: 1;
+	cursor: pointer;
+	position: relative; 
+}
+.example .brick .delete {
+  display: inline;
+  color: #FFF;
+  background: rgba(255, 255, 255, 0.2);
+  width: 40px;
+  height: 40px;
+  top: 0;
+  right: 0;
+  position: absolute;
+  text-align: center;
+  line-height: 40px; }
+
+.example .brick img {
+  display: inline;
+  width: 100%
+}
+
+.example .brick.dragging {
+  opacity: 0.8;
+}
+
