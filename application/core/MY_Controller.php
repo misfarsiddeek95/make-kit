@@ -11,7 +11,7 @@ class MY_Controller extends CI_Controller {
     {
         parent::__construct();
         date_default_timezone_set('Asia/Colombo');
-        $this->company_name = 'Fancy Point | '; 
+        $this->company_name = 'Make-Kit | '; 
         /*if($_SERVER["HTTPS"] != "on"){
             header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
             exit();

@@ -23,19 +23,50 @@
                   <input type="hidden" name="page_id" id="page_id" value="<?php if(!(empty($page))){echo($page->page_id);}else{echo(0);} ?>">
 
                   <div class="form-group">
+                    <label for="form-control-3" class="control-label">Page For</label>
+                    <select class="form-control" name="page_for" id="page_for" data-required-error="Page For is Required" required>
+                      <option selected disabled>--Select For the Page--</option>
+                      <option value="create_new">Add New</option>
+                      <?php 
+                        foreach ($page_for as $row) {
+                          $sel = '';
+                          if(!(empty($page))){
+                            if ($row->page_for==$page->page_for) {
+                              $sel = 'selected';
+                            }
+                          }
+                      ?>
+                      <option value="<?=$row->page_for?>" <?=$sel?>><?=$row->page_for?></option>
+                      <?php } ?>
+                    </select>
+                    <div class="help-block with-errors"></div>
+                  </div>
+                  <div class="form-group" id="new_page_fors">
+                    <input type="text" pattern="^[a-zA-Z 0-9 .&+-]*$" value="" placeholder="Add New" id="new_page_for" name="new_page_for" class="form-control" data-pattern-error="Invalid Title">
+                    <div class="help-block with-errors"></div>
+                  </div>
+
+                  <div class="form-group">
                     <label for="form-control-3" class="control-label">Page Name</label>
                     <input type="text" pattern="^[a-zA-Z 0-9 .&+-]*$" value="<?php if(!(empty($page))){echo($page->name);} ?>" placeholder="Page Name" id="pageName" name="pageName" class="form-control" data-minlength="3" data-pattern-error="Invalid Page Name" data-error="Minimum of 3 characters" data-required-error="Page Name is Required" required>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Page Site</label>
-                    <select placeholder="Page Site" id="pageSite" name="pageSite" class="form-control" data-required-error="Page site is Required" required>
-                      <option value="" disabled="" selected="">Select Site</option>
-                      <option value="0">All</option>
-                      <option value="1">Fancypoint</option>
-                      <option value="2">Cosmoline</option>
-                      <option value="3">UScosmo</option>
+                    <label for="form-control-3" class="control-label">Page Type</label>
+                    <select class="form-control" name="page_type" id="page_type" data-plugin="select2" data-required-error="Page Type is Required" required>
+                      <?php 
+                        $ptype = array('Main Page','Slider','Banner','Gallery');
+                        foreach ($ptype as $key => $value) {
+                          $sel = '';
+                          if(!(empty($page))){
+                            if ($key==$page->page_type) {
+                              $sel = 'selected';
+                            }
+                          }
+                      ?>
+                      <option value="<?=$key?>" <?=$sel?>><?=$value?></option>
+                      <?php } ?>
                     </select>
                     <div class="help-block with-errors"></div>
                   </div>
@@ -78,7 +109,7 @@
 
                   <div class="form-group">
                     <label for="form-control-3" class="control-label">Second Title</label>
-                    <input type="text" pattern="^[a-zA-Z 0-9 .&+-]*$" value="<?php if(!(empty($page))){echo($page->second_title);} ?>" placeholder="Second Title" id="secondTitle" name="secondTitle" class="form-control" data-minlength="3" data-pattern-error="Invalid Second Title" data-error="Minimum of 3 characters">
+                    <input type="text" pattern="^[a-zA-Z0-9.@ -.,]*$" value="<?php if(!(empty($page))){echo($page->second_title);} ?>" placeholder="Second Title" id="secondTitle" name="secondTitle" class="form-control" data-minlength="3" data-pattern-error="Invalid Second Title" data-error="Minimum of 3 characters">
                     <div class="help-block with-errors"></div>
                   </div>
 
@@ -101,29 +132,39 @@
     <?php $this->load->view('includes/javascripts'); ?>
     <script src="<?=base_url()?>assets/js/forms-form-masks.js"></script>
     <script src="<?=base_url()?>assets/js/forms-plugins.js"></script>
-    <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-    <script type="text/javascript">
-      tinymce.init({
-          selector: "#pageText",
-          branding: false,
-          height : 200,
-          theme: 'modern',
-          plugins: [
-              "advlist autolink lists link image charmap print preview hr anchor pagebreak",
-              "searchreplace wordcount visualblocks visualchars code fullscreen",
-              "insertdatetime media nonbreaking save table contextmenu directionality",
-              "textcolor"
-          ],
-          toolbar: "styleselect fontselect fontsizeselect | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | print preview media | link image"
-      });
-    </script>
+    <script src="<?=base_url()?>assets/js/ckeditor.js"></script>
+      <script type="text/javascript">
+        // initialize ckeditor
+        let pageText;
+        ClassicEditor
+        .create( document.querySelector( '#pageText' ) )
+        .then( newEditor => {
+            pageText = newEditor;
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+
+      </script>
       <script type="text/javascript">
 
+        $(document).ready(function() {
+          $('#new_page_fors').hide()
+        })
+
+        $('#page_for').on('change',function() {
+          if (this.value == 'create_new') {
+            $('#new_page_fors').show()
+          }else{
+            $('#new_page_fors').hide()
+          }
+        })
+      
         $('#inputmasks').validator().on('submit', function (e) {
           if (!(e.isDefaultPrevented())) {
             e.preventDefault();
             run_waitMe('#inputmasks');
-              $('#pageText').html(tinymce.get('pageText').getContent());
+              $('#pageText').html(pageText.getData());
               $.ajax({
                 type: "POST",
                 url: "<?=base_url()?>savePage",
@@ -137,9 +178,9 @@
                         window.location = "<?=base_url()?>Settings/pages";
                       }, 500);
                     }else{
-                      document.getElementById('inputmasks').reset(); 
-                      $('#inputmasks').find("input").val("");
-                      $('#inputmasks').find("textarea").val("");
+                      setTimeout(function(){
+                       location.reload();
+                      }, 500);
                       toastr.success("Page Added successfully.")
                     }
                   }else if(responsedata.status=='error'){
@@ -154,8 +195,8 @@
                   toastr.error('Error :'+result)
                 }
             });
-        }
-      });
+          }
+        });
       
     </script>
 

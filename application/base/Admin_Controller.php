@@ -17,7 +17,7 @@ class Admin_Controller extends MY_Controller {
         $user_id = $this->session->userdata['staff_logged_in']['user_id'];
         $this->data['tree']= $this->Group_options_modal->get_access_group_options($user_id);
         $this->load->vars($this->data);
-        $this->folder = $_SERVER['DOCUMENT_ROOT'];
+        $this->folder = $_SERVER['DOCUMENT_ROOT'] .  "/make-kit";
     }
     
     

@@ -221,13 +221,14 @@ class Common_modal extends CI_Model {
           return false;
         }
     }
+    
     function getImages($table,$field,$id){
         $this->db->select('*');
         $this->db->from("photo");
         $this->db->where("table", $table);
         $this->db->where("field", $field);
         $this->db->where("field_id", $id);
-        $this->db->where("status", 0);
+        $this->db->where("status", 1);
         $this->db->order_by("photo_order", "asc"); 
         $query = $this->db->get();
         return $query->result();

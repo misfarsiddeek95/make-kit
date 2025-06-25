@@ -210,11 +210,12 @@ class Settings_modal extends CI_Model {
 
         return $ret;
     }
-    function getPages()
-    {
-        $this->db->select('p.page_id,p.name,p.page_title,p.headline,p.second_title,p.create_date,p.website,q.pid,q.photo_path,q.photo_title');
+
+    function getPages($page_for) {
+        $this->db->select('p.page_id,p.name,p.page_title,p.headline,p.second_title,p.page_type,p.create_date,q.pid,q.photo_path,q.photo_title,q.extension');
         $this->db->from('pages p');
         $this->db->where('p.status', 0);
+        $this->db->where('p.page_for', $page_for);
         $this->db->join('photo q', 'q.table="pages" AND q.field_id = p.page_id', 'left outer');
         $this->db->group_by("p.page_id");
         $this->db->order_by('p.page_id', "ASC");
@@ -255,5 +256,39 @@ class Settings_modal extends CI_Model {
         $this->db->join('category_attributes ca', 'ca.cate_id="'.$cate.'" AND ca.attr_id = a.attr_id');
         $query = $this->db->get();
         return $query->result();
+    }
+
+    public function get_pagefor() {
+        $this->db->select('page_for');
+        $this->db->from('pages');
+        $this->db->group_by('page_for');
+        $q = $this->db->get();
+        return $q->result();        
+    }
+
+    public function get_all_pages() {
+        $this->db->select('page_for');
+        $this->db->from('pages');
+        $this->db->group_by('page_for');
+        $q = $this->db->get();
+        $main = $q->result();        
+        foreach ($main as $row) {
+            $row->pages = $this->getPages($row->page_for);
+        }
+        return $main;
+    }
+
+    function checkPagePhoto($id){
+        $this->db->select('pid');
+        $this->db->from('photo');
+        $this->db->where('table','pages');
+        $this->db->where('field_id', $id);
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if($query->num_rows() == 1){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

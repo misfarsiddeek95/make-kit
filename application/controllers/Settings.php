@@ -826,14 +826,15 @@ class Settings extends Admin_Controller {
         }
         echo json_encode($message);
     }
+
     public function pages() {
         try{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
-            $manage_del= $this->Admin_modal->isAccessRightGiven($group_id,53)?0:1;
+            $manage_del= $this->Admin_modal->isAccessRightGiven($group_id,11)?0:1;
             if ($manage_del) {
                 throw new Exception("You don't have the permissoin to manage pages.");
             }
-            $data['pages'] = $this->Settings_modal->getPages();
+            $data['pages'] = $this->Settings_modal->get_all_pages();
             $data['add_page']= $this->Admin_modal->isAccessRightGiven($group_id,54)?1:0;
             $data['edit_page']= $this->Admin_modal->isAccessRightGiven($group_id,55)?1:0;
             $data['add_photo']= $this->Admin_modal->isAccessRightGiven($group_id,56)?1:0;
@@ -842,12 +843,12 @@ class Settings extends Admin_Controller {
             redirect(base_url());
         }
     }
+
     public function add_page(){
         try{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $add_page= $this->Admin_modal->isAccessRightGiven($group_id,54)?0:1;
             $edit_page= $this->Admin_modal->isAccessRightGiven($group_id,55)?0:1;
-
             if (isset($_POST['page_id'])){
                 if ($edit_page) {
                     throw new Exception("You don't have the permissoin to edit pages.");
@@ -860,18 +861,19 @@ class Settings extends Admin_Controller {
                 }
                 $data['type']='Add';
             }
+            $data['page_for'] = $this->Settings_modal->get_pagefor();
             $this->load->view('add_pages',$data);
 
         }catch(Exception $ex){
             redirect(base_url());
         }
     } 
-    public function save_page()
-    {
+
+    public function save_page() {
         try{    
             $page_id= $this->input->post('page_id');
             $pageName= $this->input->post('pageName');
-            $pageSite= $this->input->post('pageSite');
+            $page_type= $this->input->post('page_type');
             $headline= $this->input->post('headline');
             $secondTitle= $this->input->post('secondTitle');
             $pageTitle= $this->input->post('pageTitle');
@@ -882,11 +884,20 @@ class Settings extends Admin_Controller {
             $pageText= $this->input->post('pageText');
             $date = date("Y-m-d H:i:s");
 
+            $page_for = $this->input->post('page_for');
+            $page_new = '';
+            if ($page_for == 'create_new') {
+                $page_new = $this->input->post('new_page_for');
+            }else{
+                $page_new = $page_for;
+            }
+
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $add_page= $this->Admin_modal->isAccessRightGiven($group_id,54)?0:1;
             $edit_page= $this->Admin_modal->isAccessRightGiven($group_id,55)?0:1;
 
             $page_array = array(
+                'page_for' => $page_new,
                 'name' => $pageName,
                 'page_title' => $pageTitle,
                 'seo_keywords' => $seoKeywords,
@@ -895,8 +906,7 @@ class Settings extends Admin_Controller {
                 'seo_url' => $seoUrl,
                 'headline' => $headline,
                 'second_title' => $secondTitle,
-                'page_text' => $pageText,
-                'website' => $pageSite
+                'page_text' => $pageText
             );
 
             if ($page_id!=0) {
@@ -910,6 +920,7 @@ class Settings extends Admin_Controller {
                 }
                 $type = 'save';
                 $page_id=0;
+                $page_array['page_type'] = $page_type;
                 $page_array['create_date'] = $date;
                 $page_array['status'] = 1;
             }
@@ -922,87 +933,104 @@ class Settings extends Admin_Controller {
         echo json_encode($message);
     }
 
-    function page_img_page()
-    {
+    function page_img_page() {
         $data['page_id']= $this->input->post('page_id');
-        $data['categories']= $this->Common_modal->getAllCate();
-        $data['products']= $this->Settings_modal->getProSimpleDet();
+        $data['pages']= $this->Common_modal->getAllWhere('pages','page_id',$data['page_id']);
         $this->load->view('add_page_img',$data);
     }
 
-    function getSpecPageImg()
-    {
+    function getSpecPageImg() {
         $id = $this->input->post('page_id');
         $result = $this->Common_modal->getImages('pages','page_id',$id);
         echo json_encode($result);
     }
 
     function upload_page_img(){
-        if (isset($_POST['page_id'])&&isset($_POST['image_type'])){
+        if (isset($_POST['page_id'])){
             $page_id= $this->input->post('page_id');
-            $image_type= $this->input->post('image_type');
-
+            $headerone='';
+            $headertwo='';
+            $sliderdesc=''; 
+            
             $result = $this->Common_modal->getAllWhere('pages','page_id',$page_id);
-            if ($result) {
-                $photo_title = '0|'.$result->name;
-                if ($image_type!='') {
-                    if (isset($_POST['img_val'])) {
-                        $image_val= $this->input->post('img_val');
-                        if (($image_type==0||$image_type==1||$image_type==2)&&($image_val!=''||$image_val!=null)) {
-                            $photo_title = $image_type.'|'.$image_val;
-                        }                        
+            $checkPhExst = $this->Settings_modal->checkPagePhoto($page_id);
+
+            if ($result->page_type==1) {
+                $headerone= $this->input->post('img_headone');
+                $headertwo= $this->input->post('img_headtwo');
+                $sliderdesc= $this->input->post('img_desc'); 
+            }
+
+            if ($checkPhExst && ($result->page_type==0 || $result->page_type==2)) {
+                $this->output->set_header("HTTP/1.0 400 Bad Request");
+                $message = "Unable to upload multiple Images.";
+            }else{
+                if ($result) {
+                    $photo_title = $result->name;
+                    $this->load->library('aayusmain');
+                    if (!empty($_FILES)) {
+                        $tempFile = $_FILES['file']['tmp_name'];
+                        
+                        $PhotoFileType = $_FILES["file"]["type"];
+                        $PhotoFileName = $_FILES["file"]["name"];
+                        $PhotoFileNameMD5 = md5(date('YmdHis').$PhotoFileName);
+
+                        $extension = pathinfo($PhotoFileName, PATHINFO_EXTENSION);
+
+                        $folder = $this->folder."/photos/pages/";
+
+                        if(!is_dir($folder)){
+                            mkdir($folder, 0777, true);
+                        }
+                        
+                        $filetype = $extension == 'png' ? $extension : 'jpg';
+
+                        $img_org = $folder.$PhotoFileNameMD5.'-org.'.$filetype;
+                        $img_std = $folder.$PhotoFileNameMD5. '-std.'.$filetype;
+                        $img_sma = $folder.$PhotoFileNameMD5. '-sma.'.$filetype;
+
+                        if (!@move_uploaded_file ($_FILES['file']['tmp_name'],$img_org)) die ('Can not upload original file...');
+
+                        $this->aayusmain->make_thumb($img_org,$img_std,100,400,400);
+                        $this->aayusmain->make_thumb($img_org,$img_sma,100,200,200);
+
+                        $result1 = $this->Common_modal->getMaxOrder('pages','page_id',$page_id);
+                        $maxo = 0;
+                        if ($result1->photo_order!=0) {
+                            $maxo=$result1->photo_order;
+                        }
+                        $data = array(
+                            'table' => 'pages',
+                            'field' => 'page_id',
+                            'field_id' => $result->page_id,
+                            'photo_path' => $PhotoFileNameMD5,
+                            'extension' => $filetype,
+                            'photo_title' => $photo_title,
+                            'photo_order' => $maxo+1,
+                            'photo_header' => $headerone,
+                            'psub_header' => $headertwo,
+                            'pdescription' => $sliderdesc,
+                            'photo_type' => $result->page_type
+                        );
+                        $inserted_id = $this->Common_modal->insert('photo',$data);
+                        $message = 'Photo added successfully';
+                    }else{
+                        $this->output->set_header("HTTP/1.0 400 Bad Request");
+                        $message = "File is empty.";
                     }
-                }
-                $this->load->library('aayusmain');
-                if (!empty($_FILES)) {
-                    $tempFile = $_FILES['file']['tmp_name'];
-                    
-                    $PhotoFileType = $_FILES["file"]["type"];
-                    $PhotoFileName = $_FILES["file"]["name"];
-                    $PhotoFileNameMD5 = md5(date('YmdHis').$PhotoFileName);
-
-                    $filetype = 'jpg';
-                    $folder = $this->folder."/photos/pages/";
-                    $img_org = $folder.$PhotoFileNameMD5.'-org.'.$filetype;
-                    $img_std = $folder.$PhotoFileNameMD5. '-std.'.$filetype;
-                    $img_sma = $folder.$PhotoFileNameMD5. '-sma.'.$filetype;
-
-                    if (!@move_uploaded_file ($_FILES['file']['tmp_name'],$img_org)) die ('Can not upload original file...');
-
-                    $this->aayusmain->make_thumb($img_org,$img_std,100,400,400);
-                    $this->aayusmain->make_thumb($img_org,$img_sma,100,200,200);
-
-                    $result1 = $this->Common_modal->getMaxOrder('pages','page_id',$page_id);
-                    $maxo = 0;
-                    if ($result1->photo_order!=0) {
-                        $maxo=$result1->photo_order;
-                    }
-                    $data = array(
-                        'table' => 'pages',
-                        'field' => 'page_id',
-                        'field_id' => $result->page_id,
-                        'photo_path' => $PhotoFileNameMD5,
-                        'photo_title' => $photo_title,
-                        'photo_order' => $maxo+1
-                    );
-                    $inserted_id = $this->Common_modal->insert('photo',$data);
-                    $message = 'Photo added successfully';
                 }else{
                     $this->output->set_header("HTTP/1.0 400 Bad Request");
-                    $message = "File is empty.";
+                    $message = "Page not exist.";
                 }
-            }else{
-                $this->output->set_header("HTTP/1.0 400 Bad Request");
-                $message = "Page not exist.";
-            }
+            } 
         }else{
             $this->output->set_header("HTTP/1.0 400 Bad Request");
             $message = "Somthing went wrong :(";
         }
         echo $message;
     }
-    function deletePageImg()
-    {
+
+    function deletePageImg() {
         $pid= $this->input->post('id');
         $result = $this->Common_modal->getAllWhere('photo','pid',$pid);
         if ($result) {
@@ -1011,7 +1039,7 @@ class Settings extends Admin_Controller {
             $imgExt = array('org','std','sma');
 
             foreach ($imgExt as $value) {
-                $imagename = $result->photo_path.'-'.$value.'.jpg';
+                $imagename = $result->photo_path.'-'.$value.'.'.$result->extension;
                 unlink( $folder . $imagename );
             }
             $message = array("status" => "success","message" => 'Deleted successfully');
