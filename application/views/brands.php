@@ -55,7 +55,7 @@
                 <?php foreach ($brands as $row) { 
                   $img = 'default.jpg';
                   if ($row->photo_path!=null) {
-                    $img = 'brands/'.$row->photo_path.'-org.jpg';
+                    $img = 'brands/'.$row->photo_path.'-org.'.$row->extension;
                   }
                 ?>
                 <tr id="brandRow<?=$row->brand_id?>">

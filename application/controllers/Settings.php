@@ -578,7 +578,12 @@ class Settings extends Admin_Controller {
             $result = $this->Common_modal->getAllWhere('brands','brand_id',$field_id);
             if ($result) {
                 $this->load->library('aayusmain');
+
                 $folder = $this->folder."/photos/brands/";
+                if(!is_dir($folder)){
+                    mkdir($folder, 0777, true);
+                }
+
                 $photos = $this->Common_modal->getTablePhotos('brands',$field_id);
                 if ($photos) {
                     foreach ($photos as $row) {
@@ -593,8 +598,10 @@ class Settings extends Admin_Controller {
                     $PhotoFileType = $_FILES["file"]["type"];
                     $PhotoFileName = $_FILES["file"]["name"];
                     $PhotoFileNameMD5 = md5(date('YmdHis').$PhotoFileName);
+                    $extension = pathinfo($PhotoFileName, PATHINFO_EXTENSION);
 
-                    $filetype = 'jpg';
+                    $filetype = $extension == 'png' ? $extension : 'jpg';
+
                     $img_org = $folder.$PhotoFileNameMD5.'-org.'.$filetype;
 
                     if (!@move_uploaded_file ($_FILES['file']['tmp_name'],$img_org)) die ('Can not upload original file...');
@@ -604,6 +611,7 @@ class Settings extends Admin_Controller {
                         'field' => 'brand_id',
                         'field_id' => $result->brand_id,
                         'photo_path' => $PhotoFileNameMD5,
+                        'extension' => $filetype,
                         'photo_title' => str_replace(array("-","_",".","jpg")," ", $result->brand),
                         'photo_order' => 0
                     );

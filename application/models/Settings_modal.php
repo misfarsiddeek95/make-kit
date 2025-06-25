@@ -102,14 +102,11 @@ class Settings_modal extends CI_Model {
         }
     }
 
-    function getBrands()
-    {
-        $this->db->select('b.brand_id,b.brand,b.view_count,b.brand_status,q.pid,q.photo_path,q.photo_title');
+    function getBrands() {
+        $this->db->select('b.brand_id,b.brand,b.view_count,b.brand_status,q.pid,q.photo_path,q.photo_title,q.extension');
         $this->db->from('brands b');
-
         $this->db->where("q.table='brands' OR q.table is NULL AND q.status='0' OR q.status is NULL");
         $this->db->join('photo q', 'q.table="brands" AND q.field_id = b.brand_id', 'left outer');
-
         $this->db->order_by('b.brand_id', "ASC");
         $query = $this->db->get();
         return $query->result();
