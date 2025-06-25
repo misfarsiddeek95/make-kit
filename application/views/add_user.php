@@ -60,7 +60,7 @@
 
                   <div class="form-group">
                     <label for="form-control-4" class="control-label">Address</label>
-                    <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-error="Address is required." required><?php if(!(empty($user))){echo($user->address);}?></textarea>
+                    <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-plugin="autosize" data-error="Address is required." required  style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($user))){echo($user->address);}?></textarea>
                     <div class="help-block with-errors"></div>
                   </div>
 
@@ -112,28 +112,6 @@
                       <input type="password" placeholder="Password" class="form-control" name="password" id="password" data-minlength="6" data-error="Minimum of 6 characters" data-required-error="Password is Required" <?php if((empty($user))){echo 'required';}?>>
                       <div class="help-block with-errors"></div>
                   </div>
-
-                  <?php if(!(empty($websites))){?>
-                  <div class="form-group">
-                    <label for="form-control-2" class="control-label">Visible Websites</label>
-                    <select class="form-control" data-plugin="select2" name="visibleSites[]" id="visibleSites" multiple="multiple" data-placeholder="Visible Websites">
-                      <option></option>
-                      <?php foreach ($websites as $row) { 
-                        $selt='';
-                        if(!(empty($user))){
-                          if(in_array($row->ws_id ,$staff_sites)){
-                            $selt='selected';
-                          }
-                        }else{
-                          $selt='selected';
-                        }
-                      ?>
-                      <option value="<?=$row->ws_id?>" title="<?=$row->ws_url?>" <?=$selt?>><?=$row->ws_name?></option>
-                      <?php } ?>
-                    </select>
-                    <div class="help-block with-errors"></div>
-                  </div>
-                  <?php } ?>
 
                   <div class="form-group">
                     <label for="form-control-3" class="control-label">User Role</label>

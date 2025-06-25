@@ -1,25 +1,24 @@
 <?php
 class Admin_modal extends CI_Model {
     public function get_all_users() {
-        $this -> db -> select('s.user_id,s.fname,s.lname,s.company_name,s.nic,s.dob,s.email,s.username,s.status as userStatus,a.*,p.pid,p.photo_path,p.photo_title,d.phone'); 
-        $this -> db -> from('staff_users s');
-        $this->db->where('d.add_type', 2);
-        $this->db->join('photo p', 'p.table="staff_users" AND p.field_id = s.user_id', 'left outer');
-        $this->db->join('access_groups a', 'a.group_id = s.access_group', 'left outer');
-        $this->db->join('addresses d', 'd.user_id = s.user_id', 'left outer');
-        $this->db->join('cities i', 'i.city_id = d.city_id', 'left outer');
-        $this->db->join('regions r', 'r.reg_id = d.reg_id', 'left outer');
-        $query = $this -> db -> get();
-        $results=$query -> result();
-        return $results;
-    }
+        $this->db->select('s.user_id,s.fname,s.lname,s.company_name,s.nic,s.dob,s.email,s.username,s.status as userStatus,a.*,p.pid,p.photo_path,p.photo_title,d.phone'); 
+        $this->db->from('staff_users s');
+        
+        $this->db->join('photo p', 'p.table = "staff_users" AND p.field_id = s.user_id', 'left');
+        $this->db->join('access_groups a', 'a.group_id = s.access_group', 'left');
+        $this->db->join('addresses d', 'd.user_id = s.user_id AND d.add_type = 2', 'left'); // moved condition here
+        $this->db->join('cities i', 'i.city_id = d.city_id', 'left');
+        $this->db->join('regions r', 'r.reg_id = d.reg_id', 'left');
+        
+        $query = $this->db->get();
+        return $query->result();
+    }    
 
     public function getUserDetail($id) {
         $this -> db -> select('staff_users.*,addresses.add_id,addresses.address,addresses.city_id,addresses.reg_id,addresses.country_id,addresses.phone');
         $this -> db -> from('staff_users');
         $this->db->where('staff_users.user_id', $id);
-        $this->db->where('addresses.add_type', 2);
-        $this->db->join('addresses', 'addresses.user_id = staff_users.user_id', 'left outer');
+        $this->db->join('addresses', 'addresses.user_id = staff_users.user_id AND addresses.add_type = 2', 'left outer');
         $this -> db -> limit(1);
         $query = $this -> db -> get();
         if($query -> num_rows() == 1){

@@ -35,8 +35,8 @@
                       <td><?=$i?></td>
                       <td><?=$row->group_code;?></td>
                       <td><?=$row->group_desc;?></td>
-                      <td><button type="button" class="btn btn-outline-danger" onclick="deleteGroup(<?=$row->group_id;?>);">Delete</button></td>
                       <td><button type="button" class="btn btn-outline-primary" onclick="editGroup(<?=$row->group_id;?>);">Edit</button></td>
+                      <td><button type="button" class="btn btn-outline-danger" onclick="deleteGroup(<?=$row->group_id;?>);">Delete</button></td>
                     </tr>
                     <?php $i++; } ?>
                   </tbody>

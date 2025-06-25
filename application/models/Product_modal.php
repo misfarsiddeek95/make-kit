@@ -99,7 +99,7 @@ class Product_modal extends CI_Model {
         }
         return $ret;
     }
-    function save_product($pro_id,$visibleSites,$attributes,$multiAttr,$pro_array,$proCate,$other_cates,$delete){
+    function save_product($pro_id,$attributes,$multiAttr,$pro_array,$proCate,$other_cates,$delete){
         $this->db->trans_start();
         $return_obj = array();
         $return_obj['sub_pro_ids'] = [];
@@ -159,20 +159,6 @@ class Product_modal extends CI_Model {
             $this->db->insert_batch('product_categories', $cate_array);
         }
 
-        if (!(empty($visibleSites))) {
-            foreach ($visibleSites as $key => $value) {
-                $site_arr = array(
-                    'pro_id' => $pro_id,
-                    'ws_id' => $value
-                );
-                $result = $this->checkProsites($site_arr);
-                if ($result) {
-                    $exist_site_ids[] = $result->pvs_id;
-                }else{
-                    $site_array[] = $site_arr;
-                }
-            }
-        }
         if ($type) {
             $this->db->where('pro_id', $pro_id);
             if (!(empty($exist_site_ids))) {

@@ -30,7 +30,7 @@ class SystemLogin extends MY_Controller {
                 if ($result->access_group==0||$result->access_group==''||$result->access_group==null) {
                     $message = array("status" => "error","message" => "User not Approved. Please contact Administrator.");
                 }else{
-                    if($result->status==0 && password_verify($password, $result->password)){
+                    if($result->status==1 && password_verify($password, $result->password)){
                         $img = 'user_default.jpg';
                         if ($result->photo_path!=null) {
                           $img = 'staff/'.$result->photo_path.'-sma.jpg';

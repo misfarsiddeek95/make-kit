@@ -73,7 +73,6 @@ class Users extends Admin_Controller{
 
             $data['changeStatus']= $this->Admin_modal->isAccessRightGiven($group_id,19)?0:1;
             $data['countries'] = $this->Common_modal->getCountries();
-            $data['websites']= $this->Common_modal->getWebsites();
             $data['role'] = $this->Common_modal->getAll('access_groups');
             $this->load->view('add_user',$data);
         } catch (Exception $ex){

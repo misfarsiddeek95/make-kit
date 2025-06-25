@@ -47,7 +47,6 @@ class Products extends Admin_Controller {
                 $user_id = $this->session->userdata['staff_logged_in']['group_id'];
                 $data['Users']= $this->Common_modal->getUsersExcept($user_id);
             }
-            $data['websites']= $this->Common_modal->getWebsites();
             $data['categories']= $this->Common_modal->getAllCate();
             $this->load->view('add_product',$data);
 
@@ -168,11 +167,7 @@ class Products extends Admin_Controller {
             if ($pro_code==''||$pro_code==null) {
                 $pro_code = $this->proCodeGen();
             }
-            if (isset($_POST['visibleSites'])){
-                $visibleSites= $this->input->post('visibleSites');
-            }else{
-                $visibleSites = array();
-            }
+          
             if (isset($_POST['attribute'])){
                 $attribute= $this->input->post('attribute');
             }else{
@@ -222,7 +217,7 @@ class Products extends Admin_Controller {
                 $pro_id=0;
                 $pro_array['added_date'] = $date;
             }
-            $result = $this->Product_modal->save_product($pro_id,$visibleSites,$attribute,$multiAttr,$pro_array,$proCate,$other_cates,$delete);
+            $result = $this->Product_modal->save_product($pro_id,$attribute,$multiAttr,$pro_array,$proCate,$other_cates,$delete);
             if (!(empty($result['sub_pro_ids']))) {
                 foreach ($result['sub_pro_ids'] as $val) {
                     $photo = $this->Product_modal->getProductPhotos('sub_product',$val);

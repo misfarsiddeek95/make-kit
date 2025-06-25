@@ -60,7 +60,7 @@
 
                   <div class="form-group">
                     <label for="form-control-4" class="control-label">Address</label>
-                    <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-error="Address is required." required><?php if(!(empty($user))){echo($user->address);}?></textarea>
+                    <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-plugin="autosize" data-error="Address is required." required  style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($user))){echo($user->address);}?></textarea>
                     <div class="help-block with-errors"></div>
                   </div>
 

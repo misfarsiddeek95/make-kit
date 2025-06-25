@@ -83,28 +83,6 @@
 									</div>
 									<?php  } ?>
 
-									<?php if(!(empty($websites))){?>
-									<div class="form-group">
-										<label for="form-control-2" class="control-label">Visible Websites</label>
-										<select class="form-control" data-plugin="select2" name="visibleSites[]" id="visibleSites" multiple="multiple" data-placeholder="Visible Websites">
-											<option></option>
-											<?php foreach ($websites as $row) { 
-												$selt='';
-												if(!(empty($product))){
-													if(in_array($row->ws_id ,$pro_sites)){
-														$selt='selected';
-													}
-												}else{
-													$selt='selected';
-												}
-											?>
-											<option value="<?=$row->ws_id?>" title="<?=$row->ws_url?>" <?=$selt?>><?=$row->ws_name?></option>
-											<?php } ?>
-										</select>
-										<div class="help-block with-errors"></div>
-									</div>
-									<?php } ?>
-
 									<div class="form-group">
 										<label for="form-control-3" class="control-label">Categories</label>
 										<select class="form-control" data-plugin="select2" data-placeholder="Select a Category" name="proCate" id="proCate" data-required-error="Category is Required" required>
@@ -413,49 +391,39 @@
 		<?php $this->load->view('includes/javascripts'); ?>
 		<script src="<?=base_url()?>assets/js/forms-form-masks.js"></script>
 		<script src="<?=base_url()?>assets/js/forms-plugins.js"></script>
-		<!-- <script src="//cdn.tinymce.com/4/tinymce.min.js"></script> -->
+		<script src="<?=base_url()?>assets/js/ckeditor.js"></script>
 		<script src="<?=base_url()?>assets/spectrum.js"></script>
-		<!-- <script type="text/javascript">
-			tinymce.init({
-					selector: "#proDescription",
-					branding: false,
-					height : 200,
-					theme: 'modern',
-					plugins: [
-							"advlist autolink lists link image charmap print preview hr anchor pagebreak",
-							"searchreplace wordcount visualblocks visualchars code fullscreen",
-							"insertdatetime media nonbreaking save table contextmenu directionality",
-							"textcolor"
-					],
-					toolbar: "styleselect fontselect fontsizeselect | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | print preview media | link image"
-			});
-			tinymce.init({
-					selector: "#proIngredients",
-					branding: false,
-					height : 200,
-					theme: 'modern',
-					plugins: [
-							"advlist autolink lists link image charmap print preview hr anchor pagebreak",
-							"searchreplace wordcount visualblocks visualchars code fullscreen",
-							"insertdatetime media nonbreaking save table contextmenu directionality",
-							"textcolor"
-					],
-					toolbar: "styleselect fontselect fontsizeselect | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | print preview media | link image"
-			});
-			tinymce.init({
-					selector: "#proUse",
-					branding: false,
-					height : 200,
-					theme: 'modern',
-					plugins: [
-							"advlist autolink lists link image charmap print preview hr anchor pagebreak",
-							"searchreplace wordcount visualblocks visualchars code fullscreen",
-							"insertdatetime media nonbreaking save table contextmenu directionality",
-							"textcolor"
-					],
-					toolbar: "styleselect fontselect fontsizeselect | forecolor backcolor | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | print preview media | link image"
-			});
-		</script> -->
+		<script type="text/javascript">
+			// initialize ckeditor
+			let proDescription, proIngredients, proUse;
+			ClassicEditor
+			.create( document.querySelector( '#proDescription' ) )
+			.then( newEditor => {
+				proDescription = newEditor;
+			} )
+			.catch( error => {
+				console.error( error );
+			} );
+
+			ClassicEditor
+			.create( document.querySelector( '#proIngredients' ) )
+			.then( newEditor => {
+				proIngredients = newEditor;
+			} )
+			.catch( error => {
+				console.error( error );
+			} );
+
+			ClassicEditor
+			.create( document.querySelector( '#proUse' ) )
+			.then( newEditor => {
+				proUse = newEditor;
+			} )
+			.catch( error => {
+				console.error( error );
+			} );
+
+		</script>
 		<script type="text/javascript">
 			$("#proCate,#brand_name.selectcls,#visibleSites").select2();
 
@@ -484,6 +452,9 @@
 				run_waitMe('#inputmasks');
 				var cate_id = $(this).val();
 				var pro_id = $('#pro_id').val();
+				$('#proDescription').html(proDescription.getData());
+				$('#proIngredients').html(proIngredients.getData());
+				$('#proUse').html(proUse.getData());
 				$.ajax({
 					type: "POST",
 					url: "<?=base_url()?>getAttr",
