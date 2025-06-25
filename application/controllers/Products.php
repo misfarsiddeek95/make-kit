@@ -281,8 +281,16 @@ class Products extends Admin_Controller {
                     $PhotoFileName = $_FILES["file"]["name"];
                     $PhotoFileNameMD5 = md5(date('YmdHis').$PhotoFileName);
 
-                    $filetype = 'jpg';
+                    $extension = pathinfo($PhotoFileName, PATHINFO_EXTENSION);
+
                     $folder = $this->folder."/photos/products/";
+
+                    if(!is_dir($folder)){
+                        mkdir($folder, 0777, true);
+                    }
+
+                    $filetype = $extension == 'png' ? $extension : 'jpg';
+
                     $img_org = $folder.$PhotoFileNameMD5.'-org.'.$filetype;
                     $img_big = $folder.$PhotoFileNameMD5. '-big.'.$filetype;
                     $img_med = $folder.$PhotoFileNameMD5. '-med.'.$filetype;
@@ -308,6 +316,7 @@ class Products extends Admin_Controller {
                         'field' => 'pro_id',
                         'field_id' => $product_id,
                         'photo_path' => $PhotoFileNameMD5,
+                        'extension' => $filetype,
                         'photo_title' => str_replace(array("-","_",".","jpg")," ", $result->name),
                         'photo_order' => $maxo+1
                     );

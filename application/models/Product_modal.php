@@ -330,7 +330,7 @@ class Product_modal extends CI_Model {
         $this->db->where("table", $table);
         $this->db->where("field", 'pro_id');
         $this->db->where("field_id", $id);
-        $this->db->where("status", 0);
+        $this->db->where("status", 1);
         $this->db->order_by("photo_order", "asc"); 
         $query = $this->db->get();
         return $query->result();
@@ -341,7 +341,7 @@ class Product_modal extends CI_Model {
         $this->db->where("table", 'products');
         $this->db->where("field", 'pro_id');
         $this->db->where("field_id", $id);
-        $this->db->where("status", 0);
+        $this->db->where("status", 1);
         $query = $this->db->get('photo');
         return $query->row();
     }
