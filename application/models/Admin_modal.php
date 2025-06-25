@@ -1,11 +1,4 @@
 <?php
-
-/* 
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 class Admin_modal extends CI_Model {
     public function get_all_users() {
         $this -> db -> select('s.user_id,s.fname,s.lname,s.company_name,s.nic,s.dob,s.email,s.username,s.status as userStatus,a.*,p.pid,p.photo_path,p.photo_title,d.phone'); 
@@ -13,9 +6,9 @@ class Admin_modal extends CI_Model {
         $this->db->where('d.add_type', 2);
         $this->db->join('photo p', 'p.table="staff_users" AND p.field_id = s.user_id', 'left outer');
         $this->db->join('access_groups a', 'a.group_id = s.access_group', 'left outer');
-        $this->db->join('addresses d', 'd.user_id = s.user_id');
-        $this->db->join('cities i', 'i.city_id = d.city_id');
-        $this->db->join('regions r', 'r.reg_id = d.reg_id');
+        $this->db->join('addresses d', 'd.user_id = s.user_id', 'left outer');
+        $this->db->join('cities i', 'i.city_id = d.city_id', 'left outer');
+        $this->db->join('regions r', 'r.reg_id = d.reg_id', 'left outer');
         $query = $this -> db -> get();
         $results=$query -> result();
         return $results;
@@ -26,7 +19,7 @@ class Admin_modal extends CI_Model {
         $this -> db -> from('staff_users');
         $this->db->where('staff_users.user_id', $id);
         $this->db->where('addresses.add_type', 2);
-        $this->db->join('addresses', 'addresses.user_id = staff_users.user_id');
+        $this->db->join('addresses', 'addresses.user_id = staff_users.user_id', 'left outer');
         $this -> db -> limit(1);
         $query = $this -> db -> get();
         if($query -> num_rows() == 1){
@@ -36,7 +29,7 @@ class Admin_modal extends CI_Model {
         }
     }
 
-    function saveUser($user_id,$add_id,$visibleSites,$user_array,$addr_array){
+    function saveUser($user_id,$add_id,$user_array,$addr_array){
         $this->db->trans_start();
 
         $site_array = array();
@@ -54,21 +47,6 @@ class Admin_modal extends CI_Model {
 
             $this->db->where('add_id', $add_id);
             $this->db->update('addresses', $addr_array);
-        }
-
-        if (!(empty($visibleSites))) {
-            foreach ($visibleSites as $key => $value) {
-                $site_arr = array(
-                    'user_id' => $user_id,
-                    'ws_id' => $value
-                );
-                $result = $this->checkStaffsites($site_arr);
-                if ($result) {
-                    $exist_site_ids[] = $result->ss_id;
-                }else{
-                    $site_array[] = $site_arr;
-                }
-            }
         }
 
         $this->db->where('user_id', $user_id);

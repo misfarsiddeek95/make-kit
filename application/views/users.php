@@ -27,7 +27,6 @@
                       <th></th>
                       <th>Name</th>
                       <th>Company</th>
-                      <th>NIC</th>
                       <th>Email</th>
                       <th>Phone</th>
                       <th>Username</th>
@@ -56,7 +55,6 @@
                       <td><img class="img-rounded" src="<?=base_url();?>photos/<?=$img?>" height="32"></td>
                       <td><?=$row->fname.' '.$row->lname;?></td>
                       <td><?=$row->company_name;?></td>
-                      <td><?=$row->nic;?></td>
                       <td><?=$row->email;?></td>
                       <td><?=$row->phone;?></td>
                       <td><?=$row->username;?></td>

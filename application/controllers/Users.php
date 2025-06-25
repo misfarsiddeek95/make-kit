@@ -122,7 +122,6 @@ class Users extends Admin_Controller{
             $fName= $this->input->post('fName');
             $lName= $this->input->post('lName');
             $companyName= $this->input->post('companyName');
-            $nic= $this->input->post('nic');
             $dob= $this->input->post('dob');
             $email= $this->input->post('email');
             $mobile= $this->input->post('mobile');
@@ -137,17 +136,10 @@ class Users extends Admin_Controller{
             $date = date("Y-m-d H:i:s");
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
 
-            if (isset($_POST['visibleSites'])){
-                $visibleSites= $this->input->post('visibleSites');
-            }else{
-                $visibleSites = array();
-            }
-
             $user_array = array(
                 'fname' => $fName,
                 'lname' => $lName,
                 'company_name' => $companyName,
-                'nic' => $nic,
                 'dob' => $dob,
                 'email' => $email,
                 'access_group' => $access_group,
@@ -193,7 +185,7 @@ class Users extends Admin_Controller{
             }else{
                 throw new Exception("Something went wrong. Please try again.");
             }
-            $this->Admin_modal->saveUser($user_id,$add_id,$visibleSites,$user_array,$addr_array);
+            $this->Admin_modal->saveUser($user_id,$add_id,$user_array,$addr_array);
 
             $message = array("status" => "success","message" => $type);
 
@@ -272,9 +264,7 @@ class Users extends Admin_Controller{
             $fName= $this->input->post('fName');
             $lName= $this->input->post('lName');
             $companyName= $this->input->post('companyName');
-            //$nic= $this->input->post('nic');
             $dob= $this->input->post('dob');
-            //$email= $this->input->post('email');
             $mobile= $this->input->post('mobile');
             $address= $this->input->post('address');
             $country= $this->input->post('country');
@@ -287,9 +277,7 @@ class Users extends Admin_Controller{
                 'fname' => $fName,
                 'lname' => $lName,
                 'company_name' => $companyName,
-                //'nic' => $nic,
                 'dob' => $dob,
-                //'email' => $email,
                 'modified_date' => $date
             );
 

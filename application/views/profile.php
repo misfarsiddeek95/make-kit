@@ -42,12 +42,6 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">National Identity Card</label>
-                    <input type="text" value="<?php if(!(empty($user))){echo($user->nic);} ?>" placeholder="National Identity Card"  id="nic" name="nic" class="form-control" data-minlength="10" data-error="Please enter a valid NIC number" data-required-error="NIC is Required" disabled="disabled" required>
-                    <div class="help-block with-errors"></div>
-                  </div>
-
-                  <div class="form-group">
                     <label for="form-control-4" class="control-label">Date of Birth</label>
                     <input id="form-control-1" class="form-control" type="text" value="<?php if(!(empty($user))){echo($user->dob);} ?>" data-inputmask="'alias': 'yyyy-mm-dd'" name="dob" id="dob" data-required-error="DOB is Required" required>
                     <div class="help-block with-errors"></div>
