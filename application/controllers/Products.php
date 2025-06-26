@@ -48,6 +48,7 @@ class Products extends Admin_Controller {
                 $data['Users']= $this->Common_modal->getUsersExcept($user_id);
             }
             $data['categories']= $this->Common_modal->getAllCate();
+            $data['credit_types'] = $this->Common_modal->getAll('credity_type');
             $this->load->view('add_product',$data);
 
         }catch(Exception $ex){
@@ -151,6 +152,10 @@ class Products extends Admin_Controller {
             $proIngredients= $this->input->post('proIngredients');
             $proUse= $this->input->post('proUse');
 
+            $proCreditType = $this->input->post('credit_type_id');
+            $proMedalianEligiblePoints = NULL;
+            if($proCreditType == 3) $proMedalianEligiblePoints = $this->input->post('minimum_eligiblity_value');
+
             $date = date("Y-m-d H:i:s");
             $delete = false;
 
@@ -203,7 +208,9 @@ class Products extends Admin_Controller {
                 'seo_url' => $seoUrl,
                 'seo_keyword' => $seoKeywords,
                 'seo_description' => $seoDescription,
-                'status' => $status1
+                'status' => $status1,
+                'credit_type_id' => $proCreditType,
+                'minimum_eligiblity_value' => $proMedalianEligiblePoints
             );
 
             if ($pro_id!=0) {

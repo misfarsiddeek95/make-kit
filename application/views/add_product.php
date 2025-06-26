@@ -62,12 +62,35 @@
 							<div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
 								<form data-toggle="validator" id="inputmasks">
 
-									<input type="hidden" name="pro_id" id="pro_id" value="<?php if(!(empty($product))){echo($product->pro_id);}else{echo(0);} ?>">
+									<input type="hidden" name="pro_id" id="pro_id" value="<?php if(!(empty($product))){echo($product->pro_id);}else{echo(0);} ?>" />
+
+									<div class="form-group">
+										<label for="currency_type" class="control-label">Product Currency Method</label>
+										<select class="form-control" data-plugin="select2" name="credit_type_id" id="currency_type" data-placeholder="Product currency method" data-allow-clear="true" required data-required-error="Product currency method is required." style="width: 100%;">
+											<option></option>
+											<?php foreach ($credit_types as $row) { 
+												$sel ='';
+												if(!(empty($product))){
+													if ($product->credit_type_id==$row->id) {
+														$sel = 'selected';
+													}
+												} ?>
+											<option value="<?=$row->id?>"<?=$sel?>><?=$row->value.' Product'?></option>
+											<?php } ?>
+										</select>
+										<div class="help-block with-errors"></div>
+									</div>
+
+									<div class="form-group hidden" id="elgible-points">
+										<label for="minimum-eligiblity" class="control-label">Eligible Points for Buy this Product</label>
+										<input type="text" placeholder="Eligible Points" value="<?php if(!(empty($product))){echo($product->minimum_eligiblity_value);}else{echo(0);} ?>" name="minimum_eligiblity_value" id="minimum_eligiblity_value" class="form-control" pattern="^[0-9]+$" data-pattern-error="Type only whole numbers"> 
+										<div class="help-block with-errors"></div>
+									</div>
 
 									<?php if(!(empty($Users))&&$assign_pro==0){ ?>
 									<div class="form-group">
 										<label for="form-control-3" class="control-label">Assign User</label>
-										<select class="form-control" data-plugin="select2" name="user_id" id="user_id">
+										<select class="form-control" data-plugin="select2" name="user_id" id="user_id" style="width: 100%;">
 											<option></option>
 											<?php foreach ($Users as $row) { 
 												$sel ='';
@@ -85,7 +108,7 @@
 
 									<div class="form-group">
 										<label for="form-control-3" class="control-label">Categories</label>
-										<select class="form-control" data-plugin="select2" data-placeholder="Select a Category" name="proCate" id="proCate" data-required-error="Category is Required" required>
+										<select class="form-control" data-plugin="select2" data-placeholder="Select a Category" name="proCate" id="proCate" data-required-error="Category is Required" required style="width: 100%;">
 											<option></option>
 											<?php
 												function write_with_child($category) {
@@ -165,7 +188,7 @@
 
 									<div class="form-group">
 										<label for="form-control-2" class="control-label">Brand</label>
-										<select class="form-control" data-plugin="select2" name="brand_name" id="brand_name" <?php if(!(empty($product))){echo "attr_brand_id='".$product->brand_id."'";}?> data-placeholder="Select a Brand" data-required-error="Brand is Required" required>
+										<select class="form-control" data-plugin="select2" name="brand_name" id="brand_name" <?php if(!(empty($product))){echo "attr_brand_id='".$product->brand_id."'";}?> data-placeholder="Select a Brand" data-required-error="Brand is Required" required style="width: 100%;">
 											<option></option>
 										</select>
 										<div class="help-block with-errors"></div>
@@ -190,7 +213,7 @@
 									?>
 									<div class="form-group">
 										<label for="form-control-3" class="control-label"><?=$row->attribute?></label>
-										<select class="form-control selectcls clss<?=$row->attr_id?>" data-plugin="select2" name="<?=$attrName?>" data-placeholder="Select a <?=$row->attribute?>" <?=$selType?>>
+										<select class="form-control selectcls clss<?=$row->attr_id?>" data-plugin="select2" name="<?=$attrName?>" data-placeholder="Select a <?=$row->attribute?>" <?=$selType?> style="width: 100%;">
 											<option></option>
 											<?php 
 												if(!(empty($attributes))){
@@ -207,7 +230,7 @@
 									<?php if($add_other_cate){?>
 									<div class="form-group">
 										<label for="form-control-2" class="control-label">Other Categories</label>
-										<select class="form-control" data-plugin="select2" name="other_cates[]" id="other_cates" multiple="multiple" data-placeholder="Other Categories">
+										<select class="form-control" data-plugin="select2" name="other_cates[]" id="other_cates" multiple="multiple" data-placeholder="Other Categories" style="width: 100%;">
 											<option></option>
 											<?php
 												function write_with_child1($category) {
@@ -428,9 +451,7 @@
 			$("#proCate,#brand_name.selectcls,#visibleSites").select2();
 
 			$( ".colorPick" ).blur(function() {
-
 				$(this).spectrum("set", $("#attrVal").val());
-
 			});
 			$("#user_id").select2({
 				placeholder: "Select a User",
@@ -513,7 +534,7 @@
 										selType = 'multiple="multiple"';
 										attrName = 'multiAttr['+responsedata.attributes[i].attr_id+'][]';
 									}
-									attr+='<select class="form-control selectcls clss'+responsedata.attributes[i].attr_id+'" data-placeholder="Select a '+responsedata.attributes[i].attribute+'" name="'+attrName+'" id="attribute['+i+']" '+selType+'><option></option>';
+									attr+='<select class="form-control selectcls clss'+responsedata.attributes[i].attr_id+'" data-placeholder="Select a '+responsedata.attributes[i].attribute+'" name="'+attrName+'" id="attribute['+i+']" '+selType+' style="width: 100%;"><option></option>';
 									for (var j = 0; j < responsedata.attribute_val.length; j++) {
 										if (responsedata.attribute_val[j].attr_id==responsedata.attributes[i].attr_id) {
 											attr+='<option value="'+responsedata.attribute_val[j].av_id+'" title="'+responsedata.attribute_val[j].description+'">'+responsedata.attribute_val[j].value+'</option>';
@@ -610,130 +631,129 @@
 				}else{
 					$('#inputmasks').waitMe('hide');
 				}
-			}
-		});
+			}});
 
-		function validate_checkbox() {
-			var status = false;
-			if ($('#inputmasks').find('input[type=checkbox]').length) {
-					$('#inputmasks').find('input[type=checkbox]').each(function() {
-						var name = $(this).attr('name');
-						if (1 <= $('input[name="' + name + '"]:checked').length){
-							status = true;
-						}
+			function validate_checkbox() {
+				var status = false;
+				if ($('#inputmasks').find('input[type=checkbox]').length) {
+						$('#inputmasks').find('input[type=checkbox]').each(function() {
+							var name = $(this).attr('name');
+							if (1 <= $('input[name="' + name + '"]:checked').length){
+								status = true;
+							}
+					});
+				}else{
+					status = true;
+				}
+				return status;
+			}
+
+			/*function checkMultiSelect() {
+				$('.multisel').each(function() {
+					alert($(this).select2('data').id)
+					alert($(this).select2('data').text)
 				});
-			}else{
-				status = true;
+				$('#inputmasks').waitMe('hide');
+				return false;
+			}*/
+
+			function addProductImg() {
+				var id = $('#saved_pro_id').val();
+
+				var form = document.createElement("form");
+				form.setAttribute("method", "post");
+				form.setAttribute("action", "<?=base_url()?>add_img_page");
+
+				hiddenField = document.createElement("input");
+				hiddenField.setAttribute("type", "hidden");
+				hiddenField.setAttribute("name", "product_id");
+				hiddenField.setAttribute("value", id);
+				hiddenField1 = document.createElement("input");
+				hiddenField1.setAttribute("type", "hidden");
+				hiddenField1.setAttribute("name", "product_table");
+				hiddenField1.setAttribute("value", 'products');
+				form.appendChild(hiddenField);
+				form.appendChild(hiddenField1);
+
+				document.body.appendChild(form);
+				form.submit();
 			}
-			return status;
-		}
 
-		/*function checkMultiSelect() {
-			$('.multisel').each(function() {
-				alert($(this).select2('data').id)
-				alert($(this).select2('data').text)
-			});
-			$('#inputmasks').waitMe('hide');
-			return false;
-		}*/
-
-		function addProductImg() {
-			var id = $('#saved_pro_id').val();
-
-			var form = document.createElement("form");
-			form.setAttribute("method", "post");
-			form.setAttribute("action", "<?=base_url()?>add_img_page");
-
-			hiddenField = document.createElement("input");
-			hiddenField.setAttribute("type", "hidden");
-			hiddenField.setAttribute("name", "product_id");
-			hiddenField.setAttribute("value", id);
-			hiddenField1 = document.createElement("input");
-			hiddenField1.setAttribute("type", "hidden");
-			hiddenField1.setAttribute("name", "product_table");
-			hiddenField1.setAttribute("value", 'products');
-			form.appendChild(hiddenField);
-			form.appendChild(hiddenField1);
-
-			document.body.appendChild(form);
-			form.submit();
-		}
-
-
-		// my edit
-		function addAttrVal(attrId) {
-
+			// my edit
+			function addAttrVal(attrId) {
 				$('#modal-val-title').text('Add Attribute Value');
-
 				$('#attrVal, #attrValDesc').val("");
-
 				$("#val_attr_id").val(attrId);
 				$("#attr_val_id").val(0);
-
 				$('#attrVal').attr('pattern','^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$');
-
-						$(".colorPick").spectrum({
-
-							preferredFormat: "hex",
-
-							showInput: true,
-
-							allowEmpty:true,
-
-							replacerClassName: 'myClass'
-
-						});
-
-							$(".colorPick").show();
-				
+				$(".colorPick").spectrum({
+					preferredFormat: "hex",
+					showInput: true,
+					allowEmpty:true,
+					replacerClassName: 'myClass'
+				});
+				$(".colorPick").show();
 				$('#attrValModal').modal('show');
-
 			}
 
-		 $('#attrValMasks').validator().on('submit', function (e) {
-	        if (!(e.isDefaultPrevented())) {
-	          	e.preventDefault();
-				run_waitMe('#attrValMasks');
-	            var id = $("#val_attr_id").val();
+			$('#attrValMasks').validator().on('submit', function (e) {
+				if (!(e.isDefaultPrevented())) {
+					e.preventDefault();
+					run_waitMe('#attrValMasks');
+					var id = $("#val_attr_id").val();
 
-	            $.ajax({
-	              type: "POST",
-	              url: "<?=base_url()?>addAttributeVal_prod",
-	              data: $('#attrValMasks').serialize(),
-	              success: function(result) {
-	                var responsedata = $.parseJSON(result);
-	                if(responsedata.status=='success'){
-	                  toastr.success(responsedata.message)
-	                  var attr ='<li class="attribName"><input type="checkbox" class="multiAttrColor clss'+responsedata.inserted_val.attr_id+'" onclick="checkedFun();" name="multiAttr['+responsedata.inserted_val.attr_id+'][]" id="'+responsedata.				inserted_val.av_id+'" value="'+responsedata.inserted_val.av_id+'" required/>'+
-								'<label for="'+responsedata.inserted_val.av_id+'" style="background-color:'+responsedata.inserted_val.value+';" title="'+responsedata.inserted_val.description+'"></label><br>'+responsedata.inserted_val.description+'</li>';
-					$('.pro_color_sel').append(attr);
+					$.ajax({
+					type: "POST",
+					url: "<?=base_url()?>addAttributeVal_prod",
+					data: $('#attrValMasks').serialize(),
+					success: function(result) {
+						var responsedata = $.parseJSON(result);
+						if(responsedata.status=='success'){
+						toastr.success(responsedata.message)
+						var attr ='<li class="attribName"><input type="checkbox" class="multiAttrColor clss'+responsedata.inserted_val.attr_id+'" onclick="checkedFun();" name="multiAttr['+responsedata.inserted_val.attr_id+'][]" id="'+responsedata.				inserted_val.av_id+'" value="'+responsedata.inserted_val.av_id+'" required/>'+
+									'<label for="'+responsedata.inserted_val.av_id+'" style="background-color:'+responsedata.inserted_val.value+';" title="'+responsedata.inserted_val.description+'"></label><br>'+responsedata.inserted_val.description+'</li>';
+						$('.pro_color_sel').append(attr);
 
-	                }else if(responsedata.status=='error'){
-	                  toastr.error(responsedata.message)
-	                }else{
-	                  toastr.error("Somthing went wrong :(")
-	                }
-	                $("#attrValModal").modal('hide');
-	                $('#attrValMasks').waitMe('hide');
-	              },
-	              error: function(result) {
-	                $('#attrValMasks').waitMe('hide');
-	                toastr.error('Error :'+result)
-	              }
-	          });
-	        }
-      	});
-			
-		function loadattr(val) {
-			$('#proCate').val(val).trigger('change');
-		}
-		function pageRefresh() {
-			setTimeout(function(){
-				location.reload();
-			}, 100);
-		}
+						}else if(responsedata.status=='error'){
+						toastr.error(responsedata.message)
+						}else{
+						toastr.error("Somthing went wrong :(")
+						}
+						$("#attrValModal").modal('hide');
+						$('#attrValMasks').waitMe('hide');
+					},
+					error: function(result) {
+						$('#attrValMasks').waitMe('hide');
+						toastr.error('Error :'+result)
+					}
+				});
+				}
+			});
+				
+			function loadattr(val) {
+				$('#proCate').val(val).trigger('change');
+			}
+			function pageRefresh() {
+				setTimeout(function(){
+					location.reload();
+				}, 100);	
+			}
+
+			$('#currency_type').on('change', function () {
+				const isMedalian = this.value == 3;
+				const eligibleField = $('#elgible-points');
+				if(isMedalian) {
+					eligibleField.removeClass('hidden');
+					eligibleField.find('input').attr({
+						'required': 'required',
+						'data-required-error': 'Eligible medalian point is required.'
+					});
+				} else {
+					eligibleField.addClass('hidden');
+					eligibleField.find('input').removeAttr('required data-required-error');
+				}
+			});
 			
 		</script>
-
 	</body>
 </html>
