@@ -146,3 +146,7 @@ $route['getCoupons'] = 'OtherOptions/getCoupons';
 $route['addCoupon'] = 'OtherOptions/saveCoupon';
 $route['updateCouponsStatus'] = 'OtherOptions/updateCouponsStatus';
 $route['deleteCoupons'] = 'OtherOptions/deleteCoupons';
+
+# Class
+$route['saveClass'] = 'Academic/saveClass';
+$route['delete-class'] = 'Academic/deleteClass';
