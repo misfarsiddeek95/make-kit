@@ -152,6 +152,7 @@
                   $("#field_id").val(responsedata.id);
                   myDropzone.processQueue();
                   toastr.success(responsedata.message)
+                  location.reload();
                 }else if(responsedata.status=='update'){
                   if (myDropzone.getQueuedFiles().length > 0) {
                     myDropzone.processQueue();

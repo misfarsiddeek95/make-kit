@@ -648,7 +648,7 @@ class Settings extends Admin_Controller {
                 $folder = $this->folder."/photos/brands/";
                 foreach ($photos as $row) {
                     $this->Common_modal->delete('photo','pid',$row->pid);
-                    $imagename = $row->photo_path.'-org.jpg';
+                    $imagename = $row->photo_path.'-org.'.$row->extension;
                     unlink( $folder . $imagename);
                 }
             }
