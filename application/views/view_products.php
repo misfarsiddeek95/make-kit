@@ -308,7 +308,7 @@
                   var link_cate = createHtmlName(responsedata.products[i]['category']);
 
                   tbody+='<tr '+clzz+' tr-id="'+responsedata.products[i]['pro_id']+'" ondblclick="updateRow(this)"><td><img class="img-rounded '+clz+'" '+func+' src="<?=base_url();?>photos/'+img+'" alt="'+responsedata.products[i]['photo_title']+'" height="32"></td>'+
-                  '<td><a href="https://www.fancypoint.lk/new/product-detail/'+link_cate+'/'+link_name+'/'+responsedata.products[i]['pro_id']+'" target="new" class="hypertextRemoveStyle">'+responsedata.products[i]['name']+'</a></td>'+
+                  '<td><a href="javascript:void(0)" target="new" class="hypertextRemoveStyle">'+responsedata.products[i]['name']+'</a></td>'+
                   '<td>'+responsedata.products[i]['pro_code']+'</td>'+
                   '<td title="'+responsedata.products[i]['company_name']+'">'+responsedata.products[i]['fname']+' '+responsedata.products[i]['lname']+'</td>'+
                   '<td>'+responsedata.products[i]['category']+'</td>'+
