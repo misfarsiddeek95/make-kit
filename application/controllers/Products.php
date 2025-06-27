@@ -302,6 +302,18 @@ class Products extends Admin_Controller {
 
                     if (!@move_uploaded_file ($_FILES['file']['tmp_name'],$img_org)) die ('Can not upload original file...');
 
+                    if (pathinfo($PhotoFileName, PATHINFO_EXTENSION)=='png') {
+                        $image = imagecreatefrompng($img_org);
+                        $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
+                        imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
+                        imagealphablending($bg, TRUE);
+                        imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+                        imagedestroy($image);
+                        $quality = 100; // 0 = worst / smaller file, 100 = better / bigger file 
+                        imagejpeg($bg, $img_org, $quality);
+                        imagedestroy($bg);
+                    }
+
                     $this->aayusmain->make_thumb($img_org,$img_big,100,1000,1000);
                     $this->aayusmain->make_thumb($img_org,$img_med,100,700,700);
                     $this->aayusmain->make_thumb($img_org,$img_std,100,400,400);
@@ -349,7 +361,7 @@ class Products extends Admin_Controller {
             $imgExt = array('org','big','med','std','thu','sma');
 
             foreach ($imgExt as $value) {
-                $imagename = $result->photo_path.'-'.$value.'.jpg';
+                $imagename = $result->photo_path.'-'.$value.'.'.$result->extension;
                 unlink( $folder . $imagename );
             }
             $message = array("status" => "success","message" => 'Deleted successfully');

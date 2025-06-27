@@ -290,7 +290,7 @@
                   <?php } ?>
                   
                   if (responsedata.products[i]['photo_path']!=null) {
-                    img = 'products/'+responsedata.products[i]['photo_path']+'-sma.jpg';
+                    img = 'products/'+responsedata.products[i]['photo_path']+'-sma.'+responsedata.products[i].extension;
                     func = 'onclick="show_img(this.src);"';
                     clz = 'tbImg';
                   }

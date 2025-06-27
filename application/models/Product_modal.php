@@ -344,7 +344,7 @@ class Product_modal extends CI_Model {
     function getProducts($user,$search,$status,$category,$brand,$limit,$offset,$types)
     {
       	$this->db->query("SET sql_mode=(SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));");
-        $this->db->select('p.pro_id,p.pro_code,p.name,p.price,p.quantity,p.weight,p.barcode,p.view_count,p.sales_count,p.status as pro_status,q.pid,q.photo_path,q.photo_title,q.status as img_status,s.user_id,s.fname,s.lname,s.company_name,c.cate_id,c.category,(select count(distinct pav.attr_id) from product_attr_val as pav inner join attributes as atr on pav.attr_id = atr.attr_id
+        $this->db->select('p.pro_id,p.pro_code,p.name,p.price,p.quantity,p.weight,p.barcode,p.view_count,p.sales_count,p.status as pro_status,q.pid,q.photo_path,q.photo_title,q.extension,q.status as img_status,s.user_id,s.fname,s.lname,s.company_name,c.cate_id,c.category,(select count(distinct pav.attr_id) from product_attr_val as pav inner join attributes as atr on pav.attr_id = atr.attr_id
 where pav.pro_id=p.pro_id and atr.attr_status =0 and atr.price_effect=0) as attr_count');
         $this->db->from('products p');
 

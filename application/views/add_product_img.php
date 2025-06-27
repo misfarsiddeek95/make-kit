@@ -96,7 +96,7 @@
       });
 
       $("#myDropzone").dropzone({ 
-      	acceptedFiles: 'image/jpeg',
+      	acceptedFiles: 'image/*',
         url: "<?=base_url()?>upload_pro_img", 
         success : function(file, response){
           load_images();
@@ -119,7 +119,7 @@
             var images = "";
             for (var i = 0; i < responsedata.length; i++) {
               images+='<div class="col-md-2 sortable_div" ppid="'+responsedata[i].pid+'" pporder="'+responsedata[i].photo_order+'">'+
-                      '<img src="<?=base_url();?>photos/products/'+responsedata[i].photo_path+'-std.jpg" alt="'+responsedata[i].photo_title+'" />'+
+                      '<img src="<?=base_url();?>photos/products/'+responsedata[i].photo_path+'-std.'+responsedata[i].extension+'" alt="'+responsedata[i].photo_title+'" />'+
                       '<a class="delete_img" href="javascript:delete_image('+responsedata[i].pid+');"><i class="zmdi zmdi-close"></i></a></div>';
             }
             $("#sortable").append(images);
