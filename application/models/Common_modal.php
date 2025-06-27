@@ -306,5 +306,32 @@ class Common_modal extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
+    public function insert_me($id,$arr,$table,$whereField) {
+        $this->db->trans_start();
+
+        if ($id==0) {
+            $this->db->insert($table,$arr);
+            $id =  $this->db->insert_id();
+        }else{
+            $this->db->where($whereField, $id);
+            $this->db->update($table, $arr);
+        }
+        $this->db->trans_complete();
+        return $id ; 
+    }
+
+    public function checkUsedForDelete($field,$table,$field_same,$id) {
+        $this->db->select($field);
+        $this->db->from($table);
+        $this->db->where($field_same, $id); 
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if($query->num_rows() == 1){
+            return false;
+        }else{
+            return true;
+        }
+    }
 }
 

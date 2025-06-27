@@ -664,8 +664,8 @@ class Settings extends Admin_Controller {
         $result['assign_brands']= $this->Settings_modal->getAssignBrands($cate_id);
         echo json_encode($result);
     }
-    public function getBrands()
-    {
+
+    public function getBrands() {
         $cate_id= $this->input->post('cate_id');
         $ids= $this->Settings_modal->getAssignBrandIds($cate_id);
         $data = array();
@@ -1057,10 +1057,99 @@ class Settings extends Admin_Controller {
         echo json_encode($message);
     }
 
-    function changePhotoOrder()
-    {
+    function changePhotoOrder() {
         $ppo_ids= $this->input->post('ppo_ids');
         $myArray = explode(',', $ppo_ids);
         $this->Common_modal->updateImgOrder($myArray);
     }
+
+
+    // Discount rates
+    function discounts() {
+        try{
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $_manage = $this->Admin_modal->isAccessRightGiven($group_id,107) ? 0 : 1;
+
+            if ($_manage) {
+                throw new Exception("You don't have the permissoin to manage discount rates.");
+            }
+
+            $data['list']= $this->Admin_modal->isAccessRightGiven($group_id,108) ? 1 : 0;
+            $data['add']= $this->Admin_modal->isAccessRightGiven($group_id,109) ? 1 : 0;
+            $data['edit']= $this->Admin_modal->isAccessRightGiven($group_id,110) ? 1 : 0;
+            $data['delete']= $this->Admin_modal->isAccessRightGiven($group_id,111) ? 1 : 0;
+
+            $data['discounts']= $this->Common_modal->getAll('discount_list');
+            $this->load->view('discount_list',$data);
+        } catch (Exception $ex) {
+            redirect(base_url());
+        }
+    }
+
+    public function saveDiscount() {
+        try {
+            $discount_id = $this->input->post('discount_id');
+            $dsc_type = $this->input->post('dsc_type');
+            $dsc_value = $this->input->post('discount_value');
+            
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+
+            $_add = $this->Admin_modal->isAccessRightGiven($group_id,109) ? 0 : 1;
+            $_edit = $this->Admin_modal->isAccessRightGiven($group_id,110) ? 0 : 1;
+
+            $_arr = array(
+                'discount_value ' => $dsc_value ,  
+                'discount_type' => $dsc_type, 
+            );
+
+            if ($discount_id != 0) {
+                if ($_edit) {
+                    throw new Exception("You don't have the permission to edit discount rate.");
+                } 
+                $type = 'update';
+            }else{
+                if ($_add) {
+                    throw new Exception("You don't have the permission to add discount rate.");
+                } 
+                $type = 'save';
+            }
+
+            $inserted_id = $this->Common_modal->insert_me($discount_id,$_arr,'discount_list','id');
+            $message = array("status" => "success","message" => $type,"id" => $inserted_id); 
+
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
+    public function deleteDiscount() {
+        try {
+            $discount_id= $this->input->post('discount_id');
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $_delete = $this->Admin_modal->isAccessRightGiven($group_id,111) ? 1 : 0;
+            if ($_delete) {
+                $is_used = $this->Common_modal->checkUsedForDelete('discount_id','product_discount','discount_id',$discount_id);
+                $res = $this->Common_modal->getAllWhere('discount_list','id',$discount_id);
+              
+                if ($is_used) {  
+                    $delete = $this->Common_modal->delete('discount_list','id',$discount_id);
+                    if ($delete) { 
+                        $message = array("status" => "success","message" => "Discount rate deleted successfully.");
+                    }else{
+                        throw new Exception("Unable to delete this discount rate.");
+                    }
+                }else{
+                    throw new Exception("This discount rate is used in income and expense.");
+                }
+            }else {
+                throw new Exception("You don't have the permission to delete discount rate.");
+            }
+
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
 }

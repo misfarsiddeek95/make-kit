@@ -120,6 +120,9 @@ $route['getSpecPageImg'] = 'Settings/getSpecPageImg';
 $route['upload_page_img'] = 'Settings/upload_page_img';
 $route['deletePageImg'] = 'Settings/deletePageImg';
 
+$route['save-discount'] = 'Settings/saveDiscount';
+$route['delete-discount'] = 'Settings/deleteDiscount';
+
 $route['getOrders'] = 'Orders/getOrders';
 $route['view_order'] = 'Orders/view_order';
 $route['delete_order'] = 'Orders/deleteOrder';
