@@ -333,5 +333,18 @@ class Common_modal extends CI_Model {
             return true;
         }
     }
+
+    public function checkExistForUpdate($id,$table,$values) {
+        $this->db->select($id);
+        $this->db->from($table);
+        $this->db->where($values);
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if($query->num_rows() == 1){
+          return $query->row();
+        }else{
+          return false;
+        }
+    }
 }
 

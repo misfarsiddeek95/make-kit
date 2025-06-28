@@ -49,6 +49,7 @@ class Products extends Admin_Controller {
             }
             $data['categories']= $this->Common_modal->getAllCate();
             $data['credit_types'] = $this->Common_modal->getAll('credity_type');
+            $data['discount_rates'] = $this->Common_modal->getAll('discount_list');
             $this->load->view('add_product',$data);
 
         }catch(Exception $ex){
@@ -189,6 +190,18 @@ class Products extends Admin_Controller {
                 $other_cates = array();
             }
 
+            if (isset($_POST['dscrates'])){
+                $dscrates = $this->input->post('dscrates');
+            }else{
+                $dscrates = array();
+            }
+
+            if (isset($_POST['item_count'])){
+                $item_count = $this->input->post('item_count');
+            }else{
+                $item_count = array();
+            }
+
             $pro_array = array(
                 'brand_id' => $brand_id,
                 'pro_code' => $pro_code,
@@ -224,7 +237,7 @@ class Products extends Admin_Controller {
                 $pro_id=0;
                 $pro_array['added_date'] = $date;
             }
-            $result = $this->Product_modal->save_product($pro_id,$attribute,$multiAttr,$pro_array,$proCate,$other_cates,$delete);
+            $result = $this->Product_modal->save_product($pro_id,$attribute,$multiAttr,$pro_array,$proCate,$other_cates,$delete,$dscrates,$item_count);
             if (!(empty($result['sub_pro_ids']))) {
                 foreach ($result['sub_pro_ids'] as $val) {
                     $photo = $this->Product_modal->getProductPhotos('sub_product',$val);

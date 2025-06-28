@@ -41,9 +41,25 @@
 	            background-color: #FFF;
 	            background-image: -webkit-linear-gradient(top, #3e6e78 0%,#23236c 44%,#020024 100%);
 	        }
+
+			fieldset {
+				border: 1px solid #c0c0c0;
+				margin: 0 2px;
+				padding: 0.35em 2.625em 0.75em;
+			}
+
+			legend {
+				display: block;
+				width: unset;
+				padding: 0;
+				margin-bottom: 10px;
+				font-size: 19.5px;
+				line-height: inherit;
+				color: #333333;
+				border: 0;
+				border-bottom: unset;
+			}
 		</style>
-
-
 	</head>
 	<body class="layout layout-header-fixed layout-left-sidebar-fixed" <?php if(!(empty($product))){echo 'onload="loadattr('.$product->cate_id.');"';} ?>>
 		<?php $this->load->view('includes/topbar'); ?>
@@ -313,6 +329,60 @@
 										<label for="form-control-3" class="control-label">How to use</label>
 										<textarea id="proUse" name="proUse" class="form-control" ><?php if(!(empty($product))){echo($product->how_to_use);}?></textarea>
 									</div>
+									
+									<!-- Discount Section -->
+									<fieldset class="m-b-20">
+                                        <legend>
+                                            <h5>Discount Rates</h5>
+                                        </legend>
+                                        <div class="row">
+                                            <div class="col-sm-6 col-md-12">
+                                                <div class="table-flip-scroll">
+                                                    <table class="ar-table table table-borderless">
+                                                        <thead>
+                                                            <tr>
+                                                                <th style="text-align: center;">Discount Rate</th>
+                                                                <th style="text-align: center;">Minimum Item Count</th>
+                                                                <th></th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="as_t_body">
+                                                            <tr class="scorerrow project_assignee_tr">
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <select class="form-control dscrates first_dropdown" data-plugin="select2" name="dscrates[]" data-placeholder="Select a product discount rate" data-allow-clear="true" style="width: 100%;">
+                                                                            <option></option>
+                                                                            <?php
+                                                                                foreach ($discount_rates as $row) { 
+																					$dscRate = $row->discount_type == 1 ? number_format($row->discount_value + 0).'%' : $curr.''.number_format($row->discount_value + 0); 
+                                                                            ?>
+                                                                                <option value="<?=$row->id?>" ><?=$dscRate?></option>
+                                                                            <?php } ?>
+                                                                        </select>
+                                                                        <div class="help-block with-errors"></div>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="form-group">
+                                                                        <input type="text" pattern="^[0-9.]+$" value="" placeholder="Item Count" name="item_count[]" class="form-control item_count" data-pattern-error="Invalid format" autocomplete="off" style="width: 100%;">
+                                                                        <div class="help-block with-errors"></div>
+                                                                    </div>
+                                                                </td>
+                                                                <td style="text-align: center;">
+                                                                    <button type="button" class="label label-primary project-assignee-add-btn m-l-10 m-b-10 add-field" onclick="add_fields(this,'project_assignee_tr','project-assignee-add-btn','project-assignee-remove-btn');">
+                                                                        <i class="zmdi zmdi-plus"></i>
+                                                                    </button>
+                                                                    <button type="button" class="label label-danger project-assignee-remove-btn m-b-10" style="display:none;" onclick="remove_fields(this,'project_assignee_tr','project-assignee-add-btn','project-assignee-remove-btn');">
+                                                                        <i class="zmdi zmdi-minus"></i>
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </fieldset>
 
 									<button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button>
 								</form>
@@ -448,16 +518,29 @@
 
 		</script>
 		<script type="text/javascript">
-			$("#proCate,#brand_name.selectcls,#visibleSites").select2();
 
-			$( ".colorPick" ).blur(function() {
-				$(this).spectrum("set", $("#attrVal").val());
-			});
-			$("#user_id").select2({
-				placeholder: "Select a User",
-				allowClear: true
-			});
+			$(document).ready(function () {
+				$("#proCate,#brand_name.selectcls,#visibleSites").select2();
 
+				$( ".colorPick" ).blur(function() {
+					$(this).spectrum("set", $("#attrVal").val());
+				});
+
+				$("#user_id").select2({
+					placeholder: "Select a User",
+					allowClear: true
+				});
+
+				<?php if(!empty($product->discounts)) { ?>
+                	<?php foreach ($product->discounts as $k => $dsc) { ?>
+                        $('.project_assignee_tr:last').find('.add-field').click();
+                        $('.project_assignee_tr:last').find('.first_dropdown').val('<?=$dsc->discount_id?>').trigger('change');
+                        $('.project_assignee_tr:last').find('.item_count').val('<?=$dsc->min_item_count?>');
+                    <?php } ?>
+                    $('.project_assignee_tr:first').remove();
+                <?php } ?>
+			});
+			
 			function checkedFun() {
 				$('#inputmasks').find('input[type=checkbox]').each(function() {
 						var name = $(this).attr('name');
@@ -753,6 +836,26 @@
 					eligibleField.find('input').removeAttr('required data-required-error');
 				}
 			});
+
+			add_fields = function (elms,dvclass,adclass,rmclass) {
+				$('.'+dvclass+':last').find('.second_dropdown').select2('destroy');
+				$('.'+dvclass+':last').find('.first_dropdown').select2('destroy');
+				var ele = $(elms).closest('.'+dvclass).clone(true);
+				$(elms).closest('.'+dvclass).after(ele);   
+				$(elms).closest('.'+dvclass).find('.'+rmclass).css({"display":"inline-block"});
+				$(elms).css('display','none');
+				$('.'+dvclass).last().find('.'+rmclass).css({"display":"inline-block"});
+				var numItems = $('.'+dvclass).length;
+				$('.second_dropdown,.first_dropdown').select2();
+				$('.'+dvclass).last().find('.'+rmclass).css({"display":"inline-block"});
+			}
+
+			remove_fields = function(elms,dvclass,adclass,rmclass) {
+				$(elms).closest('.'+dvclass).remove();
+				$('.'+dvclass).last().find('.'+adclass).css({"display":"inline-block"});
+				$('.'+dvclass).first().find('.'+rmclass).css({"display":"none"});
+				var numItems = $('.'+dvclass).length;
+			}
 			
 		</script>
 	</body>

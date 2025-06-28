@@ -99,7 +99,7 @@ class Product_modal extends CI_Model {
         }
         return $ret;
     }
-    function save_product($pro_id,$attributes,$multiAttr,$pro_array,$proCate,$other_cates,$delete){
+    function save_product($pro_id,$attributes,$multiAttr,$pro_array,$proCate,$other_cates,$delete,$dscrates,$item_count){
         $this->db->trans_start();
         $return_obj = array();
         $return_obj['sub_pro_ids'] = [];
@@ -119,6 +119,9 @@ class Product_modal extends CI_Model {
         $exist_cate_ids = array();
         $site_array = array();
         $exist_site_ids = array();
+
+        $discount_arr = array();
+        $exist_discount_arr = array();
 
         $cate_arr = array(
             'pro_id' => $pro_id,
@@ -249,6 +252,40 @@ class Product_modal extends CI_Model {
         if (!(empty($attr_array))) {
             $this->db->insert_batch('product_attr_val', $attr_array);
         }
+
+        if (!empty($dscrates) && !empty($item_count)) {
+            foreach ($dscrates as $key => $value) {
+                if ($item_count[$key]) {
+                    $dsc_arr = array(
+                        'product_id' => $pro_id,
+                        'discount_id' => $value,
+                        'min_item_count' => $item_count[$key]
+                    );
+                    if ($type) {
+                        $result = $this->Common_modal->checkExistForUpdate('id', 'product_discount', $dsc_arr);
+                        if ($result) {
+                            $exist_discount_arr[] = $result->id;
+                        } else {
+                            $discount_arr[] = $dsc_arr;
+                        }
+                    } else {
+                        $discount_arr[] = $dsc_arr;
+                    }
+                }
+            }
+        }
+
+        if ($type) {
+            $this->db->where('product_id', $pro_id); 
+            if (!(empty($exist_discount_arr))) {
+                $this->db->where_not_in('id', $exist_discount_arr);
+            }
+            $this->db->delete('product_discount');
+        }
+        if (!(empty($discount_arr))) {
+            $this->db->insert_batch('product_discount', $discount_arr);
+        }
+
         $this->db->trans_complete();
         return $return_obj;
     }
@@ -299,10 +336,21 @@ class Product_modal extends CI_Model {
         $this->db->limit(1);
         $query = $this->db->get();
         if($query->num_rows() == 1){
-          return $query->row();
+            $main = $query->row();
+            $main->discounts = $this->get_product_discount_list($main->pro_id);
+
+            return $main;
         }else{
           return false;
         }
+    }
+
+    function get_product_discount_list($product_id) {
+        $this->db->select('*');
+        $this->db->from('product_discount');
+        $this->db->where('product_id', $product_id);
+        $q = $this->db->get();
+        return $q->result();
     }
 
     function saveProductImg($data){
