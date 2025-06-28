@@ -25,8 +25,7 @@
                       <th></th>
                       <th>Code</th>
                       <th>Description</th>
-                      <th>Edit</th>
-                      <th>Delete</th>
+                      <th style="text-align: right;">Action</th>
                     </tr>
                   </thead>
                   <tbody id="tbody_data">
@@ -35,8 +34,10 @@
                       <td><?=$i?></td>
                       <td><?=$row->group_code;?></td>
                       <td><?=$row->group_desc;?></td>
-                      <td><button type="button" class="btn btn-outline-primary" onclick="editGroup(<?=$row->group_id;?>);">Edit</button></td>
-                      <td><button type="button" class="btn btn-outline-danger" onclick="deleteGroup(<?=$row->group_id;?>);">Delete</button></td>
+                      <td align="right">
+                        <button type="button" class="btn btn-outline-primary" onclick="editGroup(<?=$row->group_id;?>);">Edit</button>
+                        <button type="button" class="btn btn-outline-danger" <?php if($this->session->userdata['staff_logged_in']['group_id'] == $row->group_id){?> disabled <?php } ?> <?php if($this->session->userdata['staff_logged_in']['group_id'] != $row->group_id){?> onclick="deleteGroup(<?=$row->group_id?>);" <?php } ?>>Delete</button>
+                      </td>
                     </tr>
                     <?php $i++; } ?>
                   </tbody>
