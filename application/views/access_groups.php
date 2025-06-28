@@ -29,14 +29,19 @@
                     </tr>
                   </thead>
                   <tbody id="tbody_data">
-                    <?php $i=1; foreach ($access_groups as $row) { ?>
+                    <?php $i=1; 
+                      foreach ($access_groups as $row) {
+                        $ids = [1,2,3];
+                    ?>
                     <tr id="groupRow<?=$row->group_id?>">
                       <td><?=$i?></td>
                       <td><?=$row->group_code;?></td>
                       <td><?=$row->group_desc;?></td>
                       <td align="right">
                         <button type="button" class="btn btn-outline-primary" onclick="editGroup(<?=$row->group_id;?>);">Edit</button>
+                        <?php if(!in_array($row->group_id, $ids)) { ?>
                         <button type="button" class="btn btn-outline-danger" <?php if($this->session->userdata['staff_logged_in']['group_id'] == $row->group_id){?> disabled <?php } ?> <?php if($this->session->userdata['staff_logged_in']['group_id'] != $row->group_id){?> onclick="deleteGroup(<?=$row->group_id?>);" <?php } ?>>Delete</button>
+                        <?php } ?>
                       </td>
                     </tr>
                     <?php $i++; } ?>
