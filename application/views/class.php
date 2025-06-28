@@ -31,15 +31,15 @@
                 <button type="button" class="btn btn-outline-success btn-pill"  data-toggle="modal" data-target="#otherModal3" title="Add Class"  onclick="addClass();"><i class="zmdi zmdi-plus"></i></button>
               <?php } ?>
               </div>
-              <h3 class="m-t-0 m-b-5">Class Management</h3>
+              <h3 class="m-t-0 m-b-5">Circle Management</h3>
             </div>
             <div class="panel-body"> 
               <div class="table-responsive m-y-5"> 
                 <table class="table table-hover" >
                     <thead>
                         <tr>
-                            <th>Class Name</th> 
-                            <th>Class Numeric</th> 
+                            <th>Circle Name</th> 
+                            <th>Circle in Numeric (If available)</th> 
                             <?php if($edit_class || $delete_class){ ?>
                             <th style="text-align:right;">Options</th>  
                             <?php } ?>
