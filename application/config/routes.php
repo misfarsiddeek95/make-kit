@@ -153,3 +153,7 @@ $route['deleteCoupons'] = 'OtherOptions/deleteCoupons';
 # Class
 $route['saveClass'] = 'Academic/saveClass';
 $route['delete-class'] = 'Academic/deleteClass';
+
+# Students
+$route['add-student'] = 'ExternalUsers/addExternalUser';
+$route['filter-students'] = 'ExternalUsers/filterStudents';
