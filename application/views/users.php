@@ -14,7 +14,7 @@
             <div class="panel-heading">
               <?php if($add_user){?>
               <div class="panel-tools">
-                <button type="button" class="btn btn-outline-primary m-w-120" onclick="location.href='<?=base_url();?>addUser'">Add User</button>
+                <a href="<?=base_url();?>addUser" class="btn btn-outline-success btn-pill" title="Add"><i class="zmdi zmdi-plus"></i></a>
               </div>
               <?php }?>
               <h3 class="m-t-0 m-b-5">User Management</h3>
@@ -43,7 +43,7 @@
                       if ($row->photo_path!=null) {
                         $img = 'staff/'.$row->photo_path.'-sma.jpg';
                       }
-                      if ($row->userStatus==0) {
+                      if ($row->userStatus==1) {
                         $status = 'checked="checked"';
                       }
                       if ($row->group_id==''||$row->group_id==null||$row->group_id==0) {

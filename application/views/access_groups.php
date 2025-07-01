@@ -13,7 +13,7 @@
           <div class="panel panel-default panel-table">
             <div class="panel-heading">
               <div class="panel-tools">
-                <button type="button" class="btn btn-outline-primary m-w-120" data-toggle="modal" data-target="#otherModal3" onclick="addAccessGroups();">Add Group</button>
+                <button type="button" class="btn btn-outline-success btn-pill" data-toggle="modal" data-target="#otherModal3" title="Add"  onclick="addAccessGroups();"><i class="zmdi zmdi-plus"></i></button>
               </div>
               <h3 class="m-t-0 m-b-5">Access Groups</h3>
             </div>
@@ -38,9 +38,9 @@
                       <td><?=$row->group_code;?></td>
                       <td><?=$row->group_desc;?></td>
                       <td align="right">
-                        <button type="button" class="btn btn-outline-primary" onclick="editGroup(<?=$row->group_id;?>);">Edit</button>
+                        <button type="button" class="btn btn-outline-primary btn-pill m-r-5" onclick="editGroup('<?=$row->group_id?>');"><i class="zmdi zmdi-edit"></i></button>
                         <?php if(!in_array($row->group_id, $ids)) { ?>
-                        <button type="button" class="btn btn-outline-danger" <?php if($this->session->userdata['staff_logged_in']['group_id'] == $row->group_id){?> disabled <?php } ?> <?php if($this->session->userdata['staff_logged_in']['group_id'] != $row->group_id){?> onclick="deleteGroup(<?=$row->group_id?>);" <?php } ?>>Delete</button>
+                        <button type="button" class="btn btn-outline-danger btn-pill m-r-5" <?php if($this->session->userdata['staff_logged_in']['group_id'] == $row->group_id){?> disabled <?php } ?> <?php if($this->session->userdata['staff_logged_in']['group_id'] != $row->group_id){?> onclick="deleteGroup(<?=$row->group_id?>);" <?php } ?>"><i class="zmdi zmdi-delete"></i></button>
                         <?php } ?>
                       </td>
                     </tr>

@@ -31,7 +31,7 @@
         <div class="panel-heading">
           <?php if($add_brands){?>
           <div class="panel-tools">
-            <button type="button" class="btn btn-outline-primary m-w-120" data-toggle="modal" data-target="#otherModal3" onclick="addBrands();">Add Brands</button>
+            <button type="button" class="btn btn-outline-success btn-pill" data-toggle="modal" data-target="#otherModal3" title="Add"  onclick="addBrands();"><i class="zmdi zmdi-plus"></i></button>
           </div>
           <?php }?>
           <h3 class="m-t-0 m-b-5">Brands</h3>
@@ -44,10 +44,8 @@
                   <th></th>
                   <th>Brand</th>
                   <th>View Count</th>
-                  <?php if($edit_brands){?>
-                  <th>Edit</th>
-                  <?php } if($delete_brands){ ?>
-                  <th>Delete</th>
+                  <?php if($edit_brands || $delete_brands) { ?>
+                  <th style="text-align:right;">Options</th>  
                   <?php } ?>
                 </tr>
               </thead>
@@ -62,10 +60,14 @@
                   <td><img class="img-rounded" src="<?=base_url();?>photos/<?=$img?>" alt="<?=$row->photo_title;?>" height="32"></td>
                   <td><?=$row->brand;?></td>
                   <td><?=$row->view_count;?></td>
-                  <?php if($edit_brands){?>
-                  <td><button type="button" class="btn btn-outline-primary" onclick="editBrands(<?=$row->brand_id;?>);">Edit</button></td>
-                  <?php } if($delete_brands){ ?>
-                  <td><button type="button" class="btn btn-outline-danger" onclick="deleteBrands(<?=$row->brand_id;?>);">Delete</button></td>
+                  <?php if($edit_brands || $delete_brands) { ?>
+                  <td align="right">
+                    <?php if($edit_brands){?>
+                    <button type="button" class="btn btn-outline-primary btn-pill m-r-5" onclick="editBrands('<?=$row->brand_id?>');"><i class="zmdi zmdi-edit"></i></button>
+                    <?php } if($delete_brands){ ?>
+                    <button type="button" class="btn btn-outline-danger btn-pill m-r-5" onclick="deleteBrands('<?=$row->brand_id?>');"><i class="zmdi zmdi-delete"></i></button>
+                    <?php } ?>
+                  </td>
                   <?php } ?>
                 </tr>
                 <?php } ?>

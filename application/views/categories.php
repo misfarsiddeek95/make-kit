@@ -22,7 +22,7 @@
             <div class="panel-heading">
               <?php if($add_cat){?>
               <div class="panel-tools">
-                <button type="button" class="btn btn-outline-primary m-w-120" data-toggle="modal" data-target="#otherModal3" onclick="addCategory();">Add Category</button>
+                <button type="button" class="btn btn-outline-success btn-pill" data-toggle="modal" data-target="#otherModal3" title="Add"  onclick="addCategory();"><i class="zmdi zmdi-plus"></i></button>
               </div>
               <?php }?>
               <h3 class="m-t-0 m-b-5">Categories</h3>
@@ -38,13 +38,8 @@
                       <th>Tree</th>
                       <th>View Count</th>
                       <th>Status</th>
-                      <?php if($edit_cat){?>
-                      <th>Edit</th>
-                      <?php } if($delete_cat){ ?>
-                      <th>Delete</th>
-                      <?php } ?>
-                      <?php if($imageUpload||$manage_attr||$manage_brands){?>
-                      <th>Other</th>
+                      <?php if($edit_cat || $delete_cat || $imageUpload||$manage_attr||$manage_brands){?>
+                        <th style="text-align:right;">Options</th>
                       <?php } ?>
                     </tr>
                   </thead>
@@ -67,15 +62,11 @@
                       <td><?=$row->tree_path;?></td>
                       <td><?=$row->view_count ;?></td>
                       <td><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" <?=$status;?> <?php if ($changeStatus) {echo 'onchange="updateCateStatus('.$row->cate_id.');"';}else{echo "disabled";}?> ></td>
-                      <?php if($edit_cat){?>
-                      <td><button type="button" class="btn btn-outline-primary" onclick="editCat(<?=$row->cate_id;?>);">Edit</button></td>
-                      <?php } if($delete_cat){ ?>
-                      <td><button type="button" class="btn btn-outline-danger" onclick="deleteCat(<?=$row->cate_id;?>);">Delete</button></td>
-                      <?php } ?>
-
-                      <?php if($imageUpload||$manage_attr||$manage_brands){?>
-                      <td><div class="btn-group">
-                          <button type="button" class="btn btn-primary btn-pill btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <?php if($edit_cat || $delete_cat || $imageUpload||$manage_attr||$manage_brands){ ?>
+                      <td align="right">
+                      <?php if($imageUpload||$manage_attr||$manage_brands){ ?>
+                        <div class="btn-group">
+                          <button type="button" class="btn btn-primary btn-pill btn-sm dropdown-toggle m-r-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="zmdi zmdi-more"></i>
                           </button>
                           <ul class="dropdown-menu dropdown-menu-right">
@@ -87,7 +78,13 @@
                             <li><a href="javascript:manage_brands(<?=$row->cate_id;?>);">Manage Brands</a></li>
                             <?php }?>
                           </ul>
-                        </div></td>
+                        </div>
+                        <?php } if($edit_cat){?>
+                          <button type="button" class="btn btn-outline-primary btn-pill m-r-5" onclick="editCat('<?=$row->cate_id?>');"><i class="zmdi zmdi-edit"></i></button>
+                        <?php } if($delete_cat){ ?>
+                          <button type="button" class="btn btn-outline-danger btn-pill m-r-5" onclick="deleteCat('<?=$row->cate_id?>');"><i class="zmdi zmdi-delete"></i></button>
+                        <?php } ?>
+                      </td>
                       <?php }?>
                     </tr>
                     <?php } ?>

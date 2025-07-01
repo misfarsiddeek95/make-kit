@@ -31,7 +31,7 @@
             <div class="panel-heading">
               <?php if($add_attr){?>
               <div class="panel-tools">
-                <button type="button" class="btn btn-outline-primary m-w-120" data-toggle="modal" data-target="#otherModal3" onclick="addAttributes();">Add Attributes</button>
+                <button type="button" class="btn btn-outline-success btn-pill" data-toggle="modal" data-target="#otherModal3" title="Add"  onclick="addAttributes();"><i class="zmdi zmdi-plus"></i></button>
               </div>
               <?php }?>
               <h3 class="m-t-0 m-b-5">Attributes</h3>
@@ -47,12 +47,10 @@
                       <th>Type</th>
                       <th>Show to all</th>
                       <th>Price effect</th>
-                      <?php if($edit_attr){?>
-                      <th>Edit</th>
-                      <?php } if($delete_attr){ ?>
-                      <th>Delete</th>
-                      <?php } if($manage_attr_val){?>
+                      <?php if($manage_attr_val) { ?>
                       <th>Manage values</th>
+                      <?php } if($edit_attr || $delete_attr){?>
+                      <th style="text-align:right;">Options</th>
                       <?php } ?>
                     </tr>
                   </thead>
@@ -87,12 +85,16 @@
                       <td attr-type="<?=$row->type?>"><?=$type;?></td>
                       <td attr-show="<?=$row->show_to_all?>"><?=$show_to_all;?></td>                    
                       <td attr-price-effect="<?=$row->price_effect?>"><?=$price_effect;?></td>
-                      <?php if($edit_attr){?>
-                      <td><button type="button" class="btn btn-outline-primary" onclick="editAttr(<?=$row->attr_id;?>);">Edit</button></td>
-                      <?php } if($delete_attr){ ?>
-                      <td><button type="button" class="btn btn-outline-danger" onclick="deleteAttr(<?=$row->attr_id;?>);">Delete</button></td>
-                      <?php } if($manage_attr_val){?>
+                      <?php if($manage_attr_val){?>
                       <td><button type="button" class="btn btn-outline-info" onclick="manageAttrVal(<?=$row->attr_id;?>);">Manage values</button></td>
+                      <?php } if($edit_attr || $delete_attr){?>
+                      <td align="right">
+                        <?php if($edit_attr){?>
+                        <button type="button" class="btn btn-outline-primary btn-pill m-r-5" onclick="editAttr('<?=$row->attr_id?>');"><i class="zmdi zmdi-edit"></i></button>
+                        <?php } if($delete_attr){ ?>
+                        <button type="button" class="btn btn-outline-danger btn-pill m-r-5" onclick="deleteAttr('<?=$row->attr_id?>');"><i class="zmdi zmdi-delete"></i></button>
+                        <?php } ?>
+                      </td>
                       <?php } ?>
                     </tr>
                     <?php $i++;} ?>
@@ -121,10 +123,8 @@
                       <th>Value</th>
                       <th>Description</th>
                       <th>Status</th>
-                      <?php if($edit_attr_val){?>
-                      <th>Edit</th>
-                      <?php } if($delete_attr_val){ ?>
-                      <th>Delete</th>
+                      <?php if($edit_attr_val || $delete_attr_val){ ?>
+                      <th style="text-align:right;">Options</th>
                       <?php } ?>
                     </tr>
                   </thead>
@@ -399,19 +399,29 @@
                 tbody+='<tr id="attrValRow'+responsedata.attr_values[i]['av_id']+'"><td>'+responsedata.attr_values[i]['value']+'</td>'+
                   '<td>'+responsedata.attr_values[i]['description']+'</td>'+
                   '<td attr_val_status="'+responsedata.attr_values[i]['status']+'"><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" '+status+'></td>'+
-                  <?php if($edit_attr_val){ ?>
-                  '<td><button type="button" class="btn btn-outline-primary" onclick="editAttrVal('+responsedata.attr_values[i]['av_id']+');">Edit</button></td>'+
-                  <?php } if($delete_attr_val){ ?>
-                  '<td><button type="button" class="btn btn-outline-danger" onclick="deleteAttrVal('+responsedata.attr_values[i]['av_id']+');">Delete</button></td>'+
+                  <?php if($edit_attr_val || $delete_attr_val){ ?>
+                  '<td align="right">'+
+                    <?php if($edit_attr_val){ ?>
+                    '<button type="button" class="btn btn-outline-primary btn-pill m-r-5" onclick="editAttrVal('+responsedata.attr_values[i]['av_id']+');"><i class="zmdi zmdi-edit"></i></button>'+
+                    <?php } if($delete_attr_val){ ?>
+                    '<button type="button" class="btn btn-outline-danger btn-pill m-r-5" onclick="deleteAttrVal('+responsedata.attr_values[i]['av_id']+');"><i class="zmdi zmdi-delete"></i></button>'+
+                    <?php } ?>
+                  '</td>'+
                   <?php } ?>
                   '</tr>';
               }
               $('#attrValTbody').append(tbody);
+              $('.js-switch').each(function() {
+                if (!$(this).data('switchery')) {
+                  new Switchery(this, { size: 'small', color: '#34a853' });
+                }
+              });
             }
             $('#attrValMain').show();
           }
         });
       }
+
       function closeValMain() {
         $('#attrValMain').hide();
       }

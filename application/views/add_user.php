@@ -12,10 +12,10 @@
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="m-y-0"><?=$type?> User</h3>
+              <h3 class="m-y-0 d-inline"><?=$type?> User</h3>
+              <a class="btn btn-outline-warning btn-pill pull-right m-y-0 d-inline" href="<?=base_url()?>Users/index/15"><i class="zmdi zmdi-arrow-left"></i></a>
           </div>
           <div class="panel-body">
-
             <div class="row">
               <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                 <form data-toggle="validator" id="inputmasks">
