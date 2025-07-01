@@ -45,7 +45,7 @@
                   <th>Brand</th>
                   <th>View Count</th>
                   <?php if($edit_brands || $delete_brands) { ?>
-                  <th style="text-align:right;">Options</th>  
+                  <th style="text-align:right;">Options</th>
                   <?php } ?>
                 </tr>
               </thead>
