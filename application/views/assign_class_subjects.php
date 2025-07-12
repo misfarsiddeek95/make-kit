@@ -83,7 +83,7 @@
                                 <input type="hidden" name="clsub_id" id="clsub_id" value="0">   
                                 <div class="form-group"> 
                                     <label for="class_id" class="control-label">Institute</label>
-                                    <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" required data-required-error="Please select an institute." >
+                                    <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" required data-required-error="Please select an institute." data-allow-clear="true">
                                         <?php foreach ($all_classes as $row ) { ?>
                                         <option value="<?=$row->class_id?>"><?=$row->class_name?></option> 
                                         <?php } ?>
