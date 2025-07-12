@@ -150,7 +150,7 @@ $route['addCoupon'] = 'OtherOptions/saveCoupon';
 $route['updateCouponsStatus'] = 'OtherOptions/updateCouponsStatus';
 $route['deleteCoupons'] = 'OtherOptions/deleteCoupons';
 
-# Class
+# Institutes
 $route['saveClass'] = 'Academic/saveClass';
 $route['delete-class'] = 'Academic/deleteClass';
 
@@ -158,6 +158,10 @@ $route['delete-class'] = 'Academic/deleteClass';
 $route['add-student'] = 'ExternalUsers/addExternalUser';
 $route['filter-students'] = 'ExternalUsers/filterStudents';
 
-# Subject
+# Circles
 $route['saveSubject'] = 'Academic/saveSubject';
 $route['delete-subject'] = 'Academic/deleteSubject';
+
+# Assign Circle for Institute
+$route['save-class-subjects'] = 'Academic/saveClassSubjects'; 
+$route['delete-class-subjects'] = 'Academic/deleteClassSubjects'; 

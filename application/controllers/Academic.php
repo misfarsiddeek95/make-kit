@@ -10,14 +10,14 @@ class Academic extends Admin_Controller{
         $this->load->library("Aayusmain");
     }
 
-    # School Classes
+    # School Institutes
     # ------------------------------------------------------------------------------
     public function school_class() {
         try {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_class= $this->Admin_modal->isAccessRightGiven($group_id,34)?0:1;
             if ($manage_class) {
-                throw new Exception("You don't have the permissoin to manage class.");
+                throw new Exception("You don't have the permissoin to manage institutes.");
             }
 
             $data['class_list']= $this->Admin_modal->isAccessRightGiven($group_id,103)?1:0;
@@ -54,12 +54,12 @@ class Academic extends Admin_Controller{
 
             if ($class_id != 0) {
                 if ($edit_class) {
-                    throw new Exception("You don't have the permission to edit class.");
+                    throw new Exception("You don't have the permission to edit institute.");
                 } 
                 $type = 'update';
             }else{
                 if ($add_class) {
-                    throw new Exception("You don't have the permission to add class.");
+                    throw new Exception("You don't have the permission to add institute.");
                 } 
                 $type = 'save';
             }
@@ -86,18 +86,18 @@ class Academic extends Admin_Controller{
                         if ($class_delete) {
                             $this->Common_modal->delete('class_section','class_id',$class_id);
                             $this->Common_modal->delete('class_subjects','class_id',$class_id);
-                            $message = array("status" => "success","message" => "Class deleted successfully.");
+                            $message = array("status" => "success","message" => "institute deleted successfully.");
                         }else{
-                            throw new Exception("Unable to delete this class.");
+                            throw new Exception("Unable to delete this institute.");
                         }
                     }else {
-                        throw new Exception("Teachers are assigned to this class.");
+                        throw new Exception("Teachers are assigned to this institute.");
                     }
                 }else{
-                    throw new Exception("Students are in this class.");
+                    throw new Exception("Students are in this institute.");
                 }
             }else {
-                throw new Exception("You don't have the permission to delete class.");
+                throw new Exception("You don't have the permission to delete institute.");
             }
 
         } catch (Exception $ex) {
@@ -113,7 +113,7 @@ class Academic extends Admin_Controller{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $_manage = $this->Admin_modal->isAccessRightGiven($group_id,118)?0:1;
             if ($_manage) {
-                throw new Exception("You don't have the permissoin to manage subjects.");
+                throw new Exception("You don't have the permissoin to manage circles.");
             }
 
             $data['subject_list']= $this->Admin_modal->isAccessRightGiven($group_id,119) ? 1 : 0;
@@ -152,12 +152,12 @@ class Academic extends Admin_Controller{
     
             if ($subject_id != 0) {
                 if ($edit_subject) {
-                    throw new Exception("You don't have the permission to edit subject.");
+                    throw new Exception("You don't have the permission to edit circle.");
                 } 
                 $type = 'update';
             }else{
                 if ($add_subject) {
-                    throw new Exception("You don't have the permission to add subject.");
+                    throw new Exception("You don't have the permission to add circle.");
                 } 
                 $type = 'save';
             }
@@ -179,20 +179,114 @@ class Academic extends Admin_Controller{
                 if ($check_sbj_used) { 
                     $sbj_delete = $this->Common_modal->delete('subjects','sub_id',$sub_id);
                     if ($sbj_delete) { 
-                        $message = array("status" => "success","message" => "Subject deleted successfully.");
+                        $message = array("status" => "success","message" => "Circle deleted successfully.");
                     }else{
-                        throw new Exception("Unable to delete this Subject.");
+                        throw new Exception("Unable to delete this circle.");
                     }
                 }else{
-                    throw new Exception("This subject is assigned to class and teacher.");
+                    throw new Exception("This circle is assigned to class and teacher.");
                 }
             }else {
-                throw new Exception("You don't have the permission to delete Subject.");
+                throw new Exception("You don't have the permission to delete circle.");
             }
 
         } catch (Exception $ex) {
             $message = array("status" => "error","message" => $ex->getMessage());
         }
         echo json_encode($message);
+    }
+
+    # Assign Subject for Institute
+    # ------------------------------------------------------------------------------
+    public function subjects_for_class() {
+        try {
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $manage_class_subject= $this->Admin_modal->isAccessRightGiven($group_id,123)?0:1;
+            if ($manage_class_subject) {
+                throw new Exception("You don't have the permissoin to manage circle assigning to the institutes.");
+            }
+
+            $data['assign_subject_list']= $this->Admin_modal->isAccessRightGiven($group_id,124)?1:0;
+            $data['assign_subject']= $this->Admin_modal->isAccessRightGiven($group_id,125)?1:0;
+            $data['edit_assigned_subject']= $this->Admin_modal->isAccessRightGiven($group_id,126)?1:0;
+            $data['delete_assigned_subject']= $this->Admin_modal->isAccessRightGiven($group_id,127)?1:0;  
+            $data['all_classes'] = $this->Academic_model->get_classes(); 
+            $data['all_subjects'] = $this->Common_modal->getAll('subjects'); 
+            $data['class_subjects'] = $this->Academic_model->get_classes_subjects(); 
+            $this->load->view('assign_class_subjects',$data);
+
+        } catch (Exception $ex) {
+            redirect(base_url());
+        }
+    }
+
+    public function saveClassSubjects() { 
+        try {
+            $clsub_id= $this->input->post('clsub_id');
+            $class_id= $this->input->post('class_id'); 
+            
+            if ($class_id == null || $class_id == '' || $class_id == 0) {
+                throw new Exception("Please select the institute.");
+            }
+
+            if (isset($_POST['subject'])){
+                $subject= $this->input->post('subject');
+            }else{
+                $subject = array();
+            }
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+
+            $assign_subject= $this->Admin_modal->isAccessRightGiven($group_id,125)?0:1;
+            $edit_assigned_subject= $this->Admin_modal->isAccessRightGiven($group_id,126)?0:1; 
+    
+            if ($clsub_id != 0) {
+                if ($edit_assigned_subject) {
+                    throw new Exception("You don't have the permission to edit assigned circle.");
+                } 
+                $type = 'update';
+            }else{
+                if ($assign_subject) {
+                    throw new Exception("You don't have the permission to assign circle.");
+                } 
+                $type = 'save';
+            }
+            $clsub_id = $this->Academic_model->assign_class_subjects($clsub_id,$class_id,$subject);
+            $message = array("status" => "success","message" => $type,"id" => $clsub_id); 
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
+    public function deleteClassSubjects() {
+        try {
+            $class_id = $this->input->post('class_id');
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $delete_ = $this->Admin_modal->isAccessRightGiven($group_id,63)?1:0;
+            if ($delete_) {
+                $check_used = $this->Common_modal->checkUsedForDelete('class_id','subject_assign','class_id',$class_id);
+                $check_used_ = $this->Common_modal->checkUsedForDelete('class_id','class_routine_head','class_id',$class_id);
+                if ($check_used) { 
+                    if ($check_used_) {
+                        $_delete = $this->Common_modal->delete('class_subjects','class_id',$class_id);
+                        if ($_delete) { 
+                            $msg = array("status" => "success","message" => "Institute circle deleted successfully.");
+                        }else{
+                            throw new Exception("Unable to delete this institute circle.");
+                        }
+                    }else{
+                        throw new Exception("This institute circle is used in the class routine.");
+                    }
+                }else{
+                    throw new Exception("This institute circle is assigned to the teacher.");
+                }
+            }else {
+                throw new Exception("You don't have the permission to delete institute circle.");
+            }
+
+        } catch (Exception $ex) {
+            $msg = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($msg);
     }
 }
