@@ -31,16 +31,16 @@
                 <button type="button" class="btn btn-outline-success btn-pill"  data-toggle="modal" data-target="#otherModal3" title="Add Subject"  onclick="adSubject();"><i class="zmdi zmdi-plus"></i></button>
                 <?php } ?>
               </div>
-              <h3 class="m-t-0 m-b-5">Subject Management</h3>
+              <h3 class="m-t-0 m-b-5">Circle Management</h3>
             </div>
             <div class="panel-body"> 
               <div class="table-responsive m-y-5"> 
-                <table class="table table-hover">
+                <table class="table table-hover" id="table-1">
                     <thead>
                         <tr>
-                            <th>Subject Name</th> 
-                            <th>Subject Code</th> 
-                            <th>Subject Type</th> 
+                            <th>Circle Name</th> 
+                            <th>Circle Code</th> 
+                            <th>Circle Type</th> 
                             <?php if($edit_subject || $delete_subject){ ?>
                             <th style="text-align:right;">Options</th>  
                             <?php } ?>
@@ -98,17 +98,17 @@
                             <div class="modal-body">
                                 <input type="hidden" name="subject_id" id="subject_id" value="0"> 
                                 <div class="form-group">
-                                    <label for="form-control-2" class="control-label">Subject Name</label>
-                                    <input type="text" class="form-control" id="subject_name" name="subject_name" placeholder="Subject Name" data-required-error="Subject Name is Required" required autocomplete="off">
+                                    <label for="form-control-2" class="control-label">Circle Name</label>
+                                    <input type="text" class="form-control" id="subject_name" name="subject_name" placeholder="Circle Name" data-required-error="Subject Name is Required" required autocomplete="off">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="form-control-2" class="control-label">Subject Code</label>
-                                    <input type="text" class="form-control" id="subject_code" name="subject_code" placeholder="Subject Code" autocomplete="off">
+                                    <label for="form-control-2" class="control-label">Circle Code</label>
+                                    <input type="text" class="form-control" id="subject_code" name="subject_code" placeholder="Circle Code" autocomplete="off">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="subject_type" class="control-label">Subject Type</label>
+                                    <label for="subject_type" class="control-label">Circle Type</label>
                                     <div class="btn-group" data-toggle="buttons">
                                         <label class="btn btn-outline-primary subjTypeRadio">
                                             <input type="radio" name="subject_type" id="theory" autocomplete="off" value="0" checked="checked"> Theory
@@ -147,7 +147,7 @@
         });
     
         function adSubject() {
-            $('#modal-title').text('Add Subject');
+            $('#modal-title').text('Add Circle');
             $('#subject_id').val(0);
             $('#subject_name').val('');
             $('#subject_code').val(''); 
@@ -191,7 +191,7 @@
         });
 
         function editSubject(id) {  
-            $('#modal-title').text('Update Subject');
+            $('#modal-title').text('Update Circle');
             var subject_name = $('#sbjrow'+id).find('td:eq(0)').text();  
             var subject_code = $('#sbjrow'+id).find('td:eq(1)').text();  
             var sub_type = $('#sbjrow'+id).find('td:eq(2)').attr('sbj-type');  
@@ -230,7 +230,8 @@
                         success: function(result) {
                         var responsedata = $.parseJSON(result);
                         if (responsedata.status=='success') {
-                            $('#sbjrow'+id).remove(); 
+                            var table = $('#table-1').DataTable();
+                            table.row('#sbjrow'+id).remove().draw( false );
                             toastr.success(responsedata.message)
                         }else{ 
                             toastr.error(responsedata.message);

@@ -46,7 +46,7 @@ class Academic extends Admin_Controller{
             $edit_class= $this->Admin_modal->isAccessRightGiven($group_id,105)?0:1;
     
             $class_array = array(
-                'class_name' => ucwords(strtolower($class_name)), 
+                'class_name' => $class_name, 
                 'class_numeric' => $class_numeric ? $class_numeric : null, 
                 'added_by' => $group_id, 
                 'created_date' => $date 

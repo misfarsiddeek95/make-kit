@@ -35,11 +35,11 @@
             </div>
             <div class="panel-body"> 
               <div class="table-responsive m-y-5"> 
-                <table class="table table-hover" >
+                <table class="table table-hover" id="table-1">
                     <thead>
                         <tr>
                             <th>Institute Name</th> 
-                            <th>Circle in Numeric (If available)</th> 
+                            <th>Institute in Numeric (If available)</th> 
                             <?php if($edit_class || $delete_class){ ?>
                             <th style="text-align:right;">Options</th>  
                             <?php } ?>
@@ -75,7 +75,7 @@
                                 <i class="zmdi zmdi-close"></i>
                             </span>
                             </button>
-                            <h4 class="modal-title" id="modal-title">Class</h4>
+                            <h4 class="modal-title" id="modal-title">Institute</h4>
                         </div>
 
                         <form data-toggle="validator" id="inputmasks">
@@ -183,7 +183,8 @@
                         success: function(result) {
                         var responsedata = $.parseJSON(result);
                         if (responsedata.status=='success') {
-                            $('#classrow'+id).remove(); 
+                            var table = $('#table-1').DataTable();
+                            table.row('#classrow'+id).remove().draw( false );
                             toastr.success(responsedata.message)
                         }else{ 
                             toastr.error(responsedata.message);
