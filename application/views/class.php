@@ -31,14 +31,14 @@
                 <button type="button" class="btn btn-outline-success btn-pill"  data-toggle="modal" data-target="#otherModal3" title="Add Class"  onclick="addClass();"><i class="zmdi zmdi-plus"></i></button>
               <?php } ?>
               </div>
-              <h3 class="m-t-0 m-b-5">Circle Management</h3>
+              <h3 class="m-t-0 m-b-5">Institute Management</h3>
             </div>
             <div class="panel-body"> 
               <div class="table-responsive m-y-5"> 
                 <table class="table table-hover" >
                     <thead>
                         <tr>
-                            <th>Circle Name</th> 
+                            <th>Institute Name</th> 
                             <th>Circle in Numeric (If available)</th> 
                             <?php if($edit_class || $delete_class){ ?>
                             <th style="text-align:right;">Options</th>  
@@ -82,13 +82,13 @@
                             <div class="modal-body">
                                 <input type="hidden" name="class_id" id="class_id" value="0"> 
                                 <div class="form-group">
-                                    <label for="form-control-2" class="control-label">Class Name</label>
-                                    <input type="text" class="form-control" id="class_name" name="class_name" placeholder="Class Name" data-required-error="Class Name is Required" required autocomplete="off">
+                                    <label for="form-control-2" class="control-label">Institute Name</label>
+                                    <input type="text" class="form-control" id="class_name" name="class_name" placeholder="Institute Name" data-required-error="Institute Name is Required" required autocomplete="off">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="form-control-2" class="control-label">Class Name in Numeric</label>
-                                    <input type="number" pattern="^[0-9-.]+$" class="form-control" id="class_numeric" name="class_numeric" placeholder="Class Name in Numeric" data-pattern-error="Invalid Class Number" autocomplete="off">
+                                    <label for="form-control-2" class="control-label">Institute in Numeric</label>
+                                    <input type="number" pattern="^[0-9-.]+$" class="form-control" id="class_numeric" name="class_numeric" placeholder="Institute Name in Numeric" data-pattern-error="Invalid Institute Number" autocomplete="off">
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -117,7 +117,7 @@
         });
     
         function addClass() {
-            $('#modal-title').text('Add Class');
+            $('#modal-title').text('Add Institute');
             $('#class_id').val(0);
             $('#class_name').val('');
             $('#class_numeric').val('');
@@ -159,7 +159,7 @@
         });
 
         function editClass(id) { 
-            $('#modal-title').text('Update Class');
+            $('#modal-title').text('Update Institute');
             var class_name = $('#classrow'+id).find('td:eq(0)').text();  
             var class_numeric = $('#classrow'+id).find('td:eq(1)').text(); 
 
