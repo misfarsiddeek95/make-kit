@@ -157,3 +157,7 @@ $route['delete-class'] = 'Academic/deleteClass';
 # Students
 $route['add-student'] = 'ExternalUsers/addExternalUser';
 $route['filter-students'] = 'ExternalUsers/filterStudents';
+
+# Subject
+$route['saveSubject'] = 'Academic/saveSubject';
+$route['delete-subject'] = 'Academic/deleteSubject';
