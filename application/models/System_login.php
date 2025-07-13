@@ -14,7 +14,7 @@ class System_login extends CI_Model {
         }
     }
     function get_login_user($username) {
-        $this -> db -> select('staff_users.user_id,staff_users.fname,staff_users.lname,staff_users.username,staff_users.password,staff_users.access_group,staff_users.status,photo.photo_path,photo.photo_title'); 
+        $this -> db -> select('staff_users.user_id,staff_users.fname,staff_users.lname,staff_users.username,staff_users.password,staff_users.access_group,staff_users.status,photo.photo_path,photo.photo_title,photo.extension'); 
         $this -> db -> from('staff_users');
         //$this->db->where("photo.table='staff_users' OR photo.table is NULL AND photo.status='0' OR photo.status is NULL");
         $this->db->where('username', $username);

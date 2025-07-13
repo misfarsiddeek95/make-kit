@@ -33,7 +33,7 @@ class SystemLogin extends MY_Controller {
                     if($result->status==1 && password_verify($password, $result->password)){
                         $img = 'user_default.jpg';
                         if ($result->photo_path!=null) {
-                          $img = 'staff/'.$result->photo_path.'-sma.jpg';
+                          $img = 'staff/'.$result->photo_path.'-thu.'.$result->extension;
                         }
                         $log_array = array(
                             'user_id' => $result->user_id,
