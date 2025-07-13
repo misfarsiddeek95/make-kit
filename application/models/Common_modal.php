@@ -221,6 +221,20 @@ class Common_modal extends CI_Model {
           return false;
         }
     }
+
+    function getTableSinglePhoto($table,$id){
+        $this->db->select('*');
+        $this->db->from('photo');
+        $this->db->where('table', $table);
+        $this->db->where('field_id', $id);
+        $this->db->limit(1);
+        $query = $this->db->get();
+        if($query->num_rows() == 1){
+          return $query->row();
+        }else{
+          return false;
+        }
+    }
     
     function getImages($table,$field,$id){
         $this->db->select('*');

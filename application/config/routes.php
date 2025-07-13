@@ -165,3 +165,12 @@ $route['delete-subject'] = 'Academic/deleteSubject';
 # Assign Circle for Institute
 $route['save-class-subjects'] = 'Academic/saveClassSubjects'; 
 $route['delete-class-subjects'] = 'Academic/deleteClassSubjects'; 
+
+# Instrucors
+$route['add-teacher'] = 'ExternalUsers/addInstructor';
+$route['save-teacher'] = 'ExternalUsers/saveInstructor';
+$route['edit-teacher'] = 'ExternalUsers/addInstructor';
+$route['teacher-detail/(:num)'] = 'Teachers/getTecherDetail/$1';
+
+$route['check-username-exists'] = 'Users/checkUsernameExists';
+$route['remove-user-picture'] = 'Users/removeUserPicture';

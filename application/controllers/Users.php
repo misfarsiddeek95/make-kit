@@ -216,11 +216,13 @@ class Users extends Admin_Controller{
                                 foreach ($result as $row) {
                                     $this->Common_modal->delete('photo','pid',$row->pid);
                                     $folder = $this->folder."/photos/staff/";
-                                    $imgExt = array('org','big','med','std','thu','sma');
+                                    $imgExt = array('big','std','thu');
 
                                     foreach ($imgExt as $value) {
-                                        $imagename = $row->photo_path.'-'.$value.'.jpg';
-                                        unlink( $folder . $imagename);
+                                        $imagename = $row->photo_path.'-'.$value.'.'.$row->extension;
+                                        if($imagename) {
+                                            unlink( $folder . $imagename);
+                                        }
                                     }
                                 }
                             }
@@ -305,5 +307,33 @@ class Users extends Admin_Controller{
             $message = array("status" => "error","message" => $ex->getMessage());
         }
         echo json_encode($message);
+    }
+
+    public function checkUsernameExists() {
+        $username = $this->input->post('username');
+        $checkuser = $this->Admin_modal->user_exist_check('username',$username);
+        echo json_encode($checkuser);
+    }
+
+    public function removeUserPicture() {
+        try {
+            $user_id = $this->input->post('user_id');
+            $get_image = $this->Common_modal->getTableSinglePhoto('staff_users',$user_id);;
+            if ($get_image->photo_path != '' && $get_image->photo_path != null) {
+                $folder = $this->folder."/photos/staff/";
+                $imagename = $get_image->photo_path;
+                $imgExt = array('big','std','thu'); 
+                foreach ($imgExt as $value) {
+                    $imagename = $get_image->photo_path.'-'.$value.'.'.$get_image->extension;
+                    unlink( $folder . $imagename );
+                }
+                $this->Common_modal->delete('photo','pid',$get_image->pid);
+                $msg = array('status' => 'success', 'message' => 'Profile Picture removed successfully.','imgpath' => base_url().'photos/user_default.png');
+
+            }
+        } catch (Exception $ex) {
+            $msg = array('status' => 'error', 'message' => $ex->getMessage());
+        }
+        echo json_encode($msg);
     }
 }

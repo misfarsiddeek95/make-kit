@@ -1,9 +1,8 @@
 <?php
 class Admin_modal extends CI_Model {
     public function get_all_users() {
-        $this->db->select('s.user_id,s.fname,s.lname,s.company_name,s.nic,s.dob,s.email,s.username,s.status as userStatus,a.*,p.pid,p.photo_path,p.photo_title,d.phone'); 
+        $this->db->select('s.user_id,s.fname,s.lname,s.company_name,s.nic,s.dob,s.email,s.username,s.status as userStatus,s.gender,a.*,p.pid,p.photo_path,p.photo_title,p.extension,d.phone'); 
         $this->db->from('staff_users s');
-        
         $this->db->join('photo p', 'p.table = "staff_users" AND p.field_id = s.user_id', 'left');
         $this->db->join('access_groups a', 'a.group_id = s.access_group', 'left');
         $this->db->join('addresses d', 'd.user_id = s.user_id AND d.add_type = 2', 'left'); // moved condition here
@@ -15,10 +14,11 @@ class Admin_modal extends CI_Model {
     }    
 
     public function getUserDetail($id) {
-        $this -> db -> select('staff_users.*,addresses.add_id,addresses.address,addresses.city_id,addresses.reg_id,addresses.country_id,addresses.phone');
-        $this -> db -> from('staff_users');
-        $this->db->where('staff_users.user_id', $id);
-        $this->db->join('addresses', 'addresses.user_id = staff_users.user_id AND addresses.add_type = 2', 'left outer');
+        $this -> db -> select('s.*,addresses.add_id,addresses.address,addresses.city_id,addresses.reg_id,addresses.country_id,addresses.phone,p.photo_path,p.extension');
+        $this->db->from('staff_users s');
+        $this->db->where('s.user_id', $id);
+        $this->db->join('photo p', 'p.table = "staff_users" AND p.field_id = s.user_id', 'left');
+        $this->db->join('addresses', 'addresses.user_id = s.user_id AND addresses.add_type = 2', 'left outer');
         $this -> db -> limit(1);
         $query = $this -> db -> get();
         if($query -> num_rows() == 1){
@@ -59,6 +59,7 @@ class Admin_modal extends CI_Model {
         }
 
         $this->db->trans_complete();
+        return $user_id; 
     }
 
     function checkStaffsites($values){
@@ -1284,6 +1285,20 @@ where cdc.cdc_status=0 group by dop2.oid) as dcr on do.oid=dcr.dc_oid where rdd.
         $ret['rowcount'] = $query1->num_rows();
 
         return $ret;
+    }
+
+    function user_exist_check($field,$value){
+        $this -> db -> select('*');
+        $this -> db -> from('staff_users');
+        $this -> db -> where($field, $value);
+        $this -> db -> limit(1);
+        $query = $this -> db -> get();
+        $rowCount=$query -> num_rows();
+        if($rowCount == 1){
+            return true;
+        }else{
+            return false;
+        }
     }
 }
 
