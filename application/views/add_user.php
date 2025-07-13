@@ -66,7 +66,7 @@
 
                   <div class="form-group">
                     <label for="form-control-3" class="control-label">Country</label>
-                    <select class="form-control" data-plugin="select2" name="country" id="country" data-placeholder="Select User Country" data-required-error="Country is Required" onchange="getRegion();" required>
+                    <select class="form-control" data-plugin="select2" name="country" id="country" style="width:100%;" data-allow-clear="true" data-placeholder="Select User Country" data-required-error="Country is Required" onchange="getRegion();" required>
                       <option></option>
                       <?php foreach ($countries as $row) {
                         $sel = '';
@@ -85,7 +85,7 @@
 
                   <div class="form-group">
                     <label for="form-control-3" class="control-label">Region</label>
-                    <select class="form-control" data-plugin="select2" name="region" id="region" data-placeholder="Select User Region" data-required-error="Region is Required" onchange="getCities();" required>
+                    <select class="form-control" data-plugin="select2" name="region" id="region" style="width:100%;" data-allow-clear="true" data-placeholder="Select User Region" data-required-error="Region is Required" onchange="getCities();" required>
                       <option></option>                     
 
                     </select>
@@ -94,7 +94,7 @@
 
                   <div class="form-group">
                     <label for="form-control-3" class="control-label">City</label>
-                    <select class="form-control" data-plugin="select2" name="city" id="city" data-placeholder="Select User City" data-required-error="City is Required" required>
+                    <select class="form-control" data-plugin="select2" name="city" id="city" style="width:100%;" data-allow-clear="true" data-placeholder="Select User City" data-required-error="City is Required" required>
                       <option></option>                     
 
                     </select>
@@ -133,7 +133,7 @@
 
                   <div class="form-group">
                     <label for="form-control-3" class="control-label">Status</label>
-                    <input type="checkbox" class="js-switch" name="status" id="status" value="<?php if(!(empty($user))){echo $user->status;}else{echo 1;}?>" data-size="small" data-color="#34a853" <?php if(!(empty($user))){if($user->status==0){echo 'checked="checked"';}}?> <?php if ($changeStatus){echo 'disabled="disabled"';} else{echo "onchange='updateUserStatus();'"; }?> >
+                    <input type="checkbox" class="js-switch" name="status" id="status" value="<?php if(!(empty($user))){echo $user->status;}else{echo 0;}?>" data-size="small" data-color="#34a853" <?php if(!(empty($user))){if($user->status==1){echo 'checked="checked"';}}?> <?php if ($changeStatus){echo 'disabled="disabled"';} else{echo "onchange='updateUserStatus();'"; }?> >
                     <div class="help-block with-errors"></div>
                   </div>
 

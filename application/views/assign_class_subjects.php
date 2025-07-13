@@ -49,7 +49,7 @@
                         <?php foreach ($class_subjects as $row) { ?> 
                         <tr id="subjassgnrow<?=$row->class_id?>">
                             <td><?=$row->class_name?></td>  
-                            <td><?php foreach($row->subjects as $subs){ ?><span class="label label-outline-info subjectIds<?=$row->class_id?>" sub-id="<?=$subs->sub_id?>" style="margin-right: 3px;"><?=$subs->subject_name?></span><?php } ?></td>  
+                            <td><?php foreach($row->subjects as $subs){ ?><span class="label label-info subjectIds<?=$row->class_id?>" sub-id="<?=$subs->sub_id?>" style="margin-right: 3px;"><?=$subs->subject_name?></span><?php } ?></td>  
                             <?php if($edit_assigned_subject || $delete_assigned_subject){ ?>
                             <td align="right">
                                 <?php if($edit_assigned_subject){ ?>
