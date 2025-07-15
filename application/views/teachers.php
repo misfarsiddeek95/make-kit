@@ -40,7 +40,7 @@
                   <tbody id="tbody_data">
                     <?php 
                       foreach ($instructor_list as $row) {
-                          $img = 'user_default.png';
+                          $img = 'user_default.jpg';
                           $status = '';
                           if ($row->photo_path!=null) {
                             $img = 'staff/'.$row->photo_path.'-thu.'.$row->extension;

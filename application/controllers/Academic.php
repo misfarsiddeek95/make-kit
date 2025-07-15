@@ -289,4 +289,98 @@ class Academic extends Admin_Controller{
         }
         echo json_encode($msg);
     }
+
+    # Assign Institute Instructor
+    # ------------------------------------------------------------------------------
+    public function assign_class_teacher() {
+        try {
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $manage_class_teacher= $this->Admin_modal->isAccessRightGiven($group_id,134)?0:1;
+            if ($manage_class_teacher) {
+                throw new Exception("You don't have the permissoin to manage institute instructor.");
+            }
+
+            $data['class_tr_list']= $this->Admin_modal->isAccessRightGiven($group_id,135)?1:0;
+            $data['add_class_tr']= $this->Admin_modal->isAccessRightGiven($group_id,136)?1:0;
+            $data['edit_class_tr']= $this->Admin_modal->isAccessRightGiven($group_id,137)?1:0;
+            $data['delete_class_tr']= $this->Admin_modal->isAccessRightGiven($group_id,138)?1:0; 
+
+            $data['teachers'] = $this->Academic_model->get_all_teachers(); 
+            $data['all_classes'] = $this->Academic_model->get_classes();  
+            $data['assigned_teachers'] = $this->Academic_model->get_class_sections_for_tcrs();
+            $this->load->view('assign_class_teacher',$data);
+            
+        } catch (Exception $ex) {
+            redirect(base_url());
+        } 
+    }
+
+    public function saveAssignedTeacher() { 
+        try {
+            $tc_id= $this->input->post('tc_id');
+            $class_id= $this->input->post('class_id');
+            $date = date("Y-m-d H:i:s");
+
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+
+            if (isset($_POST['teachers'])){
+                $teachers= $this->input->post('teachers');
+            }else{
+                $teachers = array();
+            }
+
+            $assign_array = array(
+                'class_id' => $class_id, 
+                'added_by' => $group_id, 
+                'created_date' => $date 
+            );
+
+            $add_class_tr= $this->Admin_modal->isAccessRightGiven($group_id,136)?0:1;
+            $edit_class_tr= $this->Admin_modal->isAccessRightGiven($group_id,137)?0:1; 
+
+            if ($tc_id != 0) {
+                if ($edit_class_tr) {
+                    throw new Exception("You don't have the permission to edit institute instructor.");
+                } 
+                $type = 'update';
+            }else{
+                if ($add_class_tr) {
+                    throw new Exception("You don't have the permission to add institute instructor.");
+                } 
+                $res = $this->Academic_model->check_tr_exist($class_id);
+                if ($res) {
+                    throw new Exception("Already teacher assigned to this institute.");
+                }
+                $type = 'save';
+            } 
+            $tc_id = $this->Academic_model->save_assigned_teachers($tc_id,$assign_array,$teachers);
+            $message = array("status" => "success","message" => $type,"id" => $tc_id);  
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
+    public function deleteClassTeacher() {
+        try {
+            $clsec_id= $this->input->post('clsec_id');
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $delete_class_teacher= $this->Admin_modal->isAccessRightGiven($group_id,138)?1:0;
+            if ($delete_class_teacher) {
+                    $class_tcr_delete = $this->Common_modal->delete('classsec_for_teacher','clsec_id',$clsec_id);
+                    if ($class_tcr_delete) {
+                        $this->Common_modal->delete('classec_teacher','clsec_id',$clsec_id); 
+                        $message = array("status" => "success","message" => "Class Teacher deleted successfully.");
+                    }else{
+                        throw new Exception("Unable to delete this class teacher.");
+                    } 
+            }else {
+                throw new Exception("You don't have the permission to delete class teacher.");
+            }
+
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
 }

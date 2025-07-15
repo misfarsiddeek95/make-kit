@@ -174,3 +174,8 @@ $route['teacher-detail/(:num)'] = 'Teachers/getTecherDetail/$1';
 
 $route['check-username-exists'] = 'Users/checkUsernameExists';
 $route['remove-user-picture'] = 'Users/removeUserPicture';
+
+# Assign Institute Instructors
+// $route['get-sections-and-subjects'] = 'Academic/getSectionsandSubs';
+$route['saveAssignedTeacher'] = 'Academic/saveAssignedTeacher';
+$route['delete-class-teacher'] = 'Academic/deleteClassTeacher';
