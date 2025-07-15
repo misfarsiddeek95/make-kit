@@ -176,6 +176,10 @@ $route['check-username-exists'] = 'Users/checkUsernameExists';
 $route['remove-user-picture'] = 'Users/removeUserPicture';
 
 # Assign Institute Instructors
-// $route['get-sections-and-subjects'] = 'Academic/getSectionsandSubs';
+$route['get-sections-and-subjects'] = 'Academic/getSectionsandSubs';
 $route['saveAssignedTeacher'] = 'Academic/saveAssignedTeacher';
 $route['delete-class-teacher'] = 'Academic/deleteClassTeacher';
+
+# Assign Circle for Instructors
+$route['saveAssignedSubject'] = 'Academic/saveAssignedSubject';
+$route['delete-assigned-subject'] = 'Academic/deleteAssignedSubject';

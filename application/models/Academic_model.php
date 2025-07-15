@@ -207,11 +207,81 @@ class Academic_model extends CI_Model{
     public function get_assigned_teachers($clsec_id) {
         $this->db->select('su.user_id,su.fname,su.lname');
         $this->db->from('classec_teacher ct');
-        $this->db->where('ct.clsec_id', $clsec_id);  
+        $this->db->where('ct.clsec_id', $clsec_id);
         $this->db->order_by('su.user_id','asc');
         $this->db->join('staff_users su','su.user_id=ct.teacher_id');
         $query = $this->db->get();
         return $query->result();
+    }
+
+    public function get_subject_first() {
+        $this->db->select('s.sub_id,s.subject_name');
+        $this->db->from('subjects s');
+        $q = $this->db->get();
+        $main = $q->result();
+        foreach ($main as $row) {
+            $row->assigned_teachers = $this->get_assigned_subjects($row->sub_id);
+        }
+        return $main;
+    }
+
+    public function get_assigned_subjects($subject) {
+        $this->db->select('sa.sa_id,c.class_id,c.class_name,su.user_id,su.fname,su.lname,sb.sub_id,sb.subject_name,sb.subject_type');
+        $this->db->from('subject_assign sa'); 
+        $this->db->where('sa.subject_id',$subject);   
+        $this->db->join('staff_users su','su.user_id=sa.teacher_id');
+        $this->db->join('class c','c.class_id=sa.class_id');
+        $this->db->join('subjects sb','sb.sub_id=sa.subject_id');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_subjects($class_id) {
+        $this->db->select('s.*');
+        $this->db->from('class_subjects cs');
+        $this->db->where('cs.class_id', $class_id);   
+        $this->db->join('subjects s','s.sub_id=cs.subject_id');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function get_class_subject($class_id) {
+        $this->db->select("su.user_id, CONCAT_WS(' ', su.fname, su.lname) AS name");
+        $this->db->from('classec_teacher ct');
+        $this->db->where('cft.class_id', $class_id);
+        $this->db->join('classsec_for_teacher cft', 'cft.clsec_id=ct.clsec_id');
+        $this->db->join('staff_users su','su.user_id=ct.teacher_id');
+        $this->db->order_by('su.user_id','asc');
+        $query = $this->db->get();
+        return $query->result();
+    }
+
+    public function assign_subjects($sa_id,$assigning_array) {
+        $this->db->trans_start();
+        if ($sa_id == 0) {
+            $this->db->insert('subject_assign',$assigning_array);
+            $sa_id =  $this->db->insert_id();
+        }else{
+            $this->db->where('sa_id', $sa_id);
+            $this->db->update('subject_assign', $assigning_array);
+        }
+        $this->db->trans_complete();
+        return $sa_id; 
+    }
+
+    public function check_intructor_circle_exists($_arr) {
+        $this->db->select('sa_id');
+        $this->db->from('subject_assign');
+        $this->db->where('class_id', $_arr['class_id']);
+        $this->db->where('teacher_id', $_arr['teacher_id']);
+        $this->db->where('subject_id', $_arr['subject_id']);
+        $this->db->limit(1);
+        $q = $this->db->get();
+        if ($q->num_rows() > 0) {
+            return $q->row()->sa_id;
+        } else {
+            return false;
+        }
     }
 }
 

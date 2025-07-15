@@ -383,4 +383,104 @@ class Academic extends Admin_Controller{
         }
         echo json_encode($message);
     }
+
+    # Assign Instructors for Circle
+    # ------------------------------------------------------------------------------
+    public function assign_subject() {
+        try {
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $manage_assign_subject= $this->Admin_modal->isAccessRightGiven($group_id,139)?0:1;
+            if ($manage_assign_subject) {
+                throw new Exception("You don't have the permissoin to manage subject assigning.");
+            }
+
+            $data['assign_subject_list']= $this->Admin_modal->isAccessRightGiven($group_id,140)?1:0;
+            $data['assign_subject']= $this->Admin_modal->isAccessRightGiven($group_id,141)?1:0;
+            $data['edit_assigned_subject']= $this->Admin_modal->isAccessRightGiven($group_id,142)?1:0;
+            $data['delete_assigned_subject']= $this->Admin_modal->isAccessRightGiven($group_id,143)?1:0; 
+
+            $data['all_classes'] = $this->Academic_model->get_classes(); 
+            $data['all_teachers'] = $this->Academic_model->get_all_teachers(); 
+            $data['all_assigned_subjects'] = $this->Academic_model->get_subject_first();
+            $this->load->view('assign_subject',$data);
+
+        } catch (Exception $ex) {
+            redirect(base_url());
+        }
+    }
+
+    public function getSectionsandSubs() {
+        $class_id = $this->input->post('class_id');
+        $results['subjects'] = $this->Academic_model->get_subjects($class_id);
+        $results['teachers'] = $this->Academic_model->get_class_subject($class_id);
+        echo json_encode($results);
+    }
+
+    public function saveAssignedSubject() { 
+        try {
+            $sa_id= $this->input->post('sa_id');
+            $class_id= $this->input->post('class_id');
+            $teacher_id= $this->input->post('teacher_id');
+            $subject_id= $this->input->post('subject_id');
+            $date = date("Y-m-d H:i:s");
+            
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+
+            $assign_subject= $this->Admin_modal->isAccessRightGiven($group_id,141)?0:1;
+            $edit_assigned_subject= $this->Admin_modal->isAccessRightGiven($group_id,142)?0:1;
+
+            $assigning_array = array(
+                'class_id' => $class_id,  
+                'teacher_id' => $teacher_id, 
+                'subject_id' => $subject_id, 
+                'added_by' => $group_id, 
+                'created_date' => $date 
+            );
+
+            $checkExistsValue = $this->Academic_model->check_intructor_circle_exists($assigning_array);
+
+            if ($checkExistsValue) {
+                $sa_id = $checkExistsValue;
+            }
+    
+            if ($sa_id != 0) {
+                if ($edit_assigned_subject) {
+                    throw new Exception("You don't have the permission to edit assigned circle.");
+                } 
+                $type = 'update';
+            }else{
+                if ($assign_subject) {
+                    throw new Exception("You don't have the permission to assign circle.");
+                } 
+                $type = 'save';
+            }
+            $sa_id = $this->Academic_model->assign_subjects($sa_id,$assigning_array);
+            $message = array("status" => "success","message" => $type,"id" => $sa_id); 
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
+    public function deleteAssignedSubject() {
+        try {
+            $sa_id= $this->input->post('sa_id');
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $delete_assigned_subject= $this->Admin_modal->isAccessRightGiven($group_id,143)?1:0;
+            if ($delete_assigned_subject) {
+                    $assigned_sub_delete = $this->Common_modal->delete('subject_assign','sa_id',$sa_id);
+                    if ($assigned_sub_delete) {
+                        $message = array("status" => "success","message" => "Assigned circle deleted successfully.");
+                    }else{
+                        throw new Exception("Unable to delete this assigned subject.");
+                    } 
+            }else {
+                throw new Exception("You don't have the permission to delete assigned subject.");
+            }
+
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
 }
