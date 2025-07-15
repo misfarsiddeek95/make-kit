@@ -140,10 +140,10 @@
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="class_id" class="control-label">Class</label>
+                                            <label for="class_id" class="control-label">Institute</label>
                                             <select id="class_id" name="class_id" class="form-control"
                                                 data-plugin="select2" style="width: 100%;"
-                                                data-placeholder="Select a class" required data-required-error="Select a class" style="width:100;" data-allow-clear="true">
+                                                data-placeholder="Select a institute" required data-required-error="Select a institute" style="width:100;" data-allow-clear="true">
                                                 <option></option>
                                                 <?php foreach ($all_classes as $row ) { ?>
                                                 <option value="<?=$row->class_id?>"><?=$row->class_name?></option>

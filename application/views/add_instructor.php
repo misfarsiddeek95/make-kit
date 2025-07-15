@@ -33,7 +33,7 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label for="lname" class="control-label">Last Name</label>
-                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="Last Name" id="lname" name="lname" class="form-control" data-minlength="3" data-pattern-error="Invalid last name" data-error="Minimum of 3 characters" data-required-error="Last name is Required" required autocomplete="off">
+                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="Last Name" id="lname" name="lname" class="form-control"  data-pattern-error="Invalid last name" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>

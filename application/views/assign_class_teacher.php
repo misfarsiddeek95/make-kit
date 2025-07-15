@@ -38,8 +38,8 @@
                 <table class="table table-hover" >
                     <thead>
                         <tr>
-                            <th>Class Name</th> 
-                            <th>Teacher Name</th> 
+                            <th>Institute Name</th> 
+                            <th>Instructor Name</th> 
                             <?php if($edit_class_tr || $delete_class_tr){ ?>
                             <th style="text-align:right;">Options</th>  
                             <?php } ?>
@@ -82,8 +82,8 @@
                             <div class="modal-body">
                                 <input type="hidden" name="tc_id" id="tc_id" value="0">  
                                 <div class="form-group">
-                                    <label for="class_id" class="control-label">Class</label>
-                                    <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" required data-required-error="Please select a class.">
+                                    <label for="class_id" class="control-label">Institute</label>
+                                    <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" data-allow-clear="true" required data-required-error="Please select a institute.">
                                         <?php foreach ($all_classes as $row ) { ?>
                                         <option value="<?=$row->class_id?>"><?=$row->class_name?></option> 
                                         <?php } ?>
@@ -134,7 +134,7 @@
             $('#modal-title').text('Add Class Teacher');
             $('#tc_id').val(0); 
             $('#class_id').val(null).trigger('change');
-            $('#class_id').select2({placeholder: "Select a Class",dropdownParent: $('#otherModal3')});
+            $('#class_id').select2({placeholder: "Select an institute",dropdownParent: $('#otherModal3')});
 
             $('.teacherChecksBox').each(function (index, value){
                 var teacher_id = $(this).attr('teacher-id');
