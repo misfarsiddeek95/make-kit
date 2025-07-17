@@ -30,35 +30,32 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label for="roll_number" class="control-label">Roll Number</label>
-                                            <input type="text" pattern="^[a-zA-Z0-9. ]+$" value="<?php if(!(empty($user))){echo($user->role_number);} ?>" placeholder="Roll number" id="roll_number" name="roll_number" class="form-control" data-pattern-error="Invalid roll number" data-required-error="Roll number is required" required autocomplete="off">
+                                            <input type="text" pattern="^[a-zA-Z0-9. ]+$" value="<?php if(!(empty($user))){echo($user->role_number);} ?>" placeholder="Roll number" id="roll_number" name="roll_number" class="form-control" data-pattern-error="Invalid roll number" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-4">
+                                        <div class="form-group">
+                                            <label for="institute_id" class="control-label">Institute</label> 
+                                            <select id="institute_id" name="institute_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="Institute" data-plugin="select2" data-required-error="Institute is required" required>
+                                                <option></option>
+                                                <?php foreach ($loadInstitutes as $row) { ?>
+                                                <option value="<?=$row->class_id?>"><?=$row->class_name?></option>
+                                                <?php } ?>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-4">
                                         <div class="form-group">
                                             <label for="class_id" class="control-label">Circle</label> 
-                                            <select id="class_id" name="class_id" class="form-control" data-placeholder="Circle" data-plugin="select2" data-required-error="Circle is Required" required> 
+                                            <select id="class_id" name="class_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="Circle" data-plugin="select2" data-required-error="Circle is Required" required> 
                                             </select> 
                                         </div>
                                     </div>
-                                    <div class="col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <label for="city" class="control-label">City</label> 
-                                            <select id="city" name="city" class="form-control" data-placeholder="City" data-plugin="select2" data-required-error="City is Required" required> 
-                                            </select> 
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">
-                                        <div class="form-group">
-                                            <label for="class_location_id" class="control-label">Place</label> 
-                                            <select id="class_location_id" name="class_location_id" class="form-control" data-placeholder="Place" data-plugin="select2" data-required-error="Place is Required" required> 
-                                            </select> 
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 col-md-6">
+                                    <div class="col-sm-6 col-md-4">
                                         <div class="form-group">
                                             <label for="instructor_id" class="control-label">Instructor</label> 
-                                            <select id="instructor_id" name="instructor_id" class="form-control" data-placeholder="Instructor" data-plugin="select2" data-required-error="Instructor is Required" required> 
+                                            <select id="instructor_id" name="instructor_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="Instructor" data-plugin="select2" data-required-error="Instructor is Required" required> 
                                             </select> 
                                         </div>
                                     </div>
@@ -100,6 +97,20 @@
                                             <label for="parent_phone" class="control-label">Parent Phone</label> 
                                             <input type="text" pattern="^[0-9+]+$" value="<?php if(!(empty($user))){echo($user->parent_phone);} ?>" placeholder="Parent Phone"  id="parent_phone" name="parent_phone" class="form-control" data-pattern-error="Invalid phone number format" autocomplete="off">
                                             <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="form-control-4" class="control-label">Address</label>
+                                            <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-plugin="autosize" data-error="Address is required." required  style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($user))){echo($user->address);}?></textarea>
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-md-12">
+                                        <div class="form-group">
+                                            <label for="city" class="control-label">City</label> 
+                                            <select id="city" name="city" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="City" data-plugin="select2" data-required-error="City is Required" required> 
+                                            </select> 
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
@@ -152,6 +163,10 @@
                 onSizeErr : function(index, file){
                     toastr["error"]('This file exceeds the max size(5MB)');
                 }
+            });
+
+            $('#institute_id').on('change', function() {
+                const val = this.value;
             });
         </script>
     </body>

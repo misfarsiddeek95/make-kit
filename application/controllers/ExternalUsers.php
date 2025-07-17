@@ -24,8 +24,6 @@ class ExternalUsers extends Admin_Controller {
             $data['edit_student']= $this->Admin_modal->isAccessRightGiven($group_id,115) ? 1 : 0;
             $data['changeStatus']= $this->Admin_modal->isAccessRightGiven($group_id,116) ? 1 : 0;
             $data['delete_student']= $this->Admin_modal->isAccessRightGiven($group_id,117) ? 1 : 0;
-
-            $data['loadclass'] = $this->Common_modal->getAll('class'); 
             $this->load->view('students',$data);
 
         } catch (Exception $ex) {
@@ -58,6 +56,7 @@ class ExternalUsers extends Admin_Controller {
                 throw new Exception("You don't have the permissoin to add student.");
             }
 
+            $data['loadInstitutes'] = $this->Common_modal->getAll('class');
             $this->load->view('add_external_users',$data);
         } catch (Exception $ex){
             redirect(base_url());
