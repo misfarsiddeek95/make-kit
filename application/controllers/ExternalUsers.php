@@ -63,6 +63,131 @@ class ExternalUsers extends Admin_Controller {
         } 
     }
 
+    public function loadInstituteCircles() {
+        try {
+            $instituteId = $this->input->get('institute_id');
+            
+            if(!$instituteId) throw new Exception("Something wen't wrong in passing instittute ID");
+            
+            $result = $this->ExternalUser_model->load_institute_circles($instituteId);
+            
+            $message = array("status" => "success","data" => $result);
+
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
+    public function loadSubjectInstructor() {
+        try {
+            $instituteId = $this->input->get('institute_id');
+            $subjectId = $this->input->get('subject_id');
+            
+            if(!$instituteId || !$subjectId) throw new Exception("Something wen't wrong in passing instittute / subject ID");
+            
+            $result = $this->ExternalUser_model->load_subject_instructor($instituteId, $subjectId);
+            
+            $message = array("status" => "success","data" => $result);
+
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
+    public function registerStudent() {
+        try {
+            $user_id = $this->input->post('user_id');
+            $add_id = $this->input->post('add_id');
+            $name = $this->input->post('name');
+            $roll_number = $this->input->post('roll_number');
+            $institute_id = $this->input->post('institute_id');
+            $subject_id = $this->input->post('subject_id');
+            $instructor_id = $this->input->post('instructor_id');
+            $gender = $this->input->post('p_gender');
+
+            $parent_name = $this->input->post('parent_name');
+            $parent_phone = $this->input->post('parent_phone');
+
+            $address = $this->input->post('address');
+            $city = $this->input->post('city');
+
+            $parent_email = $this->input->post('parent_email'); // username
+            $password= trim($this->input->post('password'));
+
+            $date = date("Y-m-d H:i:s");
+
+            $PhotoFileNameMD5='';
+
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+
+            $user_array = array(
+                'name' => $name,
+                'user_type' => 3,
+                'role_number' => $role_number,
+                'city_id' => $city,
+                'class_id' => $institute_id,
+                'subject_id' => $subject_id,
+                'instructor_id' => $instructor_id,
+                'gender' => $gender,
+                'parent_name' => $parent_name,
+                'parent_phone' => $parent_phone,
+                'status' => 1
+            );
+
+            $addr_array = array(
+                'fname' => $name,
+                'lname' => null,
+                'address' => $address,
+                'city_id' => $city,
+                'phone' => $parent_phone,
+                'add_type' => 0,
+                'user_type' => 2, // student / external users
+                'status' => 1,
+            );
+
+            if ($password!='') {
+                $user_array['password'] = $this->get_encrypted_password($password);
+            }
+
+            if (isset($_POST['parent_email'])) {
+                $parent_email = $this->input->post('parent_email');
+                $checkuser = $this->Common_modal->checkField('external_users','parent_email',$username);
+                if ($checkuser) {
+                    throw new Exception("Username already exists. Please try another.");
+                }else{
+                    $user_array['parent_email'] = $parent_email;
+                }
+            }
+
+            if ($user_id == 0 && $add_id==0) {
+                $_add = $this->Admin_modal->isAccessRightGiven($group_id,114)?0:1;
+                if ($_add) {
+                    throw new Exception("You don't have the permissoin to add student.");
+                }else{
+                    $user_array['created_at'] = $date;
+                    $type = 'save';
+                    $msg = 'Student saved successfully.';
+                }
+            }else if ($user_id != 0 && $add_id!=0) {
+                $edit_user= $this->Admin_modal->isAccessRightGiven($group_id,115)?0:1;
+                if ($edit_user) {
+                    throw new Exception("You don't have the permissoin to update student.");
+                }
+                $type = 'update';
+                $msg = 'Student updated successfully.';
+            }else{
+                throw new Exception("Something went wrong. Please try again.");
+            }
+
+            $returnedUserId = $this->ExternalUser_model->register_external_user($user_id,$add_id,$user_array,$addr_array);
+            
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+    }
+
     # Instructors
     public function instructors(){
         try {
@@ -149,6 +274,7 @@ class ExternalUsers extends Admin_Controller {
                 'country_id' => $country,
                 'phone' => $mobile,
                 'add_type' => 2,
+                'user_type' => 1, // staff
                 'status' => 1,
             );
 

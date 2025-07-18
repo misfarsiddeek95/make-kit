@@ -55,7 +55,7 @@ class Order_modal extends CI_Model {
         $this->db->from('orders o');
         $this->db->where('o.order_id', $order_id);
         $this->db->join('customers c', 'c.cust_id = o.cust_id');
-        $this->db->join('addresses a', 'a.add_type=0 AND a.user_id = c.cust_id');
+        $this->db->join('addresses a', 'a.add_type=0 AND a.user_type = 1 AND a.user_id = c.cust_id');
         $this->db->join('country as co', 'co.country_id = a.country_id', 'left');
         $this->db->join('regions as r', 'r.reg_id = a.reg_id', 'left');
         $this->db->join('cities as ci', 'ci.city_id = a.city_id', 'left');

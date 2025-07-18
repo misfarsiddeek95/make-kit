@@ -45,7 +45,7 @@ class Customers_Modal extends CI_Model {
         $this -> db -> from('customers c');
         $this->db->where('c.cust_id', $id);
         $this->db->where('a.add_type', 0);
-        $this->db->join('addresses a', 'a.user_id = c.cust_id');
+        $this->db->join('addresses a', 'a.user_id = c.cust_id AND a.user_type = 2');
         $this -> db -> limit(1);
         $query = $this -> db -> get();
         if($query -> num_rows() == 1){

@@ -5,7 +5,7 @@ class Admin_modal extends CI_Model {
         $this->db->from('staff_users s');
         $this->db->join('photo p', 'p.table = "staff_users" AND p.field_id = s.user_id', 'left');
         $this->db->join('access_groups a', 'a.group_id = s.access_group', 'left');
-        $this->db->join('addresses d', 'd.user_id = s.user_id AND d.add_type = 2', 'left'); // moved condition here
+        $this->db->join('addresses d', 'd.user_id = s.user_id AND addresses.user_type = 1 AND d.add_type = 2', 'left'); // moved condition here
         $this->db->join('cities i', 'i.city_id = d.city_id', 'left');
         $this->db->join('regions r', 'r.reg_id = d.reg_id', 'left');
         
@@ -18,7 +18,7 @@ class Admin_modal extends CI_Model {
         $this->db->from('staff_users s');
         $this->db->where('s.user_id', $id);
         $this->db->join('photo p', 'p.table = "staff_users" AND p.field_id = s.user_id', 'left');
-        $this->db->join('addresses', 'addresses.user_id = s.user_id AND addresses.add_type = 2', 'left outer');
+        $this->db->join('addresses', 'addresses.user_id = s.user_id AND addresses.user_type = 1 AND addresses.add_type = 2', 'left outer');
         $this -> db -> limit(1);
         $query = $this -> db -> get();
         if($query -> num_rows() == 1){

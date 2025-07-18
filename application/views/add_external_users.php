@@ -19,6 +19,7 @@
                             <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
                                 <form data-toggle="validator" id="inputmasks">
                                 <input type="hidden" name="user_id" id="user_id" value="<?php if(!(empty($user))){echo($user->user_id);}else{echo(0);} ?>" />
+                                <input type="hidden" name="add_id" id="add_id" value="<?php if(!(empty($user))){echo($user->add_id);}else{echo(0);} ?>" />
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
@@ -47,8 +48,8 @@
                                     </div>
                                     <div class="col-sm-6 col-md-4">
                                         <div class="form-group">
-                                            <label for="class_id" class="control-label">Circle</label> 
-                                            <select id="class_id" name="class_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="Circle" data-plugin="select2" data-required-error="Circle is Required" required> 
+                                            <label for="subject_id" class="control-label">Circle</label> 
+                                            <select id="subject_id" name="subject_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="Circle" data-plugin="select2" data-required-error="Circle is Required" required> 
                                             </select> 
                                         </div>
                                     </div>
@@ -166,8 +167,91 @@
             });
 
             $('#institute_id').on('change', function() {
+                $('#subject_id').html(`<option></option>`);
                 const val = this.value;
+                $.ajax({
+                    url : '<?=base_url()?>load-intitute-circles',
+                    type: 'GET',
+                    data: {institute_id: val},
+                    success: function (result) {
+                        const resp = $.parseJSON(result);
+                        if (resp.status == 'error') {
+                            return toastr.error(resp.message);
+                        }
+                        const data = resp.data;
+                        let opt = `<option></option>`;
+
+                        data.forEach(el => {
+                            opt += `<option value="${el.sub_id}">${el.subject_name}</option>`;
+                        });
+                        $('#subject_id').html(opt);
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error('AJAX Error:', status, error);
+                    }
+                })
             });
+
+            $('#subject_id').on('change', function() {
+                const instituteId = $('#institute_id option:selected').val();
+                const val = this.value;
+
+                $('#instructor_id').html(`<option></option>`);
+                $.ajax({
+                    url : '<?=base_url()?>load-subject-instructor',
+                    type: 'GET',
+                    data: {institute_id: instituteId, subject_id: val},
+                    success: function (result) {
+                        const resp = $.parseJSON(result);
+                        if (resp.status == 'error') {
+                            return toastr.error(resp.message);
+                        }
+                        const data = resp.data;
+                        let opt = `<option></option>`;
+
+                        data.forEach(el => {
+                            opt += `<option value="${el.teacher_id}">${el.teacher_name}</option>`;
+                        });
+                        $('#instructor_id').html(opt);
+                    },
+                    error: function(xhr, status, error) {
+                        toastr.error('AJAX Error:', status, error);
+                    }
+                })
+            });
+
+            $('#inputmasks').validator().on('submit', function (e) {
+                if (!(e.isDefaultPrevented())) {
+                    e.preventDefault();
+                    run_waitMe('#inputmasks');
+                    var formData = new FormData(this);
+                    $.ajax({
+                        type: "POST",
+                        url: "<?=base_url()?>register-student",
+                        data: formData,
+                        cache:false,
+                        contentType: false,
+                        processData: false,
+                        success: function(result) {
+                            const resp = $.parseJSON(result);
+                            if (resp.status == 'success') {
+                                toastr.success(resp.message);
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 500);
+                            } else {
+                                toastr.error(resp.message);
+                            }
+                            $('#inputmasks').waitMe('hide');
+                        },
+                        error: function(result) {
+                            $('#inputmasks').waitMe('hide');
+                            toastr.error('Error :'+result)
+                        }
+                    });
+                }
+            });
+
         </script>
     </body>
 </html>
