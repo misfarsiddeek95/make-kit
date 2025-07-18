@@ -111,6 +111,10 @@
                                         <div class="form-group">
                                             <label for="city" class="control-label">City</label> 
                                             <select id="city" name="city" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="City" data-plugin="select2" data-required-error="City is Required" required> 
+                                                <option></option>
+                                                <?php foreach ($cities as $row) { ?>
+                                                    <option value="<?=$row->city_id?>"><?=$row->city_name?> [ <?=$row->city_name_hebrew?>  ]</option>
+                                                <?php } ?>
                                             </select> 
                                         </div>
                                     </div>

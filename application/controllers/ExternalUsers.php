@@ -57,6 +57,7 @@ class ExternalUsers extends Admin_Controller {
             }
 
             $data['loadInstitutes'] = $this->Common_modal->getAll('class');
+            $data['cities'] = $this->Common_modal->getAll('cities');
             $this->load->view('add_external_users',$data);
         } catch (Exception $ex){
             redirect(base_url());
@@ -125,7 +126,7 @@ class ExternalUsers extends Admin_Controller {
             $user_array = array(
                 'name' => $name,
                 'user_type' => 3,
-                'role_number' => $role_number,
+                'role_number' => $roll_number,
                 'city_id' => $city,
                 'class_id' => $institute_id,
                 'subject_id' => $subject_id,
@@ -153,7 +154,7 @@ class ExternalUsers extends Admin_Controller {
 
             if (isset($_POST['parent_email'])) {
                 $parent_email = $this->input->post('parent_email');
-                $checkuser = $this->Common_modal->checkField('external_users','parent_email',$username);
+                $checkuser = $this->Common_modal->checkField('external_users','parent_email',$parent_email);
                 if ($checkuser) {
                     throw new Exception("Username already exists. Please try another.");
                 }else{
@@ -182,10 +183,74 @@ class ExternalUsers extends Admin_Controller {
             }
 
             $returnedUserId = $this->ExternalUser_model->register_external_user($user_id,$add_id,$user_array,$addr_array);
+
+            if (isset($_FILES['fileUpload'])) {
+                if (!empty($_FILES['fileUpload']["name"])) {
+                    $PhotoFileName = $_FILES['fileUpload']['name'];
+                    $PhotoFileNameMD5 = md5(date('YmdHis').$PhotoFileName);
+                    $folder = $this->folder."/photos/students/";
+                    if(!is_dir($folder)){
+                        mkdir($folder, 0777, true);
+                    }
+                    $filetype = pathinfo($PhotoFileName, PATHINFO_EXTENSION);
+                    $img_org = $folder.$PhotoFileNameMD5.'-org.'.$filetype;
+                    $img_big = $folder.$PhotoFileNameMD5. '-big.'.$filetype;
+                    $img_std = $folder.$PhotoFileNameMD5. '-std.'.$filetype;
+                    $img_thu = $folder.$PhotoFileNameMD5. '-thu.'.$filetype;
+
+                    if (!@move_uploaded_file ($_FILES['fileUpload']['tmp_name'],$img_org)) throw new Exception('Can not upload original file...');
+
+                    if (pathinfo($PhotoFileName, PATHINFO_EXTENSION)=='png') {
+                        $image = imagecreatefrompng($img_org);
+                        $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
+                        imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
+                        imagealphablending($bg, TRUE);
+                        imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+                        imagedestroy($image);
+                        $quality = 100; // 0 = worst / smaller file, 100 = better / bigger file 
+                        imagejpeg($bg, $img_org, $quality);
+                        imagedestroy($bg);
+                    }
+
+                    $this->aayusmain->make_thumb($img_org,$img_big,100,1400,1400);
+                    $this->aayusmain->make_thumb($img_org,$img_std,100,500,500);
+                    $this->aayusmain->make_thumb($img_org,$img_thu,100,100,100);
+
+                    unlink( $img_org );
+                }
+            }
+
+            if ($PhotoFileNameMD5!='') {
+                $data = array(
+                    'table' => 'external_users',
+                    'field' => 'id',
+                    'field_id' => $returnedUserId,
+                    'photo_path' => $PhotoFileNameMD5,
+                    'extension' => $filetype,
+                    'photo_title' => str_replace(array("-","_",".","jpg")," ", $name),
+                    'photo_order' => 0
+                );
+
+                if ($user_id!=0) {
+                    $photos = $this->Common_modal->getTableSinglePhoto('external_users',$returnedUserId);
+                    if ($photos) {
+                        $folder = $this->folder."/photos/students/";
+                        $imgExt = array('big','std','thu'); 
+                        foreach ($imgExt as $value) {
+                            $imagename = $photos->photo_path.'-'.$value.'.'.$result->extension;
+                            unlink( $folder . $imagename );
+                        }
+                        $message = array("status" => "success","message" => 'Deleted successfully');
+                    }
+                }
+                $inserted_id = $this->Common_modal->insert('photo',$data);
+            }
+            $message = array("status" => "success","message" => $msg);
             
         } catch (Exception $ex) {
             $message = array("status" => "error","message" => $ex->getMessage());
         }
+        echo json_encode($message);
     }
 
     # Instructors
