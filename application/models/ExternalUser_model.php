@@ -20,7 +20,7 @@ class ExternalUser_model extends CI_Model {
         $this->db->where('s.access_group', 2); // only teachers
         $this->db->join('photo p', 'p.table = "staff_users" AND p.field_id = s.user_id', 'left');
         $this->db->join('access_groups a', 'a.group_id = s.access_group', 'left');
-        $this->db->join('addresses d', 'd.user_id = s.user_id AND a.user_type = 1 AND d.add_type = 2', 'left'); // moved condition here
+        $this->db->join('addresses d', 'd.user_id = s.user_id AND d.user_type = 1 AND d.add_type = 2', 'left'); // moved condition here
         $this->db->join('cities i', 'i.city_id = d.city_id', 'left');
         $this->db->join('regions r', 'r.reg_id = d.reg_id', 'left');
         
