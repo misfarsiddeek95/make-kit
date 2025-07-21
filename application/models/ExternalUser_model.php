@@ -1,15 +1,18 @@
 <?php
 class ExternalUser_model extends CI_Model {
 	
-    public function filter_students($class_id,$status){
-        $this->db->select('eu.id as user_id,eu.name,eu.role_number,eu.gender,eu.parent_name,eu.parent_phone,eu.parent_email,eu.status,ct.city_name,ct.city_name_hebrew');
+    public function filter_students($data){
+        $this->db->select('eu.id as user_id,eu.name,eu.role_number,eu.gender,eu.parent_name,eu.parent_phone,eu.parent_email,eu.status,ct.city_name,ct.city_name,ct.city_name_hebrew,p.photo_path,p.extension,c.class_name');
         $this->db->from('external_users eu');
-        $this->db->where('eu.class_id',$class_id);
-        if ($status != '') {
-            $this->db->where('eu.status',$status);
+        if ($data['class_id'] != '') {
+            $this->db->where('eu.class_id',$data['class_id']);
+        }
+        if ($data['city_id'] != '') {
+            $this->db->where('eu.city_id',$data['city_id']);
         }
         $this->db->join('class c','c.class_id=eu.class_id');
         $this->db->join('cities ct','ct.city_id=eu.city_id', 'left outer');
+        $this->db->join('photo p', 'p.table = "external_users" AND p.field_id = eu.id', 'left outer');
         $query = $this->db->get();
         return $query->result();
     }
@@ -64,6 +67,21 @@ class ExternalUser_model extends CI_Model {
         }
         $this->db->trans_complete();
         return $user_id; 
+    }
+
+    function get_student_detail($user_id) {
+        $this->db->select('eu.id as user_id,d.add_id,eu.name,eu.role_number,eu.city_id,eu.class_id,eu.subject_id,eu.instructor_id,eu.gender,eu.parent_name,eu.parent_phone,eu.parent_email,d.address,p.photo_path,p.extension');
+        $this->db->from('external_users eu');
+        $this->db->where('eu.id', $user_id);
+        $this->db->join('addresses d', 'd.user_id = eu.id AND d.user_type = 2 AND d.add_type = 0', 'left outer');
+        $this->db->join('photo p', 'p.table = "external_users" AND p.field_id = eu.id', 'left outer');
+        $this->db->limit(1);
+        $q = $this->db->get();
+        if($q->num_rows() == 1) {
+            return $q->row();
+        } else {
+            return false;
+        }
     }
 }
 

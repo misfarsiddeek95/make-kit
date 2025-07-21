@@ -156,10 +156,12 @@ $route['delete-class'] = 'Academic/deleteClass';
 
 # Students
 $route['add-student'] = 'ExternalUsers/addExternalUser';
+$route['edit-student'] = 'ExternalUsers/addExternalUser';
 $route['filter-students'] = 'ExternalUsers/filterStudents';
 $route['load-intitute-circles'] = 'ExternalUsers/loadInstituteCircles';
 $route['load-subject-instructor'] = 'ExternalUsers/loadSubjectInstructor';
 $route['register-student'] = 'ExternalUsers/registerStudent';
+$route['remove-student-picture'] = 'ExternalUsers/removeStudentLogo';
 
 # Circles
 $route['saveSubject'] = 'Academic/saveSubject';

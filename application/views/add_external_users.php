@@ -79,7 +79,7 @@
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="user_pic" class="control-label">Profile Picture</label>
-                                            <input type="hidden" value="<?php if(!(empty($user))){if(trim($user->user_pic)!=''&&$user->user_pic!=null){echo('photos/staff/'.$user->user_pic.'-std.'.$user->extention);}else{echo('photos/default.jpg');}}else{echo('photos/default.jpg');} ?>" name="user_pic" id="user_pic">
+                                            <input type="hidden" value="<?php if(!(empty($user))){if(trim($user->photo_path)!=''&&$user->photo_path!=null){echo('photos/students/'.$user->photo_path.'-std.'.$user->extension);}else{echo('photos/default.jpg');}}else{echo('photos/default.jpg');} ?>" name="user_pic" id="user_pic">
                                             <div class="row gutter-sm">
                                                 <div id="imageupdiv"></div>
                                             </div>
@@ -112,8 +112,16 @@
                                             <label for="city" class="control-label">City</label> 
                                             <select id="city" name="city" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="City" data-plugin="select2" data-required-error="City is Required" required> 
                                                 <option></option>
-                                                <?php foreach ($cities as $row) { ?>
-                                                    <option value="<?=$row->city_id?>"><?=$row->city_name?> [ <?=$row->city_name_hebrew?>  ]</option>
+                                                <?php 
+                                                    foreach ($cities as $row) {
+                                                        $sel = '';
+                                                        if(!empty($user)) {
+                                                            if($user->city_id == $row->city_id) {
+                                                                $sel = "selected";
+                                                            }
+                                                        }
+                                                ?>
+                                                    <option value="<?=$row->city_id?>" <?=$sel?>><?=$row->city_name?> [ <?=$row->city_name_hebrew?>  ]</option>
                                                 <?php } ?>
                                             </select> 
                                         </div>
@@ -121,14 +129,14 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label for="parent_email" class="control-label">Parent Email</label>
-                                            <input type="email" class="form-control" id="parent_email" name="parent_email" value="<?php if(!(empty($user))){echo($user->parent_email);} ?>" placeholder="Parent Email" data-error="Please enter a valid email address." required data-required-error="Email is required" autocomplete="off">
+                                            <input type="email" class="form-control" id="parent_email" name="parent_email" <?php if(empty($user)){echo'required';}else{echo "disabled='disabled'";}?> value="<?php if(!(empty($user))){echo($user->parent_email);} ?>" placeholder="Parent Email" data-error="Please enter a valid email address." required data-required-error="Email is required" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label for="password" class="control-label">Password</label>
-                                            <input type="password" class="form-control" id="password" name="password" value="<?php if(!(empty($user))){echo($user->password);} ?>" placeholder="Password" required data-required-error="Password is required" autocomplete="off">
+                                            <input type="password" class="form-control" id="password" name="password" value="" placeholder="Password" <?php if(empty($user)){echo('required');} ?> data-required-error="Password is required" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
@@ -149,6 +157,24 @@
         <script src="<?=base_url()?>assets/js/forms-plugins.js"></script>
         <script src="<?=base_url()?>assets/js/spartan-multi-image-picker.js"></script>
         <script type="text/javascript">
+
+            $(document).ready(function() {
+
+                let image = ``
+                <?php if(!(empty($user))) { ?>
+                    $('#institute_id').val('<?=$user->class_id?>').trigger('change');
+                    image = '<?=$user->photo_path?>';
+
+                    const gender = '<?=$user->gender?>';
+                    const genderInput = $(`input[name="p_gender"][value="${gender}"]`);
+                    genderInput.prop('checked', true);
+                    genderInput.closest('label').addClass('active');
+                <?php } ?>
+
+                if (image != null && image != '') {
+                    $('label.file_upload').find('img:eq(0)').before(`<a href="javascript:removeLogo('<?=$user->user_id?>')" data-spartanindexremove="4" style="right: 0px;top: 0px;background: rgb(254, 215, 0);border-radius: 3px;width: 20px;height: 20px;line-height: 20px;text-align: center;text-decoration: none;color: rgb(49, 62, 70);position: absolute !important;" id="edit-img" class="spartan_remove_row"><i class="fa fa-times"></i></a>`)
+                }
+            });
 
             $("#imageupdiv").spartanMultiImagePicker({
                 fieldName:'fileUpload',
@@ -189,6 +215,10 @@
                             opt += `<option value="${el.sub_id}">${el.subject_name}</option>`;
                         });
                         $('#subject_id').html(opt);
+
+                        <?php if(!(empty($user))) { ?>
+                            $('#subject_id').val('<?=$user->subject_id?>').trigger('change');
+                        <?php } ?>
                     },
                     error: function(xhr, status, error) {
                         toastr.error('AJAX Error:', status, error);
@@ -217,6 +247,10 @@
                             opt += `<option value="${el.teacher_id}">${el.teacher_name}</option>`;
                         });
                         $('#instructor_id').html(opt);
+                        
+                        <?php if(!(empty($user))) { ?>
+                            $('#instructor_id').val('<?=$user->instructor_id?>').trigger('change');
+                        <?php } ?>
                     },
                     error: function(xhr, status, error) {
                         toastr.error('AJAX Error:', status, error);
@@ -255,6 +289,24 @@
                     });
                 }
             });
+
+            function removeLogo(id) {
+                $.ajax({
+                type: "POST",
+                url: "<?=base_url()?>remove-student-picture",
+                data: 'user_id='+id,
+                success: function(result) {
+                    var resp = $.parseJSON(result);
+                    if (resp.status == 'success') {
+                        $('#user_pic').val('<?=base_url()?>photos/default.jpg');
+                        $('#imageupdiv img').attr('src','<?=base_url()?>photos/default.jpg');
+                        $('#edit-logo').remove();
+                    }
+                },
+                error: function(result) {
+                }
+                });
+            }
 
         </script>
     </body>

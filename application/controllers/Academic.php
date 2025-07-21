@@ -78,23 +78,17 @@ class Academic extends Admin_Controller{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $delete_class= $this->Admin_modal->isAccessRightGiven($group_id,37)?1:0;
             if ($delete_class) {
-                $check_class_used = $this->Common_modal->checkUsedForDelete('class_id','student_class','class_id',$class_id);
                 $check_class_used_for_tcrs = $this->Common_modal->checkUsedForDelete('class_id','classsec_for_teacher','class_id',$class_id);
-                if ($check_class_used) {
-                    if ($check_class_used_for_tcrs) {
-                        $class_delete = $this->Common_modal->delete('class','class_id',$class_id);
-                        if ($class_delete) {
-                            $this->Common_modal->delete('class_section','class_id',$class_id);
-                            $this->Common_modal->delete('class_subjects','class_id',$class_id);
-                            $message = array("status" => "success","message" => "institute deleted successfully.");
-                        }else{
-                            throw new Exception("Unable to delete this institute.");
-                        }
-                    }else {
-                        throw new Exception("Teachers are assigned to this institute.");
+                if ($check_class_used_for_tcrs) {
+                    $class_delete = $this->Common_modal->delete('class','class_id',$class_id);
+                    if ($class_delete) {
+                        $this->Common_modal->delete('class_subjects','class_id',$class_id);
+                        $message = array("status" => "success","message" => "institute deleted successfully.");
+                    }else{
+                        throw new Exception("Unable to delete this institute.");
                     }
-                }else{
-                    throw new Exception("Students are in this institute.");
+                }else {
+                    throw new Exception("Teachers are assigned to this institute.");
                 }
             }else {
                 throw new Exception("You don't have the permission to delete institute.");
@@ -265,17 +259,12 @@ class Academic extends Admin_Controller{
             $delete_ = $this->Admin_modal->isAccessRightGiven($group_id,63)?1:0;
             if ($delete_) {
                 $check_used = $this->Common_modal->checkUsedForDelete('class_id','subject_assign','class_id',$class_id);
-                $check_used_ = $this->Common_modal->checkUsedForDelete('class_id','class_routine_head','class_id',$class_id);
                 if ($check_used) { 
-                    if ($check_used_) {
-                        $_delete = $this->Common_modal->delete('class_subjects','class_id',$class_id);
-                        if ($_delete) { 
-                            $msg = array("status" => "success","message" => "Institute circle deleted successfully.");
-                        }else{
-                            throw new Exception("Unable to delete this institute circle.");
-                        }
+                    $_delete = $this->Common_modal->delete('class_subjects','class_id',$class_id);
+                    if ($_delete) { 
+                        $msg = array("status" => "success","message" => "Institute circle deleted successfully.");
                     }else{
-                        throw new Exception("This institute circle is used in the class routine.");
+                        throw new Exception("Unable to delete this institute circle.");
                     }
                 }else{
                     throw new Exception("This institute circle is assigned to the teacher.");

@@ -23,14 +23,26 @@
                     <h3 class="m-t-0 m-b-5">Student Management</h3>
                 </div>
                 <div class="panel-body">
+                    <h5>FILTER STUDENTS</h5>
                     <div class="row">
-                        <div class="col-sm-6 col-md-6">
+                        <div class="col-sm-4 col-md-4">
                             <div class="form-group">
-                                <label for="class_id" class="control-label">Class</label>
-                                <select id="class_id" name="class_id" class="form-control" data-plugin="select2" onchange="filterStudents();">
+                                <label for="class_id" class="control-label">Institute</label>
+                                <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" onchange="filterStudents();">
                                     <option></option>
-                                    <?php foreach ($loadclass as $row ) {?>
+                                    <?php foreach ($loadInstitutes as $row ) {?>
                                     <option value="<?=$row->class_id?>"><?=$row->class_name?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-4">
+                            <div class="form-group">
+                                <label for="city_id" class="control-label">City</label>
+                                <select id="city_id" name="city_id" class="form-control" data-placeholder="Select a city" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
+                                    <option></option>
+                                    <?php foreach ($loadCities as $row ) {?>
+                                    <option value="<?=$row->city_id?>"><?=$row->city_name?> [ <?=$row->city_name_hebrew?> ]</option>
                                     <?php } ?>
                                 </select>
                             </div>
@@ -43,7 +55,7 @@
                                     <th></th>
                                     <th>Name</th>
                                     <th>Roll Number</th>
-                                    <th>Class</th>
+                                    <th>Institute</th>
                                     <th>Gender</th>
                                     <th>City</th>
                                     <th>Parent Name</th>
@@ -68,14 +80,17 @@
     <?php $this->load->view('includes/javascripts'); ?>
     <script src="<?=base_url()?>assets/js/forms-plugins.js"></script>
     <script type="text/javascript">
-        $('#table-1').DataTable();
+        $(document).ready(function(){
+            $('#table-1').DataTable();
 
-        $('.table-responsive').on('show.bs.dropdown', function () {
-            $('.table-responsive').css("overflow", "inherit");
-        });
+            $('.table-responsive').on('show.bs.dropdown', function () {
+                $('.table-responsive').css("overflow", "inherit");
+            });
 
-        $('.table-responsive').on('hide.bs.dropdown', function () {
-            $('.table-responsive').css("overflow", "auto");
+            $('.table-responsive').on('hide.bs.dropdown', function () {
+                $('.table-responsive').css("overflow", "auto");
+            });
+            filterStudents();
         });
 
         $("#class_id").select2({
@@ -85,11 +100,12 @@
 
         function filterStudents() {
             var class_id = $('#class_id option:selected').val();
+            var city_id = $('#city_id option:selected').val();
             var sts = '';
             $.ajax({
                 type: "POST",
                 url: "<?=base_url()?>filter-students",
-                data: 'class_id='+class_id+'&status='+sts,
+                data: {class_id,city_id},
                 success: function(result){
                     var resp = $.parseJSON(result);
                     var html = '';
@@ -122,11 +138,11 @@
                             status_action = 'disabled';
                         }
                         var base_url = '<?=base_url();?>'; 
-                        var img = 'user_default.png';
-                        if (resp[i].user_pic!=null && resp[i].user_pic!='') {
-                            img = 'staff/'+resp[i].user_pic+'-thu.'+resp[i].extension;
+                        var img = 'user_default.jpg';
+                        if (resp[i].photo_path!=null && resp[i].photo_path!='') {
+                            img = 'students/'+resp[i].photo_path+'-thu.'+resp[i].extension;
                         }else{
-                            img = 'user_default.png';
+                            img = 'user_default.jpg';
                         }
 
                         html+='<tr id="userrow'+resp[i].user_id+'">'+
@@ -135,7 +151,7 @@
                                 '<td>'+resp[i].role_number+'</td>'+
                                 '<td>'+resp[i].class_name+'</td>'+
                                 '<td><span class="label label-outline-'+typecls+'">'+gender+'</span></td>'+
-                                '<td>'+resp[i].city_name_hebrew+'</td>'+
+                                '<td>'+resp[i].city_name+' [ '+resp[i].city_name_hebrew+' ]</td>'+
                                 '<td>'+resp[i].parent_name+'</td>'+
                                 '<td>'+resp[i].parent_phone+'</td>'+
                                 '<td>'+resp[i].parent_email+'</td>'+

@@ -24,6 +24,9 @@ class ExternalUsers extends Admin_Controller {
             $data['edit_student']= $this->Admin_modal->isAccessRightGiven($group_id,115) ? 1 : 0;
             $data['changeStatus']= $this->Admin_modal->isAccessRightGiven($group_id,116) ? 1 : 0;
             $data['delete_student']= $this->Admin_modal->isAccessRightGiven($group_id,117) ? 1 : 0;
+
+            $data['loadInstitutes'] = $this->Common_modal->getAll('class');
+            $data['loadCities'] = $this->Common_modal->getAll('cities');
             $this->load->view('students',$data);
 
         } catch (Exception $ex) {
@@ -33,8 +36,14 @@ class ExternalUsers extends Admin_Controller {
 
     public function filterStudents() {
         $class_id = $this->input->post('class_id');
-        $status = $this->input->post('status');
-        $result = $this->Student_model->filter_students($class_id,$status);
+        $city_id = $this->input->post('city_id');
+
+        $data = array(
+            'class_id' => $class_id,
+            'city_id' => $city_id
+        );
+
+        $result = $this->ExternalUser_model->filter_students($data);
         echo json_encode($result);
     }
 
@@ -47,7 +56,7 @@ class ExternalUsers extends Admin_Controller {
             $data['type']='Add';
             if (isset($_POST['user_id'])){
                 if ($_edit) {
-                    $data['user']= []; //$this->Admin_modal->getUserDetail($this->input->post('user_id'));
+                    $data['user']= $this->ExternalUser_model->get_student_detail($this->input->post('user_id'));
                     $data['type']='Update';
                 }else{
                     throw new Exception("You don't have the permissoin to update student.");
@@ -251,6 +260,27 @@ class ExternalUsers extends Admin_Controller {
             $message = array("status" => "error","message" => $ex->getMessage());
         }
         echo json_encode($message);
+    }
+
+    public function removeStudentLogo() {
+        try {
+            $user_id = $this->input->post('user_id');
+            $get_image = $this->Common_modal->getTableSinglePhoto('external_users',$user_id);;
+            if ($get_image->photo_path != '' && $get_image->photo_path != null) {
+                $folder = $this->folder."/photos/students/";
+                $imagename = $get_image->photo_path;
+                $imgExt = array('big','std','thu'); 
+                foreach ($imgExt as $value) {
+                    $imagename = $get_image->photo_path.'-'.$value.'.'.$get_image->extension;
+                    unlink( $folder . $imagename );
+                }
+                $this->Common_modal->delete('photo','pid',$get_image->pid);
+                $msg = array('status' => 'success', 'message' => 'Profile Picture removed successfully.','imgpath' => base_url().'photos/user_default.png');
+            }
+        } catch (Exception $ex) {
+            $msg = array('status' => 'error', 'message' => $ex->getMessage());
+        }
+        echo json_encode($msg);
     }
 
     # Instructors
