@@ -130,15 +130,17 @@
                             status = 'checked="checked"';
                         }
 
-                        var status_change = '<?=$changeStatus?>'; 
-                        var status_action = '';
-                        if (status_change == 1) {
+                        const status_change = '<?=$changeStatus?>'; 
+                        const myId = '<?=$this->session->userdata['staff_logged_in']['user_id']?>';
+
+                        let status_action = '';
+                        if (status_change == 1 && myId != resp[i].user_id) {
                             status_action = 'onchange="updateUserStatus('+resp[i].user_id+');"';
                         }else{
                             status_action = 'disabled';
                         }
-                        var base_url = '<?=base_url();?>'; 
-                        var img = 'user_default.jpg';
+                        const base_url = '<?=base_url();?>'; 
+                        let img = 'user_default.jpg';
                         if (resp[i].photo_path!=null && resp[i].photo_path!='') {
                             img = 'students/'+resp[i].photo_path+'-thu.'+resp[i].extension;
                         }else{
@@ -190,7 +192,7 @@
         function updateUserStatus(id) {
             $.ajax({
                 type: "POST",
-                url: "<?=base_url()?>updateUserStatus",
+                url: "<?=base_url()?>update-student-status",
                 data: 'user_id=' + id,
                 success: function (result) {
                     var responsedata = $.parseJSON(result);
@@ -251,25 +253,6 @@
 
             document.body.appendChild(form);
             form.submit();
-        }
-
-        const updateLoginAccess = (id, accessGroup) => {
-            $.ajax({
-            type: "POST",
-            url: "<?=base_url()?>update-login-access",
-            data: 'user_id='+id+"&accessGroup="+accessGroup,
-            success: function(result) {
-                var resp = $.parseJSON(result);
-                if (resp.status=='success') {
-                toastr.success(resp.message)
-                }else{
-                toastr.error(resp.message)
-                }
-            },
-            error: function(result) {
-                toastr.error("Somthing went wrong :(")
-            }
-            });
         }
     </script>
 </body>

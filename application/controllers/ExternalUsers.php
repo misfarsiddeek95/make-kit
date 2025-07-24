@@ -283,6 +283,37 @@ class ExternalUsers extends Admin_Controller {
         echo json_encode($msg);
     }
 
+    public function updateStudentStatus() {
+        try{
+            $user_id= $this->input->post('user_id');
+            $result = $this->Common_modal->getAllWhere('external_users','id',$user_id);
+            $myUserId = $this->session->userdata['staff_logged_in']['user_id'];
+            if ($user_id == $myUserId) {
+                throw new Exception("Unable to off your own status.");
+            }
+            if ($result) {
+                if ($result->status==0) {
+                    $data['status']=1;
+                }else{
+                    $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+                    $ChangeStatus= $this->Admin_modal->isAccessRightGiven($group_id,116) ? 1 : 0;
+                    if ($ChangeStatus) {
+                        $data['status']=0;
+                    }else{
+                        throw new Exception("You don't have the permissoin to change status.");
+                    }
+                }
+                $this->Common_modal->update('id',$user_id,'external_users',$data);
+                $message = array("status" => "success","message" => "Status updated successfully.");
+            }else{
+                throw new Exception("Something went wrong. Please try again.");
+            }
+        }catch(Exception $ex){
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
     # Instructors
     public function instructors(){
         try {

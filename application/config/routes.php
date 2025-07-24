@@ -162,6 +162,7 @@ $route['load-intitute-circles'] = 'ExternalUsers/loadInstituteCircles';
 $route['load-subject-instructor'] = 'ExternalUsers/loadSubjectInstructor';
 $route['register-student'] = 'ExternalUsers/registerStudent';
 $route['remove-student-picture'] = 'ExternalUsers/removeStudentLogo';
+$route['update-student-status'] = 'ExternalUsers/updateStudentStatus';
 
 # Circles
 $route['saveSubject'] = 'Academic/saveSubject';
