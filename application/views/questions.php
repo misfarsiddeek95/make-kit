@@ -262,6 +262,38 @@
             }); 
         } 
 
+        function deleteQuestion(id) {
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this question?',{
+                closeButton: true,
+                allowHtml: true,
+                onShown: function (toast) {
+                    $("#confirmBtn").click(function(){
+                        $.ajax({
+                            type: "POST",
+                            url: "<?=base_url()?>delete-question",
+                            data: 'que_id='+id,
+                            success: function(result) {
+                                var resp = $.parseJSON(result);
+                                if (resp.status=='success') {
+                                    var table = $('.this-table').DataTable();
+                                    table.row('#rowId'+id).remove().draw( false );
+                                    toastr.success(resp.message)
+                                }else{
+                                    toastr.error(resp.message)
+                                }
+                            },
+                            error: function(result) {
+                                toastr.error("Somthing went wrong :(")
+                            }
+                        });
+                    });
+                    $("#closeBtn").click(function(){
+                        toastr.clear()
+                    });
+                }
+            });
+        }
+
     </script>
 </body>
 
