@@ -94,7 +94,7 @@
         });
 
         $("#class_id").select2({
-            placeholder: "Select a class",
+            placeholder: "Select a institute",
             allowClear: true
         });
 
