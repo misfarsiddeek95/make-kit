@@ -189,3 +189,13 @@ $route['delete-class-teacher'] = 'Academic/deleteClassTeacher';
 # Assign Circle for Instructors
 $route['saveAssignedSubject'] = 'Academic/saveAssignedSubject';
 $route['delete-assigned-subject'] = 'Academic/deleteAssignedSubject';
+
+# Questionnaire
+$route['add-question'] = 'Questionnaire/addQuestion';
+$route['edit-question'] = 'Questionnaire/addQuestion';
+$route['load-class-subjects'] = 'Questionnaire/loadClassSubjects';
+$route['save-questions'] = 'Questionnaire/saveQuestions';
+$route['upload-questionaire-image'] = 'Questionnaire/uploadQuestionaireImage';
+$route['remove-questionaire-image'] = 'Questionnaire/removeQuestionaireImage';
+$route['view-question/(:any)/(:any)/(:num)'] = 'Questionnaire/viewQuestion/$3';
+$route['delete-question'] = 'Questionnaire/deleteQuestion';

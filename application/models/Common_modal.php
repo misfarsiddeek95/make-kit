@@ -360,5 +360,17 @@ class Common_modal extends CI_Model {
           return false;
         }
     }
+
+    function getImagesMultiIds($table,$field,$ids){
+        $this->db->select('*');
+        $this->db->from("photo");
+        $this->db->where("table", $table);
+        $this->db->where("field", $field);
+        $this->db->where_in("field_id", $ids);
+        $this->db->where("status", 1);
+        $this->db->order_by("photo_order", "asc"); 
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
 
