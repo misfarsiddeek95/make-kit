@@ -101,10 +101,10 @@
                                                 <tr>
                                                     <th>#</th>
                                                     <th>Question</th> 
-                                                    <th>Question Type</th>
-                                                    <th>Class</th> 
-                                                    <th>Term</th> 
-                                                    <th>Subject</th> 
+                                                    <th>Q Type</th>
+                                                    <th>Institute</th> 
+                                                    <th>Point Type</th> 
+                                                    <th>Circle</th> 
                                                     <th>Question By</th>
                                                     <th style="text-align: center; width:1%;">Img</th>
                                                     <?php if($view || $edit || $delete) { ?>
