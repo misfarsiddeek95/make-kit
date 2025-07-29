@@ -35,6 +35,8 @@
                       <th></th>
                       <th>ID</th>
                       <th>Category</th>
+                      <th>Category Second Title</th>
+                      <th>Category URL</th>
                       <th>Tree</th>
                       <th>View Count</th>
                       <th>Status</th>
@@ -59,6 +61,8 @@
                       <td><img class="img-rounded" src="<?=base_url();?>photos/<?=$img?>" alt="<?=$row->photo_title;?>" height="32"></td>
                       <td><?=$row->cate_id;?></td>
                       <td><?=$row->category;?></td>
+                      <td><?=$row->category_second_title;?></td>
+                      <td><?=$row->seo_url;?></td>
                       <td><?=$row->tree_path;?></td>
                       <td><?=$row->view_count ;?></td>
                       <td><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" <?=$status;?> <?php if ($changeStatus) {echo 'onchange="updateCateStatus('.$row->cate_id.');"';}else{echo "disabled";}?> ></td>
@@ -209,10 +213,34 @@
                   <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Category</label>
+                  <label for="category" class="control-label">Category</label>
                   <input type="text" class="form-control" id="category" name="category" placeholder="Category" data-required-error="Category is Required" required>
                   <div class="help-block with-errors"></div>
                 </div>
+
+                <div class="form-group">
+                  <label for="category_second_title" class="control-label">Category Second Title</label>
+                  <input type="text" class="form-control" id="category_second_title" name="category_second_title" placeholder="Category second title" />
+                  <div class="help-block with-errors"></div>
+                </div>
+
+                <div class="form-group">
+                  <label for="seoUrl" class="control-label">SEO Url</label>
+                  <div class="row">
+                    <div class="col-sm-6" id="seo_url_col">
+                      <input class="form-control" type="text"
+                        value=""
+                        placeholder="SEO url" id="seoUrl" name="seo_url" required
+                        data-required-error="SEO Url is required." onkeyup="getSeoUrl(this.value);">
+                    </div>
+                    <div class="col-sm-6 col-md-3" id="urlEditable">
+                        <button type="button" class="btn btn-info btn-block" id="urlEdit" onclick="enableFieldEdit('1','seoUrl','urlEdit');"><i class="zmdi zmdi-edit"></i></button>
+                    </div>
+                    <div id="ex_url"></div>
+                  </div>
+                  <div class="help-block with-errors"></div>
+                </div>
+
               </div>
               <div class="modal-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
@@ -395,15 +423,60 @@
         $("#catSelect").show();
         $('#category').val("");
         $("#cate_id").val(0);
+
+        $('#seo_url_col').removeClass('col-md-9').addClass('col-md-12');
+        $('#seoUrl').removeAttr('disabled');
+        $('#urlEditable').hide();
       }
 
       function editCat(id) {
-        var category = $("#catRow"+id).find("td:eq(2)").text();
+        const category = $("#catRow"+id).find("td:eq(2)").text();
+        const cateSecondTitle = $("#catRow"+id).find("td:eq(3)").text();
+        const cateSeoUrl = $("#catRow"+id).find("td:eq(4)").text();
+
         $('#modal-title').text('Update Category');
         $("#catSelect").hide();
         $("#cate_id").val(id);
         $('#category').val(category);
+        $('#category_second_title').val(cateSecondTitle);
+
+        $('#seo_url_col').removeClass('col-md-12').addClass('col-md-9');
+        $('#seoUrl').val(cateSeoUrl).attr('disabled','disabled');
+        $('#urlEditable').show();
+
         $("#otherModal3").modal('show');
+      }
+
+      function getSeoUrl(value) {
+        var slug = slugifyUrl(value);
+        $('#seoUrl').val(slug);
+      }
+
+      $('#seoUrl').change(function() {
+        $.post( "<?=base_url()?>check-url-exist", { seourl: $("#seoUrl").val(),tbl:'categories' }, function (data){
+          var resp = $.parseJSON(data);  
+          if (resp == 1) {
+            $('#ex_url').text('SEO Url already exists. Try another.');
+            $('#ex_url').css({"display": "inline", "color": "red"});
+          }else{
+            $('#ex_url').text('');
+            $('#ex_url').css({"display": "none"});
+          }
+        });
+      });
+
+      function enableFieldEdit(action,fieldId,myId) {
+        if (action == 1) {
+          $('#'+fieldId).removeAttr('disabled');
+          $('#'+myId).attr('onclick','enableFieldEdit("0","'+fieldId+'","'+myId+'")');
+          $('#'+myId).html('<i class="zmdi zmdi-close"></i>');
+          $('#'+myId).removeClass('btn-info').addClass('btn-danger');
+        }else{
+          $('#'+fieldId).attr('disabled','disabled');
+          $('#'+myId).attr('onclick','enableFieldEdit("1","'+fieldId+'","'+myId+'")');
+          $('#'+myId).html('<i class="zmdi zmdi-edit"></i>');
+          $('#'+myId).removeClass('btn-danger').addClass('btn-info');
+        }
       }
 
       function deleteCat(id) {

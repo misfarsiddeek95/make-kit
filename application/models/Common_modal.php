@@ -361,6 +361,19 @@ class Common_modal extends CI_Model {
         }
     }
 
+    public function check_value_exist($table,$field,$value) {
+        $this->db->select('*');
+        $this->db->from($table);
+        $this->db->where($field,$value);
+        $this->db->limit(1);
+        $q = $this->db->get();
+        if ($q->num_rows()==1) {
+            return 1;	
+        }else{
+            return 0;
+        }
+    }
+
     function getImagesMultiIds($table,$field,$ids){
         $this->db->select('*');
         $this->db->from("photo");

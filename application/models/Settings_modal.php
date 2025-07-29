@@ -16,7 +16,7 @@ class Settings_modal extends CI_Model {
 
     function getCategories()
     {
-        $this->db->select('q.pid,q.photo_path,q.photo_title,c.cate_id,c.parent_id,c.category,c.tree_path,c.status,c.view_count');
+        $this->db->select('q.pid,q.photo_path,q.photo_title,c.cate_id,c.parent_id,c.category,c.tree_path,c.status,c.view_count,c.category_second_title,c.seo_url');
         $this->db->from('categories c');
 
         $this->db->where("q.table='categories' OR q.table is NULL AND q.status='0' OR q.status is NULL");

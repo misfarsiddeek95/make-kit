@@ -107,6 +107,7 @@ class Settings extends Admin_Controller {
             $cate_id= $this->input->post('cate_id');
             $allCategories= $this->input->post('allCategories');
             $category= $this->input->post('category');
+            $category_second_title = $this->input->post('category_second_title');
 
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $add_cat= $this->Admin_modal->isAccessRightGiven($group_id,24)?0:1;
@@ -115,6 +116,18 @@ class Settings extends Admin_Controller {
 
             $data = array();
             $data['category']= $category;
+            $data['category_second_title']= $category_second_title;
+
+            if (isset($_POST['seo_url'])) {
+                $seoUrl = $this->input->post('seo_url');
+                $checkUrlExist = $this->Common_modal->check_value_exist('categories','seo_url',$seoUrl);
+                if ($checkUrlExist) {
+                    throw new Exception("SEO Url already exists. Please try another.");
+                }else{
+                    $data['seo_url'] = $seoUrl;
+                }
+            }
+
             if ($cate_id==0) {
                 if ($add_cat) {
                     throw new Exception("You don't have the permissoin to add categories.");
@@ -1150,6 +1163,13 @@ class Settings extends Admin_Controller {
             $message = array("status" => "error","message" => $ex->getMessage());
         }
         echo json_encode($message);
+    }
+
+    public function checkUrlExist() {
+        $seourl = $this->input->post('seourl');
+        $table = $this->input->post('tbl');
+		$res = $this->Common_modal->check_value_exist($table,'seo_url',$seourl);
+		echo json_encode($res);
     }
 
 }
