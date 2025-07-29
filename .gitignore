@@ -5,7 +5,7 @@ photos/*
 !photos/*
 
 # Ignore all subdirectories and their contents within the photos directory
-
+photos/*/*
 
 # Node artifact files
 node_modules/
