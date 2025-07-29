@@ -109,7 +109,7 @@
 
                   <div class="form-group">
                     <label for="form-control-3" class="control-label">Second Title</label>
-                    <input type="text" pattern="^[a-zA-Z0-9.@ -.,]*$" value="<?php if(!(empty($page))){echo($page->second_title);} ?>" placeholder="Second Title" id="secondTitle" name="secondTitle" class="form-control" data-minlength="3" data-pattern-error="Invalid Second Title" data-error="Minimum of 3 characters">
+                    <input type="text" pattern="^[a-zA-Z 0-9 .&+-]*$" value="<?php if(!(empty($page))){echo($page->second_title);} ?>" placeholder="Second Title" id="secondTitle" name="secondTitle" class="form-control" data-minlength="3" data-pattern-error="Invalid Second Title" data-error="Minimum of 3 characters">
                     <div class="help-block with-errors"></div>
                   </div>
 
