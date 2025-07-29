@@ -44,7 +44,7 @@
                 <?php } ?>
                 <div class="col-sm-8">
                   <div class="p-title">
-                    <h3 class="m-y-0"><?=$question_detail->question?></h3>
+                    <h3 class="m-y-0"><?=$question_detail->question?></h3> x
                   </div>
                   <div class="p-text">
                     <?php 
