@@ -236,6 +236,17 @@ class Products extends Admin_Controller {
                 $type = 'save';
                 $pro_id=0;
                 $pro_array['added_date'] = $date;
+
+                $slugBase = url_title($proName, '-', true);
+                $slugUrl = $slugBase;
+                $counter = 1;
+
+                // Loop to find a unique slug
+                while ($this->Common_modal->check_value_exist('products', 'slug_url', $slugUrl)) {
+                    $slugUrl = $slugBase . '-' . $counter;
+                    $counter++;
+                }
+                $pro_array['slug_url'] = $slugUrl;
             }
             $result = $this->Product_modal->save_product($pro_id,$attribute,$multiAttr,$pro_array,$proCate,$other_cates,$delete,$dscrates,$item_count);
             if (!(empty($result['sub_pro_ids']))) {
