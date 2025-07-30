@@ -315,7 +315,7 @@ class Products extends Admin_Controller {
 
                     if (!@move_uploaded_file ($_FILES['file']['tmp_name'],$img_org)) die ('Can not upload original file...');
 
-                    if (pathinfo($PhotoFileName, PATHINFO_EXTENSION)=='png') {
+                    /* if (pathinfo($PhotoFileName, PATHINFO_EXTENSION)=='png') {
                         $image = imagecreatefrompng($img_org);
                         $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
                         imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
@@ -325,7 +325,46 @@ class Products extends Admin_Controller {
                         $quality = 100; // 0 = worst / smaller file, 100 = better / bigger file 
                         imagejpeg($bg, $img_org, $quality);
                         imagedestroy($bg);
-                    }
+                    } */
+
+                    if (pathinfo($PhotoFileName, PATHINFO_EXTENSION) == 'png') {
+                        $image = imagecreatefrompng($img_org);
+                    
+                        // Check if image has alpha channel (transparency)
+                        $hasAlpha = false;
+                        $width = imagesx($image);
+                        $height = imagesy($image);
+                        for ($x = 0; $x < $width; $x++) {
+                            for ($y = 0; $y < $height; $y++) {
+                                $rgba = imagecolorat($image, $x, $y);
+                                $alpha = ($rgba & 0x7F000000) >> 24;
+                                if ($alpha > 0) {
+                                    $hasAlpha = true;
+                                    break 2; // break both loops
+                                }
+                            }
+                        }
+                    
+                        $bg = imagecreatetruecolor($width, $height);
+                    
+                        if ($hasAlpha) {
+                            // Preserve transparency
+                            imagealphablending($bg, false);
+                            imagesavealpha($bg, true);
+                            $transparent = imagecolorallocatealpha($bg, 0, 0, 0, 127);
+                            imagefilledrectangle($bg, 0, 0, $width, $height, $transparent);
+                        } else {
+                            // Fill with white if no transparency
+                            $white = imagecolorallocate($bg, 255, 255, 255);
+                            imagefilledrectangle($bg, 0, 0, $width, $height, $white);
+                        }
+                    
+                        imagecopy($bg, $image, 0, 0, 0, 0, $width, $height);
+                        imagedestroy($image);
+                    
+                        imagepng($bg, $img_org, 9); // Save final image
+                        imagedestroy($bg);
+                    }                    
 
                     $this->aayusmain->make_thumb($img_org,$img_big,100,1000,1000);
                     $this->aayusmain->make_thumb($img_org,$img_med,100,700,700);
