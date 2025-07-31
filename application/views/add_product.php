@@ -671,9 +671,9 @@
 					e.preventDefault();
 					run_waitMe('#inputmasks');
 					if (validate_checkbox()) {
-						/* $('#proDescription').html(tinymce.get('proDescription').getContent());
-						$('#proIngredients').html(tinymce.get('proIngredients').getContent());
-						$('#proUse').html(tinymce.get('proUse').getContent()); */
+						$('#proDescription').html(proDescription.getData());
+						$('#proIngredients').html(proIngredients.getData());
+						$('#proUse').html(proUse.getData());
 						$.ajax({
 							type: "POST",
 							url: "<?=base_url()?>saveProducts",
