@@ -321,9 +321,13 @@ class ExternalUsers extends Admin_Controller {
     public function updateStudentStatus() {
         try{
             $user_id= $this->input->post('user_id');
-            $result = $this->Common_modal->getAllWhere('external_users','id',$user_id);
+
             $myUserId = $this->session->userdata['staff_logged_in']['user_id'];
-            if ($user_id == $myUserId) {
+            $myGroup = $this->session->userdata['staff_logged_in']['group_id'];
+            
+            $result = $this->Common_modal->getAllWhere('external_users','id',$user_id);
+
+            if (($myGroup == $result->user_type && $user_id == $myUserId)) {
                 throw new Exception("Unable to off your own status.");
             }
             if ($result) {
