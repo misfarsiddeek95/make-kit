@@ -76,14 +76,14 @@
                                 <tr>
                                     <th></th>
                                     <th style="width:20%">Name</th>
-                                    <th>Roll Number</th>
+                                    <th>R. No</th>
                                     <th>Institute</th>
                                     <th>Gender</th>
                                     <th>City</th>
-                                    <th>Parent Name</th>
+                                    <th>P. Name</th>
                                     <th>Parent Phone</th>
                                     <th>Parent Email</th>
-                                    <th>Active Status</th>
+                                    <th>Status</th>
                                     <?php if($edit_student || $delete_student){ ?>
                                     <th style="text-align:right;width:10%">Options</th>
                                     <?php } ?>
