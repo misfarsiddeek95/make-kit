@@ -27,6 +27,10 @@ class ExternalUsers extends Admin_Controller {
 
             $data['loadInstitutes'] = $this->Common_modal->getAll('class');
             $data['loadCities'] = $this->Common_modal->getAll('cities');
+            $data['loadSubjects'] = $this->Common_modal->getAll('subjects');
+
+            $instructorConditions = array('su.access_group' => 2);
+            $data['loadInstructors'] = $this->Common_modal->get_all_selected_fields('su.user_id as teacher_id,CONCAT_WS(" ", su.fname, su.lname) AS teacher_name','staff_users su',$instructorConditions);
             $this->load->view('students',$data);
 
         } catch (Exception $ex) {
@@ -37,10 +41,14 @@ class ExternalUsers extends Admin_Controller {
     public function filterStudents() {
         $class_id = $this->input->post('class_id');
         $city_id = $this->input->post('city_id');
+        $teacher_id = $this->input->post('teacher_id');
+        $subject_id = $this->input->post('subject_id');
 
         $data = array(
             'class_id' => $class_id,
-            'city_id' => $city_id
+            'city_id' => $city_id,
+            'teacher_id' => $teacher_id,
+            'subject_id' => $subject_id
         );
 
         $result = $this->ExternalUser_model->filter_students($data);
@@ -209,15 +217,42 @@ class ExternalUsers extends Admin_Controller {
 
                     if (!@move_uploaded_file ($_FILES['fileUpload']['tmp_name'],$img_org)) throw new Exception('Can not upload original file...');
 
-                    if (pathinfo($PhotoFileName, PATHINFO_EXTENSION)=='png') {
+                    if (pathinfo($PhotoFileName, PATHINFO_EXTENSION) == 'png') {
                         $image = imagecreatefrompng($img_org);
-                        $bg = imagecreatetruecolor(imagesx($image), imagesy($image));
-                        imagefill($bg, 0, 0, imagecolorallocate($bg, 255, 255, 255));
-                        imagealphablending($bg, TRUE);
-                        imagecopy($bg, $image, 0, 0, 0, 0, imagesx($image), imagesy($image));
+                    
+                        // Check if image has alpha channel (transparency)
+                        $hasAlpha = false;
+                        $width = imagesx($image);
+                        $height = imagesy($image);
+                        for ($x = 0; $x < $width; $x++) {
+                            for ($y = 0; $y < $height; $y++) {
+                                $rgba = imagecolorat($image, $x, $y);
+                                $alpha = ($rgba & 0x7F000000) >> 24;
+                                if ($alpha > 0) {
+                                    $hasAlpha = true;
+                                    break 2; // break both loops
+                                }
+                            }
+                        }
+                    
+                        $bg = imagecreatetruecolor($width, $height);
+                    
+                        if ($hasAlpha) {
+                            // Preserve transparency
+                            imagealphablending($bg, false);
+                            imagesavealpha($bg, true);
+                            $transparent = imagecolorallocatealpha($bg, 0, 0, 0, 127);
+                            imagefilledrectangle($bg, 0, 0, $width, $height, $transparent);
+                        } else {
+                            // Fill with white if no transparency
+                            $white = imagecolorallocate($bg, 255, 255, 255);
+                            imagefilledrectangle($bg, 0, 0, $width, $height, $white);
+                        }
+                    
+                        imagecopy($bg, $image, 0, 0, 0, 0, $width, $height);
                         imagedestroy($image);
-                        $quality = 100; // 0 = worst / smaller file, 100 = better / bigger file 
-                        imagejpeg($bg, $img_org, $quality);
+                    
+                        imagepng($bg, $img_org, 9); // Save final image
                         imagedestroy($bg);
                     }
 
@@ -307,6 +342,43 @@ class ExternalUsers extends Admin_Controller {
                 $message = array("status" => "success","message" => "Status updated successfully.");
             }else{
                 throw new Exception("Something went wrong. Please try again.");
+            }
+        }catch(Exception $ex){
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
+    public function deleteStudent() {
+        try{
+            $user_id = $this->input->post('user_id');
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+
+            $can_delete = $this->Admin_modal->isAccessRightGiven($group_id,117) ? 0 : 1;
+            if ($can_delete) { 
+                throw new Exception("You don't have the permissoin to delete students.");
+            }
+            
+            $_deleted = $this->Common_modal->delete('external_users','id',$user_id);
+            if ($_deleted) {
+                $this->Common_modal->delete_with_multiple_conditions('addresses',array('user_type' => 2, 'user_id' => $user_id));
+
+                $photos = $this->Common_modal->getTablePhotos('external_users',$user_id);
+                if ($photos) {
+                    $folder = $this->folder."/photos/students/";
+                    foreach ($photos as $row) {
+                        $this->Common_modal->delete('photo','pid',$row->pid);
+
+                        $imgExt = array('big','std','thu');
+                        foreach ($imgExt as $value) {
+                            $imagename = $row->photo_path.'-'.$value.'.'.$row->extension;
+                            if($imagename) {
+                                unlink( $folder . $imagename);
+                            }
+                        }
+                    }
+                }
+                $message = array("status" => "success","message" => "Student deleted successfully.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());

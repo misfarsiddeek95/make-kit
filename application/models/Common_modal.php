@@ -7,6 +7,19 @@ class Common_modal extends CI_Model {
 		$query = $this->db->get();
 		return $query->result();
 	}
+
+    function get_all_selected_fields($fields,$table,$condtions=[]){
+		$this->db->select($fields);
+		$this->db->from($table);
+        if (!empty($condtions)) {
+            foreach ($condtions as $key => $value) {
+                $this->db->where($key, $value);
+            }
+        }
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	function insert($table,$data){
 		$this->db->insert($table, $data); 
 		return  $this->db->insert_id();
@@ -43,6 +56,19 @@ class Common_modal extends CI_Model {
             return false;
         }
     }
+
+    function delete_with_multiple_conditions($table,$condtions) {
+        foreach ($condtions as $key => $value) {
+            $this->db->where($key, $value);
+        }
+        $this->db->delete($table);
+        if($this->db->affected_rows()>0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
 	function getAllWhere($table,$idName,$val){
         $this->db->select('*'); 
         $this->db->from($table);

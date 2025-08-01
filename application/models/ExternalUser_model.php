@@ -2,13 +2,19 @@
 class ExternalUser_model extends CI_Model {
 	
     public function filter_students($data){
-        $this->db->select('eu.id as user_id,eu.name,eu.role_number,eu.gender,eu.parent_name,eu.parent_phone,eu.parent_email,eu.status,ct.city_name,ct.city_name,ct.city_name_hebrew,p.photo_path,p.extension,c.class_name');
+        $this->db->select('eu.id as user_id,eu.name,eu.role_number,eu.user_type,eu.gender,eu.parent_name,eu.parent_phone,eu.parent_email,eu.status,ct.city_name,ct.city_name,ct.city_name_hebrew,p.photo_path,p.extension,c.class_name');
         $this->db->from('external_users eu');
         if ($data['class_id'] != '') {
             $this->db->where('eu.class_id',$data['class_id']);
         }
         if ($data['city_id'] != '') {
             $this->db->where('eu.city_id',$data['city_id']);
+        }
+        if ($data['teacher_id'] != '') {
+            $this->db->where('eu.instructor_id',$data['teacher_id']);
+        }
+        if ($data['subject_id'] != '') {
+            $this->db->where('eu.subject_id',$data['subject_id']);
         }
         $this->db->join('class c','c.class_id=eu.class_id');
         $this->db->join('cities ct','ct.city_id=eu.city_id', 'left outer');

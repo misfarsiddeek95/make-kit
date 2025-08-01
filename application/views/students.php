@@ -25,7 +25,7 @@
                 <div class="panel-body">
                     <h5>FILTER STUDENTS</h5>
                     <div class="row">
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-4 col-md-3">
                             <div class="form-group">
                                 <label for="class_id" class="control-label">Institute</label>
                                 <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" onchange="filterStudents();">
@@ -36,7 +36,29 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-4">
+                        <div class="col-sm-4 col-md-3">
+                            <div class="form-group">
+                                <label for="subject_id" class="control-label">Circle</label>
+                                <select id="subject_id" name="subject_id" class="form-control" data-placeholder="Select a circle" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
+                                    <option></option>
+                                    <?php foreach ($loadSubjects as $row ) {?>
+                                    <option value="<?=$row->sub_id?>"><?=$row->subject_name?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3">
+                            <div class="form-group">
+                                <label for="teacher_id" class="control-label">Instructor</label>
+                                <select id="teacher_id" name="teacher_id" class="form-control" data-placeholder="Select an instructor" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
+                                    <option></option>
+                                    <?php foreach ($loadInstructors as $row ) {?>
+                                    <option value="<?=$row->teacher_id?>"><?=$row->teacher_name?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-4 col-md-3">
                             <div class="form-group">
                                 <label for="city_id" class="control-label">City</label>
                                 <select id="city_id" name="city_id" class="form-control" data-placeholder="Select a city" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
@@ -53,7 +75,7 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th>Name</th>
+                                    <th style="width:20%">Name</th>
                                     <th>Roll Number</th>
                                     <th>Institute</th>
                                     <th>Gender</th>
@@ -63,7 +85,7 @@
                                     <th>Parent Email</th>
                                     <th>Active Status</th>
                                     <?php if($edit_student || $delete_student){ ?>
-                                    <th style="text-align:right;">Options</th>
+                                    <th style="text-align:right;width:10%">Options</th>
                                     <?php } ?>
                                 </tr>
                             </thead>
@@ -81,7 +103,10 @@
     <script src="<?=base_url()?>assets/js/forms-plugins.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
-            $('#table-1').DataTable();
+            // Initialize DataTable only once
+            if (!$.fn.DataTable.isDataTable('#table-1')) {
+                $('#table-1').DataTable();
+            }
 
             $('.table-responsive').on('show.bs.dropdown', function () {
                 $('.table-responsive').css("overflow", "inherit");
@@ -99,95 +124,76 @@
         });
 
         function filterStudents() {
-            var class_id = $('#class_id option:selected').val();
-            var city_id = $('#city_id option:selected').val();
-            var sts = '';
+            var class_id = $('#class_id').val();
+            var city_id = $('#city_id').val();
+            var teacher_id = $('#teacher_id').val();
+            var subject_id = $('#subject_id').val();
+
             $.ajax({
                 type: "POST",
                 url: "<?=base_url()?>filter-students",
-                data: {class_id,city_id},
-                success: function(result){
+                data: { class_id, city_id, teacher_id, subject_id },
+                success: function (result) {
                     var resp = $.parseJSON(result);
-                    var html = '';
-                    for (let i = 0; i < resp.length; i++) { 
-                        var gender = '';
-                        var typecls = '';
+                    var table = $('#table-1').DataTable();
 
-                        if (resp[i].gender==0) {
-                            gender = 'Female';
-                            typecls = 'primary';
-                        } else if(resp[i].gender==1){
-                            gender = 'Male';
-                            typecls = 'success';
-                        }else{
-                            gender = 'Other';
-                            typecls = 'warning';
-                        }
+                    table.clear(); // Remove existing rows
 
-                        var access_group = resp[i].group_desc;
-                        var status = '';
-                        if (resp[i].status == 1) {
-                            status = 'checked="checked"';
-                        }
+                    for (let i = 0; i < resp.length; i++) {
+                        let row = resp[i];
 
-                        const status_change = '<?=$changeStatus?>'; 
+                        let gender = 'NOT DISCLOSED';
+                        let typecls = 'danger';
+                        if (row.gender == 0) { gender = 'Female'; typecls = 'primary'; }
+                        else if (row.gender == 1) { gender = 'Male'; typecls = 'success'; }
+                        else if (row.gender == 2) { gender = 'Other'; typecls = 'warning'; }
+
+                        let img = row.photo_path ? 'students/' + row.photo_path + '-thu.' + row.extension : 'user_default.jpg';
+
+                        let status = row.status == 1 ? 'checked="checked"' : '';
+                        const status_change = '<?=$changeStatus?>';
                         const myId = '<?=$this->session->userdata['staff_logged_in']['user_id']?>';
+                        const myGroup = '<?=$this->session->userdata['staff_logged_in']['group_id']?>';
 
-                        let status_action = '';
-                        if (status_change == 1 && myId != resp[i].user_id) {
-                            status_action = 'onchange="updateUserStatus('+resp[i].user_id+');"';
-                        }else{
-                            status_action = 'disabled';
-                        }
-                        const base_url = '<?=base_url();?>'; 
-                        let img = 'user_default.jpg';
-                        if (resp[i].photo_path!=null && resp[i].photo_path!='') {
-                            img = 'students/'+resp[i].photo_path+'-thu.'+resp[i].extension;
-                        }else{
-                            img = 'user_default.jpg';
-                        }
+                        let status_action = (status_change == 1 && (myGroup != row.user_type || myId != row.user_id)) ? `onchange="updateUserStatus(${row.user_id})"` : 'disabled';
 
-                        html+='<tr id="userrow'+resp[i].user_id+'">'+
-                                '<td><img class="img-rounded" src="'+base_url+'photos/'+img+'" height="32"></td>'+
-                                '<td style="width:14%;">'+resp[i].name+'</td>'+
-                                '<td>'+resp[i].role_number+'</td>'+
-                                '<td>'+resp[i].class_name+'</td>'+
-                                '<td><span class="label label-outline-'+typecls+'">'+gender+'</span></td>'+
-                                '<td>'+resp[i].city_name+' [ '+resp[i].city_name_hebrew+' ]</td>'+
-                                '<td>'+resp[i].parent_name+'</td>'+
-                                '<td>'+resp[i].parent_phone+'</td>'+
-                                '<td>'+resp[i].parent_email+'</td>'+
-                                '<td>'+
-                                    '<label class="switch switch-success m-t-10">'+
-                                        '<input type="checkbox" class="s-input" '+status+' '+status_action+'>'+
-                                        '<span class="s-content">'+
-                                            '<span class="s-track"></span>'+
-                                            '<span class="s-handle"></span>'+
-                                        '</span>'+
-                                    '</label>'+
-                                '</td>';
-                                <?php if($edit_student || $delete_student){ ?>
-                                    html+= '<td align="right" style="width:14%;">';
-                                    <?php if($edit_student){ ?>
-                                        html += '<button type="button" class="btn btn-outline-primary btn-pill m-r-5" onclick="editUser('+resp[i].user_id+');"><i class="zmdi zmdi-edit"></i></button>'; 
-                                    <?php } if ($delete_student) { ?>
-                                        html += '<button type="button" class="btn btn-outline-danger btn-pill m-r-5" onclick="deleteUser('+resp[i].user_id+');"><i class="zmdi zmdi-delete"></i></button>';
-                                    <?php } ?>
-                                    html += '</td>';
-                                <?php } ?>
-                            html += '</tr>';
+                        let actionBtns = '';
+                        <?php if($edit_student){ ?>
+                            actionBtns += `<button type="button" class="btn btn-outline-primary btn-pill m-r-5" onclick="editUser(${row.user_id})"><i class="zmdi zmdi-edit"></i></button>`;
+                        <?php } ?>
+                        <?php if($delete_student){ ?>
+                            actionBtns += `<button type="button" class="btn btn-outline-danger btn-pill m-r-5" onclick="deleteMe(${row.user_id})"><i class="zmdi zmdi-delete"></i></button>`;
+                        <?php } ?>
+
+                        table.row.add([
+                            `<img class="img-rounded" src="<?=base_url()?>photos/${img}" height="32">`,
+                            row.name,
+                            row.role_number ?? '',
+                            row.class_name,
+                            `<span class="label label-outline-${typecls}">${gender}</span>`,
+                            `${row.city_name} [ ${row.city_name_hebrew} ]`,
+                            row.parent_name,
+                            row.parent_phone,
+                            row.parent_email,
+                            `<label class="switch switch-success m-t-10">
+                                <input type="checkbox" class="s-input" ${status} ${status_action}>
+                                <span class="s-content">
+                                    <span class="s-track"></span>
+                                    <span class="s-handle"></span>
+                                </span>
+                            </label>`,
+                            actionBtns
+                        ]).node().id = 'rowId' + row.user_id;
                     }
-                    $('#tbody_data').html(html);
-                    /* var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
-                    elems.forEach(function(htmls) { 
-                        var init = new Switchery(htmls, { size: 'small' });
-                    });  */
+
+                    table.draw();
                 },
-                error: function(result) {
-                    toastr.error('Error :'+result)
+                error: function (result) {
+                    toastr.error('Error :' + result);
                 }
             });
         }
+
 
         function updateUserStatus(id) {
             $.ajax({
@@ -208,36 +214,36 @@
             });
         }
 
-        function deleteUser(id) {
-            swal({
-                    title: "Are you sure?",
-                    text: "Your will not be able to recover this!",
-                    type: "warning",
-                    showCancelButton: true,
-                    confirmButtonClass: "btn-danger",
-                    confirmButtonText: "Yes, delete it!",
-                    closeOnConfirm: false
-                },
-                function () {
+        function deleteMe(id) {
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this student?',{
+                closeButton: true,
+                allowHtml: true,
+                onShown: function (toast) {
+                $("#confirmBtn").click(function(){
                     $.ajax({
                         type: "POST",
-                        url: "<?=base_url()?>deleteUser",
+                        url: "<?=base_url()?>delete-student",
                         data: 'user_id=' + id,
-                        success: function (result) {
+                        success: function(result) {
                             var responsedata = $.parseJSON(result);
-                            if (responsedata.status == 'success') {
+                            if (responsedata.status=='success') {
                                 var table = $('#table-1').DataTable();
-                                table.row('#userrow' + id).remove().draw(false);
-                                swal("Done!", responsedata.message, "success")
-                            } else {
-                                swal("Sorry!", responsedata.message, "error");
+                                table.row('#rowId'+id).remove().draw( false );
+                                toastr.success(responsedata.message)
+                            }else{
+                                toastr.error(responsedata.message)
                             }
                         },
-                        error: function (result) {
-                            swal("", "Somthing went wrong :(", "error");
+                        error: function(result) {
+                            toastr.error("Somthing went wrong :(")
                         }
                     });
                 });
+                $("#closeBtn").click(function(){
+                    toastr.clear()
+                });
+                }
+            });
         }
 
         function editUser(id) {
