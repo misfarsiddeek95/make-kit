@@ -12,8 +12,8 @@ class Questionnaire_Model extends CI_Model{
         $group_id = $this->session->userdata['staff_logged_in']['group_id'];
         $userId = $this->session->userdata['staff_logged_in']['user_id'];
         
-        $own_questions = $this->Admin_modal->isAccessRightGiven($group_id,272) ? 1 : 0;
-        $all_questions = $this->Admin_modal->isAccessRightGiven($group_id,273) ? 1 : 0;
+        $own_questions = $this->Admin_modal->isAccessRightGiven($group_id,150) ? 1 : 0;
+        $all_questions = $this->Admin_modal->isAccessRightGiven($group_id,151) ? 1 : 0;
 
         $this->db->select('qt.*');
         $this->db->from('question_type qt');
@@ -426,14 +426,13 @@ class Questionnaire_Model extends CI_Model{
     }
 
     public function viewQuestionPaper($paperId) {
-        $this->db->select('q.*,c.class_name,s.subject_name,s.subject_code,CONCAT_WS(" ",su.fname, '.', su.lname) as added_person,su.user_id,su.access_group,et.extype_name,ay.year');
+        $this->db->select('q.*,c.class_name,s.subject_name,s.subject_code,CONCAT_WS(" ",su.fname, '.', su.lname) as added_person,su.user_id,su.access_group,et.extype_name');
         $this->db->from('question_paper_main q');
         $this->db->where('q.paper_id', $paperId);
         $this->db->join('class c','c.class_id=q.class_id');
         $this->db->join('subjects s','s.sub_id=q.subject_id');
         $this->db->join('staff_users su','su.user_id=q.added_by');
         $this->db->join('exam_types et','et.extype_id=q.term_id');
-        $this->db->join('acadamic_year ay','ay.ay_id=q.year');
         $this->db->limit(1);
         $q= $this->db->get();
         $ret = false;

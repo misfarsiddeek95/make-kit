@@ -202,3 +202,13 @@ $route['upload-questionaire-image'] = 'Questionnaire/uploadQuestionaireImage';
 $route['remove-questionaire-image'] = 'Questionnaire/removeQuestionaireImage';
 $route['view-question/(:any)/(:any)/(:num)'] = 'Questionnaire/viewQuestion/$3';
 $route['delete-question'] = 'Questionnaire/deleteQuestion';
+
+# Paper Generate
+$route['generate-exam-paper'] = 'Questionnaire/generateExamPaper';
+$route['edit-paper/(:any)'] = 'Questionnaire/editExamPaper/$1';
+$route['remove-school-logo'] = 'Questionnaire/removeSchoolLogo';
+$route['filter-questions'] = 'Questionnaire/filterQuestions';
+$route['update-exam-paper'] = 'Questionnaire/updateExamPaper';
+$route['delete-exam-paper'] = 'Questionnaire/deleteExamPaper';
+$route['view-paper/(:any)'] = 'Questionnaire/viewPaper/$1';
+$route['download-exam-paper/(:any)/(:any)'] = 'Questionnaire/downloadExamPaper/$1/$2';

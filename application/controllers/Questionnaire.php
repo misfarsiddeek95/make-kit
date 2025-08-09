@@ -293,19 +293,18 @@ class Questionnaire extends Admin_Controller {
     public function generateQuestionPaper() {
         try {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
-            $manage_main = $this->Admin_modal->isAccessRightGiven($group_id,274)?0:1;
+            $manage_main = $this->Admin_modal->isAccessRightGiven($group_id,144)?0:1;
             if ($manage_main) {
                 throw new Exception("You don't have the permissoin to manage paper generation.");
             }
 
-            $data['list'] = $this->Admin_modal->isAccessRightGiven($group_id,275) ? 1 : 0;
-            $data['add'] = $this->Admin_modal->isAccessRightGiven($group_id,276) ? 1 : 0;
-            $data['view'] = $this->Admin_modal->isAccessRightGiven($group_id,277) ? 1 : 0;
-            $data['delete'] = $this->Admin_modal->isAccessRightGiven($group_id,278) ? 1 : 0;
-            $data['edit'] = $this->Admin_modal->isAccessRightGiven($group_id,279) ? 1 : 0;
+            $data['list'] = $this->Admin_modal->isAccessRightGiven($group_id,145) ? 1 : 0;
+            $data['add'] = $this->Admin_modal->isAccessRightGiven($group_id,146) ? 1 : 0;
+            $data['view'] = $this->Admin_modal->isAccessRightGiven($group_id,147) ? 1 : 0;
+            $data['delete'] = $this->Admin_modal->isAccessRightGiven($group_id,148) ? 1 : 0;
+            $data['edit'] = $this->Admin_modal->isAccessRightGiven($group_id,149) ? 1 : 0;
 
             $data['exam_types'] = $this->Common_modal->getAll('exam_types');
-            $data['years'] = $this->Common_modal->getAll('acadamic_year');
             $data['class'] = $this->Common_modal->getAll('class');
             $data['question_type'] = $this->Common_modal->getAll('question_type');
             $data['get_all_papers'] = $this->Questionnaire_Model->loadGeneratedPapers();
@@ -320,7 +319,7 @@ class Questionnaire extends Admin_Controller {
     public function generateExamPaper() {
         try {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
-            $has_permission = $this->Admin_modal->isAccessRightGiven($group_id,276)?0:1;
+            $has_permission = $this->Admin_modal->isAccessRightGiven($group_id,146)?0:1;
             if ($has_permission) {
                 throw new Exception("You don't have the permission to generate question paper.");
             }
@@ -328,7 +327,6 @@ class Questionnaire extends Admin_Controller {
             $schoolName = $this->input->post('school_name');
             $duration = $this->input->post('duration');
             $marks_count = $this->input->post('marks_count');
-            $ay_id = $this->input->post('ay_id');
             $term_id = $this->input->post('term_id');
             $class_id = $this->input->post('class_id');
             $sub_id = $this->input->post('sub_id');
@@ -357,7 +355,6 @@ class Questionnaire extends Admin_Controller {
                 'school_name' => $schoolName, 
                 'paper_duration' => $duration,
                 'total_marks_count' => $marks_count,
-                'year' => $ay_id,
                 'term_id' => $term_id,
                 'class_id' => $class_id,
                 'subject_id' => $sub_id,
@@ -441,14 +438,13 @@ class Questionnaire extends Admin_Controller {
     public function editExamPaper($paperId) {
         try {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
-            $has_permission = $this->Admin_modal->isAccessRightGiven($group_id,279)?0:1;
+            $has_permission = $this->Admin_modal->isAccessRightGiven($group_id,149)?0:1;
             if ($has_permission) {
                 throw new Exception("You don't have the permission to edit generated question paper.");
             }
             $paperId = base64_decode($paperId);
             
             $data['exam_types'] = $this->Common_modal->getAll('exam_types');
-            $data['years'] = $this->Common_modal->getAll('acadamic_year');
             $data['class'] = $this->Common_modal->getAll('class');
             $data['question_type'] = $this->Common_modal->getAll('question_type');
             $data['getQuestionPaper'] = $this->Questionnaire_Model->getSingleQuestionPaper($paperId);
@@ -490,7 +486,7 @@ class Questionnaire extends Admin_Controller {
     public function updateExamPaper() {
         try {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
-            $manage_main = $this->Admin_modal->isAccessRightGiven($group_id,279)?0:1;
+            $manage_main = $this->Admin_modal->isAccessRightGiven($group_id,149)?0:1;
             if ($manage_main) {
                 throw new Exception("You don't have the permissoin to update paper generation.");
             }
@@ -561,16 +557,16 @@ class Questionnaire extends Admin_Controller {
     public function viewPaper($paperId) {
         try {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
-            $manage = $this->Admin_modal->isAccessRightGiven($group_id,277) ? 0 : 1;
-            $view_questions = $this->Admin_modal->isAccessRightGiven($group_id,282) ? 0 : 1;
+            $manage = $this->Admin_modal->isAccessRightGiven($group_id,147) ? 0 : 1;
+            $view_questions = $this->Admin_modal->isAccessRightGiven($group_id,152) ? 0 : 1;
             if ($manage || $view_questions) {
                 throw new Exception("You don't have the permissoin to view exam paper.");
             }
             $paperId = base64_decode($paperId);
             $data['paper_detail'] = $this->Questionnaire_Model->viewQuestionPaper($paperId);
 
-            $data['download_paper'] = $this->Admin_modal->isAccessRightGiven($group_id,283) ? 1 : 0;
-            $data['download_scheme'] = $this->Admin_modal->isAccessRightGiven($group_id,284) ? 1 : 0;
+            $data['download_paper'] = $this->Admin_modal->isAccessRightGiven($group_id,153) ? 1 : 0;
+            $data['download_scheme'] = $this->Admin_modal->isAccessRightGiven($group_id,154) ? 1 : 0;
             $this->load->view('view_exam_paper', $data);
         } catch (Exception $x) {
             redirect(base_url());
@@ -581,7 +577,7 @@ class Questionnaire extends Admin_Controller {
         try {
             $paperId = $this->input->post('paperId');
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
-            $delete_ = $this->Admin_modal->isAccessRightGiven($group_id,278) ? 0 : 1;
+            $delete_ = $this->Admin_modal->isAccessRightGiven($group_id,148) ? 0 : 1;
             
             if ($delete_) {
                 throw new Exception("You don't have the permission to delete exam paper.");
@@ -603,7 +599,7 @@ class Questionnaire extends Admin_Controller {
     public function downloadExamPaper($paperId, $type) {
         try {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
-            $has_download = $this->Admin_modal->isAccessRightGiven($group_id,283) ? 0 : 1;
+            $has_download = $this->Admin_modal->isAccessRightGiven($group_id,153) ? 0 : 1;
             if ($has_download) {
                 throw new Exception("You don't have the permissoin to download exam paper.");
             }

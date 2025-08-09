@@ -15,4 +15,27 @@
         string = string.replace("--","-");
         return string;
     }
+
+    function number_without_decimal_points(val) {
+		var value = parseFloat(val);
+		var num = value.toFixed(0).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1,");
+		return num;
+	}
+
+    // Date format => dd/mm/YYY
+	function dmy_date_format(date) {
+		var date_val = new Date(date);  
+		var dd = date_val.getDate(); 
+		var mm = date_val.getMonth() + 1; 
+
+		var yyyy = date_val.getFullYear(); 
+		if (dd < 10) { 
+			dd = '0' + dd; 
+		} 
+		if (mm < 10) { 
+			mm = '0' + mm; 
+		} 
+		var date_val = dd + '/' + mm + '/' + yyyy; 
+		return date_val;
+	}
 </script>
