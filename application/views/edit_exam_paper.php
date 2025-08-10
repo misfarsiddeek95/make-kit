@@ -88,7 +88,7 @@
                                     </div>
                                     <div class="row">
                                         <h4>PAPER GENERATION DETAILS</h4>
-                                        <div class="col-sm-6 col-md-4">
+                                        <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
                                                 <label for="term_id" class="control-label">Point Type</label>
                                                 <select class="form-control our-select-2" name="term_id" id="term_id"
@@ -111,7 +111,7 @@
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-md-4">
+                                        <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
                                                 <label for="class_id" class="control-label">Institute</label>
                                                 <select class="form-control our-select-2" name="class_id" id="class_id"
@@ -128,7 +128,7 @@
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6 col-md-4">
+                                        <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
                                                 <label for="sub_id" class="control-label">Circle</label>
                                                 <select class="form-control our-select-2" name="sub_id" id="sub_id" data-plugin="select2"
@@ -140,6 +140,13 @@
                                                 <p class="help-block">
                                                     <small>You can not edit this field.</small>
                                                 </p>
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6 col-md-3">
+                                            <div class="form-group">
+                                                <label for="attempts" class="control-label">No of Attempts</label>
+                                                <input type="text" name="attempts" id="attempts" pattern="^[0-9+.]+$" class="form-control" placeholder="Paper attempts" autocomplete="off" required data-required-error="Paper attempt count is required." data-pattern-error="Invalid attempts. Should be a number" value="<?=$getQuestionPaper->no_of_attempts?>" />
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>

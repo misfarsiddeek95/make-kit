@@ -330,6 +330,8 @@ class Questionnaire extends Admin_Controller {
             $term_id = $this->input->post('term_id');
             $class_id = $this->input->post('class_id');
             $sub_id = $this->input->post('sub_id');
+            $attempts = $this->input->post('attempts');
+
             $added_by = $this->session->userdata['staff_logged_in']['user_id'];
             $created_at = date('Y-m-d');
             
@@ -366,6 +368,7 @@ class Questionnaire extends Admin_Controller {
                 'mcq_main_title' => $mcqMainTitle != '' ? $mcqMainTitle : null,
                 'structured_main_title' => $structuredMainTitle != '' ? $structuredMainTitle : null,
                 'essay_main_title' => $essayMainTitle != '' ? $essayMainTitle : null,
+                'no_of_attempts' => $attempts,
                 'added_by' => $added_by
             );
 
@@ -498,12 +501,15 @@ class Questionnaire extends Admin_Controller {
             $structuredMainTitle = trim($this->input->post('structured_main_title'));
             $essayMainTitle = trim($this->input->post('essay_main_title'));
 
+            $attempts = $this->input->post('attempts');
+
             $PhotoFileNameMD5 = '';
             $filetype = '';
             $data_arr = array(
                 'mcq_main_title' => $mcqMainTitle != '' ? $mcqMainTitle : null,
                 'structured_main_title' => $structuredMainTitle != '' ? $structuredMainTitle : null,
                 'essay_main_title' => $essayMainTitle != '' ? $essayMainTitle : null,
+                'no_of_attempts' => $attempts != '' ? $attempts : null
             );
             if (isset($_FILES['fileUpload'])) {
                 if (!empty($_FILES['fileUpload']["name"])) {
