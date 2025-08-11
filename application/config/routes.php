@@ -212,3 +212,4 @@ $route['update-exam-paper'] = 'Questionnaire/updateExamPaper';
 $route['delete-exam-paper'] = 'Questionnaire/deleteExamPaper';
 $route['view-paper/(:any)'] = 'Questionnaire/viewPaper/$1';
 $route['download-exam-paper/(:any)/(:any)'] = 'Questionnaire/downloadExamPaper/$1/$2';
+$route['change-exam-paper-status'] = 'Questionnaire/changePaperStatus';

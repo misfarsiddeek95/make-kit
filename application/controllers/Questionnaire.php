@@ -303,7 +303,8 @@ class Questionnaire extends Admin_Controller {
             $data['view'] = $this->Admin_modal->isAccessRightGiven($group_id,147) ? 1 : 0;
             $data['delete'] = $this->Admin_modal->isAccessRightGiven($group_id,148) ? 1 : 0;
             $data['edit'] = $this->Admin_modal->isAccessRightGiven($group_id,149) ? 1 : 0;
-
+            $data['change_status'] = $this->Admin_modal->isAccessRightGiven($group_id,155) ? 1 : 0;
+            
             $data['exam_types'] = $this->Common_modal->getAll('exam_types');
             $data['class'] = $this->Common_modal->getAll('class');
             $data['question_type'] = $this->Common_modal->getAll('question_type');
@@ -780,5 +781,34 @@ class Questionnaire extends Admin_Controller {
             $msg = array("status" => "error","message" => $ex->getMessage());
         }
         echo json_encode($msg);
+    }
+
+    public function changePaperStatus() {
+        try {
+            $paper_id= $this->input->post('paper_id');
+
+            $result = $this->Common_modal->getAllWhere('question_paper_main','paper_id',$paper_id);
+
+            if ($result) {
+                if ($result->status==0) {
+                    $data['status']=1;
+                }else{
+                    $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+                    $ChangeStatus= $this->Admin_modal->isAccessRightGiven($group_id,155) ? 1 : 0;
+                    if ($ChangeStatus) {
+                        $data['status']=0;
+                    }else{
+                        throw new Exception("You don't have the permissoin to change status.");
+                    }
+                }
+                $this->Common_modal->update('paper_id',$paper_id,'question_paper_main',$data);
+                $message = array("status" => "success","message" => "Status updated successfully.");
+            }else{
+                throw new Exception("Something went wrong. Please try again.");
+            }
+        } catch (Exception $ex) {
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
     }
 }
