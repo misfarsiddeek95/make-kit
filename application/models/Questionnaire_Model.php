@@ -441,13 +441,20 @@ class Questionnaire_Model extends CI_Model{
             $queIds = $this->existQuestion($paperId);
             $question_types = $this->Common_modal->getAll('question_type');
             foreach ($question_types as $qt) {
-                $ret[strtolower($qt->question_type).'_ques_ans'] = $this->getQuestionsAndAnswers($queIds,$qt->qt_id); // MCQ Questions
+                if (!empty($queIds)) {
+                    $ret[strtolower($qt->question_type) . '_ques_ans'] = $this->getQuestionsAndAnswers($queIds, $qt->qt_id);
+                } else {
+                    $ret[strtolower($qt->question_type) . '_ques_ans'] = [];
+                }
             }
         }
         return $ret;
     }
 
     public function getQuestionsAndAnswers($queIds,$questionType) {
+        if (empty($queIds)) {
+            return [];  // or return false, whatever fits your logic
+        }
         $this->db->select('q.que_id,q.question,q.answer_method,q.qt_id,q.has_img as queHasImg,pq.photo_path as questionImage');
         $this->db->from('questions q');
         $this->db->where_in('q.que_id', $queIds);
