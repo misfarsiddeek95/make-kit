@@ -602,7 +602,10 @@ class Questionnaire extends Admin_Controller {
                 $imagename = $getPaper->school_logo;
                 unlink( $folder . $imagename );
             }
-            $this->Common_modal->delete('question_paper_main','paper_id',$paperId);
+            $isDeleted = $this->Common_modal->delete('question_paper_main','paper_id',$paperId);
+            if ($isDeleted) {
+                $this->Questionnaire_Model->update_all_students_points();
+            }
             $msg = array("status" => "success","message" => 'Exam paper deleted successfully.');
         } catch (Exception $x) {
             $msg = array("status" => "error","message" => $x->getMessage());

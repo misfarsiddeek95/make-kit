@@ -475,5 +475,43 @@ class Questionnaire_Model extends CI_Model{
         }
         return $main;
     }
+
+    public function get_total_scores_all_students() {
+        $this->db->select('sp.student_id, SUM(sp.points) as total_points');
+        $this->db->from('student_points sp');
+        $this->db->where('sp.attempt_id = (
+            SELECT MAX(attempt_id)
+            FROM student_points
+            WHERE student_id = sp.student_id
+              AND paper_id = sp.paper_id
+        )', null, false);
+        $this->db->group_by('sp.student_id');
+    
+        $query = $this->db->get();
+        return $query->result(); // returns [{student_id, total_points}, ...]
+    }    
+
+    public function update_all_students_points() {
+        $sql = "
+            UPDATE external_users eu
+            LEFT JOIN (
+                SELECT sp.student_id, SUM(sp.points) AS total_points
+                FROM student_points sp
+                INNER JOIN question_paper_main q ON sp.paper_id = q.paper_id
+                WHERE q.status = 1  -- only consider active papers
+                AND sp.attempt_id = (
+                    SELECT MAX(sp2.attempt_id)
+                    FROM student_points sp2
+                    WHERE sp2.student_id = sp.student_id
+                        AND sp2.paper_id = sp.paper_id
+                )
+                GROUP BY sp.student_id
+            ) AS scores ON eu.id = scores.student_id
+            SET eu.points_earned = IFNULL(scores.total_points, 0)
+        ";
+
+        return $this->db->query($sql);
+    }
+
 }
 ?>
