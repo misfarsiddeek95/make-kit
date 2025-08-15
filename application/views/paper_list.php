@@ -46,8 +46,8 @@
                                     <h4>PAPER HEADER DETAILS</h4>
                                     <div class="col-sm-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="school_name" class="control-label">School name</label>
-                                            <input type="text" name="school_name" id="school_name" class="form-control" placeholder="Enter school name here..." autocomplete="off" required data-required-error="School name is required.">
+                                            <label for="school_name" class="control-label">Paper Title</label>
+                                            <input type="text" name="school_name" id="school_name" class="form-control" placeholder="Enter paper title here..." autocomplete="off" required data-required-error="Paper title is required.">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
