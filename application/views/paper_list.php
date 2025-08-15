@@ -140,6 +140,12 @@
                                                                 <div class="help-block with-errors"></div>
                                                             </div>
                                                         </td>
+                                                        <td>
+                                                            <div class="form-group" style="margin-bottom: 0px;">
+                                                                <input type="text" name="<?=strtolower($row->question_type)?>_score" pattern="^[0-9+]+$" class="form-control question-types-score" placeholder="Score per <?=$row->question_type?> Question" data-pattern-error="Invalid number" autocomplete="off" value="">
+                                                                <div class="help-block with-errors"></div>
+                                                            </div>
+                                                        </td>
                                                     </tr>
                                                     <?php } ?>
                                                 </tbody>
@@ -460,6 +466,7 @@
                 }
                 
                 var questionTypeCount = 0;
+                var questionTypeScore = 0;
                 $('.question-types').each(function() {
                     let count = $(this).val();
                     if (count == '') {
@@ -469,6 +476,17 @@
                 });
                 if (isNaN(questionTypeCount) || questionTypeCount == 0) {
                     return toastr.error('Please enter number of questions count in question type fields (MCQ or STRUCTURED or ESSAY).');
+                }
+
+                $('.question-types-score').each(function() {
+                    let count = $(this).val();
+                    if (count == '') {
+                        count = 0;
+                    }
+                    questionTypeScore += parseInt(count);
+                });
+                if (isNaN(questionTypeScore) || questionTypeScore == 0) {
+                    return toastr.error('Please enter score of question in question type fields (MCQ or STRUCTURED or ESSAY).');
                 }
 
                 const selectedTerm = slugifyUrl($('#term_id option:selected').text());

@@ -340,6 +340,10 @@ class Questionnaire extends Admin_Controller {
             $structuredLimit = $this->input->post('structured');
             $essayLimit = $this->input->post('essay');
 
+            $mcqScore = $this->input->post('mcq_score');
+            $structuredScore = $this->input->post('structured_score');
+            $essayScore = $this->input->post('essay_score');
+
             if (isset($_POST['questions_from'])) {
                 $question_from = $this->input->post('questions_from');
             } else {
@@ -362,8 +366,11 @@ class Questionnaire extends Admin_Controller {
                 'class_id' => $class_id,
                 'subject_id' => $sub_id,
                 'no_of_mcqs' => $mcqLimit,
+                'score_per_mcq' => $mcqScore,
                 'no_of_structured' => $structuredLimit,
+                'score_per_structure' => $structuredScore,
                 'no_of_essays' => $essayLimit,
+                'score_per_essay' => $essayScore,
                 'selected_ques_from' => implode(',', $question_from),
                 'need_previous_added' => $previousPaperQue,
                 'mcq_main_title' => $mcqMainTitle != '' ? $mcqMainTitle : null,
