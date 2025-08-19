@@ -74,8 +74,8 @@ class Settings extends Admin_Controller {
         }
         echo json_encode($message);
     }
-    public function updateCateStatus()
-    {
+
+    public function updateCateStatus() {
         try{
             $cate_id= $this->input->post('cate_id');
             $result = $this->Common_modal->getAllWhere('categories','cate_id',$cate_id);
@@ -101,8 +101,29 @@ class Settings extends Admin_Controller {
         }
         echo json_encode($message);
     }
-    public function addCategory()
-    {
+
+    public function updateMenuShowStatus() {
+        try{
+            $cate_id= $this->input->post('cate_id');
+            $result = $this->Common_modal->getAllWhere('categories','cate_id',$cate_id);
+            if ($result) {
+                if ($result->show_in_site==1) {
+                    $data['show_in_site']=0;
+                }else{
+                    $data['show_in_site']=1;
+                }
+                $this->Common_modal->update('cate_id',$cate_id,'categories',$data);
+                $message = array("status" => "success","message" => "Show in the website menu status updated successfully.");
+            }else{
+                throw new Exception("Something went wrong. Please try again.");
+            }
+        }catch(Exception $ex){
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
+    public function addCategory() {
         try{
             $cate_id= $this->input->post('cate_id');
             $allCategories= $this->input->post('allCategories');
