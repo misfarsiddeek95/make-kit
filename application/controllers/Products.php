@@ -154,8 +154,8 @@ class Products extends Admin_Controller {
             $proUse= $this->input->post('proUse');
 
             $proCreditType = $this->input->post('credit_type_id');
-            $proMedalianEligiblePoints = NULL;
-            if($proCreditType == 3) $proMedalianEligiblePoints = $this->input->post('minimum_eligiblity_value');
+            $proMinEligiblePoints = NULL;
+            if($proCreditType == 3 || $proCreditType == 2) $proMinEligiblePoints = $this->input->post('minimum_eligiblity_value');
 
             $date = date("Y-m-d H:i:s");
             $delete = false;
@@ -223,7 +223,7 @@ class Products extends Admin_Controller {
                 'seo_description' => $seoDescription,
                 'status' => $status1,
                 'credit_type_id' => $proCreditType,
-                'minimum_eligiblity_value' => $proMedalianEligiblePoints
+                'minimum_eligiblity_value' => $proMinEligiblePoints
             );
 
             if ($pro_id!=0) {

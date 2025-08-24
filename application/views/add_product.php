@@ -84,14 +84,8 @@
 										<label for="currency_type" class="control-label">Product Currency Method</label>
 										<select class="form-control" data-plugin="select2" name="credit_type_id" id="currency_type" data-placeholder="Product currency method" data-allow-clear="true" required data-required-error="Product currency method is required." style="width: 100%;">
 											<option></option>
-											<?php foreach ($credit_types as $row) { 
-												$sel ='';
-												if(!(empty($product))){
-													if ($product->credit_type_id==$row->id) {
-														$sel = 'selected';
-													}
-												} ?>
-											<option value="<?=$row->id?>"<?=$sel?>><?=$row->value.' Product'?></option>
+											<?php foreach ($credit_types as $row) { ?>
+											<option value="<?=$row->id?>"><?=$row->value.' Product'?></option>
 											<?php } ?>
 										</select>
 										<div class="help-block with-errors"></div>
@@ -531,14 +525,19 @@
 					allowClear: true
 				});
 
-				<?php if(!empty($product->discounts)) { ?>
-                	<?php foreach ($product->discounts as $k => $dsc) { ?>
-                        $('.project_assignee_tr:last').find('.add-field').click();
-                        $('.project_assignee_tr:last').find('.first_dropdown').val('<?=$dsc->discount_id?>').trigger('change');
-                        $('.project_assignee_tr:last').find('.item_count').val('<?=$dsc->min_item_count?>');
-                    <?php } ?>
-                    $('.project_assignee_tr:first').remove();
-                <?php } ?>
+				<?php if(!empty($product)) { ?>
+					$('#currency_type').val('<?=$product->credit_type_id?>').trigger('change');
+
+
+					<?php if(!empty($product->discounts)) { ?>
+						<?php foreach ($product->discounts as $k => $dsc) { ?>
+							$('.project_assignee_tr:last').find('.add-field').click();
+							$('.project_assignee_tr:last').find('.first_dropdown').val('<?=$dsc->discount_id?>').trigger('change');
+							$('.project_assignee_tr:last').find('.item_count').val('<?=$dsc->min_item_count?>');
+						<?php } ?>
+						$('.project_assignee_tr:first').remove();
+					<?php } ?>
+				<?php } ?>
 			});
 			
 			function checkedFun() {
@@ -823,13 +822,13 @@
 			}
 
 			$('#currency_type').on('change', function () {
-				const isMedalian = this.value == 3;
+				const isNotNormalCurrency = this.value == 2 || this.value == 3; // 2 : Makekit | 3: Medalian
 				const eligibleField = $('#elgible-points');
-				if(isMedalian) {
+				if(isNotNormalCurrency) {
 					eligibleField.removeClass('hidden');
 					eligibleField.find('input').attr({
 						'required': 'required',
-						'data-required-error': 'Eligible medalian point is required.'
+						'data-required-error': 'Eligible point is required.'
 					});
 				} else {
 					eligibleField.addClass('hidden');
