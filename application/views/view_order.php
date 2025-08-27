@@ -60,6 +60,7 @@
       <?php $this->load->view('includes/sidebar'); ?>
       
       <div class="site-content">
+      
         <div class="profile">
         	<div class="row" id="hiddenDetails">
         		<div class="col-md-8 col-sm-5" id="fancyAddress">
@@ -85,7 +86,7 @@
           		</thead>
           		<tbody>
           			<tr>
-                        <th style="padding: 20px;" id="tableContent">
+                  <th style="padding: 20px;" id="tableContent">
 		        			<label>FANCY POINT (PVT) LTD</label><br>
 		        			<label>85,GALLE ROAD,</label><br>
 		        			<label>WELLEWATTA,</label><br>

@@ -94,7 +94,6 @@
                     <th>Pay. Method</th>
                     <th>Pay. Status</th>
                     <th>Order Status</th>
-                    <th>Site</th>
                     <th>Date</th>
                     <?php if($view_order){?>
                     <th></th>
@@ -245,8 +244,7 @@
                           '<td>'+Math.round(balance*100)/100+'</td>'+
                           '<td>'+paymethod+'</td>'+
                           '<td>'+myArray[payment_status]+'</td>'+
-                          '<td>'+responsedata.orders[i]['status']+'</td>'+
-                          '<td>'+responsedata.orders[i]['ws_name']+'</td>'+
+                          '<td>'+responsedata.orders[i]['order_status']+'</td>'+
                           '<td>'+responsedata.orders[i]['order_date']+'</td>'+
                           <?php if($view_order){?>
                           '<td style="padding:0;margin:0;"><button type="button" class="btn btn-primary btn-sm" title="View Order" onclick="viewProduct('+responsedata.orders[i]['order_id']+');"><i class="zmdi zmdi-eye"></i></button></td>'+

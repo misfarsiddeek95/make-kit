@@ -3,7 +3,7 @@
 class Order_modal extends CI_Model {
     function getOrders($search,$ostatus,$pstatus,$fdate,$tdate,$limit,$offset) {
    
-        $this->db->select('*');
+        $this->db->select('o.*,s.osd_id,s.os_id,s.remark,s.status_date,os.status as order_status');
         $this->db->from('orders o');
 
         if ($search!=''&&$search!=null) {

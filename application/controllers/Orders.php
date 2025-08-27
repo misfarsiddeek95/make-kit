@@ -87,7 +87,7 @@ class Orders extends Admin_Controller {
                 $data['orderStatus']=$this->Order_modal->getOrderStatus($order_id);
                 $data['orderProducts']=$this->Order_modal->getOrderProducts($order_id);
 
-                $data['countries'] = $this->Common_modal->getCountries();
+                // $data['countries'] = $this->Common_modal->getCountries();
             }else{
                 throw new Exception("Somthing went wrong :(");
             }
