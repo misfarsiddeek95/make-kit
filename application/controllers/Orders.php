@@ -192,6 +192,9 @@ class Orders extends Admin_Controller {
 
             if (!$pay_status||!$order_status) {
                 $update_res = $this->Order_modal->updateOrderStatus($order_id,$order_arr,$status_arr);
+
+                $update_orders = $this->Common_modal->update('order_id',$order_id,'orders',['order_status' => $sorder_status]);
+
                 if ($update_res) {
                     $message = array("status" => "success","message" => "Status Updated successfully.");
                 }else{
@@ -203,8 +206,8 @@ class Orders extends Admin_Controller {
         }
         echo json_encode($message);
     }
-    function updateOrderPayment()
-    {
+    
+    function updateOrderPayment() {
         try{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $opayDet= $this->Admin_modal->isAccessRightGiven($group_id,61)?0:1;
@@ -252,10 +255,13 @@ class Orders extends Admin_Controller {
                 }
             }
 
+            $paid_total = str_replace(',','',$paid_total);
             $payment_arr = array(
                 'del_charge' => str_replace(',','',$deliver_charge),
                 'discount' => str_replace(',','',$discount),
-                'paid_total' => str_replace(',','',$paid_total)
+                'paid_total' => $paid_total,
+                'balance' => $result->payment_total - $paid_total,
+                
             );
             $this->Common_modal->update('order_id',$order_id,'orders',$payment_arr);
             $message = array("status" => "success","message" => "Payment details updated successfully.");

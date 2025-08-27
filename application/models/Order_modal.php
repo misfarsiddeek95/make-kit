@@ -3,7 +3,7 @@
 class Order_modal extends CI_Model {
     function getOrders($search,$ostatus,$pstatus,$fdate,$tdate,$limit,$offset) {
    
-        $this->db->select('o.*,s.osd_id,s.os_id,s.remark,s.status_date,os.status as order_status');
+        $this->db->select('o.*,s.osd_id,s.os_id,s.remark,s.status_date,os2.status as order_status');
         $this->db->from('orders o');
 
         if ($search!=''&&$search!=null) {
@@ -23,6 +23,10 @@ class Order_modal extends CI_Model {
         }
         $this->db->join('order_status_det s', 's.osd_id = o.order_status', 'left outer');
         $this->db->join('order_statuses os', 'os.os_id = s.os_id', 'left outer');
+
+        // ✅ new direct join (orders → order_statuses)
+        $this->db->join('order_statuses os2', 'os2.os_id = o.order_status', 'left');
+
         $this->db->join('website w', 'w.ws_id = o.ws_id', 'left outer');
 
         $tempdb = clone $this->db;

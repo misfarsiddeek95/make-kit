@@ -87,15 +87,16 @@
           		<tbody>
           			<tr>
                   <th style="padding: 20px;" id="tableContent">
-		        			<label>FANCY POINT (PVT) LTD</label><br>
-		        			<label>85,GALLE ROAD,</label><br>
-		        			<label>WELLEWATTA,</label><br>
-		        			<label>COLOMBO-06,</label><br>
-		        			<label>SRI LANKA,</label><br>
-		        			<label>Telephone: +94 (0)11 2599877</label><br>
-		        			<label>Fax: +94 (0)11 2505710</label><br>
-		        			<label>fancypoint123@gmail.com</label><br>
-		        			<label>https://www.fancypoint.lk</label><br></th>
+                    <label>FANCY POINT (PVT) LTD</label><br>
+                    <label>85,GALLE ROAD,</label><br>
+                    <label>WELLEWATTA,</label><br>
+                    <label>COLOMBO-06,</label><br>
+                    <label>SRI LANKA,</label><br>
+                    <label>Telephone: +94 (0)11 2599877</label><br>
+                    <label>Fax: +94 (0)11 2505710</label><br>
+                    <label>fancypoint123@gmail.com</label><br>
+                    <label>https://www.fancypoint.lk</label><br>
+                  </th>
                         <th style="">
                         	<div class="panel-body p-info" style="margin-top: -77px;">
 			                  <div class="pi-item">
@@ -123,8 +124,8 @@
 			                    <div class="pii-value"><?=$address->order_email?></div>
 			                  </div>
 			                </div>
-                        </th>
-                      </tr>
+                      </th>
+                    </tr>
           		</tbody>
           	</table>
           </div>
@@ -132,12 +133,12 @@
           	<table width="100%" class="table table-hover" >
           		<thead>
           			 <tr>
-                        <th>Name</th>
-                        <th>Code</th>
-                        <th>Price</th>
-                        <th>Qty</th>
-                        <th>Total</th>
-                      </tr>
+                    <th>Name</th>
+                    <th>Code</th>
+                    <th>Price</th>
+                    <th>Qty</th>
+                    <th>Total</th>
+                  </tr>
           		</thead>
           		<tbody>
           			<?php foreach ($orderProducts as $row) {
