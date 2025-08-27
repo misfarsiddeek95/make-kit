@@ -43,8 +43,8 @@ class Orders extends Admin_Controller {
 
     public function getOrders(){
         $group_id = $this->session->userdata['staff_logged_in']['group_id'];
-        $allOderAccess= $this->Admin_modal->isAccessRightGiven($group_id,57)?0:1;
-        $visibleAllSites= $this->Admin_modal->isAccessRightGiven($group_id,91)?0:1;
+        $allOderAccess= $this->Admin_modal->isAccessRightGiven($group_id,57)?0:1; // not in used.
+        $visibleAllSites= $this->Admin_modal->isAccessRightGiven($group_id,91)?0:1; // not in used.
         $search = $this->input->post('search');
         $ostatus = $this->input->post('ostatus');
         $pstatus = $this->input->post('pstatus');
@@ -53,7 +53,7 @@ class Orders extends Admin_Controller {
         $limit = $this->input->post('limit');
         $offset = $this->input->post('offset');
         
-        $result = $this->Order_modal->getOrders($allOderAccess,$visibleAllSites,$search,$ostatus,$pstatus,$fdate,$tdate,$limit,$offset);
+        $result = $this->Order_modal->getOrders($search,$ostatus,$pstatus,$fdate,$tdate,$limit,$offset);
 
         echo json_encode($result);
     }

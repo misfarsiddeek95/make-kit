@@ -1,25 +1,11 @@
 <?php
 
 class Order_modal extends CI_Model {
-    function getOrders($allOderAccess,$visibleAllSites,$search,$ostatus,$pstatus,$fdate,$tdate,$limit,$offset)
-    {
-        if ($visibleAllSites) {
-            $result = $this->getUserSites();
-        }
-
+    function getOrders($search,$ostatus,$pstatus,$fdate,$tdate,$limit,$offset) {
+   
         $this->db->select('*');
         $this->db->from('orders o');
 
-        if ($allOderAccess) {
-            $this->db->where('o.payment_status', 2);
-        }
-        if ($visibleAllSites) {
-            if (!empty($result)) {
-                $this->db->where_in('o.ws_id', $result);
-            }else{
-                $this->db->where('o.ws_id', 0);
-            }
-        }
         if ($search!=''&&$search!=null) {
             $this->db->like('o.order_code', $search);
         }
@@ -35,9 +21,9 @@ class Order_modal extends CI_Model {
         	$tdate = date( 'Y-m-d H:i:s', strtotime( $tdate ) );
             $this->db->where("o.order_date BETWEEN '".$fdate."' AND '".$tdate."'");
         }
-        $this->db->join('order_status_det s', 's.osd_id = o.order_status');
-        $this->db->join('order_statuses os', 'os.os_id = s.os_id');
-        $this->db->join('website w', 'w.ws_id = o.ws_id');
+        $this->db->join('order_status_det s', 's.osd_id = o.order_status', 'left outer');
+        $this->db->join('order_statuses os', 'os.os_id = s.os_id', 'left outer');
+        $this->db->join('website w', 'w.ws_id = o.ws_id', 'left outer');
 
         $tempdb = clone $this->db;
         $ret['rowcount'] = $tempdb->count_all_results();
