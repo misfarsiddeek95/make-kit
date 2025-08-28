@@ -64,13 +64,11 @@
         <div class="profile">
         	<div class="row" id="hiddenDetails">
         		<div class="col-md-8 col-sm-5" id="fancyAddress">
-        		<img src="<?=base_url()?>assets/img/logoBottom.png" height="50px">	
+        		  <img src="<?=base_url()?>assets/img/logoBottom.png" height="50px">	
         		</div>
-        		<div>
-        			<div class="col-md-4 col-sm-5">
-        			<label style="margin-left: 30px;"><b>Order Date</b></label><span style="margin-left: 15px;"> <?=$orderStatus[0]->status_date?></span><br>
-        			<label style="margin-left: 30px;"><b>Order Id</b></label><span style="margin-left: 30px;"> <?=$orderDetail->order_code?></span><br>
-        		</div>
+        		<div class="col-md-4 col-sm-5">
+                <label style="margin-left: 30px; margin-top: 20px;"><b>Order Date</b></label><span style="margin-left: 15px;"> <?=$orderStatus[0]->status_date?></span><br>
+                <label style="margin-left: 30px;"><b>Order Id</b></label><span style="margin-left: 30px;"> <?=$orderDetail->order_code?></span><br>
         		</div>
         	</div>
         	<div class="row" style="margin-top: 30px;">
@@ -87,15 +85,13 @@
           		<tbody>
           			<tr>
                   <th style="padding: 20px;" id="tableContent">
-                    <label>FANCY POINT (PVT) LTD</label><br>
-                    <label>85,GALLE ROAD,</label><br>
-                    <label>WELLEWATTA,</label><br>
-                    <label>COLOMBO-06,</label><br>
-                    <label>SRI LANKA,</label><br>
-                    <label>Telephone: +94 (0)11 2599877</label><br>
-                    <label>Fax: +94 (0)11 2505710</label><br>
-                    <label>fancypoint123@gmail.com</label><br>
-                    <label>https://www.fancypoint.lk</label><br>
+                    <label>MAKE KIT</label><br>
+                    <label>דוד ילין 9, גאולה,</label><br>
+                    <label>ירושלים</label><br>
+                    <label>WhatsApp : 058-770-3017</label><br>
+                    <label>Phone : 02-566-0078</label><br>
+                    <label>support@makekit.co.il</label><br>
+                    <!-- <label>https://www.fancypoint.lk</label><br> -->
                   </th>
                         <th style="">
                         	<div class="panel-body p-info" style="margin-top: -77px;">
