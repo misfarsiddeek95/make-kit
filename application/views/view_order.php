@@ -289,24 +289,6 @@
                 <div class="panel-body">
                   <div class="widget-activity">
                     <?php foreach ($orderStatus as $row) {
-                      /*$date1 = new DateTime();
-                      $date2 = $date1->diff(new DateTime($row->status_date));
-                      $days = '';
-                      if ($date2->y!=0) {
-                        $days =+ $date2->y.' years'."\n";
-                      }
-                      if ($date2->y!=0&&$date2->m==0) {
-                        $days =+ $date2->m.' months'."\n";
-                      }elseif ($date2->y==0&&$date2->m!=0) {
-                        $days =+ $date2->m.' months'."\n";
-                      }
-                      if () {
-                        # code...
-                      }
-                      echo $date2->d.' days'."\n";
-                      echo $date2->h.' hours'."\n";
-                      echo $date2->i.' minutes'."\n";
-                      echo $date2->s.' seconds'."\n";*/
                       $badge = 'success';
                       $icon = '';
                       if ($row->os_id==1) {
