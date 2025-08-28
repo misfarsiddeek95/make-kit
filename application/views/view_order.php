@@ -490,7 +490,7 @@
                 <?php if ($updateDelCharge) {?>
                 <div class="form-group">
                   <label for="form-control-3" class="control-label">Update Delivery Charge</label>
-                  <input type="checkbox" class="js-switch" name="change_del" id="change_del" value="1" data-size="small" data-color="#34a853" checked="checked">
+                  <input type="checkbox" class="js-switch" name="change_del" id="change_del" value="1" data-size="small" data-color="#34a853">
                   <div class="help-block with-errors"></div>
                 </div>
                 <?php } ?>

@@ -317,8 +317,7 @@ class Common_modal extends CI_Model {
             $this -> db -> from('delivery_charges');
             $this -> db -> where('country_id', $country_id);
             $this -> db -> where('state_id', $region_id);
-            $this -> db -> where('all_of_state', 1);
-            $this -> db -> limit(1);
+            $this -> db -> or_where('all_of_state', 1);
             $this -> db -> limit(1);
             $query1 = $this->db->get();
             if($query1->num_rows() == 1){
@@ -327,7 +326,7 @@ class Common_modal extends CI_Model {
                 $this -> db -> select('*');
                 $this -> db -> from('delivery_charges');
                 $this -> db -> where('country_id', $country_id);
-                $this -> db -> where('all_of_country', 1);
+                $this -> db -> or_where('all_of_country', 1);
                 $this -> db -> limit(1);
                 $query1 = $this->db->get();
                 if($query1->num_rows() == 1){

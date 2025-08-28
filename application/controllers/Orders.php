@@ -88,6 +88,7 @@ class Orders extends Admin_Controller {
                 $data['orderProducts']=$this->Order_modal->getOrderProducts($order_id);
 
                 // $data['countries'] = $this->Common_modal->getCountries();
+                $data['countries'] = $this->Common_modal->getAll('country');
             }else{
                 throw new Exception("Somthing went wrong :(");
             }
@@ -317,6 +318,7 @@ class Orders extends Admin_Controller {
                     foreach($orderPros as $row){
                         $del_charge += ($row->qty*$row->weight)*$charge_per_kg;
                     }
+               
                     $del_arr = array(
                         'delc_id' => $result->charges_id,
                         'del_charge' => $del_charge
