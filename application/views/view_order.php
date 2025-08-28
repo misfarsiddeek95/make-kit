@@ -25,33 +25,43 @@
       #order_pros_data tr td{
         padding: 5px 0px 5px 5px;
       }
-      #hidetable, #hiddenDetails{
-      	visibility: hidden;
-      }
+     
       #tableContent label{
       	font-weight: normal !important;
       }
 
+      /* Hide these sections on screen, show on print */
+      .hidetable,
+      #hiddenDetails {
+        display: none;           /* no space taken on screen */
+      }
+
+      /* Simple spacing helper since BS3 lacks utilities */
+      .mt-10 { margin-top: 10px; }
+
       @media print {
-          body * {
-            visibility: hidden;
-          }
-          /*#items, #product_table, #receiver_address *{
-            visibility: visible;
-          }*/
-          #hidetable *{
-            visibility: visible;
-            top: 0;
-            margin-top: 0px;
-
-          }
-          #hiddenDetails *{
-            visibility: visible;
-            top: 0;
-            margin-top: 0px;
-
-          }
+        /* Show them when printing */
+        .hidetable,
+        #hiddenDetails {
+          display: block !important;
         }
+
+        /* Optional: hide UI-only elements when printing */
+        .no-print {
+          display: none !important;
+        }
+
+        /* Keep normal flow; avoid global visibility hacks */
+        body {
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        table { page-break-inside: auto; }
+        tr, td, th { page-break-inside: avoid; page-break-after: auto; }
+
+      }
+
     </style>
   </head>
   <body class="layout layout-header-fixed layout-left-sidebar-fixed">
@@ -60,21 +70,17 @@
       <?php $this->load->view('includes/sidebar'); ?>
       
       <div class="site-content">
-      
         <div class="profile">
         	<div class="row" id="hiddenDetails">
         		<div class="col-md-8 col-sm-5" id="fancyAddress">
         		  <img src="<?=base_url()?>assets/img/logoBottom.png" height="50px">	
         		</div>
         		<div class="col-md-4 col-sm-5">
-                <label style="margin-left: 30px; margin-top: 20px;"><b>Order Date</b></label><span style="margin-left: 15px;"> <?=$orderStatus[0]->status_date?></span><br>
+                <label style="margin-left: 30px; margin-top: 20px;"><b>Order Date</b></label><span style="margin-left: 15px;"> <?= !empty($orderStatus) ? $orderStatus[0]->status_date : date('Y-m-d H:i:s');?></span><br>
                 <label style="margin-left: 30px;"><b>Order Id</b></label><span style="margin-left: 30px;"> <?=$orderDetail->order_code?></span><br>
         		</div>
         	</div>
-        	<div class="row" style="margin-top: 30px;">
-        		
-        	</div>
-        	<div id="hidetable">
+        	<div class="hidetable">
           	<table width="100%" border="3px;" bordercolor="#ddd">
           		<thead>
           			 <tr>
@@ -125,7 +131,7 @@
           		</tbody>
           	</table>
           </div>
-        	<div id="hidetable" style="margin-top: 10px;">
+        	<div class="hidetable" style="margin-top: 10px;">
           	<table width="100%" class="table table-hover" >
           		<thead>
           			 <tr>
@@ -148,7 +154,7 @@
                           $name = $row->name;
                         }
                       ?>
-          			<tr>
+          			  <tr>
                         <td><?=$name?></td>
                         <td><?=$code?></td>
                         <td><?=$row->billed_unit_price?></td>
@@ -187,9 +193,8 @@
           		</tbody>
           	</table>
           </div>
-          <div class="row gutter-sm" style="top: 10px; position: absolute;">
+          <div class="row gutter-sm mt-10 no-print">
             <div class="col-md-4 col-sm-5" id="receiver_address">
-
               <?php if($profile&&$view_cust){?>
               <div class="p-about m-b-20" id="profile">
                 <div class="pa-padding">
