@@ -160,21 +160,21 @@ class Admin_modal extends CI_Model {
 
     public function getnewuser()
     {
-        $q = "select * from customers WHERE YEAR(added_date) = ".date('Y')." AND MONTH(added_date) = ".date('m');
+        $q = "select * from external_users WHERE YEAR(created_at) = ".date('Y')." AND MONTH(created_at) = ".date('m');
         $query = $this->db->query($q);
         return $query->num_rows();
     }
  
     public function newUserList()
     {
-        $q = "select count(cust_id) as custlist FROM customers WHERE added_date BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() group by DATE(added_date)";
+        $q = "select count(id) as custlist FROM external_users WHERE created_at BETWEEN CURDATE() - INTERVAL 30 DAY AND CURDATE() group by DATE(created_at)";
         $query = $this->db->query($q);
         return $query->result();
     }
     
     public function totalUserCount()
     {
-        $q = "select * from customers";
+        $q = "select * from external_users";
         $query = $this->db->query($q);
         return $query->num_rows();
     }
