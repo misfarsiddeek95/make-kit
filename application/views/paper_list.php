@@ -561,12 +561,30 @@
                                         nameTextColor = 'text-danger';
                                     }
 
+                                    let status = '';
+                                    if (data.status == 1) {
+                                        status = 'checked="checked"';
+                                    }
+
+                                    const change_status = '<?=$change_status?>';
+
+                                    const action = change_status ? `onchange="updateStatus('${data.paper_id}')";` : `disabled`;
+
                                     // <td style="text-align: center;"><a href="<?=base_url()?>${url_segment}/${data.user_id}" target="_blank" class="${nameTextColor}">${added_person}</a></td>
 
                                     tr = `<tr id="rowId${data.paper_id}" class="table-row">
                                             <td style="width: ${data.term_id == 2 ? '10%' : '5%' };"><i class="zmdi zmdi-long-arrow-tab"></i> ${data.term_id == 2 ? btoa(data.paper_id) : ''}</td>
                                             <td style="width: 50%;">${title.trim()}</td>
                                             <td style="text-align: center;">${dmy_date_format(data.created_at)}</td>
+                                            <td style="text-align: center;">
+                                                <label class="switch switch-success m-t-10">
+                                                    <input type="checkbox" class="s-input"  ${status} ${action}>
+                                                    <span class="s-content">
+                                                        <span class="s-track"></span>
+                                                        <span class="s-handle"></span>
+                                                    </span>
+                                                </label>
+                                            </td>
                                             <?php if($view || $edit || $delete) { ?>
                                             <td align="right">
                                                 <?php if($view){ ?>
