@@ -61,6 +61,8 @@
                       if ($row->photo_path!=null) {
                         $img = 'categories/'.$row->photo_path.'-sma.jpg';
                       }
+
+                      $dontDeleteCates = [1,2,3,4,5];
                     ?>
 
                     <tr id="catRow<?=$row->cate_id?>">
@@ -92,7 +94,7 @@
                         </div>
                         <?php } if($edit_cat){?>
                           <button type="button" class="btn btn-outline-primary btn-pill m-r-5" onclick="editCat('<?=$row->cate_id?>');"><i class="zmdi zmdi-edit"></i></button>
-                        <?php } if($delete_cat){ ?>
+                        <?php } if($delete_cat && !in_array($row->cate_id, $dontDeleteCates)){ ?>
                           <button type="button" class="btn btn-outline-danger btn-pill m-r-5" onclick="deleteCat('<?=$row->cate_id?>');"><i class="zmdi zmdi-delete"></i></button>
                         <?php } ?>
                       </td>
