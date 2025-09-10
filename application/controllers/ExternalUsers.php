@@ -8,6 +8,8 @@ class ExternalUsers extends Admin_Controller {
         $this->load->model("Admin_modal");
         $this->load->model("ExternalUser_model");
         $this->load->library("Aayusmain");
+
+        $this->load->helper('password'); // load the password verify helper
     }
 
     # Students
@@ -166,7 +168,7 @@ class ExternalUsers extends Admin_Controller {
             );
 
             if ($password!='') {
-                $user_array['password'] = $this->get_encrypted_password($password);
+                $user_array['password'] = create_wp_style_hash($password);
             }
 
             if (isset($_POST['parent_email'])) {
