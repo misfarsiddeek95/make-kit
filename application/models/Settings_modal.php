@@ -112,18 +112,29 @@ class Settings_modal extends CI_Model {
         return $query->result();
     }
     
-    function getAssignBrands($cate_id)
-    {
-        $this->db->select('*');
+    function getAssignBrands($cate_id) {
+        // Be specific in your select for clarity and performance.
+        // Replace 'photo_url' with your actual column name for the image path.
+        $this->db->select('brands.*, photo.photo_path, category_brands.cb_id'); 
         $this->db->from('category_brands');
-        $this->db->where('category_brands.cate_id', $cate_id);
-        $this->db->where("photo.table='brands' OR photo.table is NULL AND photo.status='0' OR photo.status is NULL");
         $this->db->join('brands', 'brands.brand_id = category_brands.brand_id');
-        $this->db->join('photo', 'photo.table="brands" AND photo.field_id = brands.brand_id', 'left outer');
+
+        // --- FIX ---
+        // All conditions for the 'photo' table are moved into the 'ON' clause of the LEFT JOIN.
+        // This correctly fetches the brand even if no matching photo is found.
+        $this->db->join(
+            'photo', 
+            "photo.field_id = brands.brand_id AND photo.table = 'brands' AND photo.status = '0'", 
+            'left'
+        );
+
+        // This remains the primary filter
+        $this->db->where('category_brands.cate_id', $cate_id);
+
         $query = $this->db->get();
         return $query->result();
     }
-    
+
     function getAssignBrandIds($cate_id)
     {
         $this->db->select('brand_id');
