@@ -683,5 +683,70 @@ class Products extends Admin_Controller {
         $result = $this->Common_modal->update('pro_id',$id,'products',$data);
         echo json_encode($result);
     }
-}
 
+    // upload products from csv
+    public function productRun() {
+        // Define the path to the processed CSV file
+        $file_path = FCPATH . 'uploads/organized_products_for_import.csv';
+
+        if (!file_exists($file_path)) {
+            echo "Error: The file organized_products_for_import.csv was not found in the /uploads/ directory.";
+            return;
+        }
+
+        if (($handle = fopen($file_path, "r")) !== FALSE) {
+            // Skip the header row of the CSV
+            fgetcsv($handle);
+
+            $import_data = [];
+            
+            // Loop through the data rows
+            while (($row = fgetcsv($handle)) !== FALSE) {
+                // Map CSV columns from the Python script's output to the database fields
+                // This order must exactly match the output of product_organizer.py
+                $import_data[] = array(
+                    'pro_code'                  => !empty($row[0]) ? $row[0] : NULL,
+                    'user_id'                   => $row[1],
+                    'cate_id'                   => $row[2],
+                    'brand_id'                  => $row[3],
+                    'name'                      => $row[4],
+                    'description'               => !empty($row[5]) ? $row[5] : NULL,
+                    'short_description'         => !empty($row[6]) ? $row[6] : NULL,
+                    'ingredients'               => !empty($row[7]) ? $row[7] : NULL,
+                    'how_to_use'                => !empty($row[8]) ? $row[8] : NULL,
+                    'price'                     => $row[9],
+                    'price_poi'                 => $row[10],
+                    'quantity'                  => $row[11],
+                    'weight'                    => $row[12],
+                    'barcode'                   => !empty($row[13]) ? $row[13] : NULL,
+                    'slug_url'                  => !empty($row[14]) ? $row[14] : NULL,
+                    'seo_title'                 => !empty($row[15]) ? $row[15] : NULL,
+                    'seo_url'                   => !empty($row[16]) ? $row[16] : NULL,
+                    'seo_keyword'               => !empty($row[17]) ? $row[17] : NULL,
+                    'seo_description'           => !empty($row[18]) ? $row[18] : NULL,
+                    'view_count'                => $row[19],
+                    'sales_count'               => $row[20],
+                    'status'                    => $row[21],
+                    'credit_type_id'            => $row[22],
+                    'minimum_eligiblity_value'  => !empty($row[23]) ? $row[23] : NULL
+                );
+            }
+            fclose($handle);
+
+            // Insert data in batches using the model
+            if (!empty($import_data)) {
+                $result = $this->Common_modal->insert_batch('products',$import_data);
+                if($result){
+                    $rowCount = count($import_data);
+                    echo "Success! " . $rowCount . " product records were imported successfully.";
+                } else {
+                    echo "Error: Database import failed. Please check your database logs.";
+                }
+            } else {
+                echo "No data to import. The CSV file might be empty or contain only a header.";
+            }
+        } else {
+            echo "Error: Could not open the CSV file.";
+        }
+    }
+}

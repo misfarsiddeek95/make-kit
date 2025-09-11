@@ -123,6 +123,7 @@ class Settings_modal extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+    
     function getAssignBrandIds($cate_id)
     {
         $this->db->select('brand_id');

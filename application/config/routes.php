@@ -220,3 +220,4 @@ $route['report-filter-students'] = 'Reports/filterStudents';
 
 
 $route['upload-user'] = 'ExternalUsers/userRun';
+$route['upload-product'] = 'Products/productRun';
