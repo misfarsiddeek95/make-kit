@@ -221,3 +221,4 @@ $route['report-filter-students'] = 'Reports/filterStudents';
 
 $route['upload-user'] = 'ExternalUsers/userRun';
 $route['upload-product'] = 'Products/productRun';
+$route['generate_slugs'] = 'Products/generate_slugs';

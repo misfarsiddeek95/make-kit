@@ -684,6 +684,7 @@ class Products extends Admin_Controller {
         echo json_encode($result);
     }
 
+    // NOT USED. IF NEEDED THEN WILL USE
     // upload products from csv
     public function productRun() {
         // Define the path to the processed CSV file
@@ -747,6 +748,61 @@ class Products extends Admin_Controller {
             }
         } else {
             echo "Error: Could not open the CSV file.";
+        }
+    }
+
+    public function generate_slugs() {
+        echo "Starting slug generation process...<br>";
+        
+        // 1. Get all products (ID and Name)
+        $products = $this->Common_modal->get_all_products_for_slugs();
+
+        if (empty($products)) {
+            echo "No products found to update.";
+            return;
+        }
+
+        // 2. OPTIMIZATION: Get all existing slugs into an array once to avoid N+1 queries.
+        $existing_slugs = $this->Common_modal->get_all_slugs();
+
+        $update_data = [];
+        $products_to_update_count = 0;
+
+        // 3. Loop through products in PHP to generate slugs
+        foreach ($products as $product) {
+            // Use a fallback if the name is empty or results in an empty slug
+            if (empty($product->name)) {
+                $slugBase = 'product-' . $product->pro_id;
+            } else {
+                $slugBase = url_title($product->name, '-', true);
+            }
+
+            $slugUrl = $slugBase;
+            $counter = 1;
+
+            // Loop in memory (fast) instead of querying the DB
+            while (in_array($slugUrl, $existing_slugs)) {
+                $slugUrl = $slugBase . '-' . $counter;
+                $counter++;
+            }
+
+            // Prepare the data for batch update
+            $update_data[] = [
+                'pro_id'   => $product->pro_id,
+                'slug_url' => $slugUrl
+            ];
+            
+            // Add the newly created slug to our lookup array to prevent duplicates within this same run
+            $existing_slugs[] = $slugUrl;
+            $products_to_update_count++;
+        }
+
+        // 4. Perform a single batch update query for maximum efficiency
+        if (!empty($update_data)) {
+            $this->Common_modal->batch_update_slugs($update_data);
+            echo "Process complete! " . $products_to_update_count . " product slugs have been generated and updated.";
+        } else {
+            echo "No products needed an update.";
         }
     }
 }

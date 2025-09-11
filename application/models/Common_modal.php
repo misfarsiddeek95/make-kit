@@ -410,5 +410,40 @@ class Common_modal extends CI_Model {
         $query = $this->db->get();
         return $query->result();
     }
+
+
+
+    // NOT USED IF NEEDED THEN WILL BE USED.
+    public function get_all_products_for_slugs() {
+        $this->db->select('pro_id, name');
+        $this->db->from('products');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    
+    /**
+     * Fetches all existing non-empty slugs into a simple array for fast lookups.
+     * @return array
+     */
+    public function get_all_slugs() {
+        $this->db->select('slug_url');
+        $this->db->from('products');
+        $this->db->where('slug_url IS NOT NULL');
+        $query = $this->db->get();
+        // Return a flat array of slugs, e.g., ['slug-1', 'slug-2']
+        return array_column($query->result_array(), 'slug_url');
+    }
+    
+    /**
+     * Updates a batch of products using 'pro_id' as the WHERE key.
+     * @param array $data The data to be updated
+     * @return int The number of affected rows
+     */
+    public function batch_update_slugs($data) {
+        if (empty($data)) {
+            return 0;
+        }
+        return $this->db->update_batch('products', $data, 'pro_id');
+    }
 }
 
