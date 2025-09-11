@@ -217,3 +217,6 @@ $route['change-exam-paper-status'] = 'Questionnaire/changePaperStatus';
 
 # Reports
 $route['report-filter-students'] = 'Reports/filterStudents';
+
+
+$route['upload-user'] = 'ExternalUsers/userRun';

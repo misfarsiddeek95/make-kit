@@ -587,4 +587,63 @@ class ExternalUsers extends Admin_Controller {
         }
         echo json_encode($message);
     }
+
+
+    // import data manually from CSV file.
+    public function userRun() {
+        // Define the path to the CSV file directly
+        $file_path = FCPATH . 'uploads/organized_users_for_import.csv';
+
+        // Check if the file exists before trying to open it
+        if (!file_exists($file_path)) {
+            echo "Error: The file organized_users_for_import.csv was not found in the /uploads/ directory.";
+            return;
+        }
+
+        if (($handle = fopen($file_path, "r")) !== FALSE) {
+            // Skip the header row
+            fgetcsv($handle);
+
+            $import_data = [];
+            $rowCount = 0;
+            // Loop through the remaining rows
+            while (($row = fgetcsv($handle)) !== FALSE) {
+                // Map CSV columns to database fields
+                $import_data[] = array(
+                    'user_type'               => 3,
+                    'name'                    => $row[1],
+                    'role_number'             => !empty($row[2]) ? $row[2] : NULL,
+                    'city_id'                 => !empty($row[3]) ? $row[3] : NULL,
+                    'class_id'                => !empty($row[4]) ? $row[4] : NULL,
+                    'subject_id'              => !empty($row[5]) ? $row[5] : NULL,
+                    'instructor_id'           => !empty($row[6]) ? $row[6] : NULL,
+                    'gender'                  => !empty($row[7]) ? $row[7] : NULL,
+                    // --- FIX ---
+                    // Corrected the column mapping to match the CSV file.
+                    // CSV column 8 is parent_email, 9 is parent_name, 10 is parent_phone.
+                    'parent_email'            => $row[8],
+                    'parent_name'             => $row[9],
+                    'parent_phone'            => $row[10],
+                    'password'                => $row[11],
+                    'status'                  => $row[12],
+                    'points_earned'           => $row[13],
+                    'points_spent'            => $row[14],
+                    'points_earned_medalian'  => $row[15],
+                    'created_at'              => date("Y-m-d H:i:s", strtotime($row[16])) // Format date for MySQL
+                );
+            }
+            fclose($handle);
+
+            // Insert data using the model
+            if (!empty($import_data)) {
+                $this->Common_modal->insert_batch('external_users',$import_data);
+                $rowCount = count($import_data);
+                echo "Success! " . $rowCount . " records were imported successfully.";
+            } else {
+                echo "No data to import. The CSV file might be empty (besides the header).";
+            }
+        } else {
+            echo "Error: Could not open the CSV file.";
+        }
+    }
 }

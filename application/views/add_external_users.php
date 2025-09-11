@@ -24,7 +24,7 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label for="name" class="control-label">Name</label>
-                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->name);} ?>" placeholder="Name" id="name" name="name" class="form-control" data-minlength="3" data-pattern-error="Invalid name" data-error="Minimum of 3 characters" data-required-error="Name is Required" required autocomplete="off">
+                                            <input type="text" value="<?php if(!(empty($user))){echo($user->name);} ?>" placeholder="Name" id="name" name="name" class="form-control" data-minlength="3" data-pattern-error="Invalid name" data-error="Minimum of 3 characters" data-required-error="Name is Required" required autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
@@ -89,7 +89,7 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label for="parent_name" class="control-label">Parent Name</label>
-                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->parent_name);} ?>" placeholder="Parent Name" id="parent_name" name="parent_name" class="form-control" data-minlength="3" data-pattern-error="Invalid parent name" data-error="Minimum of 3 characters" data-required-error="Parent name is required" required autocomplete="off">
+                                            <input type="text" value="<?php if(!(empty($user))){echo($user->parent_name);} ?>" placeholder="Parent Name" id="parent_name" name="parent_name" class="form-control" data-minlength="3" data-pattern-error="Invalid parent name" data-error="Minimum of 3 characters" data-required-error="Parent name is required" required autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>

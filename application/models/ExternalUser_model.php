@@ -16,7 +16,7 @@ class ExternalUser_model extends CI_Model {
         if ($data['subject_id'] != '') {
             $this->db->where('eu.subject_id',$data['subject_id']);
         }
-        $this->db->join('class c','c.class_id=eu.class_id');
+        $this->db->join('class c','c.class_id=eu.class_id', 'left outer');
         $this->db->join('cities ct','ct.city_id=eu.city_id', 'left outer');
         $this->db->join('photo p', 'p.table = "external_users" AND p.field_id = eu.id', 'left outer');
         $query = $this->db->get();
