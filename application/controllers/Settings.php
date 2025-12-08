@@ -763,7 +763,7 @@ class Settings extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_del= $this->Admin_modal->isAccessRightGiven($group_id,49)?0:1;
             if ($manage_del) {
-                throw new Exception("You don't have the permissoin to manage delivery rates.");
+                throw new Exception("אין לך הרשאה לנהל שיעורי משלוח.");
             }
             $data['countries'] = $this->Common_modal->getCountries();
             $data['add_rate']= $this->Admin_modal->isAccessRightGiven($group_id,50)?1:0;
@@ -804,10 +804,10 @@ class Settings extends Admin_Controller {
             );
             if ($rateMId!=''||$rateMId!=null) {
                 if ($edit_rate) {
-                    throw new Exception("You don't have the permissoin to update rates.");
+                    throw new Exception("אין לך הרשאה לעדכן שיעורים.");
                 }
                 $this->Common_modal->update('charges_id',$rateMId,'delivery_charges',$rate_array);
-                $message = array("status" => "success","message" => "Delivery rate updated successfully");
+                $message = array("status" => "success","message" => "שיעור משלוח עודכן בהצלחה");
             }else{
                 $fromCountry= $this->input->post('fromCountry');
                 $fromCountryAll = isset($_POST['fromCountryAll']) ? 1 : 0;
@@ -831,14 +831,14 @@ class Settings extends Admin_Controller {
                 $delRateRes = $this->Settings_modal->check_del_charge($insert_array);  
                 
                 if ($delRateRes) {
-                    throw new Exception("Rate already Exist, Please try to update");
+                    throw new Exception("שיעור כבר קיים, אנא נסה לעדכן");
                 }else{
                     if ($add_rate) {
-                        throw new Exception("You don't have the permissoin to add rates.");
+                        throw new Exception("אין לך הרשאה להוסיף שיעורים.");
                     }
                     $insert_array = array_merge($insert_array,$rate_array);
                     $inserted_id = $this->Common_modal->insert('delivery_charges',$insert_array);
-                    $message = array("status" => "success","message" => "Delivery rate added successfully");
+                    $message = array("status" => "success","message" => "שיעור משלוח נוסף בהצלחה");
                 }
             }
         }catch(Exception $ex){
@@ -855,13 +855,13 @@ class Settings extends Admin_Controller {
             $usedInOrders = $this->Settings_modal->checkFieldUsed('delc_id','orders','delc_id',$charges_id);
             $delete_rate= $this->Admin_modal->isAccessRightGiven($group_id,52)?0:1;
 
-            if ($delete_rate) { throw new Exception("You don't have the permissoin to delete rates."); }
-            if ($usedInOrders) { throw new Exception("Rate used in orders."); }
+            if ($delete_rate) { throw new Exception("אין לך הרשאה למחוק שיעורים."); }
+            if ($usedInOrders) { throw new Exception("שיעור בשימוש בהזמנות."); }
             $result = $this->Common_modal->delete('delivery_charges','charges_id',$charges_id);
             if ($result) {
-                $message = array("status" => "success","message" => "Delivery rate deleted successfully");
+                $message = array("status" => "success","message" => "שיעור משלוח נמחק בהצלחה");
             }else{
-                throw new Exception("Something went wrong. Please try again");
+                throw new Exception("משהו השתבש. אנא נסה שוב");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());

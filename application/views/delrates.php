@@ -14,10 +14,10 @@
             <div class="panel-heading">
               <?php if($add_rate){?>
               <div class="panel-tools">
-                <button type="button" class="btn btn-outline-primary m-w-120" onclick="addRate();">Add Rate</button>
+                <button type="button" class="btn btn-outline-primary m-w-120" onclick="addRate();">הוסף שיעור</button>
               </div>
               <?php }?>
-              <h3 class="m-t-0 m-b-5">Delivery Rates</h3>
+              <h3 class="m-t-0 m-b-5">שיעורי משלוח</h3>
             </div>
             <div class="panel-body">
               <div class="page-layouts">
@@ -42,7 +42,7 @@
                             </select>
                         </div>
                         <div class="col-lg-1 col-sm-3 col-xs-12 m-y-5">
-                            <button class="btn btn-primary" style="width: 100%;" onclick="getOrderByStatus();">Filter</button>
+                            <button class="btn btn-primary" style="width: 100%;" onclick="getOrderByStatus();">סנן</button>
                         </div>
                         <div class="col-lg-2 col-sm-3 col-xs-12 m-y-5">
                             <select id="limit_sel" class="custom-select" onchange="getOrderByStatus();" style="border-color: #1d87e4;">
@@ -60,13 +60,13 @@
                 <table class="table table-bordered">
                   <thead id="thead_data">
                     <tr>
-                      <th>Country</th>
-                      <th>All Of Country</th>
-                      <th>Region</th>
-                      <th>All Of Region</th>
-                      <th>City</th>
-                      <th>Initial Charge</th>
-                      <th>Charge per KG</th>
+                      <th>מדינה</th>
+                      <th>כל המדינה</th>
+                      <th>אזור</th>
+                      <th>כל האזור</th>
+                      <th>עיר</th>
+                      <th>תעריף ראשוני</th>
+                      <th>תעריף לק"ג</th>
                       <?php if($edit_rate){?>
                       <th></th>
                       <?php } if($delete_rate){?>
@@ -97,15 +97,15 @@
                     <i class="zmdi zmdi-close"></i>
                   </span>
                 </button>
-                <h4 class="modal-title" id="modalTitle">Add Rate</h4>
+                <h4 class="modal-title" id="modalTitle">הוסף שיעור</h4>
               </div>
               <div class="modal-body">
                 <form  id="inputmasks" data-toggle="validator">
                   <input type="hidden" class="form-control" name="rateMId" id="rateMId" value="">
 
                   <div class="form-group col-md-8 hiddenDivClz" style="margin: 0px;padding: 0px;">
-                    <label for="form-control-3" class="control-label">Country</label>
-                    <select class="form-control" data-plugin="select2" name="fromCountry" id="fromCountry" onchange="getRegion(this.value,'fromRegion');" data-required-error="Country is Required" style="width: 100%;" required>
+                    <label for="form-control-3" class="control-label">מדינה</label>
+                    <select class="form-control" data-plugin="select2" name="fromCountry" id="fromCountry" onchange="getRegion(this.value,'fromRegion');" data-required-error="מדינה נדרשת" style="width: 100%;" required>
                       <option></option>
                       <?php foreach ($countries as $row) {?>
                         <option value="<?=$row->country_id?>"><?=$row->nicename?></option>
@@ -118,13 +118,13 @@
                     <label class="custom-control custom-control-primary custom-checkbox">
                       <input class="custom-control-input" type="checkbox" name="fromCountryAll" id="fromCountryAll" value="1">
                       <span class="custom-control-indicator"></span>
-                      <span class="custom-control-label">All Of Country</span>
+                      <span class="custom-control-label">כל המדינה</span>
                     </label>
                   </div>
 
                   <div class="form-group col-md-8 hiddenDivClz" style="margin: 0px;padding: 0px;">
-                    <label for="form-control-3" class="control-label">Region</label>
-                    <select class="form-control" data-plugin="select2" name="fromRegion" id="fromRegion" onchange="getCities(this.value,'fromCity');" data-required-error="Region is Required" style="width: 100%;" required>  
+                    <label for="form-control-3" class="control-label">אזור</label>
+                    <select class="form-control" data-plugin="select2" name="fromRegion" id="fromRegion" onchange="getCities(this.value,'fromCity');" data-required-error="אזור נדרש" style="width: 100%;" required>  
                       <option></option>
                     </select>
                   </div>
@@ -134,29 +134,29 @@
                     <label class="custom-control custom-control-primary custom-checkbox">
                       <input class="custom-control-input" type="checkbox" name="fromRegionAll" id="fromRegionAll" value="1">
                       <span class="custom-control-indicator"></span>
-                      <span class="custom-control-label">All Of Region</span>
+                      <span class="custom-control-label">כל האזור</span>
                     </label>
                   </div>
 
                   <div class="form-group col-md-8 hiddenDivClz" style="margin: 0px;padding: 0px;">
-                    <label for="form-control-3" class="control-label">City</label>
+                    <label for="form-control-3" class="control-label">עיר</label>
                     <select class="form-control" data-plugin="select2" name="fromCity" id="fromCity" style="width: 100%;">
                       <option></option>
                     </select>
                   </div>
 
                   <div class="form-group col-md-6" style="margin: 0px;padding: 0px;">
-                    <label for="form-control-3" class="control-label">Initial Charge</label>
-                    <input type="text" placeholder="Initial Charge" value="" name="initialCharge" id="initialCharge" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="Initial Charge is Required" required> 
+                    <label for="form-control-3" class="control-label">תעריף ראשוני</label>
+                    <input type="text" placeholder="תעריף ראשוני" value="" name="initialCharge" id="initialCharge" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="תעריף ראשוני נדרש" required> 
                   </div>
 
                   <div class="form-group col-md-6" style="margin: 0px;padding: 0px;">
-                    <label for="form-control-3" class="control-label">Charge per KG</label>
-                    <input type="text" placeholder="Charge per KG" value="" name="chargePerKG" id="chargePerKG" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="Charge per KG is Required" required>
+                    <label for="form-control-3" class="control-label">תעריף לק"ג</label>
+                    <input type="text" placeholder="תעריף לק\"ג" value="" name="chargePerKG" id="chargePerKG" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="תעריף לק\"ג נדרש" required>
                   </div>
 
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary" style="width: 50%;margin: 15px 0 0;">Add Rate</button>
+                    <button type="submit" class="btn btn-primary" style="width: 50%;margin: 15px 0 0;">הוסף שיעור</button>
                   </div>
                 </form>
               </div>
@@ -181,17 +181,17 @@
       });
 
       $("#fromCountry,#countryFilter").select2({
-        placeholder: "Select a Country",
+        placeholder: "בחר מדינה",
         allowClear: true
       });
 
       $("#fromRegion,#regionFilter").select2({
-        placeholder: "Select a Region",
+        placeholder: "בחר אזור",
         allowClear: true
       });
 
       $("#fromCity,#cityFilter").select2({
-        placeholder: "Select a City",
+        placeholder: "בחר עיר",
         allowClear: true
       });
 
@@ -211,7 +211,7 @@
                 }
               }
               $("#"+id).select2({
-                placeholder: "Select a Region",
+                placeholder: "בחר אזור",
                 allowClear: true
               });
             },
@@ -238,7 +238,7 @@
                 }
               }
               $("#"+id).select2({
-                placeholder: "Select a City",
+                placeholder: "בחר עיר",
                 allowClear: true
               });
             },
@@ -272,7 +272,7 @@
                   $('#inputmasks').waitMe('hide');
               },
               error: function(result) {
-                  toastr.error("Somthing went wrong :(")
+                  toastr.error("משהו השתבש :(")
               }
           });
         }
@@ -290,15 +290,15 @@
                 $('#tbody_data,#pagination_ul').empty();
                 var tbody=document.getElementById('tbody_data');
                 if (responsedata.rowcount==0) {
-                  $('#tbody_data').append('<tr><td colspan="9" class="text-center">No Results</td></tr>');
+                  $('#tbody_data').append('<tr><td colspan="9" class="text-center">אין תוצאות</td></tr>');
                 }else{
                   for (var i = 0; i < responsedata.del_rates.length; i++) {
                     var tr=document.createElement("tr");
                     tr.id="del_rate_id_"+responsedata.del_rates[i]['charges_id'];
                     var region = '-';
                     var city = '-';
-                    var AOC = 'No';
-                    var AOR = 'No';
+                    var AOC = 'לא';
+                    var AOR = 'לא';
                     if (responsedata.del_rates[i]['state_id']!=0||responsedata.del_rates[i]['reg_id']!=null) {
                       region = responsedata.del_rates[i]['region_name'];
                     }
@@ -306,10 +306,10 @@
                       city = responsedata.del_rates[i]['city_name'];
                     }
                     if (responsedata.del_rates[i]['all_of_country']==1) {
-                      AOC = 'Yes';
+                      AOC = 'כן';
                     }
                     if (responsedata.del_rates[i]['all_of_state']==1) {
-                      AOR = 'Yes';
+                      AOR = 'כן';
                     }
 
                     var inside ='<td class="text-center">'+responsedata.del_rates[i]['nicename']+'</td>'+
@@ -376,14 +376,14 @@
                 }
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
 
       function addRate() {
         $('.hiddenDivClz').show();
-        $('#modalTitle').text('Add Rate');
+        $('#modalTitle').text('הוסף שיעור');
         $('#rateMId').val('');
         document.getElementById('inputmasks').reset();
         $('#fromCountry').trigger('change');
@@ -402,7 +402,7 @@
         $('#rateMId').val(id);
         $('#initialCharge').val(initial_charge);
         $('#chargePerKG').val(charge_per_kg);
-        $('#modalTitle').text('Edit Rate');
+        $('#modalTitle').text('ערוך שיעור');
         $('#otherModal1').modal('show');
       }
 
@@ -439,7 +439,7 @@
       }
 
       function deleteDelCharge(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this rate?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק שיעור זה?',{
             closeButton: false,
             allowHtml: true,
             onShown: function (toast) {
@@ -458,7 +458,7 @@
                       }
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                   }
                 });
               });
