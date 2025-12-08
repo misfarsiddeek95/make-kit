@@ -874,7 +874,7 @@ class Settings extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_del= $this->Admin_modal->isAccessRightGiven($group_id,11)?0:1;
             if ($manage_del) {
-                throw new Exception("You don't have the permissoin to manage pages.");
+                throw new Exception("אין לך הרשאה לנהל עמודים.");
             }
             $data['pages'] = $this->Settings_modal->get_all_pages();
             $data['add_page']= $this->Admin_modal->isAccessRightGiven($group_id,54)?1:0;
@@ -893,13 +893,13 @@ class Settings extends Admin_Controller {
             $edit_page= $this->Admin_modal->isAccessRightGiven($group_id,55)?0:1;
             if (isset($_POST['page_id'])){
                 if ($edit_page) {
-                    throw new Exception("You don't have the permissoin to edit pages.");
+                    throw new Exception("אין לך הרשאה לערוך עמודים.");
                 }                
                 $data['page']= $this->Common_modal->getAllWhere('pages','page_id',$this->input->post('page_id'));
                 $data['type']='Edit';
             }else{
                 if ($add_page) {
-                    throw new Exception("You don't have the permissoin to add pages.");
+                    throw new Exception("אין לך הרשאה להוסיף עמודים.");
                 }
                 $data['type']='Add';
             }
@@ -953,12 +953,12 @@ class Settings extends Admin_Controller {
 
             if ($page_id!=0) {
                 if ($edit_page) {
-                    throw new Exception("You don't have the permissoin to update pages.");
+                    throw new Exception("אין לך הרשאה לעדכן עמודים.");
                 }
                 $type = 'edit';
             }else{
                 if ($add_page) {
-                    throw new Exception("You don't have the permissoin to add pages.");
+                    throw new Exception("אין לך הרשאה להוסיף עמודים.");
                 }
                 $type = 'save';
                 $page_id=0;

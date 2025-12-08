@@ -17,7 +17,7 @@
                 <span class="label label-success make-cursor" onclick="location.href='<?=base_url();?>add_page'" title="Add"><i class="zmdi zmdi-plus"></i></span>
               </div>
               <?php }?>
-              <h3 class="m-t-0 m-b-5">Page Management</h3>
+              <h3 class="m-t-0 m-b-5">ניהול עמודים</h3>
             </div>
             <div class="panel-body">
               <div class="panel-group" id="accordionOne" role="tablist" aria-multiselectable="true">
@@ -40,14 +40,14 @@
                           <thead>
                             <tr>
                               <th></th>
-                              <th>Name</th>
-                              <th>Page Type</th>
-                              <th>Page Title</th>
-                              <th>Headline</th>
-                              <th>Second Title</th>
-                              <th>create_date</th>
+                              <th>שם</th>
+                              <th>סוג עמוד</th>
+                              <th>כותרת עמוד</th>
+                              <th>כותרת ראשית</th>
+                              <th>כותרת משנית</th>
+                              <th>תאריך יצירה</th>
                               <?php if($edit_page || $add_photo){?>
-                              <th style="text-align:right;">Options</th> 
+                              <th style="text-align:right;">אפשרויות</th> 
                               <?php } ?>
                             </tr>
                           </thead>
@@ -62,16 +62,16 @@
                               $page_type = '';
                               switch ($pageType) {
                                 case 0:
-                                  $page_type = 'Main Page';
+                                  $page_type = 'עמוד ראשי';
                                   break;
                                 case 1:
-                                  $page_type = 'Slider';
+                                  $page_type = 'סליידר';
                                   break;
                                 case 2:
-                                  $page_type = 'Banner';
+                                  $page_type = 'בנר';
                                   break;
                                 case 3:
-                                  $page_type = 'Gallery';
+                                  $page_type = 'גלריה';
                                   break;
                                 default:
                                   $page_type = '';
@@ -90,9 +90,9 @@
                               <?php if($edit_page || $add_photo){?>
                               <td align="right">
                                 <?php if($edit_page){?>
-                                  <span class="label label-primary make-cursor" title="Edit" onclick="editMe('<?=$row->page_id?>');"><i class="zmdi zmdi-edit"></i></span>
+                                  <span class="label label-primary make-cursor" title="ערוך" onclick="editMe('<?=$row->page_id?>');"><i class="zmdi zmdi-edit"></i></span>
                                 <?php } if($add_photo){ ?>
-                                  <span class="label label-info make-cursor" title="Upload Image" onclick="addPageImg('<?=$row->page_id?>');"><i class="zmdi zmdi-upload"></i></span>
+                                  <span class="label label-info make-cursor" title="העלה תמונה" onclick="addPageImg('<?=$row->page_id?>');"><i class="zmdi zmdi-upload"></i></span>
                                 <?php } ?>
                               </td>
                               <?php } ?>

@@ -62,9 +62,9 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <div class="panel-tools">
-              <a type="button" class="btn btn-outline-primary m-w-120" href="<?=base_url()?>Settings/pages">Back to View</a>
+              <a type="button" class="btn btn-outline-primary m-w-120" href="<?=base_url()?>Settings/pages">חזרה לתצוגה</a>
             </div>
-            <h3 class="m-y-0">Add Page Images</h3>
+            <h3 class="m-y-0">הוסף תמונות עמוד</h3>
           </div>
           <div class="panel-body">
             <div class="row">
@@ -75,28 +75,28 @@
                   <input type="hidden" name="img_headtwo" id="img_headtwo" value="">
                   <input type="hidden" name="img_desc" id="img_desc" value=""> 
                   <div class="dz-default dz-message">
-                    <span class="text-muted">Drop page image here</span>
+                    <span class="text-muted">גרור תמונת עמוד לכאן</span>
                   </div>
                 </form>
               </div>
               <form data-toggle="validator" id="inputMask">
                 <div class="col-md-5">
                   <div class="form-group">
-                    <label for="form-control-2" class="control-label" id="slh1">Header One</label>
-                    <input type="text" class="form-control" id="slheadone" name="headerone" placeholder="Header One">
+                    <label for="form-control-2" class="control-label" id="slh1">כותרת אחת</label>
+                    <input type="text" class="form-control" id="slheadone" name="headerone" placeholder="כותרת אחת">
                   </div>
                   <div class="form-group">
-                    <label for="form-control-2" class="control-label" id="slh">Header Two</label>
-                    <input type="text" class="form-control" id="slheadtwo" name="headertwo" placeholder="Header Two">
+                    <label for="form-control-2" class="control-label" id="slh">כותרת שתיים</label>
+                    <input type="text" class="form-control" id="slheadtwo" name="headertwo" placeholder="כותרת שתיים">
                   </div>
                 </div>
                 <div class="col-md-5">
                   
                   <div class="form-group">
-                    <label for="form-control-2" class="control-label" id="sl">Description</label>
-                    <textarea class="form-control" name="sliderdesc" id="sliderdesc" placeholder="Description" style="height: 110px;"></textarea>
+                    <label for="form-control-2" class="control-label" id="sl">תיאור</label>
+                    <textarea class="form-control" name="sliderdesc" id="sliderdesc" placeholder="תיאור" style="height: 110px;"></textarea>
                   </div>
-                  <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitBtn">Submit</button>
+                  <button type="submit" class="btn btn-primary" style="width: 100%;" id="submitBtn">שלח</button>
                 </div>
               </form>
             </div> 
@@ -176,7 +176,7 @@
    
             myDropzone.processQueue();
           }else{
-            toastr.error("Please add a page image")
+            toastr.error("אנא הוסף תמונת עמוד")
           }
         }
       });
@@ -205,13 +205,13 @@
             $( "#sortable" ).sortable();
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
 
       function delete_image(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you need to delete this photo?',
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם אתה צריך למחוק תמונה זו?',
         {
             closeButton: true,
             allowHtml: true,
@@ -231,7 +231,7 @@
                     load_images();
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                   }
                 });
               });
@@ -253,7 +253,7 @@
 
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
