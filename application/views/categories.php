@@ -25,7 +25,7 @@
                 <button type="button" class="btn btn-outline-success btn-pill" data-toggle="modal" data-target="#otherModal3" title="Add"  onclick="addCategory();"><i class="zmdi zmdi-plus"></i></button>
               </div>
               <?php }?>
-              <h3 class="m-t-0 m-b-5">Categories</h3>
+              <h3 class="m-t-0 m-b-5">קטגוריות</h3>
             </div>
             <div class="panel-body">
               <div class="table-responsive m-y-5">
@@ -34,15 +34,15 @@
                     <tr>
                       <th></th>
                       <th>ID</th>
-                      <th>Category</th>
-                      <th>Category Second Title</th>
-                      <th>Category URL</th>
-                      <th>Tree</th>
-                      <th>View Count</th>
-                      <th>Status</th>
-                      <th>Show in Site</th>
+                      <th>קטגוריה</th>
+                      <th>כותרת משנה של הקטגוריה</th>
+                      <th>כתובת קטגוריה</th>
+                      <th>עץ</th>
+                      <th>מספר צפיות</th>
+                      <th>סטטוס</th>
+                      <th>הצג באתר</th>
                       <?php if($edit_cat || $delete_cat || $imageUpload||$manage_attr||$manage_brands){?>
-                        <th style="text-align:right;">Options</th>
+                        <th style="text-align:right;">אפשרויות</th>
                       <?php } ?>
                     </tr>
                   </thead>
@@ -84,11 +84,11 @@
                           </button>
                           <ul class="dropdown-menu dropdown-menu-right">
                             <?php if($imageUpload){?>
-                            <li><a href="javascript:uploadImage(<?=$row->cate_id;?>);">Upload image</a></li>
+                            <li><a href="javascript:uploadImage(<?=$row->cate_id;?>);">העלה תמונה</a></li>
                             <?php } if($manage_attr){?>
-                            <li><a href="javascript:manage_attr(<?=$row->cate_id;?>);">Manage Attributes</a></li>
+                            <li><a href="javascript:manage_attr(<?=$row->cate_id;?>);">נהל תכונות</a></li>
                             <?php } if($manage_brands){?>
-                            <li><a href="javascript:manage_brands(<?=$row->cate_id;?>);">Manage Brands</a></li>
+                            <li><a href="javascript:manage_brands(<?=$row->cate_id;?>);">נהל מותגים</a></li>
                             <?php }?>
                           </ul>
                         </div>
@@ -110,26 +110,26 @@
             <div class="panel-heading">
               <div class="panel-tools">
                 <?php if($assign_attr){?>
-                <button type="button" class="btn btn-outline-primary" onclick="assignAttr();">Assign Attribute</button>
+                <button type="button" class="btn btn-outline-primary" onclick="assignAttr();">שייך תכונה</button>
                 <?php } ?>
                 <a href="javascript:closeAssignMain();" class="tools-icon btn btn-outline-primary">
                   <i class="zmdi zmdi-close"></i>
                 </a>
               </div>
-              <h3 class="panel-title" id="cateTitle">Category Attributes</h3>
+              <h3 class="panel-title" id="cateTitle">תכונות קטגוריה</h3>
             </div>
             <div class="panel-body">
               <div class="table-responsive">
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>Attributes</th>
-                      <th>Identification name</th>
-                      <th>Type</th>
-                      <th>Show to all</th>
-                      <th>Price effect</th>
+                      <th>תכונות</th>
+                      <th>שם זיהוי</th>
+                      <th>סוג</th>
+                      <th>הצג לכולם</th>
+                      <th>השפעת מחיר</th>
                       <?php if($remove_attr){ ?>
-                      <th>Remove</th>
+                      <th>הסר</th>
                       <?php } ?>
                     </tr>
                   </thead>
@@ -145,13 +145,13 @@
             <div class="panel-heading">
               <div class="panel-tools">
                 <?php if($assign_brands){?>
-                <button type="button" class="btn btn-outline-primary" onclick="assignBrands();">Assign Brand</button>
+                <button type="button" class="btn btn-outline-primary" onclick="assignBrands();">שייך מותג</button>
                 <?php } ?>
                 <a href="javascript:closeBrandMain();" class="tools-icon btn btn-outline-primary">
                   <i class="zmdi zmdi-close"></i>
                 </a>
               </div>
-              <h3 class="panel-title" id="brandTitle">Assigned Brands</h3>
+              <h3 class="panel-title" id="brandTitle">מותגים משוייכים</h3>
             </div>
             <div class="panel-body">
               <div class="table-responsive">
@@ -159,10 +159,10 @@
                   <thead>
                     <tr>
                       <th></th>
-                      <th>Brand</th>
-                      <th>View Count</th>
+                      <th>מותג</th>
+                      <th>מספר צפיות</th>
                       <?php if($remove_brands){ ?>
-                      <th>Remove</th>
+                      <th>הסר</th>
                       <?php } ?>
                     </tr>
                   </thead>
@@ -186,14 +186,14 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal-title">Categories</h4>
+              <h4 class="modal-title" id="modal-title">קטגוריות</h4>
             </div>
 
             <form data-toggle="validator" id="inputmasks">
               <div class="modal-body">
                 <input type="hidden" name="cate_id" id="cate_id" value="0">
                 <div class="form-group" id="catSelect">
-                  <label for="form-control-3" class="control-label">Categoris</label>
+                  <label for="form-control-3" class="control-label">קטגוריות</label>
                   <select class="form-control" data-plugin="select2" name="allCategories" id="allCategories" style="width: 100%">
                     <option></option>
                     <?php
@@ -222,25 +222,25 @@
                   <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                  <label for="category" class="control-label">Category</label>
-                  <input type="text" class="form-control" id="category" name="category" placeholder="Category" data-required-error="Category is Required" required>
+                  <label for="category" class="control-label">קטגוריה</label>
+                  <input type="text" class="form-control" id="category" name="category" placeholder="קטגוריה" data-required-error="קטגוריה נדרשת" required>
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="category_second_title" class="control-label">Category Second Title</label>
-                  <input type="text" class="form-control" id="category_second_title" name="category_second_title" placeholder="Category second title" />
+                  <label for="category_second_title" class="control-label">כותרת משנה של הקטגוריה</label>
+                  <input type="text" class="form-control" id="category_second_title" name="category_second_title" placeholder="כותרת משנה של הקטגוריה" />
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="seoUrl" class="control-label">SEO Url</label>
+                  <label for="seoUrl" class="control-label">כתובת SEO</label>
                   <div class="row">
                     <div class="col-sm-6" id="seo_url_col">
                       <input class="form-control" type="text"
                         value=""
-                        placeholder="SEO url" id="seoUrl" name="seo_url" required
-                        data-required-error="SEO Url is required." onkeyup="getSeoUrl(this.value);">
+                        placeholder="כתובת SEO" id="seoUrl" name="seo_url" required
+                        data-required-error="כתובת SEO נדרשת." onkeyup="getSeoUrl(this.value);">
                     </div>
                     <div class="col-sm-6 col-md-3" id="urlEditable">
                         <button type="button" class="btn btn-info btn-block" id="urlEdit" onclick="enableFieldEdit('1','seoUrl','urlEdit');"><i class="zmdi zmdi-edit"></i></button>
@@ -252,8 +252,8 @@
 
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                <button type="submit" class="btn btn-primary">שלח</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
               </div>
             </form>
           </div>
@@ -269,7 +269,7 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal-title">Add Category Photo</h4>
+              <h4 class="modal-title" id="modal-title">הוסף תמונת קטגוריה</h4>
             </div>
 
             <form action="<?=base_url()?>uploadSingleImage" class="dropzone" id="myDropzone">
@@ -278,7 +278,7 @@
                   <div class="dz-icon">
                     <i class="zmdi zmdi-upload"></i>
                   </div>
-                  <span class="text-muted">Drop image here or click to upload</span>
+                  <span class="text-muted">גרור תמונה לכאן או לחץ להעלאה</span>
                 </div>
             </form>
           </div>
@@ -294,23 +294,23 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal_assign_title">Assign Attribute</h4>
+              <h4 class="modal-title" id="modal_assign_title">שייך תכונה</h4>
             </div>
 
             <form data-toggle="validator" id="attrAssignMasks">
               <div class="modal-body">
                 <input type="hidden" name="assign_cate_id" id="assign_cate_id" value="0">
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Attribute</label>
-                  <select class="form-control" data-plugin="select2" name="assign_attr" id="assign_attr" style="width: 100%;" data-required-error="Please select an attribute in the list." required>
+                  <label for="form-control-2" class="control-label">תכונה</label>
+                  <select class="form-control" data-plugin="select2" name="assign_attr" id="assign_attr" style="width: 100%;" data-required-error="אנא בחר תכונה ברשימה." required>
                     <option></option>
                   </select>
                   <div class="help-block with-errors"></div>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                <button type="submit" class="btn btn-primary">שלח</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
               </div>
             </form>
           </div>
@@ -326,22 +326,22 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal_bassign_title">Assign Brand</h4>
+              <h4 class="modal-title" id="modal_bassign_title">שייך מותג</h4>
             </div>
             <form data-toggle="validator" id="brandAssignMasks">
               <div class="modal-body">
                 <input type="hidden" name="bassign_cate_id" id="bassign_cate_id" value="0">
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Brands</label>
-                  <select class="form-control" data-plugin="select2" name="assign_brand" id="assign_brand" style="width: 100%;" data-required-error="Please select a brand in the list." required>
+                  <label for="form-control-2" class="control-label">מותגים</label>
+                  <select class="form-control" data-plugin="select2" name="assign_brand" id="assign_brand" style="width: 100%;" data-required-error="אנא בחר מותג ברשימה." required>
                     <option></option>
                   </select>
                   <div class="help-block with-errors"></div>
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                <button type="submit" class="btn btn-primary">שלח</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
               </div>
             </form>
           </div>
@@ -354,17 +354,17 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script type="text/javascript">
       $("#allCategories").select2({
-        placeholder: "Select a Category",
+        placeholder: "בחר קטגוריה",
         allowClear: true
       });
 
       $("#assign_attr").select2({
-        placeholder: "Select a Attribute",
+        placeholder: "בחר תכונה",
         allowClear: true
       });
 
       $("#assign_brand").select2({
-        placeholder: "Select a Brand",
+        placeholder: "בחר מותג",
         allowClear: true
       });
 
@@ -489,7 +489,7 @@
       }
 
       function deleteCat(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this Category?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק קטגוריה זו?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -568,13 +568,13 @@
             var category = $("#catRow"+id).find("td:eq(2)").text();
 
             $("#assign_cate_id").val(id);
-            $("#cateTitle").text(category+" Category Attributes");
+            $("#cateTitle").text(category+" תכונות קטגוריה");
             $('#attrAssignTbody').empty();
             closeBrandMain();
 
             var tbody = '';
             if (responsedata.assign_attr.length==0) {
-              $('#attrAssignTbody').append('<tr><td colspan="6" class="text-center">No Results</td></tr>');
+              $('#attrAssignTbody').append('<tr><td colspan="6" class="text-center">אין תוצאות</td></tr>');
             }else{
               for (var i = 0; i < responsedata.assign_attr.length; i++) {
                 var type = responsedata.assign_attr[i]['type'];
@@ -592,10 +592,10 @@
                   type = 'Single Color Pick';
                 }
                 if (responsedata.assign_attr[i]['show_to_all']==0) {
-                  show_to_all = 'Yes';
+                  show_to_all = 'כן';
                 }
                 if (responsedata.assign_attr[i]['price_effect']==0) {
-                  price_effect = 'Yes';
+                  price_effect = 'כן';
                 }
                 tbody+='<tr id="assignAttr'+responsedata.assign_attr[i]['ca_id']+'"><td>'+responsedata.assign_attr[i]['attribute']+'</td>'+
                   '<td>'+responsedata.assign_attr[i]['identification_name']+'</td>'+
@@ -603,7 +603,7 @@
                   '<td>'+show_to_all+'</td>'+
                   '<td>'+price_effect+'</td>'+
                   <?php if($remove_attr){ ?>
-                  '<td><button type="button" class="btn btn-outline-danger" onclick="removeAssignAttr('+responsedata.assign_attr[i]['ca_id']+');">Remove</button></td>'+
+                  '<td><button type="button" class="btn btn-outline-danger" onclick="removeAssignAttr('+responsedata.assign_attr[i]['ca_id']+');">הסר</button></td>'+
                   <?php } ?>
                   '</tr>';
               }
@@ -619,7 +619,7 @@
       }
 
       function removeAssignAttr(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to remove this attribute?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך להסיר תכונה זו?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -665,7 +665,7 @@
             $("#attrAssignModal").modal('show');
             $("#assign_attr").selectpicker('refresh');
             $("#assign_attr").select2({
-              placeholder: "Select a Attribute",
+              placeholder: "בחר תכונה",
               allowClear: true
             });
           },
@@ -721,13 +721,13 @@
             var responsedata = $.parseJSON(result);
             var category = $("#catRow"+id).find("td:eq(2)").text();
             $("#bassign_cate_id").val(id);
-            $("#brandTitle").text(category+" Category Brands");
+            $("#brandTitle").text(category+" מותגי קטגוריה");
             $('#brandAssignTbody').empty();
             closeAssignMain();
 
             var tbody = '';
             if (responsedata.assign_brands.length==0) {
-              $('#brandAssignTbody').append('<tr><td colspan="3" class="text-center">No Results</td></tr>');
+              $('#brandAssignTbody').append('<tr><td colspan="3" class="text-center">אין תוצאות</td></tr>');
             }else{
               for (var i = 0; i < responsedata.assign_brands.length; i++) {
                 var img = 'default.jpg';
@@ -738,7 +738,7 @@
                   '<td>'+responsedata.assign_brands[i]['brand']+'</td>'+
                   '<td>'+responsedata.assign_brands[i]['view_count']+'</td>'+
                   <?php if($remove_brands){ ?>
-                  '<td><button type="button" class="btn btn-outline-danger" onclick="removeAssignBrands('+responsedata.assign_brands[i]['cb_id']+');">Remove</button></td>'+
+                  '<td><button type="button" class="btn btn-outline-danger" onclick="removeAssignBrands('+responsedata.assign_brands[i]['cb_id']+');">הסר</button></td>'+
                   <?php } ?>
                   '</tr>';
               }
@@ -769,7 +769,7 @@
             $("#brandAssignModal").modal('show');
             $("#assign_brand").selectpicker('refresh');
             $("#assign_brand").select2({
-              placeholder: "Select a Brand",
+              placeholder: "בחר מותג",
               allowClear: true
             });
           },
@@ -812,7 +812,7 @@
       });
 
       function removeAssignBrands(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to remove this brand?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך להסיר מותג זה?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {

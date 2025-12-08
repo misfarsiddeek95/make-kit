@@ -19,7 +19,7 @@ class Settings extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_cat= $this->Admin_modal->isAccessRightGiven($group_id,23)?0:1;
             if ($manage_cat) {
-                throw new Exception("You don't have the permissoin to manage categories.");
+                throw new Exception("אין לך הרשאה לנהל קטגוריות.");
             }
             $data['categories']= $this->Common_modal->getAllCate();
             $data['allCates']= $this->Settings_modal->getCategories();
@@ -49,9 +49,9 @@ class Settings extends Admin_Controller {
             $usedCate = $this->Settings_modal->checkFieldUsed('cate_id','categories','parent_id',$cate_id);
             $usedPro = $this->Settings_modal->checkFieldUsed('cate_id','products','cate_id',$cate_id);
             $delete_cat= $this->Admin_modal->isAccessRightGiven($group_id,26)?0:1;
-            if ($delete_cat) { throw new Exception("You don't have the permissoin to delete categories."); }
-            if ($usedCate) { throw new Exception("Category have sub categories."); }
-            if($usedPro){ throw new Exception("Category used in products."); }
+            if ($delete_cat) { throw new Exception("אין לך הרשאה למחוק קטגוריות."); }
+            if ($usedCate) { throw new Exception("לקטגוריה יש תתי קטגוריות."); }
+            if($usedPro){ throw new Exception("קטגוריה בשימוש במוצרים."); }
             $this->Common_modal->delete('categories','cate_id',$cate_id);
             $this->Common_modal->delete('category_attributes','cate_id',$cate_id);
             $photos = $this->Common_modal->getTablePhotos('categories',$cate_id);
@@ -67,7 +67,7 @@ class Settings extends Admin_Controller {
                     }
                 }
             }
-            $message = array("status" => "success","message" => "Category deleted successfully.");
+            $message = array("status" => "success","message" => "קטגוריה נמחקה בהצלחה.");
             
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -88,13 +88,13 @@ class Settings extends Admin_Controller {
                     if ($onStatus) {
                         $data['status']=0;
                     }else{
-                        throw new Exception("You don't have the permissoin to change status.");
+                        throw new Exception("אין לך הרשאה לשנות סטטוס.");
                     }
                 }
                 $this->Common_modal->update('cate_id',$cate_id,'categories',$data);
-                $message = array("status" => "success","message" => "Status updated successfully.");
+                $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -113,9 +113,9 @@ class Settings extends Admin_Controller {
                     $data['show_in_site']=1;
                 }
                 $this->Common_modal->update('cate_id',$cate_id,'categories',$data);
-                $message = array("status" => "success","message" => "Show in the website menu status updated successfully.");
+                $message = array("status" => "success","message" => "סטטוס תצוגה בתפריט האתר עודכן בהצלחה.");
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -143,7 +143,7 @@ class Settings extends Admin_Controller {
                 $seoUrl = $this->input->post('seo_url');
                 $checkUrlExist = $this->Common_modal->check_value_exist('categories','seo_url',$seoUrl);
                 if ($checkUrlExist) {
-                    throw new Exception("SEO Url already exists. Please try another.");
+                    throw new Exception("כתובת SEO כבר קיימת. אנא נסה אחרת.");
                 }else{
                     $data['seo_url'] = $seoUrl;
                 }
@@ -151,7 +151,7 @@ class Settings extends Admin_Controller {
 
             if ($cate_id==0) {
                 if ($add_cat) {
-                    throw new Exception("You don't have the permissoin to add categories.");
+                    throw new Exception("אין לך הרשאה להוסיף קטגוריות.");
                 }
                 $cate_id = ($this->Common_modal->getMaxId('cate_id','categories'))+1;
                 $data['cate_id']= $cate_id;
@@ -169,13 +169,13 @@ class Settings extends Admin_Controller {
                    $data['status']=1; 
                 }
                 $cate_id = $this->Common_modal->insert('categories',$data);
-                $message = array("status" => "success","message" => "Category added successfully.");
+                $message = array("status" => "success","message" => "קטגוריה נוספה בהצלחה.");
             }else{
                 if ($edit_cat) {
-                    throw new Exception("You don't have the permissoin to edit categories.");
+                    throw new Exception("אין לך הרשאה לערוך קטגוריות.");
                 }
                 $this->Common_modal->update('cate_id',$cate_id,'categories',$data);
-                $message = array("status" => "success","message" => "Category updated successfully.");
+                $message = array("status" => "success","message" => "קטגוריה עודכנה בהצלחה.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
