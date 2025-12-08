@@ -13,14 +13,14 @@
             <div class="site-content">
                 <div class="panel panel-default">
                   <div class="panel-heading">
-                    <h3 class="m-y-0">Access Group Options</h3>
+                    <h3 class="m-y-0">אפשרויות קבוצת גישה</h3>
                   </div>
                   <div class="panel-body">
                     <div class="row">
                       <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3" id="access_group_div">
                         <div class="form-group">
                             <select class="custom-select" name="access_group" id="access_group" required="required">
-                                <option selected="selected" disabled="disabled">-- Select Access Group --</option>
+                                <option selected="selected" disabled="disabled">-- בחר קבוצת גישה --</option>
                                 <?php foreach ($access_groups as $row){ ?>
                                 <option value="<?php echo $row->group_id; ?>"><?php echo $row->group_desc; ?></option>
                                 <?php } ?>
@@ -29,7 +29,7 @@
                         <div class="form-group">
                             <div id="tree"></div>
                         </div>
-                        <button class="btn btn-primary btn-block" id="submit_btn" disabled>Submit</button>
+                        <button class="btn btn-primary btn-block" id="submit_btn" disabled>שלח</button>
                       </div>
                     </div>
                   </div>
@@ -84,11 +84,11 @@
                         }
                       },
                       error: function(result) {
-                        toastr.error("Somthing went wrong :(")
+                        toastr.error("משהו השתבש :(")
                       }
                     });
                 }else{
-                    toastr.error("Please select the Access Group.")
+                    toastr.error("אנא בחר את קבוצת הגישה.")
                 }
             });
         </script>

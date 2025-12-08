@@ -15,7 +15,7 @@
               <div class="panel-tools">
                 <button type="button" class="btn btn-outline-success btn-pill" data-toggle="modal" data-target="#otherModal3" title="Add"  onclick="addAccessGroups();"><i class="zmdi zmdi-plus"></i></button>
               </div>
-              <h3 class="m-t-0 m-b-5">Access Groups</h3>
+              <h3 class="m-t-0 m-b-5">קבוצות גישה</h3>
             </div>
             <div class="panel-body">
               <div class="table-responsive m-y-5">
@@ -23,9 +23,9 @@
                   <thead>
                     <tr>
                       <th></th>
-                      <th>Code</th>
-                      <th>Description</th>
-                      <th style="text-align: right;">Action</th>
+                      <th>קוד</th>
+                      <th>תיאור</th>
+                      <th style="text-align: right;">פעולה</th>
                     </tr>
                   </thead>
                   <tbody id="tbody_data">
@@ -61,26 +61,26 @@
                     <i class="zmdi zmdi-close"></i>
                   </span>
                 </button>
-                <h4 class="modal-title" id="modal-title">Access Group</h4>
+                <h4 class="modal-title" id="modal-title">קבוצת גישה</h4>
               </div>
 
               <form data-toggle="validator" id="inputmasks">
                 <div class="modal-body">
                     <input type="hidden" name="group_id" id="group_id" value="0">
                     <div class="form-group">
-                      <label for="form-control-2" class="control-label">Group Code</label>
-                      <input type="text" class="form-control" pattern=".{3}" data-pattern-error="3 characters Required" id="group_code" name="group_code" placeholder="Group Code" data-required-error="Code is Required" required>
+                      <label for="form-control-2" class="control-label">קוד קבוצה</label>
+                      <input type="text" class="form-control" pattern=".{3}" data-pattern-error="נדרשים 3 תווים" id="group_code" name="group_code" placeholder="קוד קבוצה" data-required-error="קוד נדרש" required>
                       <div class="help-block with-errors"></div>
                     </div>
                     <div class="form-group">
-                      <label for="form-control-2" class="control-label">Group Description</label>
-                      <input type="text" class="form-control" id="group_desc" name="group_desc" placeholder="Group Description" data-required-error="Description is Required" required>
+                      <label for="form-control-2" class="control-label">תיאור קבוצה</label>
+                      <input type="text" class="form-control" id="group_desc" name="group_desc" placeholder="תיאור קבוצה" data-required-error="תיאור נדרש" required>
                       <div class="help-block with-errors"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                  <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                  <button type="submit" class="btn btn-primary">שלח</button>
+                  <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
                 </div>
               </form>
             </div>
@@ -107,12 +107,12 @@
                   location.reload();
                 }, 1000);
               }else{
-                toastr.error("Somthing went wrong :(")
+                toastr.error("משהו השתבש :(")
               }
             },
             error: function(result) {
               $('#inputmasks').waitMe('hide');
-              toastr.error('Error :'+result)
+              toastr.error('שגיאה: '+result)
             }
           });
           $('#inputmasks').waitMe('hide');
@@ -120,7 +120,7 @@
       });
 
       function addAccessGroups() {
-        $('#modal-title').text('Add Access Group');
+        $('#modal-title').text('הוסף קבוצת גישה');
         $('#group_id').val(0);
         $('#group_code').val('');
         $('#group_desc').val('');
@@ -129,7 +129,7 @@
       function editGroup(id) {
         var code = $("#groupRow"+id).find("td:eq(1)").text();
         var desc = $("#groupRow"+id).find("td:eq(2)").text();
-        $('#modal-title').text('Update Access Group');
+        $('#modal-title').text('עדכן קבוצת גישה');
         $('#group_id').val(id);
         $('#group_code').val(code);
         $('#group_desc').val(desc);
@@ -137,7 +137,7 @@
       }
 
       function deleteGroup(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this Group?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק קבוצה זו?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -156,7 +156,7 @@
                     }
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                   }
                 });
               });
