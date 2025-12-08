@@ -30,7 +30,7 @@
             <div class="nav-avatar">
               <img class="img-circle" src="<?= base_url() ?>photos/<?= $this->session->userdata['staff_logged_in']['image'] ?>" width="48" height="48">
             </div>
-            <h4 class="navbar-text text-center">Welcome, <?= $this->session->userdata['staff_logged_in']['name'] ?>!</h4>
+            <h4 class="navbar-text text-center">שלום, <?= $this->session->userdata['staff_logged_in']['name'] ?>!</h4>
           </li>
         </ul>
 
@@ -42,12 +42,12 @@
               <span class="nav-cell nav-icon">
                 <i class="zmdi zmdi-account-o"></i>
               </span>
-              <span class="hidden-md-up m-l-15">Account</span>
+              <span class="hidden-md-up m-l-15">חשבון</span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="<?= base_url('profile') ?>"><i class="zmdi zmdi-account-o m-r-10"></i> Profile</a></li>
+              <li><a href="<?= base_url('profile') ?>"><i class="zmdi zmdi-account-o m-r-10"></i> פרופיל</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="<?= base_url('logout') ?>"><i class="zmdi zmdi-power m-r-10"></i> Logout</a></li>
+              <li><a href="<?= base_url('logout') ?>"><i class="zmdi zmdi-power m-r-10"></i> התנתק</a></li>
             </ul>
           </li>
 
@@ -63,9 +63,9 @@
               </span>
             </a>
             <ul class="dropdown-menu">
-              <li><a href="<?= base_url('profile') ?>"><i class="zmdi zmdi-account-o m-r-10"></i> Profile</a></li>
+              <li><a href="<?= base_url('profile') ?>"><i class="zmdi zmdi-account-o m-r-10"></i> פרופיל</a></li>
               <li role="separator" class="divider"></li>
-              <li><a href="<?= base_url('logout') ?>"><i class="zmdi zmdi-power m-r-10"></i> Logout</a></li>
+              <li><a href="<?= base_url('logout') ?>"><i class="zmdi zmdi-power m-r-10"></i> התנתק</a></li>
             </ul>
           </li>
 
