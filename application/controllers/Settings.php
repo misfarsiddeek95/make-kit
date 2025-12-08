@@ -1105,7 +1105,7 @@ class Settings extends Admin_Controller {
             $_manage = $this->Admin_modal->isAccessRightGiven($group_id,107) ? 0 : 1;
 
             if ($_manage) {
-                throw new Exception("You don't have the permissoin to manage discount rates.");
+                throw new Exception("אין לך הרשאה לנהל שיעורי הנחה.");
             }
 
             $data['list']= $this->Admin_modal->isAccessRightGiven($group_id,108) ? 1 : 0;
@@ -1138,12 +1138,12 @@ class Settings extends Admin_Controller {
 
             if ($discount_id != 0) {
                 if ($_edit) {
-                    throw new Exception("You don't have the permission to edit discount rate.");
+                    throw new Exception("אין לך הרשאה לערוך שיעור הנחה.");
                 } 
                 $type = 'update';
             }else{
                 if ($_add) {
-                    throw new Exception("You don't have the permission to add discount rate.");
+                    throw new Exception("אין לך הרשאה להוסיף שיעור הנחה.");
                 } 
                 $type = 'save';
             }
@@ -1169,15 +1169,15 @@ class Settings extends Admin_Controller {
                 if ($is_used) {  
                     $delete = $this->Common_modal->delete('discount_list','id',$discount_id);
                     if ($delete) { 
-                        $message = array("status" => "success","message" => "Discount rate deleted successfully.");
+                        $message = array("status" => "success","message" => "שיעור הנחה נמחק בהצלחה.");
                     }else{
-                        throw new Exception("Unable to delete this discount rate.");
+                        throw new Exception("לא ניתן למחוק שיעור הנחה זה.");
                     }
                 }else{
-                    throw new Exception("This discount rate is used in income and expense.");
+                    throw new Exception("שיעור הנחה זה בשימוש בהכנסות והוצאות.");
                 }
             }else {
-                throw new Exception("You don't have the permission to delete discount rate.");
+                throw new Exception("אין לך הרשאה למחוק שיעור הנחה.");
             }
 
         } catch (Exception $ex) {

@@ -31,16 +31,16 @@
                 <button type="button" class="btn btn-outline-success btn-pill" title="Add"  onclick="addMe();"><i class="zmdi zmdi-plus"></i></button>
               <?php } ?>
               </div>
-              <h3 class="m-t-0 m-b-5">Discount Management</h3>
+              <h3 class="m-t-0 m-b-5">ניהול הנחות</h3>
             </div>
             <div class="panel-body"> 
               <div class="table-responsive m-y-5"> 
                 <table class="table table-hover" >
                     <thead>
                         <tr>
-                            <th>Discount Value</th> 
+                            <th>ערך הנחה</th> 
                             <?php if($edit || $delete){ ?>
-                            <th style="text-align:right;">Options</th>  
+                            <th style="text-align:right;">אפשרויות</th>  
                             <?php } ?>
                         </tr>
                     </thead>
@@ -76,33 +76,33 @@
                                 <i class="zmdi zmdi-close"></i>
                             </span>
                             </button>
-                            <h4 class="modal-title" id="modal-title">Discount</h4>
+                            <h4 class="modal-title" id="modal-title">הנחה</h4>
                         </div>
 
                         <form data-toggle="validator" id="inputmasks">
                             <div class="modal-body">
                                 <input type="hidden" name="discount_id" id="discount_id" value="0"> 
                                 <div class="form-group">
-                                    <label for="discount-value" class="control-label">Discount Value</label>
-                                    <input type="text" class="form-control" id="discount-value" name="discount_value" placeholder="Discount Value" data-required-error="Discount value is Required" required autocomplete="off" pattern="^[0-9]+$" data-pattern-error="Discount value only can be a number.">
+                                    <label for="discount-value" class="control-label">ערך הנחה</label>
+                                    <input type="text" class="form-control" id="discount-value" name="discount_value" placeholder="ערך הנחה" data-required-error="ערך הנחה נדרש" required autocomplete="off" pattern="^[0-9]+$" data-pattern-error="ערך הנחה יכול להיות רק מספר.">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="dsc_type" class="control-label">Discount Type</label>
+                                    <label for="dsc_type" class="control-label">סוג הנחה</label>
                                     <div class="btn-group" data-toggle="buttons">
                                         <label class="btn btn-outline-success dsc_type">
-                                            <input type="radio" name="dsc_type" id="percentage" autocomplete="off" value="1" requred> Percentage
+                                            <input type="radio" name="dsc_type" id="percentage" autocomplete="off" value="1" requred> אחוז
                                         </label>
                                         <label class="btn btn-outline-danger dsc_type">
-                                            <input type="radio" name="dsc_type" id="flat_amount" autocomplete="off" value="0" required> Flat Amount
+                                            <input type="radio" name="dsc_type" id="flat_amount" autocomplete="off" value="0" required> סכום קבוע
                                         </label> 
                                     </div>
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" id="sub-btn">Submit</button>
-                                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                                <button type="submit" class="btn btn-primary" id="sub-btn">שלח</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
                             </div>
                         </form>
                     </div>
@@ -125,7 +125,7 @@
         });
     
         function addMe() {
-            $('#modal-title').text('Add Discount');
+            $('#modal-title').text('הוסף הנחה');
             $('#discount_id').val(0);
             $('#discount_value').val('');
             $('.dsc_type').removeClass('active');
@@ -145,12 +145,12 @@
                         const responsedata = $.parseJSON(result);
                         if(responsedata.status=='success'){
                             if (responsedata.message =='save') {
-                                toastr.success('Discount rate added successfully.')
+                                toastr.success('שיעור הנחה נוסף בהצלחה.')
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
                             }else{
-                                toastr.success('Discount rate updated successfully.')   
+                                toastr.success('שיעור הנחה עודכן בהצלחה.')   
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
@@ -161,7 +161,7 @@
                     },
                     error: function(result) {
                         $('#sub-btn').waitMe('hide');
-                        toastr.error('Error :'+result)
+                        toastr.error('שגיאה: '+result)
                     }
                 });
                 $('#inputmasks').waitMe('hide');
@@ -169,7 +169,7 @@
         });
 
         function editMe(id) { 
-            $('#modal-title').text('Update Class');
+            $('#modal-title').text('עדכן הנחה');
             const value = $('#rowId'+id).find('td:eq(0)').attr('discount-value');
             const discountType = $('#rowId'+id).find('td:eq(0)').attr('discount-type');
 
@@ -191,7 +191,7 @@
         }
 
         function deleteMe(id) {
-            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this discount value?',{
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק ערך הנחה זה?',{
                 closeButton: true,
                 allowHtml: true,
                 onShown: function (toast) {
@@ -210,7 +210,7 @@
                         }
                         },
                         error: function(result) {
-                            toastr.error("Somthing went wrong :(");
+                            toastr.error("משהו השתבש :(");
                         }
                     });
                 });
