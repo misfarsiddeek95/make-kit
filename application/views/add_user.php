@@ -12,7 +12,7 @@
 
         <div class="panel panel-default">
           <div class="panel-heading">
-              <h3 class="m-y-0 d-inline"><?=$type?> User</h3>
+              <h3 class="m-y-0 d-inline"><?=$type?> משתמש</h3>
               <a class="btn btn-outline-warning btn-pill pull-right m-y-0 d-inline" href="<?=base_url()?>Users/index/15"><i class="zmdi zmdi-arrow-left"></i></a>
           </div>
           <div class="panel-body">
@@ -24,49 +24,49 @@
                   <input type="hidden" name="add_id" id="add_id" value="<?php if(!(empty($user))){echo($user->add_id);}else{echo(0);} ?>">
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">First Name</label>
-                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->fname);} ?>" placeholder="First Name" id="fName" name="fName" class="form-control" data-minlength="3" data-pattern-error="Invalid First Name" data-error="Minimum of 3 characters" data-required-error="First Name is Required" required>
+                    <label for="form-control-3" class="control-label">שם פרטי</label>
+                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->fname);} ?>" placeholder="שם פרטי" id="fName" name="fName" class="form-control" data-minlength="3" data-pattern-error="שם פרטי לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם פרטי נדרש" required>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Last Name</label>
-                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="Last Name" id="lName" name="lName" class="form-control" data-minlength="3" data-pattern-error="Invalid Last Name" data-error="Minimum of 3 characters" data-required-error="Last Name is Required" required>
+                    <label for="form-control-3" class="control-label">שם משפחה</label>
+                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="שם משפחה" id="lName" name="lName" class="form-control" data-minlength="3" data-pattern-error="שם משפחה לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם משפחה נדרש" required>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Company Name</label>
-                    <input type="text" value="<?php if(!(empty($user))){echo($user->company_name);} ?>" placeholder="Company Name" id="companyName" name="companyName" class="form-control" data-minlength="3" data-error="Minimum of 3 characters" data-required-error="Company Name is Required" required>
+                    <label for="form-control-3" class="control-label">שם חברה</label>
+                    <input type="text" value="<?php if(!(empty($user))){echo($user->company_name);} ?>" placeholder="שם חברה" id="companyName" name="companyName" class="form-control" data-minlength="3" data-error="מינימום 3 תווים" data-required-error="שם חברה נדרש" required>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-4" class="control-label">Date of Birth</label>
-                    <input id="form-control-1" class="form-control" type="text" value="<?php if(!(empty($user))){echo($user->dob);} ?>" data-inputmask="'alias': 'yyyy-mm-dd'" name="dob" id="dob" data-required-error="DOB is Required" required>
+                    <label for="form-control-4" class="control-label">תאריך לידה</label>
+                    <input id="form-control-1" class="form-control" type="text" value="<?php if(!(empty($user))){echo($user->dob);} ?>" data-inputmask="'alias': 'yyyy-mm-dd'" name="dob" id="dob" data-required-error="תאריך לידה נדרש" required>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-4" class="control-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" value="<?php if(!(empty($user))){echo($user->email);} ?>" placeholder="Email" data-error="Please enter a valid email address." required>
+                    <label for="form-control-4" class="control-label">אימייל</label>
+                    <input type="email" class="form-control" id="email" name="email" value="<?php if(!(empty($user))){echo($user->email);} ?>" placeholder="אימייל" data-error="אנא הזן כתובת אימייל חוקית." required>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-4" class="control-label">Mobile</label>
-                    <input type="number" placeholder="Mobile number" name="mobile" id="mobile" value="<?php if(!(empty($user))){echo($user->phone);} ?>" class="form-control" data-minlength="9" data-error="Mobile number is invalid" data-required-error="Mobile number is Required" required> 
+                    <label for="form-control-4" class="control-label">נייד</label>
+                    <input type="number" placeholder="מספר נייד" name="mobile" id="mobile" value="<?php if(!(empty($user))){echo($user->phone);} ?>" class="form-control" data-minlength="9" data-error="מספר נייד לא חוקי" data-required-error="מספר נייד נדרש" required> 
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-4" class="control-label">Address</label>
-                    <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-plugin="autosize" data-error="Address is required." required  style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($user))){echo($user->address);}?></textarea>
+                    <label for="form-control-4" class="control-label">כתובת</label>
+                    <textarea name="address" id="address" class="form-control" rows="3" placeholder="כתובת" data-plugin="autosize" data-error="כתובת נדרשת." required  style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($user))){echo($user->address);}?></textarea>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Country</label>
-                    <select class="form-control" data-plugin="select2" name="country" id="country" style="width:100%;" data-allow-clear="true" data-placeholder="Select User Country" data-required-error="Country is Required" onchange="getRegion();" required>
+                    <label for="form-control-3" class="control-label">מדינה</label>
+                    <select class="form-control" data-plugin="select2" name="country" id="country" style="width:100%;" data-allow-clear="true" data-placeholder="בחר מדינת משתמש" data-required-error="מדינה נדרשת" onchange="getRegion();" required>
                       <option></option>
                       <?php foreach ($countries as $row) {
                         $sel = '';
@@ -84,8 +84,8 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Region</label>
-                    <select class="form-control" data-plugin="select2" name="region" id="region" style="width:100%;" data-allow-clear="true" data-placeholder="Select User Region" data-required-error="Region is Required" onchange="getCities();" required>
+                    <label for="form-control-3" class="control-label">אזור</label>
+                    <select class="form-control" data-plugin="select2" name="region" id="region" style="width:100%;" data-allow-clear="true" data-placeholder="בחר אזור משתמש" data-required-error="אזור נדרש" onchange="getCities();" required>
                       <option></option>                     
 
                     </select>
@@ -93,8 +93,8 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">City</label>
-                    <select class="form-control" data-plugin="select2" name="city" id="city" style="width:100%;" data-allow-clear="true" data-placeholder="Select User City" data-required-error="City is Required" required>
+                    <label for="form-control-3" class="control-label">עיר</label>
+                    <select class="form-control" data-plugin="select2" name="city" id="city" style="width:100%;" data-allow-clear="true" data-placeholder="בחר עיר משתמש" data-required-error="עיר נדרשת" required>
                       <option></option>                     
 
                     </select>
@@ -102,21 +102,21 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Username</label>
-                    <input type="text" placeholder="Username" value="<?php if(!(empty($user))){echo($user->username);}?>" data-remote="<?=base_url()?><?php if(empty($user)){echo 'checkfields';}else{echo 'checkDBfieldOpt';}?>?data=username&input=username&table=staff_users" data-remote-error="Username already Exist, Try another" data-required-error="Username is Required" class="form-control" name="username" id="username" pattern="[^\s]+" data-minlength="4"  data-error="Minimum of 4 characters without space" <?php if(empty($user)){echo'required';}else{echo "disabled='disabled'";}?>>
+                    <label for="form-control-3" class="control-label">שם משתמש</label>
+                    <input type="text" placeholder="שם משתמש" value="<?php if(!(empty($user))){echo($user->username);}?>" data-remote="<?=base_url()?><?php if(empty($user)){echo 'checkfields';}else{echo 'checkDBfieldOpt';}?>?data=username&input=username&table=staff_users" data-remote-error="שם משתמש כבר קיים, נסה אחר" data-required-error="שם משתמש נדרש" class="form-control" name="username" id="username" pattern="[^\s]+" data-minlength="4"  data-error="מינימום 4 תווים ללא רווח" <?php if(empty($user)){echo'required';}else{echo "disabled='disabled'";}?>>
                         <div class="help-block with-errors"></div>  
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Password</label>
-                      <input type="password" placeholder="Password" class="form-control" name="password" id="password" data-minlength="6" data-error="Minimum of 6 characters" data-required-error="Password is Required" <?php if((empty($user))){echo 'required';}?>>
+                    <label for="form-control-3" class="control-label">סיסמה</label>
+                      <input type="password" placeholder="סיסמה" class="form-control" name="password" id="password" data-minlength="6" data-error="מינימום 6 תווים" data-required-error="סיסמה נדרשת" <?php if((empty($user))){echo 'required';}?>>
                       <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">User Role</label>
-                    <select class="form-control" name="access_group" id="access_group" data-required-error="User Role is Required" required>
-                      <option value="" selected="selected" disabled="disabled">-- User Role --</option>
+                    <label for="form-control-3" class="control-label">תפקיד משתמש</label>
+                    <select class="form-control" name="access_group" id="access_group" data-required-error="תפקיד משתמש נדרש" required>
+                      <option value="" selected="selected" disabled="disabled">-- תפקיד משתמש --</option>
                       <?php foreach ($role as $row) {
                         $sel = '';
                         if(!(empty($user))){
@@ -132,12 +132,12 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Status</label>
+                    <label for="form-control-3" class="control-label">סטטוס</label>
                     <input type="checkbox" class="js-switch" name="status" id="status" value="<?php if(!(empty($user))){echo $user->status;}else{echo 0;}?>" data-size="small" data-color="#34a853" <?php if(!(empty($user))){if($user->status==1){echo 'checked="checked"';}}?> <?php if ($changeStatus){echo 'disabled="disabled"';} else{echo "onchange='updateUserStatus();'"; }?> >
                     <div class="help-block with-errors"></div>
                   </div>
 
-                  <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button>
+                  <button type="submit" class="btn btn-primary btn-block" id="submitBtn">שלח</button>
                 </form>
               </div>
             </div>
@@ -288,7 +288,7 @@
               }else if(responsedata.status=='error'){
                 toastr.error(responsedata.message)
               }else{
-                toastr.error("Somthing went wrong :(")
+                toastr.error("\u05de\u05e9\u05d4\u05d5 \u05d4\u05e9\u05ea\u05d1\u05e9 :(")
               }
               $('#inputmasks').waitMe('hide');
             },

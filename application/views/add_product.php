@@ -70,7 +70,7 @@
 
 				<div class="panel panel-default">
 					<div class="panel-heading">
-						<h3 class="m-y-0"><?=$type?> Product</h3>
+						<h3 class="m-y-0"><?=$type?> מוצר</h3>
 					</div>
 					<div class="panel-body">
 
@@ -81,8 +81,8 @@
 									<input type="hidden" name="pro_id" id="pro_id" value="<?php if(!(empty($product))){echo($product->pro_id);}else{echo(0);} ?>" />
 
 									<div class="form-group">
-										<label for="currency_type" class="control-label">Product Currency Method</label>
-										<select class="form-control" data-plugin="select2" name="credit_type_id" id="currency_type" data-placeholder="Product currency method" data-allow-clear="true" required data-required-error="Product currency method is required." style="width: 100%;">
+										<label for="currency_type" class="control-label">שיטת מטבע מוצר</label>
+										<select class="form-control" data-plugin="select2" name="credit_type_id" id="currency_type" data-placeholder="שיטת מטבע מוצר" data-allow-clear="true" required data-required-error="שיטת מטבע מוצר נדרשת." style="width: 100%;">
 											<option></option>
 											<?php foreach ($credit_types as $row) { ?>
 											<option value="<?=$row->id?>"><?=$row->value.' Product'?></option>
@@ -92,14 +92,14 @@
 									</div>
 
 									<div class="form-group hidden" id="elgible-points">
-										<label for="minimum-eligiblity" class="control-label">Eligible Points for Buy this Product</label>
-										<input type="text" placeholder="Eligible Points" value="<?php if(!(empty($product))){echo($product->minimum_eligiblity_value);}else{echo(0);} ?>" name="minimum_eligiblity_value" id="minimum_eligiblity_value" class="form-control" pattern="^[0-9]+$" data-pattern-error="Type only whole numbers"> 
+										<label for="minimum-eligiblity" class="control-label">נקודות זכאות לרכישת מוצר זה</label>
+										<input type="text" placeholder="נקודות זכאות" value="<?php if(!(empty($product))){echo($product->minimum_eligiblity_value);}else{echo(0);} ?>" name="minimum_eligiblity_value" id="minimum_eligiblity_value" class="form-control" pattern="^[0-9]+$" data-pattern-error="הקלד מספרים שלמים בלבד"> 
 										<div class="help-block with-errors"></div>
 									</div>
 
 									<?php if(!(empty($Users))&&$assign_pro==0){ ?>
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">Assign User</label>
+										<label for="form-control-3" class="control-label">הקצה משתמש</label>
 										<select class="form-control" data-plugin="select2" name="user_id" id="user_id" style="width: 100%;">
 											<option></option>
 											<?php foreach ($Users as $row) { 
@@ -117,8 +117,8 @@
 									<?php  } ?>
 
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">Categories</label>
-										<select class="form-control" data-plugin="select2" data-placeholder="Select a Category" name="proCate" id="proCate" data-required-error="Category is Required" required style="width: 100%;">
+										<label for="form-control-3" class="control-label">קטגוריות</label>
+										<select class="form-control" data-plugin="select2" data-placeholder="בחר קטגוריה" name="proCate" id="proCate" data-required-error="קטגוריה נדרשת" required style="width: 100%;">
 											<option></option>
 											<?php
 												function write_with_child($category) {
@@ -155,50 +155,50 @@
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">Product Code</label>
-										<input type="text" pattern="^([a-zA-Z0-9_-]){2,25}$" value="<?php if(!(empty($product))){echo($product->pro_code);} ?>" placeholder="Product Code" id="proCode" name="proCode" class="form-control" data-remote="<?=base_url()?><?php if(empty($product)){echo 'checkfields';}else{echo 'checkDBfieldOpt';}?>?data=pro_code&input=proCode&table=products" data-remote-error="Product Code already Exist, Try another" data-pattern-error="Invalid Product Code">
+										<label for="form-control-3" class="control-label">קוד מוצר</label>
+										<input type="text" pattern="^([a-zA-Z0-9_-]){2,25}$" value="<?php if(!(empty($product))){echo($product->pro_code);} ?>" placeholder="קוד מוצר" id="proCode" name="proCode" class="form-control" data-remote="<?=base_url()?><?php if(empty($product)){echo 'checkfields';}else{echo 'checkDBfieldOpt';}?>?data=pro_code&input=proCode&table=products" data-remote-error="קוד מוצר כבר קיים, נסה אחר" data-pattern-error="קוד מוצר לא חוקי">
 										<div class="help-block with-errors"></div>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">Product Name</label>
-										<input type="text" pattern="^[a-zA-Z 0-9 .,&+-/']*$" value="<?php if(!(empty($product))){echo($product->name);} ?>" placeholder="Name" id="proName" name="proName" class="form-control" data-minlength="3" data-pattern-error="Invalid Name" data-error="Minimum of 3 characters" data-required-error="Name is Required" required>
+										<label for="form-control-3" class="control-label">שם מוצר</label>
+										<input type="text" pattern="^[a-zA-Z 0-9 .,&+-/']*$" value="<?php if(!(empty($product))){echo($product->name);} ?>" placeholder="שם" id="proName" name="proName" class="form-control" data-minlength="3" data-pattern-error="שם לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם נדרש" required>
 										<div class="help-block with-errors"></div>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-4" class="control-label">Price</label>
-										<input type="text" placeholder="Price" value="<?php if(!(empty($product))){echo($product->price);}else{echo(0);} ?>" name="proPrice" id="proPrice" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="Price is Required" required> 
+										<label for="form-control-4" class="control-label">מחיר</label>
+										<input type="text" placeholder="מחיר" value="<?php if(!(empty($product))){echo($product->price);}else{echo(0);} ?>" name="proPrice" id="proPrice" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="מחיר נדרש" required> 
 										<div class="help-block with-errors"></div>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-4" class="control-label">Price(POI)</label>
-										<input type="text" placeholder="POI price" value="<?php if(!(empty($product))){echo($product->price_poi);}else{echo(0);} ?>" name="proPOIPrice" id="proPOIPrice" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false"> 
+										<label for="form-control-4" class="control-label">מחיר(POI)</label>
+										<input type="text" placeholder="מחיר POI" value="<?php if(!(empty($product))){echo($product->price_poi);}else{echo(0);} ?>" name="proPOIPrice" id="proPOIPrice" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false"> 
 										<div class="help-block with-errors"></div>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-4" class="control-label">Quantity</label>
-										<input type="number" placeholder="Quantity" value="<?php if(!(empty($product))){echo($product->quantity);}else{echo(6);} ?>" name="proQty" id="proQty" class="form-control" data-minlength="1" data-error="Quantity is invalid" data-required-error="Quantity is Required" required> 
+										<label for="form-control-4" class="control-label">כמות</label>
+										<input type="number" placeholder="כמות" value="<?php if(!(empty($product))){echo($product->quantity);}else{echo(6);} ?>" name="proQty" id="proQty" class="form-control" data-minlength="1" data-error="כמות לא חוקית" data-required-error="כמות נדרשת" required> 
 										<div class="help-block with-errors"></div>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-4" class="control-label">Weight (g)</label>
-										<input type="number" placeholder="Weight" value="<?php if(!(empty($product))){echo($product->weight);}else{echo(1);} ?>" name="proWeight" id="proWeight" class="form-control" data-minlength="1" data-error="Weight is invalid" data-required-error="Weight is Required" required> 
+										<label for="form-control-4" class="control-label">משקל (גרם)</label>
+										<input type="number" placeholder="משקל" value="<?php if(!(empty($product))){echo($product->weight);}else{echo(1);} ?>" name="proWeight" id="proWeight" class="form-control" data-minlength="1" data-error="משקל לא חוקי" data-required-error="משקל נדרש" required> 
 										<div class="help-block with-errors"></div>
 									</div>
 
 										<div class="form-group">
-											<label for="form-control-4" class="control-label">Barcode</label>
-											<input type="text" placeholder="Barcode" value="<?php if(!(empty($product))){echo($product->barcode);}?>" name="barcode" id="pro_Barcode" class="form-control" data-error="Barcode is invalid"> 
+											<label for="form-control-4" class="control-label">ברקוד</label>
+											<input type="text" placeholder="ברקוד" value="<?php if(!(empty($product))){echo($product->barcode);}?>" name="barcode" id="pro_Barcode" class="form-control" data-error="ברקוד לא חוקי"> 
 											<div class="help-block with-errors"></div>
 										</div>
 
 									<div class="form-group">
-										<label for="form-control-2" class="control-label">Brand</label>
-										<select class="form-control" data-plugin="select2" name="brand_name" id="brand_name" <?php if(!(empty($product))){echo "attr_brand_id='".$product->brand_id."'";}?> data-placeholder="Select a Brand" data-required-error="Brand is Required" required style="width: 100%;">
+										<label for="form-control-2" class="control-label">מותג</label>
+										<select class="form-control" data-plugin="select2" name="brand_name" id="brand_name" <?php if(!(empty($product))){echo "attr_brand_id='".$product->brand_id."'";}?> data-placeholder="בחר מותג" data-required-error="מותג נדרש" required style="width: 100%;">
 											<option></option>
 										</select>
 										<div class="help-block with-errors"></div>
@@ -239,8 +239,8 @@
 
 									<?php if($add_other_cate){?>
 									<div class="form-group">
-										<label for="form-control-2" class="control-label">Other Categories</label>
-										<select class="form-control" data-plugin="select2" name="other_cates[]" id="other_cates" multiple="multiple" data-placeholder="Other Categories" style="width: 100%;">
+										<label for="form-control-2" class="control-label">קטגוריות אחרות</label>
+										<select class="form-control" data-plugin="select2" name="other_cates[]" id="other_cates" multiple="multiple" data-placeholder="קטגוריות אחרות" style="width: 100%;">
 											<option></option>
 											<?php
 												function write_with_child1($category) {
@@ -278,56 +278,56 @@
 
 									<?php if($seo_det){?>
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">SEO Title</label>
-										<input type="text" value="<?php if(!(empty($product))){echo($product->seo_title);} ?>" placeholder="SEO Title" id="seoTitle" name="seoTitle" class="form-control">
+										<label for="form-control-3" class="control-label">כותרת SEO</label>
+										<input type="text" value="<?php if(!(empty($product))){echo($product->seo_title);} ?>" placeholder="כותרת SEO" id="seoTitle" name="seoTitle" class="form-control">
 										<div class="help-block with-errors"></div>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">SEO Keywords</label>
-										<input type="text" pattern="^[a-zA-Z,]+$" value="<?php if(!(empty($product))){echo($product->seo_keyword);} ?>" placeholder="SEO Keywords" id="seoKeywords" name="seoKeywords" class="form-control">
+										<label for="form-control-3" class="control-label">מילות מפתח SEO</label>
+										<input type="text" pattern="^[a-zA-Z,]+$" value="<?php if(!(empty($product))){echo($product->seo_keyword);} ?>" placeholder="מילות מפתח SEO" id="seoKeywords" name="seoKeywords" class="form-control">
 										<div class="help-block with-errors"></div>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">SEO Description</label>
-										<input type="text" value="<?php if(!(empty($product))){echo($product->seo_description);} ?>" placeholder="SEO Description" id="seoDescription" name="seoDescription" class="form-control">
+										<label for="form-control-3" class="control-label">תיאור SEO</label>
+										<input type="text" value="<?php if(!(empty($product))){echo($product->seo_description);} ?>" placeholder="תיאור SEO" id="seoDescription" name="seoDescription" class="form-control">
 										<div class="help-block with-errors"></div>
 									</div>
 									<?php } ?>
 
 									 <?php if($seo_url){?>
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">SEO url</label>
-										<input id="form-control-7" class="form-control" type="text" data-inputmask="'alias': 'url'" value="<?php if(!(empty($product))){echo($product->seo_url);} ?>" placeholder="SEO url" id="seoUrl" name="seoUrl">
+										<label for="form-control-3" class="control-label">כתובת URL של SEO</label>
+										<input id="form-control-7" class="form-control" type="text" data-inputmask="'alias': 'url'" value="<?php if(!(empty($product))){echo($product->seo_url);} ?>" placeholder="כתובת URL של SEO" id="seoUrl" name="seoUrl">
 										<div class="help-block with-errors"></div>
 									</div>
 									<?php } ?>
 
 									<div class="form-group">
-									<label for="form-control-3" class="control-label">Short description</label>
-									<textarea id="proShortDescription" name="proShortDescription" data-plugin="autosize" class="form-control" placeholder="short description" style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($product))){echo($product->short_description);}?></textarea>
+									<label for="form-control-3" class="control-label">תיאור קצר</label>
+									<textarea id="proShortDescription" name="proShortDescription" data-plugin="autosize" class="form-control" placeholder="תיאור קצר" style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($product))){echo($product->short_description);}?></textarea>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">Product Description</label>
+										<label for="form-control-3" class="control-label">תיאור מוצר</label>
 										<textarea id="proDescription" name="proDescription" class="form-control" ><?php if(!(empty($product))){echo($product->description);}?></textarea>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">Ingredients</label>
+										<label for="form-control-3" class="control-label">מרכיבים</label>
 										<textarea id="proIngredients" name="proIngredients" class="form-control" ><?php if(!(empty($product))){echo($product->ingredients);}?></textarea>
 									</div>
 
 									<div class="form-group">
-										<label for="form-control-3" class="control-label">How to use</label>
+										<label for="form-control-3" class="control-label">איך להשתמש</label>
 										<textarea id="proUse" name="proUse" class="form-control" ><?php if(!(empty($product))){echo($product->how_to_use);}?></textarea>
 									</div>
 									
 									<!-- Discount Section -->
 									<fieldset class="m-b-20">
                                         <legend>
-                                            <h5>Discount Rates</h5>
+                                            <h5>שיעורי הנחה</h5>
                                         </legend>
                                         <div class="row">
                                             <div class="col-sm-6 col-md-12">
@@ -335,8 +335,8 @@
                                                     <table class="ar-table table table-borderless">
                                                         <thead>
                                                             <tr>
-                                                                <th style="text-align: center;">Discount Rate</th>
-                                                                <th style="text-align: center;">Minimum Item Count</th>
+                                                                <th style="text-align: center;">שיעור הנחה</th>
+                                                                <th style="text-align: center;">ספירת פריטים מינימלית</th>
                                                                 <th></th>
                                                             </tr>
                                                         </thead>
@@ -344,7 +344,7 @@
                                                             <tr class="scorerrow project_assignee_tr">
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <select class="form-control dscrates first_dropdown" data-plugin="select2" name="dscrates[]" data-placeholder="Select a product discount rate" data-allow-clear="true" style="width: 100%;">
+                                                                        <select class="form-control dscrates first_dropdown" data-plugin="select2" name="dscrates[]" data-placeholder="בחר שיעור הנחה למוצר" data-allow-clear="true" style="width: 100%;">
                                                                             <option></option>
                                                                             <?php
                                                                                 foreach ($discount_rates as $row) { 
@@ -358,7 +358,7 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="form-group">
-                                                                        <input type="text" pattern="^[0-9.]+$" value="" placeholder="Item Count" name="item_count[]" class="form-control item_count" data-pattern-error="Invalid format" autocomplete="off" style="width: 100%;">
+                                                                        <input type="text" pattern="^[0-9.]+$" value="" placeholder="ספירת פריטים" name="item_count[]" class="form-control item_count" data-pattern-error="פורמט לא חוקי" autocomplete="off" style="width: 100%;">
                                                                         <div class="help-block with-errors"></div>
                                                                     </div>
                                                                 </td>
@@ -378,7 +378,7 @@
                                         </div>
                                     </fieldset>
 
-									<button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button>
+									<button type="submit" class="btn btn-primary btn-block" id="submitBtn">שלח</button>
 								</form>
 							</div>
 						</div>
@@ -391,11 +391,11 @@
 			<div class="modal-content animated bounceInUp bottomModal">
 				<div class="modal-body">
 					<div class="row d-flex justify-content-center align-items-center">
-							<p class="ptag">product added successfully. Do you need to add photos for this product?</p>
+							<p class="ptag">מוצר נוסף בהצלחה. האם ברצונך להוסיף תמונות למוצר זה?</p>
 							<div class="btnInside">
 								<input type="hidden" id="saved_pro_id" value="0">
-								<a type="button" class="btn btn-primary m-w-120" onclick="addProductImg();">Continue</a>
-								<a type="button" class="btn btn-outline-primary m-w-120" data-dismiss="modal" onclick="pageRefresh();">No, thanks</a>
+								<a type="button" class="btn btn-primary m-w-120" onclick="addProductImg();">המשך</a>
+								<a type="button" class="btn btn-outline-primary m-w-120" data-dismiss="modal" onclick="pageRefresh();">לא, תודה</a>
 							</div>
 					</div>
 				</div>
@@ -423,7 +423,7 @@
 
 							</button>
 
-							<h4 class="modal-title" id="modal-val-title">Attribute value</h4>
+							<h4 class="modal-title" id="modal-val-title">ערך תכונה</h4>
 
 						</div>
 
@@ -439,9 +439,9 @@
 
 								<div class="form-group">
 
-									<label for="form-control-2" class="control-label">Value</label>
+									<label for="form-control-2" class="control-label">ערך</label>
 
-									<input type='text' data-pattern-error="Invalid Value" class="form-control colorPick" id="attrVal" name="attrVal" placeholder="Value" data-required-error="Value is Required" required />
+									<input type='text' data-pattern-error="ערך לא חוקי" class="form-control colorPick" id="attrVal" name="attrVal" placeholder="ערך" data-required-error="ערך נדרש" required />
 
 									<div class="help-block with-errors"></div>
 
@@ -449,9 +449,9 @@
 
 								<div class="form-group">
 
-									<label for="form-control-2" class="control-label">Description</label>
+									<label for="form-control-2" class="control-label">תיאור</label>
 
-									<input type="text" class="form-control" id="attrValDesc" name="attrValDesc" placeholder="Description">
+									<input type="text" class="form-control" id="attrValDesc" name="attrValDesc" placeholder="תיאור">
 
 									<div class="help-block with-errors"></div>
 
@@ -460,9 +460,9 @@
 
 							<div class="modal-footer">
 
-								<button type="submit" class="btn btn-primary">Submit</button>
+								<button type="submit" class="btn btn-primary">שלח</button>
 
-								<button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+								<button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
 
 							</div>
 

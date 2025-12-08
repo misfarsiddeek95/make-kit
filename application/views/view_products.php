@@ -79,7 +79,7 @@
 
         <div class="panel panel-default panel-table">
           <div class="panel-heading">
-            <h3 class="m-t-0 m-b-5">View Products</h3>
+            <h3 class="m-t-0 m-b-5">צפייה במוצרים</h3>
           </div>
           <div class="panel-body">
             <input type="hidden" id="type" value="<?=$type?>" name="">
@@ -88,23 +88,23 @@
                 <div id="controllers">
                     <div class="col-lg-3 col-sm-3 col-xs-12 m-y-5">
                         <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Search for..." style="border-color: #1d87e4;" id="searchField">
+                            <input class="form-control" type="text" placeholder="חפש..." style="border-color: #1d87e4;" id="searchField">
                             <span class="input-group-btn">
-                              <button class="btn btn-outline-primary" type="button" onclick="getProductsByStatus();">Search</button>
-                              <button class="btn btn-outline-primary" type="button" onclick="reset_fun();">Reset</button>
+                              <button class="btn btn-outline-primary" type="button" onclick="getProductsByStatus();">חפש</button>
+                              <button class="btn btn-outline-primary" type="button" onclick="reset_fun();">איפוס</button>
                             </span>
                         </div>
                     </div>
                     <div class="col-lg-2 col-sm-3 col-xs-12 m-y-5">
                       <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-outline-primary active">
-                          <input type="radio" name="filterActive" class="filterActive" value="" autocomplete="off" checked="checked">Reset
+                          <input type="radio" name="filterActive" class="filterActive" value="" autocomplete="off" checked="checked">איפוס
                         </label>
                         <label class="btn btn-outline-primary">
-                          <input type="radio" name="filterActive" class="filterActive" value="0" autocomplete="off">On
+                          <input type="radio" name="filterActive" class="filterActive" value="0" autocomplete="off">פעיל
                         </label>
                         <label class="btn btn-outline-primary">
-                          <input type="radio" name="filterActive" class="filterActive" value="1" autocomplete="off">Off
+                          <input type="radio" name="filterActive" class="filterActive" value="1" autocomplete="off">כבוי
                         </label>
                       </div>
                     </div>
@@ -178,17 +178,17 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>User</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Wight(g)</th>
-                    <th>Barcode</th>
-                    <th>Views</th>
-                    <th>Sales</th>
-                    <th>Status</th>
+                    <th>שם</th>
+                    <th>קוד</th>
+                    <th>משתמש</th>
+                    <th>קטגוריה</th>
+                    <th>מחיר</th>
+                    <th>כמות</th>
+                    <th>משקל(g)</th>
+                    <th>ברקוד</th>
+                    <th>צפיות</th>
+                    <th>מכירות</th>
+                    <th>סטטוס</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -324,13 +324,13 @@
                       '<i class="zmdi zmdi-more"></i>'+
                     '</button>'+
                     '<ul class="dropdown-menu dropdown-menu-right">'+
-                      '<li><a href="javascript:addProductImg('+responsedata.products[i]['pro_id']+');">Add Image</a></li>'+
+                      '<li><a href="javascript:addProductImg('+responsedata.products[i]['pro_id']+');">הוסף תמונה</a></li>'+
                       <?php if($editAc==0){?>
-                      '<li><a href="javascript:editProduct('+responsedata.products[i]['pro_id']+');">Edit</a></li>'+
+                      '<li><a href="javascript:editProduct('+responsedata.products[i]['pro_id']+');">ערוך</a></li>'+
                       <?php } ?><?php if($deleteAc==0){?>
-                      '<li><a href="javascript:deleteProduct('+responsedata.products[i]['pro_id']+');">Delete</a></li>'+
+                      '<li><a href="javascript:deleteProduct('+responsedata.products[i]['pro_id']+');">מחק</a></li>'+
                       <?php } ?><?php if($editSub==0){?>
-                      '<li '+show_sub+'><a href="javascript:editSubProducts('+responsedata.products[i]['pro_id']+');">Edit Sub Products</a></li>'+
+                      '<li '+show_sub+'><a href="javascript:editSubProducts('+responsedata.products[i]['pro_id']+');">ערוך תת-מוצרים</a></li>'+
                       <?php } ?>
                       '</ul></div></td>';
               }

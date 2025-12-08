@@ -124,7 +124,7 @@ class Orders extends Admin_Controller {
                 throw new Exception("Somthing went wrong :(");
             }
             
-            $message = array("status" => "success","message" => "Order deleted successfully.");
+            $message = array("status" => "success","message" => "הזמנה נמחקה בהצלחה.");
 
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -197,7 +197,7 @@ class Orders extends Admin_Controller {
                 $update_orders = $this->Common_modal->update('order_id',$order_id,'orders',['order_status' => $sorder_status]);
 
                 if ($update_res) {
-                    $message = array("status" => "success","message" => "Status Updated successfully.");
+                    $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
                 }else{
                     throw new Exception("Unable to update status :(");
                 }
@@ -265,7 +265,7 @@ class Orders extends Admin_Controller {
                 
             );
             $this->Common_modal->update('order_id',$order_id,'orders',$payment_arr);
-            $message = array("status" => "success","message" => "Payment details updated successfully.");
+            $message = array("status" => "success","message" => "פרטי תשלום עודכנו בהצלחה.");
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
         }
@@ -339,7 +339,7 @@ class Orders extends Admin_Controller {
             );
             $update_addr = $this->Order_modal->updateDelAddr($order_id,$add_id,$del_arr,$addr_array);
             if ($update_addr) {
-                $message = array("status" => "success","message" => "Delivery address updated successfully.");
+                $message = array("status" => "success","message" => "כתובת משלוח עודכנה בהצלחה.");
             }else{
                 throw new Exception("Unable to update Delivery address :(");
             }

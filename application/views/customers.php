@@ -13,10 +13,10 @@
         <div class="panel-heading">
           <?php if($add_cust){?>
           <div class="panel-tools">
-            <button type="button" class="btn btn-outline-primary m-w-120" onclick="location.href='<?=base_url();?>addCustomer'">Add Customer</button>
+            <button type="button" class="btn btn-outline-primary m-w-120" onclick="location.href='<?=base_url();?>addCustomer'">הוסף לקוח</button>
           </div>
           <?php }?>
-          <h3 class="m-t-0 m-b-5">Manage Customers</h3>
+          <h3 class="m-t-0 m-b-5">ניהול לקוחות</h3>
         </div>
         <div class="panel-body">
           <div class="table-responsive m-y-5">
@@ -24,11 +24,11 @@
               <thead>
                 <tr>
                   <th></th>
-                  <th>Name</th>
-                  <th>Mobile</th>
-                  <th>Email</th>
-                  <th>added_date</th>
-                  <th>Status</th>
+                  <th>שם</th>
+                  <th>נייד</th>
+                  <th>אימייל</th>
+                  <th>תאריך הוספה</th>
+                  <th>סטטוס</th>
                   <?php if($edit_cust||$delete_cust){?><th></th><?php }?>
                 </tr>
               </thead>
@@ -57,9 +57,9 @@
                       </button>
                       <ul class="dropdown-menu dropdown-menu-right">
                         <?php if($edit_cust){?>
-                        <li><a href="javascript:editCust(<?=$row->cust_id?>);">Edit</a></li>
+                        <li><a href="javascript:editCust(<?=$row->cust_id?>);">ערוך</a></li>
                         <?php } if($delete_cust){?>
-                        <li><a href="javascript:deleteCust(<?=$row->cust_id?>);">Delete</a></li>
+                        <li><a href="javascript:deleteCust(<?=$row->cust_id?>);">מחק</a></li>
                         <?php }?>
                       </ul>
                     </div></td><?php }?>
@@ -80,18 +80,18 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal-title">Offer Mail</h4>
+              <h4 class="modal-title" id="modal-title">דואר הצעה</h4>
             </div>
             <div class="modal-body">
               <div class="form-group">
-                <label for="form-control-2" class="control-label">Offer</label>
-                <input type="text" class="form-control" id="offer" name="category" placeholder="Offer" data-required-error="Category is Required" required>
+                <label for="form-control-2" class="control-label">הצעה</label>
+                <input type="text" class="form-control" id="offer" name="category" placeholder="הצעה" data-required-error="קטגוריה נדרשת" required>
                 <div class="help-block with-errors"></div>
               </div>
             </div>
             <div class="modal-footer">
-              <button type="submit" class="btn btn-primary" onclick="sendMail()">Send</button>
-              <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+              <button type="submit" class="btn btn-primary" onclick="sendMail()">שלח</button>
+              <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
             </div>
           </div>
         </div>
@@ -131,7 +131,7 @@
     }
 
     function deleteCust(id) {
-      toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this Customer?',{
+      toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק לקוח זה?',{
           closeButton: true,
           allowHtml: true,
           onShown: function (toast) {

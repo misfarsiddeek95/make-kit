@@ -43,9 +43,9 @@ class Users extends Admin_Controller{
                     }
                 }
                 $this->Common_modal->update('user_id',$user_id,'staff_users',$data);
-                $message = array("status" => "success","message" => "Status updated successfully.");
+                $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -182,7 +182,7 @@ class Users extends Admin_Controller{
                 }
                 $type = 'update';
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
             $this->Admin_modal->saveUser($user_id,$add_id,$user_array,$addr_array);
 
@@ -226,7 +226,7 @@ class Users extends Admin_Controller{
                                     }
                                 }
                             }
-                            $message = array("status" => "success","message" => "User deleted successfully.");
+                            $message = array("status" => "success","message" => "משתמש נמחק בהצלחה.");
                         }else{
                             throw new Exception("Unable to delete this user.");
                         }
@@ -250,7 +250,7 @@ class Users extends Admin_Controller{
                 $data['user']= $this->Admin_modal->getUserDetail($user_id);
                 $data['countries'] = $this->Common_modal->getCountries();
             }else{
-                throw new Exception("Something went wrong :(");
+                throw new Exception("משהו השתבש :(");
             }            
             $this->load->view('profile',$data);
         } catch (Exception $ex){
@@ -301,7 +301,7 @@ class Users extends Admin_Controller{
             $log_array['name'] = $fName.' '.$lName;
             $this->session->set_userdata('staff_logged_in', $log_array);
 
-            $message = array("status" => "success","message" => 'Profile updated successfully.');
+            $message = array("status" => "success","message" => 'פרופיל עודכן בהצלחה.');
 
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());

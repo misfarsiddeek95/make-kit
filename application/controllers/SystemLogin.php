@@ -28,7 +28,7 @@ class SystemLogin extends MY_Controller {
             $result = $this->System_login->get_login_user($userName);
             if($result){
                 if ($result->access_group==0||$result->access_group==''||$result->access_group==null) {
-                    $message = array("status" => "error","message" => "User not Approved. Please contact Administrator.");
+                    $message = array("status" => "error","message" => "משתמש לא אושר. אנא צור קשר עם המנהל.");
                 }else{
                     if($result->status==1 && password_verify($password, $result->password)){
                         $img = 'user_default.jpg';
@@ -45,13 +45,13 @@ class SystemLogin extends MY_Controller {
                         $this->session->set_userdata('staff_logged_in', $log_array);
                         $message = array("status" => "success","message" => "back-office");
                     }else if(!password_verify($password, $result->password)){
-                        $message = array("status" => "error","message" => "Invalid Password. Try again.");
+                        $message = array("status" => "error","message" => "סיסמה שגויה. נסה שוב.");
                     }else{
-                        $message = array("status" => "error","message" => "User blocked. Please contact Administrator.");
+                        $message = array("status" => "error","message" => "משתמש חסום. אנא צור קשר עם המנהל.");
                     }
                 }
             }else{
-                $message = array("status"=>"error","message"=>"Invalid username. User not exists.");
+                $message = array("status"=>"error","message"=>"שם משתמש לא חוקי. המשתמש אינו קיים.");
             }
             echo json_encode($message);
         }catch(Exception $ex){

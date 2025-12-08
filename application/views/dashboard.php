@@ -18,9 +18,9 @@
           <div class="col-md-4 col-sm-4">
             <div class="widget widget-tile-2 bg-info m-b-30 br-8">
               <div class="wt-content p-a-20 p-b-50">
-                <div class="wt-title">Total Success Orders</div>
+                <div class="wt-title">סך הכל הזמנות מוצלחות</div>
                 <div class="wt-number"><?=$totalorders?></div>
-                <div class="wt-text"><?=$newordercount?> order(s)  on <?=date('F')?></div>
+                <div class="wt-text"><?=$newordercount?> הזמנה/הזמנות ב<?=date('F')?></div>
               </div>
               <div class="wt-icon">
                 <i class="zmdi zmdi-shopping-basket"></i>
@@ -33,9 +33,9 @@
           <div class="col-md-4 col-sm-4">
             <div class="widget widget-tile-2 bg-warning m-b-30 br-8">
               <div class="wt-content p-a-20 p-b-50">
-                <div class="wt-title">Total Product(s)</div>
+                <div class="wt-title">סך הכל מוצרים</div>
                 <div class="wt-number"><?=$totalprolist?></div>
-                <div class="wt-text"><?=$productcount?> items added on <?=date('F')?></div>
+                <div class="wt-text"><?=$productcount?> פריטים נוספו ב<?=date('F')?></div>
               </div>
               <div class="wt-icon">
                 <i class="zmdi zmdi-view-module"></i>
@@ -48,13 +48,13 @@
           <div class="col-md-4 col-sm-4">
             <div class="widget widget-tile-2 bg-primary m-b-30 br-8">
               <div class="wt-content p-a-20 p-b-50">
-                <div class="wt-title">Total user(s)
+                <div class="wt-title">סך הכל משתמשים
                   <span class="t-caret text-success">
                     <i class="zmdi zmdi-caret-up"></i>
                   </span>
                 </div>
                 <div class="wt-number"><?=$totalusercount?></div>
-                <div class="wt-text"><?=$usercount?> signup(s) on <?=date('F')?> <!-- | Updated: <?=date('h:i a', time())?> --></div>
+                <div class="wt-text"><?=$usercount?> הרשמה/הרשמות ב<?=date('F')?> <!-- | Updated: <?=date('h:i a', time())?> --></div>
               </div>
               <div class="wt-icon">
                 <i class="zmdi zmdi-accounts"></i>
@@ -70,9 +70,9 @@
           <div class="col-md-4 col-sm-4">
             <div class="widget widget-tile-2 bg-danger m-b-30 br-8">
               <div class="wt-content p-a-20 p-b-50">
-                <div class="wt-title">Out of Stocks</div>
+                <div class="wt-title">אזל מהמלאי</div>
                 <div class="wt-number"><?=$outOfStocks?></div>
-                <div class="wt-text">click here to check product quantity</div>
+                <div class="wt-text">לחץ כאן לבדיקת כמות מוצר</div>
               </div>
               <div class="wt-icon">
                 <i class="zmdi zmdi-square-down"></i>

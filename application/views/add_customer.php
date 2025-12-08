@@ -12,7 +12,7 @@
 
         <div class="panel panel-default">
           <div class="panel-heading">
-            <h3 class="m-y-0"><?=$type?> User</h3>
+            <h3 class="m-y-0"><?=$type?> לקוח</h3>
           </div>
           <div class="panel-body">
 
@@ -24,37 +24,37 @@
                   <input type="hidden" name="add_id" id="add_id" value="<?php if(!(empty($customer))){echo($customer->add_id);}else{echo(0);} ?>">
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">First Name</label>
-                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($customer))){echo($customer->fname);} ?>" placeholder="First Name" id="fName" name="fName" class="form-control" data-minlength="3" data-pattern-error="Invalid First Name" data-error="Minimum of 3 characters" data-required-error="First Name is Required" required>
+                    <label for="form-control-3" class="control-label">שם פרטי</label>
+                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($customer))){echo($customer->fname);} ?>" placeholder="שם פרטי" id="fName" name="fName" class="form-control" data-minlength="3" data-pattern-error="שם פרטי לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם פרטי נדרש" required>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Last Name</label>
-                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($customer))){echo($customer->lname);} ?>" placeholder="Last Name" id="lName" name="lName" class="form-control" data-minlength="3" data-pattern-error="Invalid Last Name" data-error="Minimum of 3 characters" data-required-error="Last Name is Required" required>
+                    <label for="form-control-3" class="control-label">שם משפחה</label>
+                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($customer))){echo($customer->lname);} ?>" placeholder="שם משפחה" id="lName" name="lName" class="form-control" data-minlength="3" data-pattern-error="שם משפחה לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם משפחה נדרש" required>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-4" class="control-label">Mobile</label>
-                    <input type="number" placeholder="Mobile number" name="mobile" id="mobile" value="<?php if(!(empty($customer))){echo($customer->phone);} ?>" class="form-control" data-minlength="9" data-error="Mobile number is invalid" data-required-error="Mobile number is Required" required> 
+                    <label for="form-control-4" class="control-label">נייד</label>
+                    <input type="number" placeholder="מספר נייד" name="mobile" id="mobile" value="<?php if(!(empty($customer))){echo($customer->phone);} ?>" class="form-control" data-minlength="9" data-error="מספר נייד לא חוקי" data-required-error="מספר נייד נדרש" required> 
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Email</label>
-                    <input type="email" placeholder="Email" value="<?php if(!(empty($customer))){echo($customer->email);}?>" data-remote="<?=base_url()?><?php if(empty($customer)){echo 'checkfields';}else{echo 'checkDBfieldOpt';}?>?data=email&input=email&table=customers" data-remote-error="Email already Exist, Try another" data-required-error="Email is Required" class="form-control" name="email" id="email" pattern="[^\s]+" data-minlength="4"  data-error="Please enter a valid email address" <?php if(empty($customer)){echo'required';}else{echo "disabled='disabled'";}?>>
+                    <label for="form-control-3" class="control-label">אימייל</label>
+                    <input type="email" placeholder="אימייל" value="<?php if(!(empty($customer))){echo($customer->email);}?>" data-remote="<?=base_url()?><?php if(empty($customer)){echo 'checkfields';}else{echo 'checkDBfieldOpt';}?>?data=email&input=email&table=customers" data-remote-error="אימייל כבר קיים, נסה אחר" data-required-error="אימייל נדרש" class="form-control" name="email" id="email" pattern="[^\s]+" data-minlength="4"  data-error="אנא הזן כתובת אימייל חוקית" <?php if(empty($customer)){echo'required';}else{echo "disabled='disabled'";}?>>
                         <div class="help-block with-errors"></div>  
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-4" class="control-label">Address</label>
-                    <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-error="Address is required." required><?php if(!(empty($customer))){echo($customer->address);}?></textarea>
+                    <label for="form-control-4" class="control-label">כתובת</label>
+                    <textarea name="address" id="address" class="form-control" rows="3" placeholder="כתובת" data-error="כתובת נדרשת." required><?php if(!(empty($customer))){echo($customer->address);}?></textarea>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Country</label>
-                    <select class="form-control" data-plugin="select2" name="country" id="country" data-required-error="Country is Required" onchange="getRegion();" required>
+                    <label for="form-control-3" class="control-label">מדינה</label>
+                    <select class="form-control" data-plugin="select2" name="country" id="country" data-required-error="מדינה נדרשת" onchange="getRegion();" required>
                       <option></option>
                       <?php foreach ($countries as $row) {
                         $sel = '';
@@ -72,8 +72,8 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Region</label>
-                    <select class="form-control" data-plugin="select2" name="region" id="region" data-required-error="Region is Required" onchange="getCities();" required>
+                    <label for="form-control-3" class="control-label">אזור</label>
+                    <select class="form-control" data-plugin="select2" name="region" id="region" data-required-error="אזור נדרש" onchange="getCities();" required>
                       <option></option>                     
 
                     </select>
@@ -81,8 +81,8 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">City</label>
-                    <select class="form-control" data-plugin="select2" name="city" id="city" data-required-error="City is Required" required>
+                    <label for="form-control-3" class="control-label">עיר</label>
+                    <select class="form-control" data-plugin="select2" name="city" id="city" data-required-error="עיר נדרשת" required>
                       <option></option>                     
 
                     </select>
@@ -90,18 +90,18 @@
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Password</label>
-                      <input type="password" placeholder="Password" class="form-control" name="password" id="password" data-minlength="6" data-error="Minimum of 6 characters" data-required-error="Password is Required" <?php if((empty($customer))){echo 'required';}?>>
+                    <label for="form-control-3" class="control-label">סיסמה</label>
+                      <input type="password" placeholder="סיסמה" class="form-control" name="password" id="password" data-minlength="6" data-error="מינימום 6 תווים" data-required-error="סיסמה נדרשת" <?php if((empty($customer))){echo 'required';}?>>
                       <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
-                    <label for="form-control-3" class="control-label">Status</label>
+                    <label for="form-control-3" class="control-label">סטטוס</label>
                     <input type="checkbox" class="js-switch" name="status" id="status" value="<?php if(!(empty($customer))){echo $customer->status;}else{echo 1;}?>" data-size="small" data-color="#34a853" <?php if(!(empty($customer))){if($customer->status==0){echo 'checked="checked"';}}?> <?php if ($changeStatus){echo 'disabled="disabled"';} else{echo "onchange='updateUserStatus();'"; }?> >
                     <div class="help-block with-errors"></div>
                   </div>
 
-                  <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button>
+                  <button type="submit" class="btn btn-primary btn-block" id="submitBtn">שלח</button>
                 </form>
               </div>
             </div>

@@ -17,7 +17,7 @@
                 <a href="<?=base_url();?>addUser" class="btn btn-outline-success btn-pill" title="Add"><i class="zmdi zmdi-plus"></i></a>
               </div>
               <?php }?>
-              <h3 class="m-t-0 m-b-5">User Management</h3>
+              <h3 class="m-t-0 m-b-5">ניהול משתמשים</h3>
             </div>
             <div class="panel-body">
               <div class="table-responsive m-y-5">
@@ -25,13 +25,13 @@
                   <thead>
                     <tr>
                       <th></th>
-                      <th>Name</th>
-                      <th>Company</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>Username</th>
-                      <th>Role</th>
-                      <th>Status</th>
+                      <th>שם</th>
+                      <th>חברה</th>
+                      <th>אימייל</th>
+                      <th>טלפון</th>
+                      <th>שם משתמש</th>
+                      <th>תפקיד</th>
+                      <th>סטטוס</th>
                       <?php if($edit_user||$delete_user){?><th></th><?php }?>
                     </tr>
                   </thead>
@@ -67,9 +67,9 @@
                           </button>
                           <ul class="dropdown-menu dropdown-menu-right">
                             <?php if($edit_user){?>
-                            <li><a href="javascript:editUser(<?=$row->user_id?>);">Edit</a></li>
+                            <li><a href="javascript:editUser(<?=$row->user_id?>);">ערוך</a></li>
                             <?php } if($delete_user){?>
-                            <li><a href="javascript:deleteUser(<?=$row->user_id?>);">Delete</a></li>
+                            <li><a href="javascript:deleteUser(<?=$row->user_id?>);">מחק</a></li>
                             <?php }?>
                           </ul>
                         </div></td><?php }?>
@@ -109,13 +109,13 @@
             }
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("\u05de\u05e9\u05d4\u05d5 \u05d4\u05e9\u05ea\u05d1\u05e9 :(")
           }
         });
       }
 
       function deleteUser(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this user?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק משתמש זה?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -135,7 +135,7 @@
                       }
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("\u05de\u05e9\u05d4\u05d5 \u05d4\u05e9\u05ea\u05d1\u05e9 :(")
                   }
                 });
               });

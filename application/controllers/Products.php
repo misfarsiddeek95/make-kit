@@ -427,9 +427,9 @@ class Products extends Admin_Controller {
                 $imagename = $result->photo_path.'-'.$value.'.'.$result->extension;
                 unlink( $folder . $imagename );
             }
-            $message = array("status" => "success","message" => 'Deleted successfully');
+            $message = array("status" => "success","message" => 'נמחק בהצלחה');
         }else{
-            $message = array("status" => "error","message" => 'Photo not found.');
+            $message = array("status" => "error","message" => 'תמונה לא נמצאה.');
         }
         echo json_encode($message);
     }
@@ -521,7 +521,7 @@ class Products extends Admin_Controller {
                         }
                     }              
 
-                    $message = array("status" => "success","message" => "Product deleted successfully.");
+                    $message = array("status" => "success","message" => "מוצר נמחק בהצלחה.");
                 }else{
                     throw new Exception("Unable to delete the product.");
                 }
@@ -550,7 +550,7 @@ class Products extends Admin_Controller {
                     }
                 }
                 $this->Common_modal->update('pro_id',$pro_id,'products',$data);
-                $message = array("status" => "success","message" => "Status updated successfully.");
+                $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
                 throw new Exception("Something went wrong. Please try again.");
             }
@@ -664,9 +664,9 @@ class Products extends Admin_Controller {
                     }
                 }
             }
-            $message = array("status" => "success","message" => "Sub Product deleted successfully.");
+            $message = array("status" => "success","message" => "תת-מוצר נמחק בהצלחה.");
         }else{
-            $message = array("status" => "error","message" => "Unable to delete the product, Please try again.");
+            $message = array("status" => "error","message" => "לא ניתן למחוק את המוצר, אנא נסה שוב.");
         }
         echo json_encode($message);
     }

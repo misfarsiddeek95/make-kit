@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="description" content="">
-  <title>Make-Kit | Control Panel</title>
+  <title>מייק-קיט | לוח בקרה</title>
   <link rel="icon" type="image/png" href="<?=base_url()?>assets/img/favicon_io/favicon-32x32.png">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500,700" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
@@ -32,25 +32,25 @@
       <div class="row">
         <div class="col-sm-4 col-sm-offset-4">
           <div class="authentication-content m-b-30">
-            <h3 class="m-t-0 m-b-30 text-center">Back Office Login!</h3>
+            <h3 class="m-t-0 m-b-30 text-center">כניסה למשרד האחורי!</h3>
             <form id="loginForm">
               <div class="form-group">
-                <label for="form-control-1">User Name</label>
-                <input class="form-control" type="text" placeholder="Username" name="username" id="username" required="required">
+                <label for="form-control-1">שם משתמש</label>
+                <input class="form-control" type="text" placeholder="שם משתמש" name="username" id="username" required="required">
                 <span id="usernameError" class="error"></span>
               </div>
               <div class="form-group">
-                <label for="form-control-2">Password</label>
-                <input class="form-control" type="password" placeholder="Password" name="password" id="password" required="required">
+                <label for="form-control-2">סיסמה</label>
+                <input class="form-control" type="password" placeholder="סיסמה" name="password" id="password" required="required">
                 <span id="passwordError" class="error"></span>
               </div>
-              <button type="submit" class="btn btn-info btn-block">Submit</button>
+              <button type="submit" class="btn btn-info btn-block">שלח</button>
             </form>
           </div>
         </div>
       </div>
       <div class="authentication-footer">
-        <span class="text-muted">Need help? Contact us info@testmail.com</span>
+        <span class="text-muted">צריך עזרה? צור קשר info@testmail.com</span>
       </div>
     </div>
     <script src="<?=base_url()?>assets/js/vendor.js"></script>

@@ -32,7 +32,7 @@ class GroupOptions extends Admin_Controller{
             $checked_arr = explode(',', $ids);
             $group_id = $this->input->post('group_id');
             $this->Group_Options_Modal->update_group_options($checked_arr,$group_id);
-            $message = array("status" => "success","message" => "Group Options successfully updated.");
+            $message = array("status" => "success","message" => "אפשרויות קבוצה עודכנו בהצלחה.");
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
         }
@@ -68,10 +68,10 @@ class GroupOptions extends Admin_Controller{
         );
         if ($group_id==0) {
             $group_id = $this->Common_modal->insert('access_groups',$data);
-            $message = array("status" => "success","message" => "Record added successfully.");
+            $message = array("status" => "success","message" => "רשומה נוספה בהצלחה.");
         }else{
             $this->Common_modal->update('group_id',$group_id,'access_groups',$data);
-            $message = array("status" => "success","message" => "Record updated successfully.");
+            $message = array("status" => "success","message" => "רשומה עודכנה בהצלחה.");
         }
         echo json_encode($message);
     }
@@ -81,11 +81,11 @@ class GroupOptions extends Admin_Controller{
 
         $GroupUsed = $this->Access_groups_modal->chechGroupUsed($group_id);
         if ($GroupUsed) {
-            $message = array("status" => "error","message" => "User already exist in this access group.");
+            $message = array("status" => "error","message" => "משתמש כבר קיים בקבוצת גישה זו.");
         }else{
             $this->Common_modal->delete('access_groups','group_id',$group_id);
             $this->Common_modal->delete('group_progs','group_id',$group_id);
-            $message = array("status" => "success","message" => "Access group deleted successfully.");
+            $message = array("status" => "success","message" => "קבוצת גישה נמחקה בהצלחה.");
         }
         echo json_encode($message);
     }

@@ -96,7 +96,7 @@ class OtherOptions extends Admin_Controller {
             if ($deleteRate) {
                 $rate_deleted = $this->Common_modal->delete('country_currency','cc_id',$rate_id);
                 if ($rate_deleted) {
-                    $message = array("status" => "success","message" => "Rate deleted successfully.");
+                    $message = array("status" => "success","message" => "שיעור נמחק בהצלחה.");
                 }else{
                     throw new Exception("Unable to delete this rate.");
                 }
@@ -126,7 +126,7 @@ class OtherOptions extends Admin_Controller {
                     $data['status']=0;
                 }
                 $this->Common_modal->update('cc_id',$rate_id,'country_currency',$data);
-                $message = array("status" => "success","message" => "Status updated successfully.");
+                $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
                 throw new Exception("Something went wrong. Please try again.");
             }
@@ -152,7 +152,7 @@ class OtherOptions extends Admin_Controller {
                     $data['type']=1;
                     $this->Common_modal->update('cc_id',$rate_id,'country_currency',$data);
                 }
-                $message = array("status" => "success","message" => "Type updated successfully.");
+                $message = array("status" => "success","message" => "סוג עודכן בהצלחה.");
             }else{
                 throw new Exception("Something went wrong. Please try again.");
             }
@@ -257,7 +257,7 @@ class OtherOptions extends Admin_Controller {
                     $coupon_array[$key]['coupon_for_id'] = $value
                     $coupon_array[$key]['create_date'] = $date
                     $coupon_array[$key]['status'] = $status*/ 
-                $message = array("status" => "success","message" => "Coupon added successfully.");
+                $message = array("status" => "success","message" => "קופון נוסף בהצלחה.");
                 }else{
                 	foreach ($coupf as $key => $value) {
 	                    for ($i=0; $i < $coupCount; $i++) { 
@@ -276,7 +276,7 @@ class OtherOptions extends Admin_Controller {
                     	$result = $this->Common_modal->insert_batch('coupons',$coupon_array);
 	                }
                 if ($result) {
-                    $message = array("status" => "success","message" => "Coupons added successfully.");
+                    $message = array("status" => "success","message" => "קופונים נוספו בהצלחה.");
                 }else{
                     throw new Exception("Unable to add this coupons.");
                 }
@@ -305,7 +305,7 @@ class OtherOptions extends Admin_Controller {
                     $data['status']=0;
                 }
                 $this->Common_modal->update('cp_id',$coupon_id,'coupons',$data);
-                $message = array("status" => "success","message" => "Status updated successfully.");
+                $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
                 throw new Exception("Something went wrong. Please try again.");
             }
@@ -323,7 +323,7 @@ class OtherOptions extends Admin_Controller {
             if ($deleteCoupon) {
                 $coupon_deleted = $this->Common_modal->delete('coupons','cp_id',$coupon_id);
                 if ($coupon_deleted) {
-                    $message = array("status" => "success","message" => "Coupon deleted successfully.");
+                    $message = array("status" => "success","message" => "קופון נמחק בהצלחה.");
                 }else{
                     throw new Exception("Unable to delete this coupon.");
                 }

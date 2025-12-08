@@ -54,7 +54,7 @@ class Customers extends Admin_Controller{
                     }
                 }
                 $this->Common_modal->update('cust_id',$cust_id,'customers',$data);
-                $message = array("status" => "success","message" => "Status updated successfully.");
+                $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
                 throw new Exception("Something went wrong. Please try again.");
             }
@@ -89,7 +89,7 @@ class Customers extends Admin_Controller{
                             }
                         }
                     }
-                    $message = array("status" => "success","message" => "Customer deleted successfully.");
+                    $message = array("status" => "success","message" => "לקוח נמחק בהצלחה.");
                 }else{
                     throw new Exception("Unable to delete this customer.");
                 }
@@ -232,14 +232,14 @@ class Customers extends Admin_Controller{
                 $status = mail(null,'FANCYPOINT - Password Reset Request',$mail_temp,$headers);
            
                 if ($status) {                    
-                    $message = array("status" => "success","message" => "message sent");   
+                    $message = array("status" => "success","message" => "הודעה נשלחה");   
                 }else{
-                    $message = array("status" => "error","message" => "message not sent");
+                    $message = array("status" => "error","message" => "הודעה לא נשלחה");
                 }
 
 
         }else{
-            $message = array("status" => "error","message" => "No access to send");
+            $message = array("status" => "error","message" => "אין גישה לשליחה");
         }
             echo json_encode($message);       
     }
@@ -257,7 +257,7 @@ class Customers extends Admin_Controller{
         $writer = new Xlsx($spreadsheet);
         $writer->save('hello world.xlsx');
 
-        $message = array("status" => "success","message" => "downloaded");
+        $message = array("status" => "success","message" => "הורד");
         echo json_encode($message);
     }
 }
