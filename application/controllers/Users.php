@@ -39,7 +39,7 @@ class Users extends Admin_Controller{
                     if ($ChangeStatus) {
                         $data['status']=0;
                     }else{
-                        throw new Exception("You don't have the permissoin to change status.");
+                        throw new Exception("אין לך הרשאה לשנות סטטוס.");
                     }
                 }
                 $this->Common_modal->update('user_id',$user_id,'staff_users',$data);
@@ -65,10 +65,10 @@ class Users extends Admin_Controller{
                     $data['staff_sites']= $this->Admin_modal->staff_available_sites($this->input->post('user_id'));
                     $data['type']='Update';
                 }else{
-                    throw new Exception("You don't have the permissoin to update user.");
+                    throw new Exception("אין לך הרשאה לעדכן משתמש.");
                 }
             }else if ($add_user){
-                throw new Exception("You don't have the permissoin to add user.");
+                throw new Exception("אין לך הרשאה להוסיף משתמש.");
             }
 
             $data['changeStatus']= $this->Admin_modal->isAccessRightGiven($group_id,19)?0:1;
@@ -164,11 +164,11 @@ class Users extends Admin_Controller{
             if ($user_id==0&&$add_id==0) {
                 $add_user= $this->Admin_modal->isAccessRightGiven($group_id,18)?0:1;
                 if ($add_user) {
-                    throw new Exception("You don't have the permissoin to add users.");
+                    throw new Exception("אין לך הרשאה להוסיף משתמשים.");
                 }else{
                     $checkuser = $this->Admin_modal->user_name_exist_check($username);
                     if ($checkuser) {
-                        throw new Exception("Username already exist.");
+                        throw new Exception("שם משתמש כבר קיים.");
                     }else{
                         $user_array['username'] = $username;
                         $user_array['create_date'] = $date;
@@ -178,7 +178,7 @@ class Users extends Admin_Controller{
             }else if ($user_id!=0&&$add_id!=0) {
                 $edit_user= $this->Admin_modal->isAccessRightGiven($group_id,20)?0:1;
                 if ($edit_user) {
-                    throw new Exception("You don't have the permissoin to update users.");
+                    throw new Exception("אין לך הרשאה לעדכן משתמשים.");
                 }
                 $type = 'update';
             }else{
@@ -205,7 +205,7 @@ class Users extends Admin_Controller{
                 if (1<$usercount) {
                     $products = $this->Admin_modal->chechUserUsed('products',$user_id);
                     if ($products) {
-                        throw new Exception("Unable to delete, User involved with system");
+                        throw new Exception("לא ניתן למחוק, משתמש מעורב במערכת");
                     }else{
                         $user_deleted = $this->Common_modal->delete('staff_users','user_id',$user_id);
                         if ($user_deleted) {
@@ -228,14 +228,14 @@ class Users extends Admin_Controller{
                             }
                             $message = array("status" => "success","message" => "משתמש נמחק בהצלחה.");
                         }else{
-                            throw new Exception("Unable to delete this user.");
+                            throw new Exception("לא ניתן למחוק משתמש זה.");
                         }
                     }
                 }else{
-                    throw new Exception("Unable to delete last user.");
+                    throw new Exception("לא ניתן למחוק את המשתמש האחרון.");
                 }
             }else{
-                throw new Exception("You don't have the permissoin to delete users.");
+                throw new Exception("אין לך הרשאה למחוק משתמשים.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -328,7 +328,7 @@ class Users extends Admin_Controller{
                     unlink( $folder . $imagename );
                 }
                 $this->Common_modal->delete('photo','pid',$get_image->pid);
-                $msg = array('status' => 'success', 'message' => 'Profile Picture removed successfully.','imgpath' => base_url().'photos/user_default.png');
+                $msg = array('status' => 'success', 'message' => 'תמונת פרופיל הוסרה בהצלחה.','imgpath' => base_url().'photos/user_default.png');
 
             }
         } catch (Exception $ex) {

@@ -136,15 +136,15 @@
 
 
       $("#country").select2({
-        placeholder: "Select User Country"
+        placeholder: "בחר מדינת משתמש"
       });
 
       $("#region").select2({
-        placeholder: "Select User Region"
+        placeholder: "בחר אזור משתמש"
       });
 
       $("#city").select2({
-        placeholder: "Select User City"
+        placeholder: "בחר עיר משתמש"
       });
 
       function getRegion(selectOpt='') {
@@ -170,11 +170,11 @@
             }
             $("#region").selectpicker('refresh');
             $("#region").select2({
-              placeholder: "Select User Region"
+              placeholder: "בחר אזור משתמש"
             });
           },
           error: function(result) {
-            alert('error');
+            alert('שגיאה');
           }
         });
       }
@@ -202,11 +202,11 @@
             }
             $("#city").selectpicker('refresh');
             $("#city").select2({
-              placeholder: "Select User City"
+              placeholder: "בחר עיר משתמש"
             });
           },
           error: function(result) {
-            alert('error');
+            alert('שגיאה');
           }
         });
       }
@@ -222,20 +222,20 @@
             success: function(result) {
               var responsedata = $.parseJSON(result);
               if(responsedata.status=='success'){
-                toastr.success("Profile updated successfully.")
+                toastr.success("פרופיל עודכן בהצלחה.")
                 setTimeout(function(){
                   location.reload();
                 }, 500);
               }else if(responsedata.status=='error'){
                 toastr.error(responsedata.message)
               }else{
-                toastr.error("\u05de\u05e9\u05d4\u05d5 \u05d4\u05e9\u05ea\u05d1\u05e9 :(")
+                toastr.error("משהו השתבש :(")
               }
               $('#inputmasks').waitMe('hide');
             },
             error: function(result) {
               $('#inputmasks').waitMe('hide');
-              toastr.error('Error :'+result)
+              toastr.error('שגיאה: '+result)
             }
         });
       }

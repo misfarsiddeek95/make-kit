@@ -220,11 +220,11 @@
                 <?php } ?>
             }
             $("#region").select2({
-              placeholder: "Select User Region"
+              placeholder: "בחר אזור משתמש"
             });
           },
           error: function(result) {
-            alert('error');
+            alert('שגיאה');
           }
         });
       }
@@ -251,11 +251,11 @@
               <?php } ?>
             }
             $("#city").select2({
-              placeholder: "Select User City"
+              placeholder: "בחר עיר משתמש"
             });
           },
           error: function(result) {
-            alert('error');
+            alert('שגיאה');
           }
         });
       }
@@ -273,7 +273,7 @@
               var responsedata = $.parseJSON(result);
               if(responsedata.status=='success'){
                 if (responsedata.message=='update') {
-                  toastr.success("User updated successfully.")
+                  toastr.success("משתמש עודכן בהצלחה.")
                   setTimeout(function(){
                     window.location = "<?=base_url()?>Users/index";
                   }, 500);
@@ -283,18 +283,18 @@
                   $('#inputmasks').find("textarea").val("");
                   $('#country,#region,#city').val('').trigger('change');
                   $('#inputmasks').validator('destroy').validator();
-                  toastr.success("User Added successfully.")
+                  toastr.success("משתמש נוסף בהצלחה.")
                 }
               }else if(responsedata.status=='error'){
                 toastr.error(responsedata.message)
               }else{
-                toastr.error("\u05de\u05e9\u05d4\u05d5 \u05d4\u05e9\u05ea\u05d1\u05e9 :(")
+                toastr.error("משהו השתבש :(")
               }
               $('#inputmasks').waitMe('hide');
             },
             error: function(result) {
               $('#inputmasks').waitMe('hide');
-              toastr.error('Error :'+result)
+              toastr.error('שגיאה: '+result)
             }
         });
       }
