@@ -76,16 +76,16 @@
         		  <img src="<?=base_url()?>assets/img/logoBottom.png" height="50px">	
         		</div>
         		<div class="col-md-4 col-sm-5">
-                <label style="margin-left: 30px; margin-top: 20px;"><b>Order Date</b></label><span style="margin-left: 15px;"> <?= !empty($orderStatus) ? $orderStatus[0]->status_date : date('Y-m-d H:i:s');?></span><br>
-                <label style="margin-left: 30px;"><b>Order Id</b></label><span style="margin-left: 30px;"> <?=$orderDetail->order_code?></span><br>
+                <label style="margin-left: 30px; margin-top: 20px;"><b>תאריך הזמנה</b></label><span style="margin-left: 15px;"> <?= !empty($orderStatus) ? $orderStatus[0]->status_date : date('Y-m-d H:i:s');?></span><br>
+                <label style="margin-left: 30px;"><b>מס' הזמנה</b></label><span style="margin-left: 30px;"> <?=$orderDetail->order_code?></span><br>
         		</div>
         	</div>
         	<div class="hidetable">
           	<table width="100%" border="3px;" bordercolor="#ddd">
           		<thead>
           			 <tr>
-                        <th style="padding: 20px;" width="60%">From</th>
-                        <th style="padding: 20px;">Ship To</th>
+                        <th style="padding: 20px;" width="60%">מאת</th>
+                        <th style="padding: 20px;">שלח אל</th>
                       </tr>
           		</thead>
           		<tbody>
@@ -135,11 +135,11 @@
           	<table width="100%" class="table table-hover" >
           		<thead>
           			 <tr>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Price</th>
-                    <th>Qty</th>
-                    <th>Total</th>
+                    <th>שם</th>
+                    <th>קוד</th>
+                    <th>מחיר</th>
+                    <th>כמות</th>
+                    <th>סה"כ</th>
                   </tr>
           		</thead>
           		<tbody>
@@ -167,27 +167,27 @@
 	                    $balance_amount = $order_total-$orderDetail->paid_total;
 	                  ?>
                      <tr>
-                     	<td colspan="4" align="right"><b>Cart Total</b></td>
+                     	<td colspan="4" align="right"><b>סה"כ עגלה</b></td>
                      	<td><b><?=$orderDetail->cart_total?></b></td>
                      </tr>
                      <tr>
-                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;">Delivery Charge</td>
+                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;">דמי משלוח</td>
                      	<td><?=$orderDetail->del_charge?></td>
                      </tr>
                      <tr>
-                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;">Discount</td>
+                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;">הנחה</td>
                      	<td><?=$orderDetail->discount?></td>
                      </tr>
                      <tr>
-                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;"><b>Order Total</b></td>
+                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;"><b>סה"כ הזמנה</b></td>
                      	<td><?=number_format((float)$order_total, 2, '.', '')?></td>
                      </tr>
                      <tr>
-                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;">Paid Total</td>
+                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;">סה"כ שולם</td>
                      	<td><b><?=$orderDetail->paid_total?></b></td>
                      </tr>
                      <tr>
-                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;"><b>Balance</b></td>
+                     	<td colspan="4" align="right" style="border-top: 1px solid #fff;"><b>יתרה</b></td>
                      	<td style=" border-bottom: 3px solid #000;"><b><?=number_format((float)$balance_amount, 2, '.', '')?></b></td>
                      </tr>
           		</tbody>
@@ -229,7 +229,7 @@
                     </a>
                   </div>
                   <?php } ?>
-                  <h3 class="panel-title">Receiver Details</h3>
+                  <h3 class="panel-title">פרטי מקבל</h3>
                 </div>
                 <div class="panel-body p-info">
                   <div class="pi-item">
@@ -269,27 +269,27 @@
                     </a>
                   </div>
                   <?php } ?>
-                  <h3 class="panel-title">Order Payment Details</h3>
+                  <h3 class="panel-title">פרטי תשלום הזמנה</h3>
                 </div>
                 <table class="table table-hover">
                   <?php 
                     $order_total = ($orderDetail->cart_total+$orderDetail->del_charge)-$orderDetail->discount; 
                     $balance_amount = $order_total-$orderDetail->paid_total;
                   ?>
-                  <tr><td>Cart Total</td><td><?=$orderDetail->cart_total?></td></tr>
-                  <tr><td>Delivery Charge</td><td><?=$orderDetail->del_charge?></td></tr>
-                  <tr><td>Discount</td><td><?=$orderDetail->discount?></td></tr>
-                  <tr><td><b>Order Total</td></b><td><b><?=number_format((float)$order_total, 2, '.', '')?></b></td></b></tr>
-                  <tr><td>Paid Total</td><td><?=$orderDetail->paid_total?></td></tr>
-                  <tr><td>Balance</td><td><?=number_format((float)$balance_amount, 2, '.', '')?></td></tr>
+                  <tr><td>סה"כ עגלה</td><td><?=$orderDetail->cart_total?></td></tr>
+                  <tr><td>דמי משלוח</td><td><?=$orderDetail->del_charge?></td></tr>
+                  <tr><td>הנחה</td><td><?=$orderDetail->discount?></td></tr>
+                  <tr><td><b>סה"כ הזמנה</td></b><td><b><?=number_format((float)$order_total, 2, '.', '')?></b></td></b></tr>
+                  <tr><td>סה"כ שולם</td><td><?=$orderDetail->paid_total?></td></tr>
+                  <tr><td>יתרה</td><td><?=number_format((float)$balance_amount, 2, '.', '')?></td></tr>
                 </table>
               </div>
 
 
               <div class="panel panel-default panel-table" id="status_of_payment">
                 <div class="panel-heading">
-                  <h3 class="panel-title">Order Status</h3>
-                  <div class="panel-subtitle">What happend to this order</div>
+                  <h3 class="panel-title">סטטוס הזמנה</h3>
+                  <div class="panel-subtitle">מה קרה להזמנה זו</div>
                 </div>
                 <div class="panel-body">
                   <div class="widget-activity">
@@ -330,7 +330,7 @@
 
                   </div>
                   <?php if($order_status||$pay_status){ ?>
-                  <button type="button" class="btn btn-primary btn-block" onclick="editStatus();">Change status</button>
+                  <button type="button" class="btn btn-primary btn-block" onclick="editStatus();">שנה סטטוס</button>
                   <?php } ?>
                 </div>
               </div>
@@ -340,8 +340,8 @@
 
               <div class="panel panel-default panel-table">
                 <div class="panel-heading">
-                  <h3 class="m-t-0 m-b-5">Ordered Products</h3>
-                  <button type="button" class="btn btn-outline-warning btn-labeled" id="prnt" onclick="print()">Print
+                  <h3 class="m-t-0 m-b-5">מוצרי הזמנה</h3>
+                  <button type="button" class="btn btn-outline-warning btn-labeled" id="prnt" onclick="print()">הדפס
                   <span class="btn-label btn-label-right p-x-10">
                     <i class="zmdi zmdi-print"></i>
                   </span>
@@ -353,12 +353,12 @@
                       <thead>
                         <tr>
                           <th></th>
-                          <th>Name</th>
-                          <th>Code</th>
-                          <th>User</th>
-                          <th>Price</th>
-                          <th>Qty</th>
-                          <th>Total</th>
+                          <th>שם</th>
+                          <th>קוד</th>
+                          <th>משתמש</th>
+                          <th>מחיר</th>
+                          <th>כמות</th>
+                          <th>סה"כ</th>
                           <!-- <th></th> -->
                         </tr>
                       </thead>
@@ -419,7 +419,7 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal_assign_title">Edit Order Payment Details</h4>
+              <h4 class="modal-title" id="modal_assign_title">ערוך פרטי תשלום הזמנה</h4>
             </div>
 
             <form data-toggle="validator" id="inputmasks">
@@ -479,7 +479,7 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal_assign_title">Edit Delivery Details</h4>
+              <h4 class="modal-title" id="modal_assign_title">ערוך פרטי משלוח</h4>
             </div>
 
             <form data-toggle="validator" id="delAddressMask">
@@ -572,7 +572,7 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal_assign_title">Update Status</h4>
+              <h4 class="modal-title" id="modal_assign_title">עדכן סטטוס</h4>
             </div>
 
             <form data-toggle="validator" id="statusUpdateMask">
@@ -802,7 +802,7 @@
             }
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
@@ -826,7 +826,7 @@
               }else if(responsedata.status=='error'){
                 toastr.error(responsedata.message)
               }else{
-                toastr.error("Somthing went wrong :(")
+                toastr.error("משהו השתבש :(")
               }
               $('#statusUpdateMask').waitMe('hide');
             },

@@ -24,7 +24,7 @@ class Orders extends Admin_Controller {
 
         try{
             if ($view_order) {
-                throw new Exception("You don't have the permissoin to view orders.");
+                throw new Exception("אין לך הרשאה לצפות בהזמנות.");
             }
             $data['all_orders']= $this->Admin_modal->isAccessRightGiven($group_id,57)?1:0;
             $data['add_order']= $this->Admin_modal->isAccessRightGiven($group_id,58)?1:0; 
@@ -63,7 +63,7 @@ class Orders extends Admin_Controller {
         $view_order= $this->Admin_modal->isAccessRightGiven($group_id,66)?0:1;
         try{
             if ($view_order) {
-                throw new Exception("You don't have the permissoin to view single order.");
+                throw new Exception("אין לך הרשאה לצפות בהזמנה יחידה.");
             }
             if (isset($_POST['order_id'])){
                 $order_id = $this->input->post('order_id');
@@ -90,7 +90,7 @@ class Orders extends Admin_Controller {
                 // $data['countries'] = $this->Common_modal->getCountries();
                 $data['countries'] = $this->Common_modal->getAll('country');
             }else{
-                throw new Exception("Somthing went wrong :(");
+                throw new Exception("משהו השתבש :(");
             }
 
             $this->load->view('view_order',$data);
@@ -105,7 +105,7 @@ class Orders extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $delete_order= $this->Admin_modal->isAccessRightGiven($group_id,60)?0:1;
             if ($delete_order) {
-                throw new Exception("You don't have the permissoin to delete orders.");
+                throw new Exception("אין לך הרשאה למחוק הזמנות.");
             }
             $order_id= $this->input->post('order_id');
             $result = $this->Common_modal->getAllWhere('orders','order_id',$order_id);
@@ -118,10 +118,10 @@ class Orders extends Admin_Controller {
                     $this->Common_modal->delete('order_payment_det','order_id',$order_id);
                     $this->Common_modal->delete('order_status_det','order_id',$order_id);
                 }else{
-                    throw new Exception("Order unable to delete");
+                    throw new Exception("לא ניתן למחוק הזמנה");
                 }
             }else{
-                throw new Exception("Somthing went wrong :(");
+                throw new Exception("משהו השתבש :(");
             }
             
             $message = array("status" => "success","message" => "הזמנה נמחקה בהצלחה.");
@@ -139,12 +139,12 @@ class Orders extends Admin_Controller {
             $order_status= $this->Admin_modal->isAccessRightGiven($group_id,64)?0:1;
             $pay_status= $this->Admin_modal->isAccessRightGiven($group_id,68)?0:1;
             if ($order_status&&$pay_status) {
-                throw new Exception("You don't have the permissoin to update status");
+                throw new Exception("אין לך הרשאה לעדכן סטטוס");
             }
             $order_id= $this->input->post('order_id');
             $message = $this->Order_modal->getCurrentStatus($order_id);
             if ($message==false) {
-                throw new Exception("Somthing went wrong :(");
+                throw new Exception("משהו השתבש :(");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -159,17 +159,17 @@ class Orders extends Admin_Controller {
             $order_status= $this->Admin_modal->isAccessRightGiven($group_id,64)?0:1;
             $pay_status= $this->Admin_modal->isAccessRightGiven($group_id,68)?0:1;
             if ($order_status&&$pay_status) {
-                throw new Exception("You don't have the permissoin to update status");
+                throw new Exception("אין לך הרשאה לעדכן סטטוס");
             }
             if (!(isset($_POST['sorder_id']))&&(!(isset($_POST['spayment_status']))||!(isset($_POST['sorder_status'])))){
-                throw new Exception("Somthing went wrong :(");
+                throw new Exception("משהו השתבש :(");
             }
 
             $order_id= $this->input->post('sorder_id');
             $date = date("Y-m-d H:i:s");
             $result = $this->Order_modal->getCurrentStatus($order_id);
             if ($result==false) {
-                throw new Exception("Somthing went wrong :(");
+                throw new Exception("משהו השתבש :(");
             }
             $order_arr = array();
             $status_arr = array();
@@ -199,7 +199,7 @@ class Orders extends Admin_Controller {
                 if ($update_res) {
                     $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
                 }else{
-                    throw new Exception("Unable to update status :(");
+                    throw new Exception("לא ניתן לעדכן סטטוס :(");
                 }
             }
         }catch(Exception $ex){
@@ -216,13 +216,13 @@ class Orders extends Admin_Controller {
             $oDiscount= $this->Admin_modal->isAccessRightGiven($group_id,71)?0:1;
             $oPaidAmount= $this->Admin_modal->isAccessRightGiven($group_id,72)?0:1;
             if ($opayDet) {
-                throw new Exception("You don't have the permissoin to update payment details");
+                throw new Exception("אין לך הרשאה לעדכן פרטי תשלום");
             }
             $order_id= $this->input->post('order_id');
 
             $result = $this->Common_modal->getAllWhere('orders','order_id',$order_id);
             if ($result==false) {
-                throw new Exception("Somthing went wrong :(");
+                throw new Exception("משהו השתבש :(");
             }
 
             $cart_total = $result->cart_total;
@@ -278,7 +278,7 @@ class Orders extends Admin_Controller {
             $edit_order= $this->Admin_modal->isAccessRightGiven($group_id,58)?0:1;
             $updateDelCharge= $this->Admin_modal->isAccessRightGiven($group_id,62)?1:0;
             if ($edit_order) {
-                throw new Exception("You don't have the permissoin to edit delivery address.");
+                throw new Exception("אין לך הרשאה לערוך כתובת משלוח.");
             }
             $order_id= $this->input->post('delorder_id');
             $add_id= $this->input->post('add_id');
@@ -324,7 +324,7 @@ class Orders extends Admin_Controller {
                         'del_charge' => $del_charge
                     );
                 }else{
-                    throw new Exception("Somthing went wrong :(");
+                    throw new Exception("משהו השתבש :(");
                 }
             }
 
@@ -341,7 +341,7 @@ class Orders extends Admin_Controller {
             if ($update_addr) {
                 $message = array("status" => "success","message" => "כתובת משלוח עודכנה בהצלחה.");
             }else{
-                throw new Exception("Unable to update Delivery address :(");
+                throw new Exception("לא ניתן לעדכן כתובת משלוח :(");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());

@@ -22,7 +22,7 @@
                 <button type="button" class="btn btn-outline-primary m-w-120">Add Order</button>
               </div>
             <?php }?> -->
-            <h3 class="m-t-0 m-b-5">Orders</h3>
+            <h3 class="m-t-0 m-b-5">הזמנות</h3>
           </div>
           <div class="panel-body">
             <div class="page-layouts">
@@ -30,17 +30,17 @@
                 <div id="controllers">
                     <div class="col-lg-3 col-sm-3 col-xs-12 m-y-5">
                         <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Search for..." style="border-color: #1d87e4;" id="searchField">
+                            <input class="form-control" type="text" placeholder="חפש..." style="border-color: #1d87e4;" id="searchField">
                             <span class="input-group-btn">
-                              <button class="btn btn-outline-primary" type="button" onclick="getOrdersByStatus();">Search</button>
-                              <button class="btn btn-outline-primary" type="button" onclick="reset_fun_search();">Reset</button>
+                              <button class="btn btn-outline-primary" type="button" onclick="getOrdersByStatus();">חפש</button>
+                              <button class="btn btn-outline-primary" type="button" onclick="reset_fun_search();">איפוס</button>
                             </span>
                         </div>
                     </div>
 
                     <div class="col-lg-2 col-sm-3 col-xs-12 m-y-5">
                       <select id="order_status" class="custom-select" style="border-color: #1d87e4;" onchange="getOrdersByStatus();">
-                        <option value="" selected="selected">-- Filter By Order Status --</option>
+                        <option value="" selected="selected">-- סנן לפי סטטוס הזמנה --</option>
                         <?php foreach ($order_statuses as $row) {?>
                         <option value="<?=$row->os_id?>"><?=$row->status?></option>
                         <?php } ?>
@@ -49,7 +49,7 @@
 
                     <div class="col-lg-2 col-sm-3 col-xs-12 m-y-5">
                       <select id="payment_status" class="custom-select" style="border-color: #1d87e4;" <?php if ($all_orders) { echo 'onchange="getOrdersByStatus();"';}else{echo "disabled";}?>>
-                        <option value="" selected="selected">-- Filter By Payment Status --</option>
+                        <option value="" selected="selected">-- סנן לפי סטטוס תשלום --</option>
                         <?php foreach ($payment_status as $key => $value) {?>
                         <option value="<?=$key?>"><?=$value?></option>
                         <?php } ?>
@@ -58,11 +58,11 @@
 
                     <div class="col-lg-4 col-sm-6 col-xs-12 m-y-5">
                         <div class="input-group date">
-                          <input type="text" class="form-control" style="width:50%;border-color: #1d87e4;" id="filterByFromDate" placeholder="Select From Date">
-                          <input type="text" class="form-control" style="width:50%;border-color: #1d87e4;" id="filterByToDate" placeholder="Select To Date">
+                          <input type="text" class="form-control" style="width:50%;border-color: #1d87e4;" id="filterByFromDate" placeholder="בחר מתאריך">
+                          <input type="text" class="form-control" style="width:50%;border-color: #1d87e4;" id="filterByToDate" placeholder="בחר עד תאריך">
                           <span class="input-group-btn">
-                            <button class="btn btn-outline-primary" type="button" onclick="getOrdersByStatus();">Filter</button>
-                            <button class="btn btn-outline-primary" type="button" onclick="reset_fun_dates();">Reset</button>
+                            <button class="btn btn-outline-primary" type="button" onclick="getOrdersByStatus();">סינון</button>
+                            <button class="btn btn-outline-primary" type="button" onclick="reset_fun_dates();">איפוס</button>
                           </span>
                         </div>
                     </div>
@@ -84,17 +84,17 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th>Code</th>
-                    <th>Cart Total</th>
-                    <th>Del. Charge</th>
-                    <th>Discount</th>
-                    <th>Order Total</th>
-                    <th>Paid Total</th>
-                    <th>Balance</th>
-                    <th>Pay. Method</th>
-                    <th>Pay. Status</th>
-                    <th>Order Status</th>
-                    <th>Date</th>
+                    <th>קוד</th>
+                    <th>סה"כ עגלה</th>
+                    <th>דמי משלוח</th>
+                    <th>הנחה</th>
+                    <th>סה"כ הזמנה</th>
+                    <th>סה"כ שולם</th>
+                    <th>יתרה</th>
+                    <th>אמצעי תשלום</th>
+                    <th>סטטוס תשלום</th>
+                    <th>סטטוס הזמנה</th>
+                    <th>תאריך</th>
                     <?php if($view_order){?>
                     <th></th>
                     <?php } if($order_status||$pay_status){ ?>
@@ -132,7 +132,7 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal_assign_title">Update Status</h4>
+              <h4 class="modal-title" id="modal_assign_title">עדכן סטטוס</h4>
             </div>
 
             <form data-toggle="validator" id="statusUpdateMask">
@@ -141,9 +141,9 @@
                 <input type="hidden" name="sorder_id" id="sorder_id" value="0">
                 <?php if($pay_status){ ?>
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Payment Status</label>
+                  <label for="form-control-2" class="control-label">סטטוס תשלום</label>
                   <select id="spayment_status" name="spayment_status" class="custom-select" required="required">
-                    <option selected="selected" disabled="disabled">-- Select Payment Status --</option>
+                    <option selected="selected" disabled="disabled">-- בחר סטטוס תשלום --</option>
                     <?php foreach ($payment_status as $key => $value) {?>
                     <option value="<?=$key?>"><?=$value?></option>
                     <?php } ?>
@@ -152,9 +152,9 @@
                 </div>
                 <?php } if($order_status){ ?>
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Order Status</label>
+                  <label for="form-control-2" class="control-label">סטטוס הזמנה</label>
                   <select id="sorder_status" name="sorder_status" class="custom-select" required="required">
-                    <option selected="selected" disabled="disabled">-- Select Order Status --</option>
+                    <option selected="selected" disabled="disabled">-- בחר סטטוס הזמנה --</option>
                     <?php foreach ($order_statuses as $row) {?>
                     <option value="<?=$row->os_id?>"><?=$row->status?></option>
                     <?php } ?>
@@ -165,8 +165,8 @@
               </div>
 
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                <button type="submit" class="btn btn-primary">שליחה</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
               </div>
             </form>
           </div>
@@ -201,21 +201,21 @@
               var tbody = '';
               if (responsedata.rowcount==0) {
 
-                $('#tbody_data').append('<tr><td colspan="16" class="text-center">No Results</td></tr>');
+                $('#tbody_data').append('<tr><td colspan="16" class="text-center">אין תוצאות</td></tr>');
               }else{
-                var myArray = {'2':'Success' , '0':'Pending' , '-1':'Canceled' , '-2':'Failed' , '-3':'Chargedback'};
+                var myArray = {'2':'הצליח' , '0':'ממתין' , '-1':'בוטל' , '-2':'נכשל' , '-3':'חיוב חוזר'};
                 for (var i = 0; i < responsedata.orders.length; i++) {
-                  var paymethod = 'Total - Online';
+                  var paymethod = 'סה"כ - אונליין';
                   var payment_status = responsedata.orders[i]['payment_status'];
                   var order_status = responsedata.orders[i]['os_id'];
                   var icon = 'circle';
                   var circle = 'danger';
                   if (responsedata.orders[i]['payment_method']==2) {
-                    paymethod = 'COD - Online';
+                    paymethod = 'משלוח - אונליין';
                   }else if(responsedata.orders[i]['payment_method']==3){
-                    paymethod = 'Total - Bank';
+                    paymethod = 'סה"כ - בנק';
                   }else if(responsedata.orders[i]['payment_method']==4){
-                    paymethod = 'COD - Bank';
+                    paymethod = 'משלוח - בנק';
                   }
                   var cart_total = parseFloat(responsedata.orders[i]['cart_total']);
                   var del_charge = parseFloat(responsedata.orders[i]['del_charge']);
@@ -304,7 +304,7 @@
             }
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
@@ -346,7 +346,7 @@
             }
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
@@ -367,7 +367,7 @@
               }else if(responsedata.status=='error'){
                 toastr.error(responsedata.message)
               }else{
-                toastr.error("Somthing went wrong :(")
+                toastr.error("משהו השתבש :(")
               }
               $("#status_modal").modal('hide');
               $('#statusUpdateMask').waitMe('hide');
@@ -381,7 +381,7 @@
       });
 
       function deleteOrder(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this order?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק הזמנה זו?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -400,7 +400,7 @@
                       }
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                   }
                 });
               });
