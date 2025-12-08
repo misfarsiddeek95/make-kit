@@ -23,7 +23,7 @@ class OtherOptions extends Admin_Controller {
         $view_rate= $this->Admin_modal->isAccessRightGiven($group_id,80)?0:1;
         try{
             if ($view_rate) {
-                throw new Exception("You don't have the permissoin to view rates.");
+                throw new Exception("אין לך הרשאה לצפות בשיעורים.");
             }
             $data['curRates']= $this->Other_modal->getAllRates();
             $data['countries'] = $this->Common_modal->getCountries();
@@ -59,11 +59,11 @@ class OtherOptions extends Admin_Controller {
             if ($rate_id==0) {
                 $addRate= $this->Admin_modal->isAccessRightGiven($group_id,81)?0:1;
                 if ($addRate) {
-                    throw new Exception("You don't have the permissoin to add rates.");
+                    throw new Exception("אין לך הרשאה להוסיף שיעורים.");
                 }else{
                     $check_country = $this->Other_modal->check_rate_exist($country);
                     if ($check_country) {
-                        throw new Exception("Country rate already exist.");
+                        throw new Exception("שיעור מדינה כבר קיים.");
                     }
                     $rate_array['type'] = 0;
                     $type = 'Rate added successfully';
@@ -71,7 +71,7 @@ class OtherOptions extends Admin_Controller {
             }else if ($rate_id!=0) {
                 $editRate= $this->Admin_modal->isAccessRightGiven($group_id,82)?0:1;
                 if ($editRate) {
-                    throw new Exception("You don't have the permissoin to update rates.");
+                    throw new Exception("אין לך הרשאה לעדכן שיעורים.");
                 }
                 $type = 'Rate updated successfully';
             }
@@ -79,7 +79,7 @@ class OtherOptions extends Admin_Controller {
             if ($rate_save) {
                 $message = array("status" => "success","message" => $type);
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -98,10 +98,10 @@ class OtherOptions extends Admin_Controller {
                 if ($rate_deleted) {
                     $message = array("status" => "success","message" => "שיעור נמחק בהצלחה.");
                 }else{
-                    throw new Exception("Unable to delete this rate.");
+                    throw new Exception("לא ניתן למחוק שיעור זה.");
                 }
             }else{
-                throw new Exception("You don't have the permissoin to delete rates.");
+                throw new Exception("אין לך הרשאה למחוק שיעורים.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -116,7 +116,7 @@ class OtherOptions extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $ChangeStatus= $this->Admin_modal->isAccessRightGiven($group_id,84)?0:1;
             if ($ChangeStatus) {
-                throw new Exception("You don't have the permissoin to change status.");
+                throw new Exception("אין לך הרשאה לשנות סטטוס.");
             }
             $result = $this->Common_modal->getAllWhere('country_currency','cc_id',$rate_id);
             if ($result) {
@@ -128,7 +128,7 @@ class OtherOptions extends Admin_Controller {
                 $this->Common_modal->update('cc_id',$rate_id,'country_currency',$data);
                 $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -143,7 +143,7 @@ class OtherOptions extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $ChangeStatus= $this->Admin_modal->isAccessRightGiven($group_id,85)?0:1;
             if ($ChangeStatus) {
-                throw new Exception("You don't have the permissoin to change type.");
+                throw new Exception("אין לך הרשאה לשנות סוג.");
             }
             $result = $this->Common_modal->getAllWhere('country_currency','cc_id',$rate_id);
             if ($result) {
@@ -154,7 +154,7 @@ class OtherOptions extends Admin_Controller {
                 }
                 $message = array("status" => "success","message" => "סוג עודכן בהצלחה.");
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -167,7 +167,7 @@ class OtherOptions extends Admin_Controller {
         $view_coupons= $this->Admin_modal->isAccessRightGiven($group_id,86)?0:1;
         try{
             if ($view_coupons) {
-                throw new Exception("You don't have the permissoin to view coupons.");
+                throw new Exception("אין לך הרשאה לצפות בקופונים.");
             }
             $data['addCoupons']= $this->Admin_modal->isAccessRightGiven($group_id,87)?1:0;
             $data['editCoupons']= $this->Admin_modal->isAccessRightGiven($group_id,88)?1:0; 
@@ -218,14 +218,14 @@ class OtherOptions extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $addCoupon= $this->Admin_modal->isAccessRightGiven($group_id,87)?0:1;
             if ($addCoupon) {
-                throw new Exception("You don't have the permissoin to add coupons.");
+                throw new Exception("אין לך הרשאה להוסיף קופונים.");
             }
             if ($coupCount<=0) {
-                throw new Exception("Coupon count should be more than 0");
+                throw new Exception("ספירת קופונים צריכה להיות יותר מ-0");
             }
             if ($coupon_type) {
                 if (100<$coupAmount) {
-                    throw new Exception("Coupon amount percentage should be within 100");
+                    throw new Exception("אחוז סכום קופון צריך להיות עד 100");
                 }
             }
             $coupon_array = array();
@@ -278,7 +278,7 @@ class OtherOptions extends Admin_Controller {
                 if ($result) {
                     $message = array("status" => "success","message" => "קופונים נוספו בהצלחה.");
                 }else{
-                    throw new Exception("Unable to add this coupons.");
+                    throw new Exception("לא ניתן להוסיף קופונים אלו.");
                 }
             }
 
@@ -295,7 +295,7 @@ class OtherOptions extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $ChangeStatus= $this->Admin_modal->isAccessRightGiven($group_id,90)?0:1;
             if ($ChangeStatus) {
-                throw new Exception("You don't have the permissoin to change status.");
+                throw new Exception("אין לך הרשאה לשנות סטטוס.");
             }
             $result = $this->Common_modal->getAllWhere('coupons','cp_id',$coupon_id);
             if ($result) {
@@ -307,7 +307,7 @@ class OtherOptions extends Admin_Controller {
                 $this->Common_modal->update('cp_id',$coupon_id,'coupons',$data);
                 $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -325,10 +325,10 @@ class OtherOptions extends Admin_Controller {
                 if ($coupon_deleted) {
                     $message = array("status" => "success","message" => "קופון נמחק בהצלחה.");
                 }else{
-                    throw new Exception("Unable to delete this coupon.");
+                    throw new Exception("לא ניתן למחוק קופון זה.");
                 }
             }else{
-                throw new Exception("You don't have the permissoin to delete coupon.");
+                throw new Exception("אין לך הרשאה למחוק קופון.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());

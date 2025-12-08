@@ -14,10 +14,10 @@
           <div class="panel-heading">
             <?php if($addCoupons){?>
               <div class="panel-tools">
-                <button type="button" class="btn btn-outline-primary m-w-120" onclick="addCoupon();">Add Coupon</button>
+                <button type="button" class="btn btn-outline-primary m-w-120" onclick="addCoupon();">הוסף קופון</button>
               </div>
             <?php }?>
-            <h3 class="m-t-0 m-b-5">Coupons</h3>
+            <h3 class="m-t-0 m-b-5">קופונים</h3>
           </div>
           <div class="panel-body">
             <div class="page-layouts">
@@ -25,10 +25,10 @@
                 <div id="controllers">
                     <div class="col-lg-5 col-sm-3 col-xs-12 m-y-5">
                         <div class="input-group">
-                            <input class="form-control" type="text" placeholder="Search for..." style="border-color: #1d87e4;" id="searchField">
+                            <input class="form-control" type="text" placeholder="חפש..." style="border-color: #1d87e4;" id="searchField">
                             <span class="input-group-btn">
-                              <button class="btn btn-outline-primary" type="button" onclick="getCouponsByStatus();">Search</button>
-                              <button class="btn btn-outline-primary" type="button" onclick="reset_fun_search();">Reset</button>
+                              <button class="btn btn-outline-primary" type="button" onclick="getCouponsByStatus();">חפש</button>
+                              <button class="btn btn-outline-primary" type="button" onclick="reset_fun_search();">איפוס</button>
                             </span>
                         </div>
                     </div>
@@ -36,26 +36,26 @@
                     <div class="col-lg-2 col-sm-3 col-xs-12 m-y-5">
                       <div class="btn-group" data-toggle="buttons">
                         <label class="btn btn-outline-primary active">
-                          <input type="radio" name="filterActive" class="filterActive" value="" autocomplete="off" checked="checked">Reset
+                          <input type="radio" name="filterActive" class="filterActive" value="" autocomplete="off" checked="checked">איפוס
                         </label>
                         <label class="btn btn-outline-primary">
-                          <input type="radio" name="filterActive" class="filterActive" value="0" autocomplete="off">On
+                          <input type="radio" name="filterActive" class="filterActive" value="0" autocomplete="off">פעיל
                         </label>
                         <label class="btn btn-outline-primary">
-                          <input type="radio" name="filterActive" class="filterActive" value="1" autocomplete="off">Off
+                          <input type="radio" name="filterActive" class="filterActive" value="1" autocomplete="off">כבוי
                         </label>
                       </div>
                     </div>
 
                     <div class="col-lg-2 col-sm-6 col-xs-12 m-y-5">
                         <div class="input-group date">
-                          <input type="text" class="form-control" style="border-color: #1d87e4;" id="filterByFromDate" placeholder="Select From Date" onchange="getCouponsByStatus();">
+                          <input type="text" class="form-control" style="border-color: #1d87e4;" id="filterByFromDate" placeholder="בחר מתאריך" onchange="getCouponsByStatus();">
                         </div>
                     </div>
 
                     <div class="col-lg-2 col-sm-6 col-xs-12 m-y-5">
                         <div class="input-group date">
-                          <input type="text" class="form-control" style="border-color: #1d87e4;" id="filterByToDate" placeholder="Select To Date" onchange="getCouponsByStatus();">
+                          <input type="text" class="form-control" style="border-color: #1d87e4;" id="filterByToDate" placeholder="בחר עד תאריך" onchange="getCouponsByStatus();">
                         </div>
                     </div>
 
@@ -75,17 +75,17 @@
               <table class="table table-hover m-b-10">
                 <thead>
                   <tr>
-                    <th>Code</th>
-                    <th>Amount</th>
-                    <th>From</th>
-                    <th>To</th>
-                    <th>Count</th>
-                    <th>Added Date</th>
-                    <th>Status</th>
+                    <th>קוד</th>
+                    <th>סכום</th>
+                    <th>מתאריך</th>
+                    <th>עד תאריך</th>
+                    <th>ספירה</th>
+                    <th>תאריך הוספה</th>
+                    <th>סטטוס</th>
                     <?php if($editCoupons&&false){?>
-                    <th>Edit</th>
+                    <th>עריכה</th>
                     <?php } if($deleteCoupons){ ?>
-                    <th>Delete</th>
+                    <th>מחיקה</th>
                     <?php } ?>
                   </tr>
                 </thead>
@@ -113,7 +113,7 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal-title">Add Coupon</h4>
+              <h4 class="modal-title" id="modal-title">הוסף קופון</h4>
             </div>
 
             <form data-toggle="validator" id="inputmasks">
@@ -122,19 +122,19 @@
                 <input type="hidden" name="coupon_id" id="coupon_id" value="0">
 
                 <div class="form-group">                  
-                  <label for="form-control-2" class="control-label">Coupon for</label>
+                  <label for="form-control-2" class="control-label">קופון עבור</label>
                   <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-outline-info coupRadio">
-                      <input type="radio" name="coup_for" id="coup_brand" autocomplete="off" value="0" required>Brand
+                      <input type="radio" name="coup_for" id="coup_brand" autocomplete="off" value="0" required>מותג
                     </label>
                     <label class="btn btn-outline-info coupRadio">
-                      <input type="radio" name="coup_for" id="coup_cate" autocomplete="off" value="1" required> Category
+                      <input type="radio" name="coup_for" id="coup_cate" autocomplete="off" value="1" required> קטגוריה
                     </label>
                   </div>
                 </div>
                 <div class="form-group" id="coupon_for_id_category_div">                  
-                  <label for="form-control-2" class="control-label">Coupon Category</label>                 
-                    <select id="coupon_for_id_category" name="coupf[]" class="form-control select2-hidden-accessible" data-plugin="select2" multiple="multiple" data-placeholder="Select Categories" aria-hidden="true" style="width: 100%;">
+                  <label for="form-control-2" class="control-label">קטגוריית קופון</label>                 
+                    <select id="coupon_for_id_category" name="coupf[]" class="form-control select2-hidden-accessible" data-plugin="select2" multiple="multiple" data-placeholder="בחר קטגוריות" aria-hidden="true" style="width: 100%;">
                       <option></option>
                       <?php
                         function write_with_child($category) {
@@ -169,8 +169,8 @@
                     </select>
                 </div>
                 <div class="form-group" id="coupon_for_id_brand_div">                  
-                  <label for="form-control-2" class="control-label">Coupon Brand</label>                 
-                    <select id="coupon_for_id_brand" name="coupf[]" class="form-control select2-hidden-accessible" data-plugin="select2" multiple="multiple" data-placeholder="Select Brands" aria-hidden="true" style="width: 100%;">
+                  <label for="form-control-2" class="control-label">מותג קופון</label>                 
+                    <select id="coupon_for_id_brand" name="coupf[]" class="form-control select2-hidden-accessible" data-plugin="select2" multiple="multiple" data-placeholder="בחר מותגים" aria-hidden="true" style="width: 100%;">
                       <option></option>
                       <?php foreach ($brands as $row) {  ?>
                       <option value="<?=$row->brand_id?>"><?=$row->brand?></option>
@@ -178,50 +178,50 @@
                     </select>
                 </div>
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Coupon code</label>
-                  <input type="text" pattern="^[0-9a-zA-Z-_]{0,6}$" data-pattern-error="Maximum 6 (a to z or 0 to 9) allows" class="form-control" id="coupon_code" name="coupon_code" placeholder="Coupon code" style="text-transform:uppercase" >
+                  <label for="form-control-2" class="control-label">קוד קופון</label>
+                  <input type="text" pattern="^[0-9a-zA-Z-_]{0,6}$" data-pattern-error="מקסימום 6 (א-ת a-z או 0-9) מותר" class="form-control" id="coupon_code" name="coupon_code" placeholder="קוד קופון" style="text-transform:uppercase" >
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">Amount</label>
+                  <label for="form-control-4" class="control-label">סכום</label>
                   <div class="input-group">
-                    <input type="text" placeholder="Amount" value="" name="coupAmount" id="coupAmount" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="Amount is Required" required> 
+                    <input type="text" placeholder="סכום" value="" name="coupAmount" id="coupAmount" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="סכום נדרש" required> 
                     <span class="input-group-addon"><input type="checkbox" value="1" name="coupon_type"> %</span>
                   </div>
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">Start Date</label>
-                  <input id="form-control-1" class="form-control" type="text" value="" data-inputmask="'alias': 'yyyy-mm-dd'" name="valid_from" id="valid_from" data-required-error="Start Date is Required" required>
+                  <label for="form-control-4" class="control-label">תאריך התחלה</label>
+                  <input id="form-control-1" class="form-control" type="text" value="" data-inputmask="'alias': 'yyyy-mm-dd'" name="valid_from" id="valid_from" data-required-error="תאריך התחלה נדרש" required>
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">End Date</label>
-                  <input id="form-control-1" class="form-control" type="text" value="" data-inputmask="'alias': 'yyyy-mm-dd'" name="valid_to" id="valid_to" data-required-error="Start Date is Required" required>
+                  <label for="form-control-4" class="control-label">תאריך סיום</label>
+                  <input id="form-control-1" class="form-control" type="text" value="" data-inputmask="'alias': 'yyyy-mm-dd'" name="valid_to" id="valid_to" data-required-error="תאריך סיום נדרש" required>
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">Count</label>
+                  <label for="form-control-4" class="control-label">ספירה</label>
                   <div class="input-group">
-                    <input type="number" placeholder="Count" value="0" name="coupCount" id="coupCount" class="form-control" data-required-error="Count is Required" required> 
-                    <span class="input-group-addon"><input type="checkbox" value="1" name="count_type"> Unlimited</span>
+                    <input type="number" placeholder="ספירה" value="0" name="coupCount" id="coupCount" class="form-control" data-required-error="ספירה נדרשת" required> 
+                    <span class="input-group-addon"><input type="checkbox" value="1" name="count_type"> אין הגבלה</span>
                   </div>
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <?php if($couponsStatus){?>
                 <div class="form-group">                  
-                  <label for="form-control-2" class="control-label">Status</label>
+                  <label for="form-control-2" class="control-label">סטטוס</label>
                   <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-outline-primary statusRadio">
-                      <input type="radio" name="coup_status" id="status_on" autocomplete="off" value="0" required> On
+                      <input type="radio" name="coup_status" id="status_on" autocomplete="off" value="0" required> פעיל
                     </label>
                     <label class="btn btn-outline-primary statusRadio">
-                      <input type="radio" name="coup_status" id="status_off" autocomplete="off" value="1" required> Off
+                      <input type="radio" name="coup_status" id="status_off" autocomplete="off" value="1" required> כבוי
                     </label>
                   </div>
                 </div>
@@ -230,8 +230,8 @@
               </div>
 
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Submit</button>
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                <button type="submit" class="btn btn-primary">שליחה</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
               </div>
             </form>
           </div>
@@ -287,7 +287,7 @@
               $('#tbody_data,#pagination_ul').empty();
               var tbody = '';
               if (responsedata.rowcount==0) {
-                $('#tbody_data').append('<tr><td colspan="10" class="text-center">No Results</td></tr>');
+                $('#tbody_data').append('<tr><td colspan="10" class="text-center">אין תוצאות</td></tr>');
               }else{
                 for (var i = 0; i < responsedata.coupons.length; i++) {
                   var coupon_type = 'LKR';
@@ -303,7 +303,7 @@
                   }
                   <?php }else{ ?>
                     if (responsedata.coupons[i]['status']==0) {
-                      status = 'onchange="updateCouponsStatus('+responsedata.coupons[i]['cp_id']+');" checked="checked"';
+                      status = 'onchange="updateCouponsStatus('+responsedata.coupons[i]['cp_id')+');" checked="checked"';
                     }else{
                       status = 'disabled="disabled"';
                     }
@@ -347,7 +347,7 @@
                 }
 
                 if(((offset/limits)+1)>2){
-                    pagination_str+='<li><a href="javascript:set_offset('+(offset-limits)+')">'+(offset/limits)+'</a></li>';
+                    pagination_str+='<li><a href="javascript:set_offset('+(offset-limits)+')">'+( offset/limits)+'</a></li>';
                 }
 
                 pagination_str+='<li class="active"><a>'+((offset/limits)+1)+'</a></li>';
@@ -374,13 +374,13 @@
             }
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
 
       function addCoupon() {
-        $('#modal-title').text('Add Coupon');
+        $('#modal-title').text('הוסף קופון');
         $("#coupon_id").val(0);
         $('#coupon_for_id').select2({
           dropdownParent: $('#coupon_modal')
@@ -396,7 +396,7 @@
 
       function editCoupon(id) {
         var category = $("#coupRow"+id).find("td:eq(2)").text();
-        $('#modal-title').text('Update Coupon');
+        $('#modal-title').text('עדכן קופון');
         $("#coupon_id").val(id);
         $("#coupon_modal").modal('show');
       }
@@ -435,7 +435,7 @@
             }
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
@@ -460,7 +460,7 @@
               }else if(responsedata.status=='error'){
                 toastr.error(responsedata.message)
               }else{
-                toastr.error("Somthing went wrong :(")
+                toastr.error("משהו השתבש :(")
               }
               $('#inputmasks').waitMe('hide');
             },
@@ -473,7 +473,7 @@
       });
 
       function deleteCoupons(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this coupon?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק קופון זה?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -492,7 +492,7 @@
                       }
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                   }
                 });
               });
