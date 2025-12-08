@@ -427,35 +427,35 @@
                 <input type="hidden" name="order_id" id="order_id" value="<?=$orderDetail->order_id?>">
 
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">Cart Total</label>
-                  <input type="text" placeholder="Cart Total" value="<?=$orderDetail->cart_total?>" name="oCartTotal" id="oCartTotal" class="form-control" disabled> 
+                  <label for="form-control-4" class="control-label">סה"כ עגלה</label>
+                  <input type="text" placeholder="סה"כ עגלה" value="<?=$orderDetail->cart_total?>" name="oCartTotal" id="oCartTotal" class="form-control" disabled> 
                   <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">Delivery Charge </label>
-                  <input type="text" placeholder="Delivery Charge" value="<?=$orderDetail->del_charge?>" name="oDelCharge" id="oDelCharge" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" <?php if ($editDelCharge) {echo 'data-required-error="Delivery Charge is Required" required';}else{echo "disabled";}?>> 
+                  <label for="form-control-4" class="control-label">דמי משלוח </label>
+                  <input type="text" placeholder="דמי משלוח" value="<?=$orderDetail->del_charge?>" name="oDelCharge" id="oDelCharge" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" <?php if ($editDelCharge) {echo 'data-required-error="דמי משלוח נדרשים" required';}else{echo "disabled";}?>> 
                   <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">Discount</label>
-                  <input type="text" placeholder="Discount" value="<?=$orderDetail->discount?>" name="oDiscount" id="oDiscount" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" <?php if (!$editDisc) {echo "disabled";}?>> 
-                  <div class="help-block with-errors"></div>
-                </div>
-                <hr>
-                <div class="form-group">
-                  <label for="form-control-4" class="control-label">Order Total</label>
-                  <input type="text" placeholder="Order Total" value="<?=number_format((float)$order_total, 2, '.', '')?>" name="oOrderTotal" id="oOrderTotal" class="form-control" disabled> 
-                  <div class="help-block with-errors"></div>
-                </div>
-                <div class="form-group">
-                  <label for="form-control-4" class="control-label">Paid Total</label>
-                  <input type="text" placeholder="Paid Total" value="<?=$orderDetail->paid_total?>" name="oPaidTotal" id="oPaidTotal" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" <?php if ($editPaidAmount) {echo 'data-required-error="Paid Total is Required" required';}else{echo "disabled";}?>> 
+                  <label for="form-control-4" class="control-label">הנחה</label>
+                  <input type="text" placeholder="הנחה" value="<?=$orderDetail->discount?>" name="oDiscount" id="oDiscount" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" <?php if (!$editDisc) {echo "disabled";}?>> 
                   <div class="help-block with-errors"></div>
                 </div>
                 <hr>
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">Balance</label>
-                  <input type="text" placeholder="Balance" value="<?=number_format((float)$balance_amount, 2, '.', '')?>" name="oBalance" id="oBalance" class="form-control" disabled> 
+                  <label for="form-control-4" class="control-label">סה"כ הזמנה</label>
+                  <input type="text" placeholder="סה"כ הזמנה" value="<?=number_format((float)$order_total, 2, '.', '')?>" name="oOrderTotal" id="oOrderTotal" class="form-control" disabled> 
+                  <div class="help-block with-errors"></div>
+                </div>
+                <div class="form-group">
+                  <label for="form-control-4" class="control-label">סה"כ שולם</label>
+                  <input type="text" placeholder="סה"כ שולם" value="<?=$orderDetail->paid_total?>" name="oPaidTotal" id="oPaidTotal" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" <?php if ($editPaidAmount) {echo 'data-required-error="סה"כ שולם נדרש" required';}else{echo "disabled";}?>> 
+                  <div class="help-block with-errors"></div>
+                </div>
+                <hr>
+                <div class="form-group">
+                  <label for="form-control-4" class="control-label">יתרה</label>
+                  <input type="text" placeholder="יתרה" value="<?=number_format((float)$balance_amount, 2, '.', '')?>" name="oBalance" id="oBalance" class="form-control" disabled> 
                   <div class="help-block with-errors"></div>
                 </div>
               </div>
@@ -489,27 +489,27 @@
 
                 <?php if ($updateDelCharge) {?>
                 <div class="form-group">
-                  <label for="form-control-3" class="control-label">Update Delivery Charge</label>
+                  <label for="form-control-3" class="control-label">עדכן דמי משלוח</label>
                   <input type="checkbox" class="js-switch" name="change_del" id="change_del" value="1" data-size="small" data-color="#34a853">
                   <div class="help-block with-errors"></div>
                 </div>
                 <?php } ?>
 
                 <div class="form-group">
-                  <label for="form-control-3" class="control-label">First Name</label>
-                  <input type="text" pattern="^[a-zA-Z. ]+$" value="<?=$address->fname?>" placeholder="First Name" id="fName" name="fName" class="form-control" data-minlength="3" data-pattern-error="Invalid First Name" data-error="Minimum of 3 characters" data-required-error="First Name is Required" required>
+                  <label for="form-control-3" class="control-label">שם פרטי</label>
+                  <input type="text" pattern="^[a-zA-Z. ]+$" value="<?=$address->fname?>" placeholder="שם פרטי" id="fName" name="fName" class="form-control" data-minlength="3" data-pattern-error="שם פרטי לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם פרטי נדרש" required>
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="form-control-3" class="control-label">Last Name</label>
-                  <input type="text" pattern="^[a-zA-Z. ]+$" value="<?=$address->lname?>" placeholder="Last Name" id="lName" name="lName" class="form-control" data-minlength="3" data-pattern-error="Invalid Last Name" data-error="Minimum of 3 characters" data-required-error="Last Name is Required" required>
+                  <label for="form-control-3" class="control-label">שם משפחה</label>
+                  <input type="text" pattern="^[a-zA-Z. ]+$" value="<?=$address->lname?>" placeholder="שם משפחה" id="lName" name="lName" class="form-control" data-minlength="3" data-pattern-error="שם משפחה לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם משפחה נדרש" required>
                   <div class="help-block with-errors"></div>
                 </div>
                 
                 <div class="form-group">
-                  <label for="form-control-3" class="control-label">Country</label>
-                  <select class="form-control" data-plugin="select2" name="country" id="country" data-required-error="Country is Required" style="width: 100%;" onchange="getRegion();" required>
+                  <label for="form-control-3" class="control-label">מדינה</label>
+                  <select class="form-control" data-plugin="select2" name="country" id="country" data-required-error="מדינה נדרשת" style="width: 100%;" onchange="getRegion();" required>
                     <option></option>
                     <?php foreach ($countries as $row) {
                       $sel = '';
@@ -524,22 +524,22 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="form-control-3" class="control-label">Region</label>
-                  <select class="form-control" data-plugin="select2" name="region" id="region" data-required-error="Region is Required" style="width: 100%;" onchange="getCities();" required>
+                  <label for="form-control-3" class="control-label">אזור</label>
+                  <select class="form-control" data-plugin="select2" name="region" id="region" data-required-error="אזור נדרש" style="width: 100%;" onchange="getCities();" required>
                     <option></option>
                   </select>
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">Address</label>
-                  <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-error="Address is required." required><?=$address->address?></textarea>
+                  <label for="form-control-4" class="control-label">כתובת</label>
+                  <textarea name="address" id="address" class="form-control" rows="3" placeholder="כתובת" data-error="כתובת נדרשת." required><?=$address->address?></textarea>
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
-                  <label for="form-control-3" class="control-label">City</label>
-                  <select class="form-control" data-plugin="select2" name="city" id="city" data-required-error="City is Required" style="width: 100%;" required>
+                  <label for="form-control-3" class="control-label">עיר</label>
+                  <select class="form-control" data-plugin="select2" name="city" id="city" data-required-error="עיר נדרשת" style="width: 100%;" required>
                     <option></option>
                     
                   </select>
@@ -547,8 +547,8 @@
                 </div>
 
                 <div class="form-group">
-                  <label for="form-control-4" class="control-label">Mobile</label>
-                  <input type="number" placeholder="Mobile number" name="mobile" id="mobile" value="<?=$address->phone?>" class="form-control" data-minlength="9" data-error="Mobile number is invalid" data-required-error="Mobile number is Required" required> 
+                  <label for="form-control-4" class="control-label">נייד</label>
+                  <input type="number" placeholder="מספר נייד" name="mobile" id="mobile" value="<?=$address->phone?>" class="form-control" data-minlength="9" data-error="מספר נייד לא חוקי" data-required-error="מספר נייד נדרש" required> 
                 </div>
 
               </div>
@@ -581,9 +581,9 @@
                 <input type="hidden" name="sorder_id" id="sorder_id" value="<?=$orderDetail->order_id?>">
                 <?php if($pay_status){ ?>
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Payment Status</label>
+                  <label for="form-control-2" class="control-label">סטטוס תשלום</label>
                   <select id="spayment_status" name="spayment_status" class="custom-select" required="required">
-                    <option selected="selected" disabled="disabled">-- Select Payment Status --</option>
+                    <option selected="selected" disabled="disabled">-- בחר סטטוס תשלום --</option>
                     <?php foreach ($payment_status as $key => $value) {?>
                     <option value="<?=$key?>"><?=$value?></option>
                     <?php } ?>
@@ -592,9 +592,9 @@
                 </div>
                 <?php } if($order_status){ ?>
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Order Status</label>
+                  <label for="form-control-2" class="control-label">סטטוס הזמנה</label>
                   <select id="sorder_status" name="sorder_status" class="custom-select" required="required">
-                    <option selected="selected" disabled="disabled">-- Select Order Status --</option>
+                    <option selected="selected" disabled="disabled">-- בחר סטטוס הזמנה --</option>
                     <?php foreach ($order_statuses as $row) {?>
                     <option value="<?=$row->os_id?>"><?=$row->status?></option>
                     <?php } ?>
@@ -628,15 +628,15 @@
       });
 
       $("#country").select2({
-        placeholder: "Select User Country"
+        placeholder: "בחר מדינת משתמש"
       });
 
       $("#region").select2({
-        placeholder: "Select User Region"
+        placeholder: "בחר אזור משתמש"
       });
 
       $("#city").select2({
-        placeholder: "Select User City"
+        placeholder: "בחר עיר משתמש"
       });
 
       /*$('#change_del').change(function() {
@@ -667,7 +667,7 @@
                 getCities(<?=$address->city_id?>);
             }
             $("#region").select2({
-              placeholder: "Select User Region"
+              placeholder: "בחר אזור משתמש"
             });
           },
           error: function(result) {
@@ -698,7 +698,7 @@
               <?php } ?>
             }
             $("#city").select2({
-              placeholder: "Select User City"
+              placeholder: "בחר עיר משתמש"
             });
           },
           error: function(result) {
