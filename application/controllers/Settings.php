@@ -561,7 +561,7 @@ class Settings extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_brands= $this->Admin_modal->isAccessRightGiven($group_id,41)?0:1;
             if ($manage_brands) {
-                throw new Exception("You don't have the permissoin to manage brands.");
+                throw new Exception("אין לך הרשאה לנהל מותגים.");
             }
             $data['brands']= $this->Settings_modal->getBrands();
             $data['add_brands']= $this->Admin_modal->isAccessRightGiven($group_id,42)?1:0;
@@ -588,17 +588,17 @@ class Settings extends Admin_Controller {
 
             if ($brand_id==0) {
                 if ($add_brands) {
-                    throw new Exception("You don't have the permissoin to add brands.");
+                    throw new Exception("אין לך הרשאה להוסיף מותגים.");
                 }
                 
                 $inserted_id = $this->Common_modal->insert('brands',$data);
-                $message = array("status" => "insert","message" => "Brand added successfully.","id" => $inserted_id);
+                $message = array("status" => "insert","message" => "מותג נוסף בהצלחה.","id" => $inserted_id);
             }else{
                 if ($edit_brands) {
-                    throw new Exception("You don't have the permissoin to edit brands.");
+                    throw new Exception("אין לך הרשאה לערוך מותגים.");
                 }
                 $this->Common_modal->update('brand_id',$brand_id,'brands',$data);
-                $message = array("status" => "update","message" => "Brand updated successfully.","id" => $brand_id);
+                $message = array("status" => "update","message" => "מותג עודכן בהצלחה.","id" => $brand_id);
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -650,20 +650,20 @@ class Settings extends Admin_Controller {
                         'photo_order' => 0
                     );
                     $inserted_id = $this->Common_modal->insert('photo',$data);
-                    $message = 'Photo added successfully';
-                }else{
-                    $this->output->set_header("HTTP/1.0 400 Bad Request");
-                    $message = "File is empty.";
-                }
+                $message = 'תמונה נוספה בהצלחה';
             }else{
                 $this->output->set_header("HTTP/1.0 400 Bad Request");
-                $message = "Brand not exist.";
+                $message = "הקובץ ריק.";
             }
         }else{
             $this->output->set_header("HTTP/1.0 400 Bad Request");
-            $message = "Somthing went wrong :(";
+            $message = "מותג לא קיים.";
         }
-        echo $message;
+    }else{
+        $this->output->set_header("HTTP/1.0 400 Bad Request");
+        $message = "משהו השתבש :(";
+    }
+    echo $message;
     }
     public function deleteBrand()
     {
@@ -673,8 +673,8 @@ class Settings extends Admin_Controller {
 
             $usedPro = $this->Settings_modal->checkFieldUsed('brand_id','products','brand_id',$brand_id);
             $delete_brand= $this->Admin_modal->isAccessRightGiven($group_id,44)?0:1;
-            if ($delete_brand) { throw new Exception("You don't have the permissoin to delete categories."); }
-            if($usedPro){ throw new Exception("Brand used in products."); }
+            if ($delete_brand) { throw new Exception("אין לך הרשאה למחוק קטגוריות."); }
+            if($usedPro){ throw new Exception("מותג בשימוש במוצרים."); }
             $this->Common_modal->delete('brands','brand_id',$brand_id);
             $this->Common_modal->delete('category_brands','brand_id',$brand_id);
             $photos = $this->Common_modal->getTablePhotos('brands',$brand_id);
@@ -686,7 +686,7 @@ class Settings extends Admin_Controller {
                     unlink( $folder . $imagename);
                 }
             }
-            $message = array("status" => "success","message" => "Brand deleted successfully.");
+            $message = array("status" => "success","message" => "מותג נמחק בהצלחה.");
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
         }

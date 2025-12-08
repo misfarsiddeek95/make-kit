@@ -34,7 +34,7 @@
             <button type="button" class="btn btn-outline-success btn-pill" data-toggle="modal" data-target="#otherModal3" title="Add"  onclick="addBrands();"><i class="zmdi zmdi-plus"></i></button>
           </div>
           <?php }?>
-          <h3 class="m-t-0 m-b-5">Brands</h3>
+          <h3 class="m-t-0 m-b-5">מותגים</h3>
         </div>
         <div class="panel-body">
           <div class="table-responsive m-y-5">
@@ -42,10 +42,10 @@
               <thead>
                 <tr>
                   <th></th>
-                  <th>Brand</th>
-                  <th>View Count</th>
+                  <th>מותג</th>
+                  <th>מספר צפיות</th>
                   <?php if($edit_brands || $delete_brands) { ?>
-                  <th style="text-align:right;">Options</th>
+                  <th style="text-align:right;">אפשרויות</th>
                   <?php } ?>
                 </tr>
               </thead>
@@ -88,27 +88,27 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal-title">Add Brands</h4>
+              <h4 class="modal-title" id="modal-title">הוסף מותגים</h4>
             </div>
             <div id="brandModalCont">
               <form action="<?=base_url()?>uploadBrandImage" class="dropzone" id="myDropzone">
                 <input type="hidden" name="field_id" id="field_id" value="">
                 <div class="dz-default dz-message">
-                  <span class="text-muted">Drop brand image here</span>
+                  <span class="text-muted">גרור תמונת מותג לכאן</span>
                 </div>
               </form>
               <form data-toggle="validator" id="inputMask">
                 <div class="modal-body">
                   <input type="hidden" name="brand_id" id="brand_id" value="">
                   <div class="form-group">
-                    <label for="form-control-2" class="control-label">Brand</label>
-                    <input type="text" class="form-control" id="brandName" name="brandName" placeholder="Brand" data-required-error="Brand is Required" required>
+                    <label for="form-control-2" class="control-label">מותג</label>
+                    <input type="text" class="form-control" id="brandName" name="brandName" placeholder="מותג" data-required-error="מותג נדרש" required>
                     <div class="help-block with-errors"></div>
                   </div>
                 </div>
                 <div class="modal-footer">
-                  <button type="submit" class="btn btn-primary">Submit</button>
-                  <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                  <button type="submit" class="btn btn-primary">שלח</button>
+                  <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
                 </div>
               </form>
             </div>
@@ -165,25 +165,25 @@
                 }else if(responsedata.status=='error'){
                   toastr.error(responsedata.message)
                 }else{
-                  toastr.error("Somthing went wrong :(")
+                  toastr.error("משהו השתבש :(")
                 }
                 $("#otherModal3").modal('hide');
                 $('#brandModalCont').waitMe('hide');
               },
               error: function(result) {
                 $('#brandModalCont').waitMe('hide');
-                toastr.error('Error :'+result)
+                toastr.error('שגיאה: '+result)
               }
             });
           }else{
-            toastr.error("Please add brand image")
+            toastr.error("אנא הוסף תמונת מותג")
             $('#brandModalCont').waitMe('hide');
           }  
         }
       });
 
       function addBrands() {
-        $('#modal-title').text('Add Brand');
+        $('#modal-title').text('הוסף מותג');
         $('#brandName').val("");
         $("#brand_id").val(0);
         $("#field_id").val(0);
@@ -194,7 +194,7 @@
       function editBrands(id) {
         var img = $("#brandRow"+id).find("td:eq(0) img").attr('src');
         var brand = $("#brandRow"+id).find("td:eq(1)").text();
-        $('#modal-title').text('Update Brand');
+        $('#modal-title').text('עדכן מותג');
         $("#brand_id").val(id);
         $("#field_id").val(id);
         $('#brandName').val(brand);
@@ -210,7 +210,7 @@
       }
 
       function deleteBrands(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this Brand?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק מותג זה?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -230,7 +230,7 @@
                     }
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                   }
                 });
               });
