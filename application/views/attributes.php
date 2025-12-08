@@ -34,7 +34,7 @@
                 <button type="button" class="btn btn-outline-success btn-pill" data-toggle="modal" data-target="#otherModal3" title="Add"  onclick="addAttributes();"><i class="zmdi zmdi-plus"></i></button>
               </div>
               <?php }?>
-              <h3 class="m-t-0 m-b-5">Attributes</h3>
+              <h3 class="m-t-0 m-b-5">תכונות</h3>
             </div>
             <div class="panel-body">
               <div class="table-responsive m-y-5">
@@ -42,15 +42,15 @@
                   <thead>
                     <tr>
                       <th>#</th>
-                      <th>Identification</th>
-                      <th>Attribute</th>
-                      <th>Type</th>
-                      <th>Show to all</th>
-                      <th>Price effect</th>
+                      <th>זיהוי</th>
+                      <th>תכונה</th>
+                      <th>סוג</th>
+                      <th>הצג לכולם</th>
+                      <th>השפעת מחיר</th>
                       <?php if($manage_attr_val) { ?>
-                      <th>Manage values</th>
+                      <th>נהל ערכים</th>
                       <?php } if($edit_attr || $delete_attr){?>
-                      <th style="text-align:right;">Options</th>
+                      <th style="text-align:right;">אפשרויות</th>
                       <?php } ?>
                     </tr>
                   </thead>
@@ -61,21 +61,21 @@
                       $show_to_all = 'No';
                       $price_effect = 'No';
                       if ($type==0) {
-                        $type = 'Required Dropdown';
+                        $type = 'תפריט נדרש';
                       }else if ($type==1) {
-                        $type = 'Required Multi Dropdown';
+                        $type = 'תפריט רב נדרש';
                       }else if ($type==2) {
-                        $type = 'Multi Dropdown';
+                        $type = 'תפריט רב';
                       }else if ($type==3) {
-                        $type = 'Multi Color Pick';
+                        $type = 'בחירת צבע ריבוי';
                       }else if ($type==4) {
-                        $type = 'Single Color Pick';
+                        $type = 'בחירת צבע יחיד';
                       }
                       if ($row->show_to_all==0) {
-                        $show_to_all = 'Yes';
+                        $show_to_all = 'כן';
                       }
                       if ($row->price_effect==0) {
-                        $price_effect = 'Yes';
+                        $price_effect = 'כן';
                       }
                     ?>
                     <tr id="attrRow<?=$row->attr_id?>">
@@ -86,7 +86,7 @@
                       <td attr-show="<?=$row->show_to_all?>"><?=$show_to_all;?></td>                    
                       <td attr-price-effect="<?=$row->price_effect?>"><?=$price_effect;?></td>
                       <?php if($manage_attr_val){?>
-                      <td><button type="button" class="btn btn-outline-info" onclick="manageAttrVal(<?=$row->attr_id;?>);">Manage values</button></td>
+                      <td><button type="button" class="btn btn-outline-info" onclick="manageAttrVal(<?=$row->attr_id;?>);">נהל ערכים</button></td>
                       <?php } if($edit_attr || $delete_attr){?>
                       <td align="right">
                         <?php if($edit_attr){?>
@@ -107,24 +107,25 @@
             <div class="panel-heading">
               <div class="panel-tools">
                 <?php if($add_attr_val){?>
-                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#attrValModal" onclick="addAttrVal();">Add values</button>
+                <button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#attrValModal" onclick="addAttrVal
+();">הוסף ערכים</button>
                 <?php } ?>
                 <a href="javascript:closeValMain();" class="tools-icon btn btn-outline-primary">
                   <i class="zmdi zmdi-close"></i>
                 </a>
               </div>
-              <h3 class="panel-title" id="atValTitle">Attribute values</h3>
+              <h3 class="panel-title" id="atValTitle">ערכי תכונה</h3>
             </div>
             <div class="panel-body">
               <div class="table-responsive">
                 <table class="table">
                   <thead>
                     <tr>
-                      <th>Value</th>
-                      <th>Description</th>
-                      <th>Status</th>
+                      <th>ערך</th>
+                      <th>תיאור</th>
+                      <th>סטטוס</th>
                       <?php if($edit_attr_val || $delete_attr_val){ ?>
-                      <th style="text-align:right;">Options</th>
+                      <th style="text-align:right;">אפשרויות</th>
                       <?php } ?>
                     </tr>
                   </thead>
@@ -145,52 +146,52 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal-title">Attributes</h4>
+              <h4 class="modal-title" id="modal-title">תכונות</h4>
             </div>
             <form data-toggle="validator" id="inputmasks">
               <div class="modal-body">
                 <input type="hidden" name="attr_id" id="attr_id" value="0">
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Identification Name</label>
-                  <input type="text" class="form-control" id="identification_name" name="identification_name" placeholder="Identification Name" data-required-error="Identification Name is Required" required>
+                  <label for="form-control-2" class="control-label">שם זיהוי</label>
+                  <input type="text" class="form-control" id="identification_name" name="identification_name" placeholder="שם זיהוי" data-required-error="שם זיהוי נדרש" required>
                   <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Attribute</label>
-                  <input type="text" class="form-control" id="attribute" name="attribute" placeholder="Attribute" data-required-error="Attribute is Required" required>
+                  <label for="form-control-2" class="control-label">תכונה</label>
+                  <input type="text" class="form-control" id="attribute" name="attribute" placeholder="תכונה" data-required-error="תכונה נדרשת" required>
                   <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Type</label>
-                  <select class="form-control" id="attrType" name="attrType" data-required-error="Attribute Type is Required" required>
-                    <option value="" selected="selected" disabled="disabled">-- Select Attribute Type --</option>
-                    <option value="0">Required Dropdown</option>
-                    <option value="1">Required Multi Dropdown</option>
-                    <option value="2">Multi Dropdown</option>
-                    <option value="3">Multi Color Pick</option>
-                    <option value="4">Single Color Pick</option>
+                  <label for="form-control-2" class="control-label">סוג</label>
+                  <select class="form-control" id="attrType" name="attrType" data-required-error="סוג תכונה נדרש" required>
+                    <option value="" selected="selected" disabled="disabled">-- בחר סוג תכונה --</option>
+                    <option value="0">תפריט נדרש</option>
+                    <option value="1">תפריט רב נדרש</option>
+                    <option value="2">תפריט רב</option>
+                    <option value="3">בחירת צבע ריבוי</option>
+                    <option value="4">בחירת צבע יחיד</option>
                   </select>
                   <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">                  
-                  <label for="form-control-2" class="control-label">Show to all</label>
+                  <label for="form-control-2" class="control-label">הצג לכולם</label>
                   <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-outline-primary showRadio">
-                      <input type="radio" name="show_to_all" id="show_yes" autocomplete="off" value="0" required> Yes
+                      <input type="radio" name="show_to_all" id="show_yes" autocomplete="off" value="0" required> כן
                     </label>
                     <label class="btn btn-outline-primary showRadio">
-                      <input type="radio" name="show_to_all" id="show_no" autocomplete="off" value="1" required> No
+                      <input type="radio" name="show_to_all" id="show_no" autocomplete="off" value="1" required> לא
                     </label>
                   </div>
                 </div>                
                 <div class="form-group">                  
-                  <label for="form-control-2" class="control-label">Price effect</label>
+                  <label for="form-control-2" class="control-label">השפעת מחיר</label>
                   <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-outline-primary priceRadio">
-                      <input type="radio" name="price_effect" id="price_effect_yes" autocomplete="off" value="0" required> Yes
+                      <input type="radio" name="price_effect" id="price_effect_yes" autocomplete="off" value="0" required> כן
                     </label>
                     <label class="btn btn-outline-primary priceRadio">
-                      <input type="radio" name="price_effect" id="price_effect_no" autocomplete="off" value="1" required> No
+                      <input type="radio" name="price_effect" id="price_effect_no" autocomplete="off" value="1" required> לא
                     </label>
                   </div>
                 </div>
@@ -212,31 +213,31 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal-val-title">Attribute value</h4>
+              <h4 class="modal-title" id="modal-val-title">ערך תכונה</h4>
             </div>
             <form data-toggle="validator" id="attrValMasks">
               <div class="modal-body">
                 <input type="hidden" name="val_attr_id" id="val_attr_id" value="0">
                 <input type="hidden" name="attr_val_id" id="attr_val_id" value="0">
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Value</label>
-                  <input type='text' data-pattern-error="Invalid Value" class="form-control" id="attrVal" name="attrVal" placeholder="Value" data-required-error="Value is Required" required />
+                  <label for="form-control-2" class="control-label">ערך</label>
+                  <input type='text' data-pattern-error="ערך לא חוקי" class="form-control" id="attrVal" name="attrVal" placeholder="ערך" data-required-error="ערך נדרש" required />
                   <div class="help-block with-errors"></div>
                 </div>
                 <div class="form-group">
-                  <label for="form-control-2" class="control-label">Description</label>
-                  <input type="text" class="form-control" id="attrValDesc" name="attrValDesc" placeholder="Description">
+                  <label for="form-control-2" class="control-label">תיאור</label>
+                  <input type="text" class="form-control" id="attrValDesc" name="attrValDesc" placeholder="תיאור">
                   <div class="help-block with-errors"></div>
                 </div>
                 <?php if($attr_val_status){?>
                 <div class="form-group">                  
-                  <label for="form-control-2" class="control-label">Status</label>
+                  <label for="form-control-2" class="control-label">סטטוס</label>
                   <div class="btn-group" data-toggle="buttons">
                     <label class="btn btn-outline-primary statusRadio">
-                      <input type="radio" name="av_status" id="status_on" autocomplete="off" value="0" required> On
+                      <input type="radio" name="av_status" id="status_on" autocomplete="off" value="0" required> פועל
                     </label>
                     <label class="btn btn-outline-primary statusRadio">
-                      <input type="radio" name="av_status" id="status_off" autocomplete="off" value="1" required> Off
+                      <input type="radio" name="av_status" id="status_off" autocomplete="off" value="1" required> כבוי
                     </label>
                   </div>
                 </div>
@@ -277,20 +278,20 @@
                 }else if(responsedata.status=='error'){
                   toastr.error(responsedata.message)
                 }else{
-                  toastr.error("Somthing went wrong :(")
+                  toastr.error("משהו השתבש :(")
                 }
                 $("#otherModal3").modal('hide');
                 $('#inputmasks').waitMe('hide');
               },
               error: function(result) {
                 $('#inputmasks').waitMe('hide');
-                toastr.error('Error :'+result)
+                toastr.error('שגיאה: '+result)
               }
           });
         }
       });
       function addAttributes() {
-        $('#modal-title').text('Add Attribute');
+        $('#modal-title').text('הוסף תכונה');
         $('#attribute, #identification_name, #attrType').val("");
         $("#attr_id").val(0);
         $(".showRadio,.priceRadio").removeClass('active');
@@ -303,7 +304,7 @@
         var type = $("#attrRow"+id).find('td').eq(3).attr('attr-type');
         var attrshow = $("#attrRow"+id).find('td').eq(4).attr('attr-show');
         var attrpriceeffect = $("#attrRow"+id).find('td').eq(5).attr('attr-price-effect');
-        $('#modal-title').text('Update Attribute');
+        $('#modal-title').text('עדכן תכונה');
         $("#attr_id").val(id);
         $('#identification_name').val(identification_name);
         $('#attribute').val(attribute);
@@ -316,7 +317,7 @@
         $("#otherModal3").modal('show');
       }
       function deleteAttr(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this attribute?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק תכונה זו?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -375,11 +376,11 @@
               $('#attrVal').removeAttr("pattern");
             }
             $("#val_attr_id").val(id);
-            $("#atValTitle").text(attribute+" Attribute values");
+            $("#atValTitle").text(attribute+" ערכי תכונה");
             $('#attrValTbody').empty();
             var tbody = '';
             if (responsedata.attr_values.length==0) {
-              $('#attrValTbody').append('<tr><td colspan="5" class="text-center">No Results</td></tr>');
+              $('#attrValTbody').append('<tr><td colspan="5" class="text-center">אין תוצאות</td></tr>');
             }else{
               for (var i = 0; i < responsedata.attr_values.length; i++) {
                 var status = '';
@@ -426,7 +427,7 @@
         $('#attrValMain').hide();
       }
       function addAttrVal() {
-        $('#modal-val-title').text('Add Attribute value');
+        $('#modal-val-title').text('הוסף ערך תכונה');
         $('#attrVal, #attrValDesc').val("");
         $("#attr_val_id").val(0);
         $("#status_off").parent().removeClass('active');
@@ -437,7 +438,7 @@
         var value = $("#attrValRow"+id).find("td:eq(0)").text();
         var description = $("#attrValRow"+id).find("td:eq(1)").text();
         var attr_val_status = $("#attrValRow"+id).find("td:eq(2)").attr('attr_val_status');
-        $('#modal-val-title').text('Update Attribute value');
+        $('#modal-val-title').text('עדכן ערך תכונה');
         $("#attr_val_id").val(id);
         $('#attrVal').val(value);
         $('#attrValDesc').val(description);
@@ -466,7 +467,7 @@
             }
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
@@ -488,20 +489,20 @@
                 }else if(responsedata.status=='error'){
                   toastr.error(responsedata.message)
                 }else{
-                  toastr.error("Somthing went wrong :(")
+                  toastr.error("משהו השתבש :(")
                 }
                 $("#attrValModal").modal('hide');
                 $('#attrValMasks').waitMe('hide');
               },
               error: function(result) {
                 $('#attrValMasks').waitMe('hide');
-                toastr.error('Error :'+result)
+                toastr.error('שגיאה: '+result)
               }
           });
         }
       });
       function deleteAttrVal(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this attribute value?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק ערך תכונה זה?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {

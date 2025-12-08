@@ -255,7 +255,7 @@ class Settings extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_attr= $this->Admin_modal->isAccessRightGiven($group_id,29)?0:1;
             if ($manage_attr) {
-                throw new Exception("You don't have the permissoin to manage attributes.");
+                throw new Exception("אין לך הרשאה לנהל תכונות.");
             }
             $data['attributes']= $this->Settings_modal->getAllAttributes();
             $data['add_attr']= $this->Admin_modal->isAccessRightGiven($group_id,30)?1:0;
@@ -280,11 +280,11 @@ class Settings extends Admin_Controller {
             $usedInProduct = $this->Settings_modal->checkFieldUsed('attr_id','product_attr_val','attr_id',$attr_id);
 
             $delete_attr= $this->Admin_modal->isAccessRightGiven($group_id,32)?0:1;
-            if ($delete_attr) { throw new Exception("You don't have the permissoin to delete attributes."); }
-            if ($usedInProduct) { throw new Exception("Attribute used in products."); }
+            if ($delete_attr) { throw new Exception("אין לך הרשאה למחוק תכונות."); }
+            if ($usedInProduct) { throw new Exception("תכונה בשימוש במוצרים."); }
             $this->Common_modal->delete('attributes','attr_id',$attr_id);
             $this->Common_modal->delete('attribute_value','attr_id',$attr_id);
-            $message = array("status" => "success","message" => "Attribute deleted successfully.");
+            $message = array("status" => "success","message" => "תכונה נמחקה בהצלחה.");
             
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -315,17 +315,17 @@ class Settings extends Admin_Controller {
             );
             if ($attr_id==0) {
                 if ($add_attr) {
-                    throw new Exception("You don't have the permissoin to add attributes.");
+                    throw new Exception("אין לך הרשאה להוסיף תכונות.");
                 }
                 
                 $this->Common_modal->insert('attributes',$data);
-                $message = array("status" => "success","message" => "Attribute added successfully.");
+                $message = array("status" => "success","message" => "תכונה נוספה בהצלחה.");
             }else{
                 if ($edit_attr) {
-                    throw new Exception("You don't have the permissoin to edit attributes.");
+                    throw new Exception("אין לך הרשאה לערוך תכונות.");
                 }
                 $this->Common_modal->update('attr_id',$attr_id,'attributes',$data);
-                $message = array("status" => "success","message" => "Attribute updated successfully.");
+                $message = array("status" => "success","message" => "תכונה עודכנה בהצלחה.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -347,7 +347,7 @@ class Settings extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $changeStatus= $this->Admin_modal->isAccessRightGiven($group_id,37)?0:1;
             if ($changeStatus) {
-                throw new Exception("You don't have the permissoin to change status.");
+                throw new Exception("אין לך הרשאה לשנות סטטוס.");
             }
             $result = $this->Common_modal->getAllWhere('attribute_value','av_id',$av_id);
             if ($result) {
@@ -357,9 +357,9 @@ class Settings extends Admin_Controller {
                     $data['status']=0;
                 }
                 $this->Common_modal->update('av_id',$av_id,'attribute_value',$data);
-                $message = array("status" => "success","message" => "Status updated successfully.");
+                $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -374,10 +374,10 @@ class Settings extends Admin_Controller {
 
             $usedInProduct = $this->Settings_modal->checkFieldUsed('av_id','product_attr_val','av_id',$av_id);
             $delete_attr_val= $this->Admin_modal->isAccessRightGiven($group_id,36)?0:1;
-            if ($delete_attr_val) { throw new Exception("You don't have the permissoin to delete attribute values."); }
-            if ($usedInProduct) { throw new Exception("Attribute value used in products."); }
+            if ($delete_attr_val) { throw new Exception("אין לך הרשאה למחוק ערכי תכונה."); }
+            if ($usedInProduct) { throw new Exception("ערך תכונה בשימוש במוצרים."); }
             $this->Common_modal->delete('attribute_value','av_id',$av_id);
-            $message = array("status" => "success","message" => "Attribute value deleted successfully.");
+            $message = array("status" => "success","message" => "ערך תכונה נמחק בהצלחה.");
             
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -393,7 +393,7 @@ class Settings extends Admin_Controller {
             $statusChange= $this->Admin_modal->isAccessRightGiven($group_id,37)?1:0;
 
             if ($_POST['val_attr_id']==0&&!(isset($_POST['val_attr_id']))) {
-                throw new Exception("Somthing went wrong, Reload and try again.");
+                throw new Exception("משהו השתבש, טען מחדש ונסה שוב.");
             }
 
             $attr_id= $this->input->post('val_attr_id');
@@ -416,18 +416,18 @@ class Settings extends Admin_Controller {
 
             if ($av_id==0) {
                 if ($add_val) {
-                    throw new Exception("You don't have the permissoin to add attribute values.");
+                    throw new Exception("אין לך הרשאה להוסיף ערכי תכונה.");
                 }
                 $data['attr_id'] = $attr_id;
 
                 $this->Common_modal->insert('attribute_value',$data);
-                $message = array("status" => "success","message" => "Attribute value added successfully.");
+                $message = array("status" => "success","message" => "ערך תכונה נוסף בהצלחה.");
             }else{
                 if ($edit_val) {
-                    throw new Exception("You don't have the permissoin to edit attribute values.");
+                    throw new Exception("אין לך הרשאה לערוך ערכי תכונה.");
                 }
                 $this->Common_modal->update('av_id',$av_id,'attribute_value',$data);
-                $message = array("status" => "success","message" => "Attribute value updated successfully.");
+                $message = array("status" => "success","message" => "ערך תכונה עודכן בהצלחה.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
