@@ -145,7 +145,7 @@
                     <?php if($userAc==0){?>
                     <div class="col-lg-2 col-sm-3 col-xs-12 m-y-5">
                       <select id="allUsers" class="custom-select" style="border-color: #1d87e4;" onchange="getProductsByStatus();">
-                        <option value="" selected="selected">-- User --</option>
+                        <option value="" selected="selected">-- משתמש --</option>
                         <?php foreach ($users as $row) {?>
                           <option title="<?=$row->company_name?>" value="<?=$row->user_id?>"><?=$row->fname.' '.$row->lname?></option>
                         <?php } ?>
@@ -478,7 +478,7 @@
       }
 
       function deleteProduct(pid) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this product?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק מוצר זה?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {

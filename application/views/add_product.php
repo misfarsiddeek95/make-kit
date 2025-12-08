@@ -85,7 +85,7 @@
 										<select class="form-control" data-plugin="select2" name="credit_type_id" id="currency_type" data-placeholder="שיטת מטבע מוצר" data-allow-clear="true" required data-required-error="שיטת מטבע מוצר נדרשת." style="width: 100%;">
 											<option></option>
 											<?php foreach ($credit_types as $row) { ?>
-											<option value="<?=$row->id?>"><?=$row->value.' Product'?></option>
+											<option value="<?=$row->id?>"><?=$row->value.' מוצר'?></option>
 											<?php } ?>
 										</select>
 										<div class="help-block with-errors"></div>
@@ -213,7 +213,7 @@
 											$selType = 'data-required-error="'.$row->attribute.' is Required" required';
 											$attrName = 'attribute['.$row->attr_id.']';
 											if ($row->type==1) {
-												$selType = 'multiple="multiple" data-required-error="This field is Required" required';
+												$selType = 'multiple="multiple" data-required-error="שדה זה נדרש" required';
 												$attrName = 'multiAttr['.$row->attr_id.'][]';
 												
 											}elseif ($row->type==2) {
@@ -223,7 +223,7 @@
 									?>
 									<div class="form-group">
 										<label for="form-control-3" class="control-label"><?=$row->attribute?></label>
-										<select class="form-control selectcls clss<?=$row->attr_id?>" data-plugin="select2" name="<?=$attrName?>" data-placeholder="Select a <?=$row->attribute?>" <?=$selType?> style="width: 100%;">
+										<select class="form-control selectcls clss<?=$row->attr_id?>" data-plugin="select2" name="<?=$attrName?>" data-placeholder="בחר <?=$row->attribute?>" <?=$selType?> style="width: 100%;">
 											<option></option>
 											<?php 
 												if(!(empty($attributes))){
@@ -521,7 +521,7 @@
 				});
 
 				$("#user_id").select2({
-					placeholder: "Select a User",
+					placeholder: "בחר משתמש",
 					allowClear: true
 				});
 
@@ -610,13 +610,13 @@
 									var selCls = 'selectcls';
 									if (responsedata.attributes[i].type==1) {
 										selCls = 'selectcls multisel';
-										selType = 'multiple="multiple" data-required-error="This field is Required" required';
+										selType = 'multiple="multiple" data-required-error="שדה זה נדרש" required';
 										attrName = 'multiAttr['+responsedata.attributes[i].attr_id+'][]';
 									}else if (responsedata.attributes[i].type==2){
 										selType = 'multiple="multiple"';
 										attrName = 'multiAttr['+responsedata.attributes[i].attr_id+'][]';
 									}
-									attr+='<select class="form-control selectcls clss'+responsedata.attributes[i].attr_id+'" data-placeholder="Select a '+responsedata.attributes[i].attribute+'" name="'+attrName+'" id="attribute['+i+']" '+selType+' style="width: 100%;"><option></option>';
+									attr+='<select class="form-control selectcls clss'+responsedata.attributes[i].attr_id+'" data-placeholder="בחר '+responsedata.attributes[i].attribute+'" name="'+attrName+'" id="attribute['+i+']" '+selType+' style="width: 100%;"><option></option>';
 									for (var j = 0; j < responsedata.attribute_val.length; j++) {
 										if (responsedata.attribute_val[j].attr_id==responsedata.attributes[i].attr_id) {
 											attr+='<option value="'+responsedata.attribute_val[j].av_id+'" title="'+responsedata.attribute_val[j].description+'">'+responsedata.attribute_val[j].value+'</option>';
@@ -681,7 +681,7 @@
 								var responsedata = $.parseJSON(result);
 								if(responsedata.status=='success'){
 									if (responsedata.message=='update') {
-										toastr.success("Product updated successfully.")
+										toastr.success("מוצר עודכן בהצלחה.")
 										setTimeout(function(){
 											window.location = "<?=base_url()?>products/view_products";
 										}, 500);

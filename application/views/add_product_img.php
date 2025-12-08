@@ -38,9 +38,9 @@
         <div class="panel panel-default">
           <div class="panel-heading">
             <div class="panel-tools">
-              <a type="button" class="btn btn-outline-primary m-w-120" <?php if (!empty($back)) { echo "onclick='editSubProducts(".$back->pro_id.");'";}else{echo 'href="'.base_url().'products/view_products"';}?>>Back to View</a>
+              <a type="button" class="btn btn-outline-primary m-w-120" <?php if (!empty($back)) { echo "onclick='editSubProducts(".$back->pro_id.");'";}else{echo 'href="'.base_url().'products/view_products"';}?>>חזרה לתצוגה</a>
             </div>
-            <h3 class="m-y-0">Add Product Images</h3>
+            <h3 class="m-y-0">הוסף תמונות מוצר</h3>
           </div>
           <div class="panel-body">
             
@@ -51,8 +51,8 @@
                 <div class="dz-icon">
                   <i class="zmdi zmdi-upload"></i>
                 </div>
-                <h2>Drop files here or click to upload</h2>
-                <span class="text-muted">(please select a valid jpg or jpeg photo for upload.)</span>
+                <h2>גרור קבצים לכאן או לחץ להעלאה</h2>
+                <span class="text-muted">(אנא בחר תמונת jpg או jpeg תקנית להעלאה.)</span>
               </div>
             </form>
 
@@ -126,13 +126,13 @@
             $( "#sortable" ).sortable();
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
 
       function delete_image(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you need to delete this photo?',
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם אתה צריך למחוק תמונה זו?',
         {
             closeButton: true,
             allowHtml: true,
@@ -152,7 +152,7 @@
                     load_images();
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                   }
                 });
               });
@@ -174,7 +174,7 @@
 
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }

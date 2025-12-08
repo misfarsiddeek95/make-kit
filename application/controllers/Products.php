@@ -28,16 +28,16 @@ class Products extends Admin_Controller {
             }
             if (isset($_POST['product_id'])){
                 if ($update_pro) {
-                    throw new Exception("You don't have the permissoin to update products.");
+                    throw new Exception("אין לך הרשאה לעדכן מוצרים.");
                 }                
                 $data['product']= $this->Product_modal->getProductDetails('products',$this->input->post('product_id'));
                 $data['pro_sites']= $this->Product_modal->pro_available_sites($this->input->post('product_id'));
-                $data['type']='Update';
+                $data['type']='עדכן';
             }else{
                 if ($add_pro) {
-                    throw new Exception("You don't have the permissoin to add products.");
+                    throw new Exception("אין לך הרשאה להוסיף מוצרים.");
                 }
-                $data['type']='Add'; 
+                $data['type']='הוסף'; 
             }
             $data['seo_url']= $this->Admin_modal->isAccessRightGiven($group_id,5)?1:0;
             $data['seo_det']= $this->Admin_modal->isAccessRightGiven($group_id,7)?1:0;
@@ -62,7 +62,7 @@ class Products extends Admin_Controller {
         $view_pro= $this->Admin_modal->isAccessRightGiven($group_id,9)?0:1;
         try{
             if ($view_pro) {
-                throw new Exception("You don't have the permissoin to view products.");
+                throw new Exception("אין לך הרשאה לצפות במוצרים.");
             }
             $data['categories']= $this->Common_modal->getAllCate();
             $data['brands']= $this->Common_modal->getAll('brands');
@@ -86,7 +86,7 @@ class Products extends Admin_Controller {
         $view_pro= $this->Admin_modal->isAccessRightGiven($group_id,9)?0:1;
         try{
             if ($view_pro) {
-                throw new Exception("You don't have the permissoin to view products.");
+                throw new Exception("אין לך הרשאה לצפות במוצרים.");
             }
             $data['categories']= $this->Common_modal->getAllCate();
             $data['brands']= $this->Common_modal->getAll('brands');
