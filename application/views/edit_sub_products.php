@@ -71,9 +71,9 @@
         <div class="panel panel-default panel-table">
           <div class="panel-heading">
             <div class="panel-tools">
-              <button type="button" class="btn btn-outline-primary m-w-120" onclick="getAttrbutes();">Add Sub Product</button>
+              <button type="button" class="btn btn-outline-primary m-w-120" onclick="getAttrbutes();">הוסף תת-מוצר</button>
             </div>
-            <h3 class="m-t-0 m-b-5">Edit Sub Products</h3>
+            <h3 class="m-t-0 m-b-5">ערוך תת-מוצרים</h3>
           </div>
           <!-- <?=$product->name?> -->
           </pre>
@@ -85,13 +85,13 @@
                 <thead>
                   <tr>
                     <th></th>
-                    <th>Name</th>
-                    <th>Code</th>
-                    <th>Quantity</th>
-                    <th>Price</th>
-                    <th>Price(POI)</th>
-                    <th>Image</th>
-                    <th>Delete</th>
+                    <th>שם</th>
+                    <th>קוד</th>
+                    <th>כמות</th>
+                    <th>מחיר</th>
+                    <th>מחיר(POI)</th>
+                    <th>תמונה</th>
+                    <th>מחק</th>
                   </tr>
                 </thead>
                 <tbody id="tbody_data">
@@ -111,22 +111,22 @@
                       <td><img class="img-rounded <?=$clz?>" src="<?=base_url();?>photos/<?=$img?>" alt="<?=$subPro->photo_title;?>" height="32" <?=$func?>></td>
                       <td><div class="form-group">
                         <input type="hidden" value="<?=$subPro->sub_pro_id?>" id="subid[]" name="subproduct[<?=$count?>][subid]">
-                        <input type="text" pattern="^[a-zA-Z 0-9 .&+-]*$" value="<?= $subPro->sub_name?>" placeholder="Name" id="subname[]" name="subproduct[<?=$count?>][subname]" class="form-control" data-minlength="3" data-pattern-error="Invalid Name" data-error="Minimum of 3 characters" data-required-error="Name is Required" required>
+                        <input type="text" pattern="^[a-zA-Z 0-9 .&+-]*$" value="<?= $subPro->sub_name?>" placeholder="שם" id="subname[]" name="subproduct[<?=$count?>][subname]" class="form-control" data-minlength="3" data-pattern-error="שם לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם נדרש" required>
                         
                       </td>
                       <td><div class="form-group">
-                        <input type="text" pattern="^([a-zA-Z0-9_-]){2,25}$" value="<?= $subPro->sub_pro_code?>" placeholder="Sub Product Code" id="proCode[]" name="subproduct[<?=$count?>][subproductCod]" class="form-control"  data-remote-error="Product Code already Exist, Try another" data-pattern-error="Invalid Product Code">
+                        <input type="text" pattern="^([a-zA-Z0-9_-]){2,25}$" value="<?= $subPro->sub_pro_code?>" placeholder="קוד תת-מוצר" id="proCode[]" name="subproduct[<?=$count?>][subproductCod]" class="form-control"  data-remote-error="קוד מוצר כבר קיים, נסה אחר" data-pattern-error="קוד מוצר לא חוקי">
                         
                       </td>
                       <td><div class="form-group">
-                        <input type="number" placeholder="Quantity" value="<?= $subPro->stock?>" name="subproduct[<?=$count?>][quantity]" id="proQty[]" class="form-control" data-minlength="1" data-error="Quantity is invalid" data-required-error="Quantity is Required" required> 
+                        <input type="number" placeholder="כמות" value="<?= $subPro->stock?>" name="subproduct[<?=$count?>][quantity]" id="proQty[]" class="form-control" data-minlength="1" data-error="כמות לא חוקית" data-required-error="כמות נדרשת" required> 
                         
                       </td>
                       <td><div class="form-group">
-                        <input type="text" placeholder="Price" value="<?= $subPro->sub_price?>" name="subproduct[<?=$count?>][sub_price]" id="proPrice[]" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="Price is Required" required>
+                        <input type="text" placeholder="מחיר" value="<?= $subPro->sub_price?>" name="subproduct[<?=$count?>][sub_price]" id="proPrice[]" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false" data-required-error="מחיר נדרש" required>
                       </td>
                       <td><div class="form-group">
-                        <input type="text" placeholder="POI price" value="<?= $subPro->sub_price_poi?>" name="subproduct[<?=$count?>][poi_price]" id="proPOIPrice[]" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false"> 
+                        <input type="text" placeholder="מחיר POI" value="<?= $subPro->sub_price_poi?>" name="subproduct[<?=$count?>][poi_price]" id="proPOIPrice[]" class="form-control" data-inputmask="'alias': 'decimal', 'groupSeparator': ',', 'autoGroup': true, 'rightAlign': false, 'allowMinus': false, 'allowPlus': false"> 
                         
                       </td>
                       <td><button type="button" class="btn btn-outline-primary btn-sm" title="Upload Image" onclick="addProductImg(<?=$subPro->sub_pro_id?>);"><i class="zmdi zmdi-upload"></i></button></td>
@@ -202,8 +202,8 @@
                 <tfoot>
                   <tr>
                     <td colspan="4"></td>
-                    <td colspan="2"><button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button></td>
-                    <td colspan="2"><button class="btn btn-default btn-block" onclick="location.href='<?=base_url()?>products/view_products'">Cancel</button></td>
+                    <td colspan="2"><button type="submit" class="btn btn-primary btn-block" id="submitBtn">שליחה</button></td>
+                    <td colspan="2"><button class="btn btn-default btn-block" onclick="location.href='<?=base_url()?>products/view_products'">ביטול</button></td>
                   </tr>
                 </tfoot>
               </table>
@@ -231,7 +231,7 @@
                   <i class="zmdi zmdi-close"></i>
                 </span>
               </button>
-              <h4 class="modal-title" id="modal-title">Attributes</h4>
+              <h4 class="modal-title" id="modal-title">מאפיינים</h4>
             </div>
             <input type="hidden" name="" id="getSelAtrNames" value="">
             <input type="hidden" name="" id="getSelAtrId" value="">
@@ -243,8 +243,8 @@
                 </div>
               </div>
               <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Add</button>
-                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                <button type="submit" class="btn btn-primary">הוסף</button>
+                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
               </div>
             </form>
           </div>
@@ -305,7 +305,7 @@
               }else{
                 var selType = 'data-required-error="'+responsedata.attributes[i].attribute+' is Required" required';
                 var attrName = 'attribute['+responsedata.attributes[i].attr_id+']';
-                attr+='<select class="form-control selectcls" data-plugin="select2" onchange="appendAttr()" multiple="multiple" data-placeholder="Select a '+responsedata.attributes[i].attribute+'" name="'+attrName+'" id="'+attrName+'" '+selType+' style="width:100%;"><option></option>';
+                attr+='<select class="form-control selectcls" data-plugin="select2" onchange="appendAttr()" multiple="multiple" data-placeholder="בחר '+responsedata.attributes[i].attribute+'" name="'+attrName+'" id="'+attrName+'" '+selType+' style="width:100%;"><option></option>';
                 for (var j = 0; j < responsedata.attribute_val.length; j++) {
                   if (responsedata.attribute_val[j].attr_id==responsedata.attributes[i].attr_id) {
                     attr+='<option value="'+responsedata.attribute_val[j].av_id+'" title="'+responsedata.attribute_val[j].description+'">'+responsedata.attribute_val[j].value+'</option>';
@@ -322,7 +322,7 @@
             $('#otherModal3').modal('show');
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
@@ -383,19 +383,19 @@
                     '<td><img class="img-rounded" src="<?=base_url();?>photos/default.jpg" alt="" height="32"></td>'+
                     '<td><div class="form-group">'+
                       '<input type="hidden" value="0" id="subid[]" name="subproduct['+rowCount+'][subid]">'+
-                      '<input type="text" pattern="^[a-zA-Z 0-9 .&+-]*$" value="'+pro_name+" - "+attr_name+'" placeholder="Name" id="subname[]" name="subproduct['+rowCount+'][subname]" class="form-control" data-minlength="3" data-pattern-error="Invalid Name" data-error="Minimum of 3 characters" data-required-error="Name is Required" required>'+
+                      '<input type="text" pattern="^[a-zA-Z 0-9 .&+-]*$" value="'+pro_name+" - "+attr_name+'" placeholder="שם" id="subname[]" name="subproduct['+rowCount+'][subname]" class="form-control" data-minlength="3" data-pattern-error="שם לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם נדרש" required>'+
                     '</td>'+
                     '<td><div class="form-group">'+
-                      '<input type="text" pattern="^([a-zA-Z0-9_-]){2,25}$" value="'+pro_code+'" placeholder="Sub Product Code" id="proCode[]" name="subproduct['+rowCount+'][subproductCod]" class="form-control"  data-remote-error="Product Code already Exist, Try another" data-pattern-error="Invalid Product Code">'+
+                      '<input type="text" pattern="^([a-zA-Z0-9_-]){2,25}$" value="'+pro_code+'" placeholder="קוד תת-מוצר" id="proCode[]" name="subproduct['+rowCount+'][subproductCod]" class="form-control"  data-remote-error="קוד מוצר כבר קיים, נסה אחר" data-pattern-error="קוד מוצר לא חוקי">'+
                     '</td>'+
                     '<td><div class="form-group">'+
-                      '<input type="number" placeholder="Quantity" value="'+pro_quantity+'" name="subproduct['+rowCount+'][quantity]" id="proQty[]" class="form-control" data-minlength="1" data-error="Quantity is invalid" data-required-error="Quantity is Required" required>'+
+                      '<input type="number" placeholder="כמות" value="'+pro_quantity+'" name="subproduct['+rowCount+'][quantity]" id="proQty[]" class="form-control" data-minlength="1" data-error="כמות לא חוקית" data-required-error="כמות נדרשת" required>'+
                     '</td>'+
                     '<td><div class="form-group">'+
-                      '<input type="text" placeholder="Price" value="'+pro_price+'" name="subproduct['+rowCount+'][sub_price]" id="proPrice[]" class="form-control prizeMask" data-required-error="Price is Required" required>'+
+                      '<input type="text" placeholder="מחיר" value="'+pro_price+'" name="subproduct['+rowCount+'][sub_price]" id="proPrice[]" class="form-control prizeMask" data-required-error="מחיר נדרש" required>'+
                     '</td>'+
                     '<td><div class="form-group">'+
-                      '<input type="text" placeholder="POI price" value="'+pro_price_poi+'" name="subproduct['+rowCount+'][poi_price]" id="proPOIPrice[]" class="form-control prizeMask">'+
+                      '<input type="text" placeholder="מחיר POI" value="'+pro_price_poi+'" name="subproduct['+rowCount+'][poi_price]" id="proPOIPrice[]" class="form-control prizeMask">'+
                     '</td>'+
                     '<td><button type="button" class="btn btn-outline-primary" title="Upload Image" disabled="disabled"><i class="zmdi zmdi-upload zmdi-hc-lg"></i></button></td>'+
                     '<td><button type="button" class="btn btn-outline-danger" title="Delete" onclick="deleteInsertedRow('+rowCount+');"><i class="zmdi zmdi-delete zmdi-hc-lg"></i></button></td></tr><tr class="insertedSubPro_tr'+rowCount+'" id="subProSpecGridtr'+rowCount+'"><td colspan="8">';
@@ -458,7 +458,7 @@
                   }
                 },
                 error: function(result) {
-                  toastr.error("Somthing went wrong :(")
+                  toastr.error("משהו השתבש :(")
                 }
               });
             }
@@ -570,7 +570,7 @@
                 }
             }
             if(exact){
-              toastr.error("Same sub product exist.")
+              toastr.error("תת-מוצר זהה קיים.")
               return false;
             }
           }
@@ -604,7 +604,7 @@
       }
 
       function deleteInsertedRow(id){
-          toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to remove this sub product?',{
+          toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך להסיר תת-מוצר זה?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -621,7 +621,7 @@
       }
 
       function deleteSubPro(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this sub product?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק תת-מוצר זה?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -642,7 +642,7 @@
                       }
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                   }
                 });
               });
