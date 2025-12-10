@@ -251,6 +251,7 @@ class Academic_model extends CI_Model{
         $this->db->where('cft.class_id', $class_id);
         $this->db->join('classsec_for_teacher cft', 'cft.clsec_id=ct.clsec_id');
         $this->db->join('staff_users su','su.user_id=ct.teacher_id');
+        $this->db->where('su.status', 1);
         $this->db->order_by('su.user_id','asc');
         $query = $this->db->get();
         return $query->result();

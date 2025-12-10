@@ -52,6 +52,7 @@ class ExternalUser_model extends CI_Model {
         $this->db->where('sa.class_id', $instituteId);
         $this->db->where('sa.subject_id', $subjectId);
         $this->db->join('staff_users su', 'su.user_id=sa.teacher_id');
+        $this->db->where('su.status', 1);
         $q = $this->db->get();
         return $q->result();
     }
