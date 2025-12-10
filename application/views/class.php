@@ -31,17 +31,17 @@
                 <button type="button" class="btn btn-outline-success btn-pill"  data-toggle="modal" data-target="#otherModal3" title="Add Class"  onclick="addClass();"><i class="zmdi zmdi-plus"></i></button>
               <?php } ?>
               </div>
-              <h3 class="m-t-0 m-b-5">Institute Management</h3>
+              <h3 class="m-t-0 m-b-5">ניהול מוסדות</h3>
             </div>
             <div class="panel-body"> 
               <div class="table-responsive m-y-5"> 
                 <table class="table table-hover" id="table-1">
                     <thead>
                         <tr>
-                            <th>Institute Name</th> 
-                            <th>Institute in Numeric (If available)</th> 
+                            <th>שם מוסד</th> 
+                            <th>מוסד במספרים (אם זמין)</th> 
                             <?php if($edit_class || $delete_class){ ?>
-                            <th style="text-align:right;">Options</th>  
+                            <th style="text-align:right;">אפשרויות</th>  
                             <?php } ?>
                         </tr>
                     </thead>
@@ -75,26 +75,26 @@
                                 <i class="zmdi zmdi-close"></i>
                             </span>
                             </button>
-                            <h4 class="modal-title" id="modal-title">Institute</h4>
+                            <h4 class="modal-title" id="modal-title">מוסד</h4>
                         </div>
 
                         <form data-toggle="validator" id="inputmasks">
                             <div class="modal-body">
                                 <input type="hidden" name="class_id" id="class_id" value="0"> 
                                 <div class="form-group">
-                                    <label for="form-control-2" class="control-label">Institute Name</label>
-                                    <input type="text" class="form-control" id="class_name" name="class_name" placeholder="Institute Name" data-required-error="Institute Name is Required" required autocomplete="off">
+                                    <label for="form-control-2" class="control-label">שם מוסד</label>
+                                    <input type="text" class="form-control" id="class_name" name="class_name" placeholder="שם מוסד" data-required-error="שם מוסד נדרש" required autocomplete="off">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="form-control-2" class="control-label">Institute in Numeric</label>
-                                    <input type="number" pattern="^[0-9-.]+$" class="form-control" id="class_numeric" name="class_numeric" placeholder="Institute Name in Numeric" data-pattern-error="Invalid Institute Number" autocomplete="off">
+                                    <label for="form-control-2" class="control-label">מוסד במספרים</label>
+                                    <input type="number" pattern="^[0-9-.]+$" class="form-control" id="class_numeric" name="class_numeric" placeholder="שם מוסד במספרים" data-pattern-error="מספר מוסד לא חוקי" autocomplete="off">
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                                <button type="submit" class="btn btn-primary">שליחה</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
                             </div>
                         </form>
                     </div>
@@ -117,7 +117,7 @@
         });
     
         function addClass() {
-            $('#modal-title').text('Add Institute');
+            $('#modal-title').text('הוסף מוסד');
             $('#class_id').val(0);
             $('#class_name').val('');
             $('#class_numeric').val('');
@@ -135,18 +135,18 @@
                         var responsedata = $.parseJSON(result);
                         if(responsedata.status=='success'){
                             if (responsedata.message =='save') {
-                                toastr.success('Class added successfully.')
+                                toastr.success('מוסד נוסף בהצלחה.')
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
                             }else{
-                                toastr.success('Class updated successfully.')   
+                                toastr.success('מוסד עודכן בהצלחה.')   
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
                             } 
                         }else{
-                            toastr.error("Somthing went wrong :(")
+                            toastr.error("משהו השתבש :(")
                         }
                     },
                     error: function(result) {
@@ -159,7 +159,7 @@
         });
 
         function editClass(id) { 
-            $('#modal-title').text('Update Institute');
+            $('#modal-title').text('עדכן מוסד');
             var class_name = $('#classrow'+id).find('td:eq(0)').text();  
             var class_numeric = $('#classrow'+id).find('td:eq(1)').text(); 
 
@@ -171,7 +171,7 @@
         }
 
         function deleteClass(id) {
-            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this Class?',{
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק מוסד זה?',{
                 closeButton: true,
                 allowHtml: true,
                 onShown: function (toast) {
@@ -191,7 +191,7 @@
                         }
                         },
                         error: function(result) {
-                            toastr.error("Somthing went wrong :(");
+                            toastr.error("משהו השתבש :(");
                         }
                     });
                 });

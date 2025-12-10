@@ -17,7 +17,7 @@ class Academic extends Admin_Controller{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_class= $this->Admin_modal->isAccessRightGiven($group_id,34)?0:1;
             if ($manage_class) {
-                throw new Exception("You don't have the permissoin to manage institutes.");
+                throw new Exception("אין לך הרשאה לנהל מוסדות.");
             }
 
             $data['class_list']= $this->Admin_modal->isAccessRightGiven($group_id,103)?1:0;
@@ -54,12 +54,12 @@ class Academic extends Admin_Controller{
 
             if ($class_id != 0) {
                 if ($edit_class) {
-                    throw new Exception("You don't have the permission to edit institute.");
+                    throw new Exception("אין לך הרשאה לערוך מוסד.");
                 } 
                 $type = 'update';
             }else{
                 if ($add_class) {
-                    throw new Exception("You don't have the permission to add institute.");
+                    throw new Exception("אין לך הרשאה להוסיף מוסד.");
                 } 
                 $type = 'save';
             }
@@ -83,15 +83,15 @@ class Academic extends Admin_Controller{
                     $class_delete = $this->Common_modal->delete('class','class_id',$class_id);
                     if ($class_delete) {
                         $this->Common_modal->delete('class_subjects','class_id',$class_id);
-                        $message = array("status" => "success","message" => "institute deleted successfully.");
+                        $message = array("status" => "success","message" => "מוסד נמחק בהצלחה.");
                     }else{
-                        throw new Exception("Unable to delete this institute.");
+                        throw new Exception("לא ניתן למחוק מוסד זה.");
                     }
                 }else {
-                    throw new Exception("Teachers are assigned to this institute.");
+                    throw new Exception("מדריכים משוייכים למוסד זה.");
                 }
             }else {
-                throw new Exception("You don't have the permission to delete institute.");
+                throw new Exception("אין לך הרשאה למחוק מוסד.");
             }
 
         } catch (Exception $ex) {
