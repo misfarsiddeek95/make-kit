@@ -31,17 +31,17 @@
                 <button type="button" class="btn btn-outline-success btn-pill"  data-toggle="modal" data-target="#otherModal3" title="Add"  onclick="addClassTeacher();"><i class="zmdi zmdi-plus"></i></button>
                 <?php } ?>
               </div>
-              <h3 class="m-t-0 m-b-5">Institute's Instructor Management</h3>
+              <h3 class="m-t-0 m-b-5">ניהול מדריכי מוסד</h3>
             </div>   
             <div class="panel-body"> 
               <div class="table-responsive m-y-5"> 
                 <table class="table table-hover" >
                     <thead>
                         <tr>
-                            <th>Institute Name</th> 
-                            <th>Instructor Name</th> 
+                            <th>שם מוסד</th> 
+                            <th>שם מדריך</th> 
                             <?php if($edit_class_tr || $delete_class_tr){ ?>
-                            <th style="text-align:right;">Options</th>  
+                            <th style="text-align:right;">אפשרויות</th>  
                             <?php } ?>
                         </tr>
                     </thead>
@@ -75,15 +75,15 @@
                                 <i class="zmdi zmdi-close"></i>
                             </span>
                             </button>
-                            <h4 class="modal-title" id="modal-title">Assign Instructor</h4>
+                            <h4 class="modal-title" id="modal-title">הקצה מדריך</h4>
                         </div>
 
                         <form data-toggle="validator" id="inputmasks">
                             <div class="modal-body">
                                 <input type="hidden" name="tc_id" id="tc_id" value="0">  
                                 <div class="form-group">
-                                    <label for="class_id" class="control-label">Institute</label>
-                                    <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" data-allow-clear="true" required data-required-error="Please select a institute.">
+                                    <label for="class_id" class="control-label">מוסד</label>
+                                    <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" data-allow-clear="true" required data-required-error="אנא בחר מוסד.">
                                         <?php foreach ($all_classes as $row ) { ?>
                                         <option value="<?=$row->class_id?>"><?=$row->class_name?></option> 
                                         <?php } ?>
@@ -106,8 +106,8 @@
                                 
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                                <button type="submit" class="btn btn-primary">שליחה</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
                             </div>
                         </form>
                     </div>
@@ -131,10 +131,10 @@
         });
         
         function addClassTeacher() {
-            $('#modal-title').text('Add Class Teacher');
+            $('#modal-title').text('הוסף מדריך כיתה');
             $('#tc_id').val(0); 
             $('#class_id').val(null).trigger('change');
-            $('#class_id').select2({placeholder: "Select an institute",dropdownParent: $('#otherModal3')});
+            $('#class_id').select2({placeholder: "בחר מוסד",dropdownParent: $('#otherModal3')});
 
             $('.teacherChecksBox').each(function (index, value){
                 var teacher_id = $(this).attr('teacher-id');
@@ -155,12 +155,12 @@
                         var responsedata = $.parseJSON(result);
                         if(responsedata.status=='success'){
                             if (responsedata.message =='save') {
-                                toastr.success('Class teacher assigned successfully.')
+                                toastr.success('מדריך כיתה הוקצה בהצלחה.')
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
                             }else{
-                                toastr.success('Class teacher assigning updated successfully.')   
+                                toastr.success('הקצאת מדריך כיתה עודכנה בהצלחה.')   
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
@@ -181,7 +181,7 @@
         function editClassTeacher(id) { 
             $('.custom-checkbox').removeClass('active');
             $(".teacherChecked").prop("checked", false);
-            $('#modal-title').text('Update Class Teachers');
+            $('#modal-title').text('עדכן מדריכי כיתה');
             var class_id = $('#classtrrow'+id).find('td:eq(0)').attr('cls-id');  
             $('.classTeachrIds'+id).each(function (index, value){ 
                 var teacher_id = $(this).attr('tr-id'); 
@@ -196,7 +196,7 @@
         }
 
         function deleteAssignedTeachers(id) {
-            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this assinged record?',{
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק רשומה משוייכת זו?',{
                 closeButton: true,
                 allowHtml: true,
                 onShown: function (toast) {
@@ -215,7 +215,7 @@
                             }
                         },
                         error: function(result) {
-                            toastr.error("Somthing went wrong :(")
+                            toastr.error("משהו השתבש :(")
                         }
                         });
                     });
