@@ -13,14 +13,14 @@
         <div class="site-content">
             <div class="panel panel-default panel-table">
                 <div class="panel-heading">
-                    <h3 class="m-t-0 m-b-5">Student Report</h3>
+                    <h3 class="m-t-0 m-b-5">דוח תלמידים</h3>
                 </div>
                 <div class="panel-body">
-                    <h5>FILTER STUDENTS</h5>
+                    <h5>סנן תלמידים</h5>
                     <div class="row">
                         <div class="col-sm-4 col-md-3">
                             <div class="form-group">
-                                <label for="class_id" class="control-label">Institute</label>
+                                <label for="class_id" class="control-label">מוסד</label>
                                 <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" onchange="filterStudents();">
                                     <option></option>
                                     <?php foreach ($loadInstitutes as $row ) {?>
@@ -31,8 +31,8 @@
                         </div>
                         <div class="col-sm-4 col-md-3">
                             <div class="form-group">
-                                <label for="subject_id" class="control-label">Circle</label>
-                                <select id="subject_id" name="subject_id" class="form-control" data-placeholder="Select a circle" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
+                                <label for="subject_id" class="control-label">חוג</label>
+                                <select id="subject_id" name="subject_id" class="form-control" data-placeholder="בחר חוג" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
                                     <option></option>
                                     <?php foreach ($loadSubjects as $row ) {?>
                                     <option value="<?=$row->sub_id?>"><?=$row->subject_name?></option>
@@ -42,8 +42,8 @@
                         </div>
                         <div class="col-sm-4 col-md-3">
                             <div class="form-group">
-                                <label for="teacher_id" class="control-label">Instructor</label>
-                                <select id="teacher_id" name="teacher_id" class="form-control" data-placeholder="Select an instructor" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
+                                <label for="teacher_id" class="control-label">מדריך</label>
+                                <select id="teacher_id" name="teacher_id" class="form-control" data-placeholder="בחר מדריך" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
                                     <option></option>
                                     <?php foreach ($loadInstructors as $row ) {?>
                                     <option value="<?=$row->teacher_id?>"><?=$row->teacher_name?></option>
@@ -53,8 +53,8 @@
                         </div>
                         <div class="col-sm-4 col-md-3">
                             <div class="form-group">
-                                <label for="city_id" class="control-label">City</label>
-                                <select id="city_id" name="city_id" class="form-control" data-placeholder="Select a city" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
+                                <label for="city_id" class="control-label">עיר</label>
+                                <select id="city_id" name="city_id" class="form-control" data-placeholder="בחר עיר" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
                                     <option></option>
                                     <?php foreach ($loadCities as $row ) {?>
                                     <option value="<?=$row->city_id?>"><?=$row->city_name?> [ <?=$row->city_name_hebrew?> ]</option>
@@ -68,13 +68,13 @@
                             <thead>
                                 <tr>
                                     <!-- <th></th> -->
-                                    <th>Name</th>
-                                    <th>Institute</th>
-                                    <th>Circle</th>
-                                    <th>Instructor</th>
-                                    <th style="width:15%;">City</th>
-                                    <th class="text-center">MakeKit Points</th>
-                                    <th>Medalian Points</th>
+                                    <th>שם</th>
+                                    <th>מוסד</th>
+                                    <th>חוג</th>
+                                    <th>מדריך</th>
+                                    <th style="width:15%;">עיר</th>
+                                    <th class="text-center">נקודות MakeKit</th>
+                                    <th>נקודות Medalian</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody_data"></tbody>
@@ -106,7 +106,7 @@
         });
 
         $("#class_id").select2({
-            placeholder: "Select a institute",
+            placeholder: "בחר מוסד",
             allowClear: true
         });
 
@@ -141,15 +141,15 @@
                             `
                                 <div style="text-align:center; font-size:12px; line-height:1.4;">
                                     <div>
-                                        <small><b>Earned</b>: ${parseFloat(row.points_earned + 0)}</small>
-                                        <small><b>Spent</b>: ${parseFloat(row.points_spent + 0)}</small>
+                                        <small><b>נצבר</b>: ${parseFloat(row.points_earned + 0)}</small>
+                                        <small><b>נוצל</b>: ${parseFloat(row.points_spent + 0)}</small>
                                     </div>
                                     <hr style="margin:4px auto; width:60%; border:0; border-top:1px solid #ccc;">
-                                    <div><span class="text-muted"><b>Balance</b>: ${row.points_earned - row.points_spent}</span></div>
+                                    <div><span class="text-muted"><b>יתרה</b>: ${row.points_earned - row.points_spent}</span></div>
                                 </div>
                             `,
                             `
-                                <span style="font-weight: bold;">Total Points: ${parseFloat(row.points_earned_medalian + 0)}</span>
+                                <span style="font-weight: bold;">סך נקודות: ${parseFloat(row.points_earned_medalian + 0)}</span>
                             `
                         ]).node().id = 'rowId' + row.user_id;
                     }

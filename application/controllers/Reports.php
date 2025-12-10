@@ -14,7 +14,7 @@ class Reports extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_main = $this->Admin_modal->isAccessRightGiven($group_id,156) ? 0 : 1;
             if ($manage_main) {
-                throw new Exception("You don't have the permissoin to manage students' report.");
+                throw new Exception("אין לך הרשאה לנהל דוח תלמידים.");
             }
 
             $data['loadInstitutes'] = $this->Common_modal->getAll('class');
