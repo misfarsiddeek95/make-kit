@@ -503,7 +503,7 @@ class ExternalUsers extends Admin_Controller {
                 }else{
                     $user_array['create_date'] = $date;
                     $type = 'save';
-                    $msg = 'Instructor saved successfully.';
+                    $msg = 'מדריך נשמר בהצלחה.';
                 }
             }else if ($user_id != 0 && $add_id!=0) {
                 $edit_user= $this->Admin_modal->isAccessRightGiven($group_id,131)?0:1;
@@ -511,7 +511,7 @@ class ExternalUsers extends Admin_Controller {
                     throw new Exception("You don't have the permissoin to update instructor.");
                 }
                 $type = 'update';
-                $msg = 'Instructor updated successfully.';
+                $msg = 'מדריך עודכן בהצלחה.';
             }else{
                 throw new Exception("Something went wrong. Please try again.");
             }
