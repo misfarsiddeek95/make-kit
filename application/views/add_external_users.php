@@ -70,9 +70,9 @@
                                                 <label class="btn btn-outline-success">
                                                     <input type="radio" name="p_gender" id="p_gender2" autocomplete="off" value="1"> זכר
                                                 </label>
-                                                <label class="btn btn-outline-warning">
+                                                <!-- <label class="btn btn-outline-warning">
                                                     <input type="radio" name="p_gender" id="p_gender3" autocomplete="off" value="2"> אחר
-                                                </label>
+                                                </label> -->
                                             </div>
                                         </div>
                                     </div>
