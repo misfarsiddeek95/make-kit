@@ -25,44 +25,44 @@
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="fname" class="control-label">First Name</label>
-                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->fname);} ?>" placeholder="First Name" id="fname" name="fname" class="form-control" data-minlength="3" data-pattern-error="Invalid first name" data-error="Minimum of 3 characters" data-required-error="First name is Required" required autocomplete="off">
+                                            <label for="fname" class="control-label">שם פרטי</label>
+                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->fname);} ?>" placeholder="שם פרטי" id="fname" name="fname" class="form-control" data-minlength="3" data-pattern-error="שם פרטי לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם פרטי נדרש" required autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="lname" class="control-label">Last Name</label>
-                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="Last Name" id="lname" name="lname" class="form-control"  data-pattern-error="Invalid last name" autocomplete="off">
+                                            <label for="lname" class="control-label">שם משפחה</label>
+                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="שם משפחה" id="lname" name="lname" class="form-control"  data-pattern-error="שם משפחה לא חוקי" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="phone" class="control-label">Phone</label> 
-                                            <input type="text" pattern="^[0-9+]+$" value="<?php if(!(empty($user))){echo($user->phone);} ?>" placeholder="Phone"  id="phone" name="phone" class="form-control" data-pattern-error="Invalid phone number format" required data-required-error="Phone number is required." autocomplete="off">
+                                            <label for="phone" class="control-label">טלפון</label> 
+                                            <input type="text" pattern="^[0-9+]+$" value="<?php if(!(empty($user))){echo($user->phone);} ?>" placeholder="טלפון"  id="phone" name="phone" class="form-control" data-pattern-error="פורמט מספר טלפון לא חוקי" required data-required-error="מספר טלפון נדרש." autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="email" class="control-label">Email</label>
-                                            <input type="email" class="form-control" id="email" name="email" value="<?php if(!(empty($user))){echo($user->email);} ?>" placeholder="Email" data-error="Please enter a valid email address." required data-required-error="Email is required" autocomplete="off">
+                                            <label for="email" class="control-label">דוא"ל</label>
+                                            <input type="email" class="form-control" id="email" name="email" value="<?php if(!(empty($user))){echo($user->email);} ?>" placeholder="דוא"ל" data-error="אנא הכנס כתובת דוא"ל חוקית." required data-required-error="דוא"ל נדרש" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="form-control-4" class="control-label">Address</label>
-                                            <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-plugin="autosize" data-error="Address is required." required  style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($user))){echo($user->address);}?></textarea>
+                                            <label for="form-control-4" class="control-label">כתובת</label>
+                                            <textarea name="address" id="address" class="form-control" rows="3" placeholder="כתובת" data-plugin="autosize" data-error="כתובת נדרשת." required  style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($user))){echo($user->address);}?></textarea>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
 
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="city" class="control-label">City</label> 
-                                            <select id="city" name="city" class="form-control" style="width:100%;" data-placeholder="City" data-plugin="select2" data-required-error="City is Required" required>
+                                            <label for="city" class="control-label">עיר</label> 
+                                            <select id="city" name="city" class="form-control" style="width:100%;" data-placeholder="עיר" data-plugin="select2" data-required-error="עיר נדרשת" required>
                                                 <option></option>
                                                 <?php foreach ($cities as $row) { ?>
                                                 <option value="<?=$row->city_id?>" country-id="<?=$row->country_id?>" region-id="<?=$row->reg_id?>"><?=$row->city_name?> [ <?=$row->city_name_hebrew?> ]</option>
@@ -73,23 +73,23 @@
                                     
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="" class="control-label">Gender</label>
+                                            <label for="" class="control-label">מגדר</label>
                                             <div class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-outline-primary">
-                                                    <input type="radio" name="p_gender" id="p_gender1" autocomplete="off" value="0"> Female
+                                                    <input type="radio" name="p_gender" id="p_gender1" autocomplete="off" value="0"> נקבה
                                                 </label>
                                                 <label class="btn btn-outline-success">
-                                                    <input type="radio" name="p_gender" id="p_gender2" autocomplete="off" value="1"> Male
+                                                    <input type="radio" name="p_gender" id="p_gender2" autocomplete="off" value="1"> זכר
                                                 </label>
                                                 <label class="btn btn-outline-warning">
-                                                    <input type="radio" name="p_gender" id="p_gender3" autocomplete="off" value="2"> Other
+                                                    <input type="radio" name="p_gender" id="p_gender3" autocomplete="off" value="2"> אחר
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="user_pic" class="control-label">Profile Picture</label>
+                                            <label for="user_pic" class="control-label">תמונת פרופיל</label>
                                             <input type="hidden" value="<?php if(!(empty($user))){if(trim($user->photo_path)!=''&&$user->photo_path!=null){echo('photos/staff/'.$user->photo_path.'-std.'.$user->extension);}else{echo('photos/default.jpg');}}else{echo('photos/default.jpg');} ?>" name="user_pic" id="user_pic">
                                             <div class="row gutter-sm">
                                                 <div id="imageupdiv"></div>
@@ -101,7 +101,7 @@
                                     <?php $exploded = explode('-',$this->uri->segment(1)); ?>
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="userName" class="control-label">Username</label>
+                                            <label for="userName" class="control-label">שם משתמש</label>
                                             <div class="row">
                                                 <?php 
                                                     $disAttr = '';
@@ -114,9 +114,9 @@
                                                 <div class="col-sm-6 <?=$divCls?>">
                                                 <input class="form-control" type="text"
                                                 value="<?php if(!(empty($user))){echo($user->username);}?>"
-                                                placeholder="Username" id="userName" name="username" required
-                                                data-required-error="Username is required." <?=$disAttr?>
-                                                pattern="[^\s]+" data-minlength="4"  data-error="Minimum of 4 characters without space"
+                                                placeholder="שם משתמש" id="userName" name="username" required
+                                                data-required-error="שם משתמש נדרש." <?=$disAttr?>
+                                                pattern="[^\s]+" data-minlength="4"  data-error="מינימום 4 תווים ללא רווח"
                                                 <?php if(empty($user)){echo'required';}else{echo "disabled='disabled'";}?> autocomplete="off"
                                                 />
                                                 </div>
@@ -133,14 +133,14 @@
                                     
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="password" class="control-label">Password</label>
-                                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" data-required-error="Password is required" <?php if((empty($user))){echo 'required';}?>  autocomplete="off">
+                                            <label for="password" class="control-label">סיסמה</label>
+                                            <input type="password" class="form-control" id="password" name="password" placeholder="סיסמה" data-required-error="סיסמה נדרשת" <?php if((empty($user))){echo 'required';}?>  autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">שליחה</button>
                                 </form>
                             </div>
                         </div>
@@ -187,17 +187,17 @@
                 rowHeight:'120px',
                 maxFileSize:5500000,
                 allowedExt:'jpg|jpeg|png',
-                dropFileLabel:   'Drop logo here',
+                dropFileLabel:   'גרור לוגו לכאן',
                 groupClassName : 'col-md-4 col-sm-4 col-xs-6',
                 placeholderImage: {image:'<?=base_url();?>'+$('#user_pic').val() ,width: '60%'},
                 onRenderedPreview : function(index){
                 },
 
                 onExtensionErr : function(index, file){
-                    toastr["error"]('Please only input png or jpg type file');
+                    toastr["error"]('אנא הכנס רק קובץ מסוג png או jpg');
                 },
                 onSizeErr : function(index, file){
-                    toastr["error"]('This file exceeds the max size(5MB)');
+                    toastr["error"]('קובץ זה חורג מהגודל המקסימלי(5MB)');
                 }
             });
 
@@ -219,7 +219,7 @@
                 $.post( "<?=base_url()?>check-username-exists", { username: $("#userName").val()}, function (data){
                 var resp = $.parseJSON(data);  
                 if (resp == true) {
-                    $('#ex_uname').text('Username already exists. Try another.');
+                    $('#ex_uname').text('שם משתמש כבר קיים. נסה אחר.');
                     $('#ex_uname').css({"display": "inline", "color": "red"});
                 }else{
                     $('#ex_uname').text('');

@@ -286,7 +286,7 @@ class Academic extends Admin_Controller{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_class_teacher= $this->Admin_modal->isAccessRightGiven($group_id,134)?0:1;
             if ($manage_class_teacher) {
-                throw new Exception("You don't have the permissoin to manage institute instructor.");
+                throw new Exception("אין לך הרשאה לנהל מדריך מוסד.");
             }
 
             $data['class_tr_list']= $this->Admin_modal->isAccessRightGiven($group_id,135)?1:0;
@@ -329,16 +329,16 @@ class Academic extends Admin_Controller{
 
             if ($tc_id != 0) {
                 if ($edit_class_tr) {
-                    throw new Exception("You don't have the permission to edit institute instructor.");
+                    throw new Exception("אין לך הרשאה לערוך מדריך מוסד.");
                 } 
                 $type = 'update';
             }else{
                 if ($add_class_tr) {
-                    throw new Exception("You don't have the permission to add institute instructor.");
+                    throw new Exception("אין לך הרשאה להוסיף מדריך מוסד.");
                 } 
                 $res = $this->Academic_model->check_tr_exist($class_id);
                 if ($res) {
-                    throw new Exception("Already teacher assigned to this institute.");
+                    throw new Exception("מדריך כבר שויך למוסד זה.");
                 }
                 $type = 'save';
             } 
@@ -359,12 +359,12 @@ class Academic extends Admin_Controller{
                     $class_tcr_delete = $this->Common_modal->delete('classsec_for_teacher','clsec_id',$clsec_id);
                     if ($class_tcr_delete) {
                         $this->Common_modal->delete('classec_teacher','clsec_id',$clsec_id); 
-                        $message = array("status" => "success","message" => "Class Teacher deleted successfully.");
+                        $message = array("status" => "success","message" => "מדריך כיתה נמחק בהצלחה.");
                     }else{
-                        throw new Exception("Unable to delete this class teacher.");
+                        throw new Exception("לא ניתן למחוק מדריך כיתה זה.");
                     } 
             }else {
-                throw new Exception("You don't have the permission to delete class teacher.");
+                throw new Exception("אין לך הרשאה למחוק מדריך כיתה.");
             }
 
         } catch (Exception $ex) {

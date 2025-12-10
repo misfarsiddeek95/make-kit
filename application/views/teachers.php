@@ -18,7 +18,7 @@
                 <button type="button" class="btn btn-outline-success btn-pill" title="Add Teacher" onclick="location.href='<?=base_url();?>add-teacher'"><i class="zmdi zmdi-plus"></i></button>
               </div>
               <?php }?>
-              <h3 class="m-t-0 m-b-5">Instructor Management</h3>
+              <h3 class="m-t-0 m-b-5">ניהול מדריכים</h3>
             </div>
             <div class="panel-body"> 
               <div class="table-responsive m-y-5">
@@ -26,14 +26,14 @@
                   <thead>
                     <tr>
                       <th></th>
-                      <th>Name</th>
-                      <th>Gender</th>
-                      <th>Email</th>
-                      <th>Phone</th>
-                      <th>Username</th>
-                      <th>Active Status</th>
+                      <th>שם</th>
+                      <th>מגדר</th>
+                      <th>דוא"ל</th>
+                      <th>טלפון</th>
+                      <th>שם משתמש</th>
+                      <th>סטטוס פעיל</th>
                       <?php if($edit_teacher || $delete_teacher){ ?>
-                      <th style="text-align:right;">Options</th> 
+                      <th style="text-align:right;">אפשרויות</th> 
                       <?php } ?>
                     </tr>
                   </thead>
@@ -52,13 +52,13 @@
                           $gender='';
                           $typeCls = '';
                           if ($row->gender==0) {
-                            $gender = 'Female';
+                            $gender = 'נקבה';
                             $typeCls = 'primary';
                           } elseif($row->gender==1){
-                            $gender = 'Male';
+                            $gender = 'זכר';
                             $typeCls = 'success';
                           }else{
-                            $gender = 'Other';
+                            $gender = 'אחר';
                             $typeCls = 'warning';
                           }
                     ?>
@@ -126,13 +126,13 @@
             }
           },
           error: function(result) {
-            toastr.error("Somthing went wrong :(")
+            toastr.error("משהו השתבש :(")
           }
         });
       }
 
       function deleteUser(id) {
-        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this instructor?',{
+        toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק מדריך זה?',{
             closeButton: true,
             allowHtml: true,
             onShown: function (toast) {
@@ -152,7 +152,7 @@
                     }
                   },
                   error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                   }
                 });
               });
