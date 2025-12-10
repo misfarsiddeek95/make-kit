@@ -31,17 +31,17 @@
                 <button type="button" class="btn btn-outline-success btn-pill"  data-toggle="modal" data-target="#otherModal3" title="Assign Institute Circle"  onclick="assignSubjects();"><i class="zmdi zmdi-plus"></i></button>
                 <?php } ?>
               </div>
-              <h3 class="m-t-0 m-b-5">Institute Circle Assigning Management</h3>
+              <h3 class="m-t-0 m-b-5">ניהול הקצאת חוגים למוסדות</h3>
             </div>
             <div class="panel-body"> 
               <div class="table-responsive m-y-5"> 
                 <table class="table table-hover" id="table-1">
                     <thead>
                         <tr>
-                            <th>Institute</th>   
-                            <th>Circle</th>  
+                            <th>מוסד</th>   
+                            <th>חוג</th>  
                             <?php if($edit_assigned_subject || $delete_assigned_subject){ ?>
-                            <th style="text-align:right;">Options</th>  
+                            <th style="text-align:right;">אפשרויות</th>  
                             <?php } ?>
                         </tr>
                     </thead>
@@ -75,15 +75,15 @@
                                 <i class="zmdi zmdi-close"></i>
                             </span>
                             </button>
-                            <h4 class="modal-title" id="modal-title">Assign Circle</h4>
+                            <h4 class="modal-title" id="modal-title">הקצה חוג</h4>
                         </div>
 
                         <form data-toggle="validator" id="inputmasks">
                             <div class="modal-body">
                                 <input type="hidden" name="clsub_id" id="clsub_id" value="0">   
                                 <div class="form-group"> 
-                                    <label for="class_id" class="control-label">Institute</label>
-                                    <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" data-placeholder="Select an institute" required data-required-error="Please select an institute." data-allow-clear="true">
+                                    <label for="class_id" class="control-label">מוסד</label>
+                                    <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" data-placeholder="בחר מוסד" required data-required-error="אנא בחר מוסד." data-allow-clear="true">
                                         <?php foreach ($all_classes as $row ) { ?>
                                         <option value="<?=$row->class_id?>"><?=$row->class_name?></option> 
                                         <?php } ?>
@@ -105,8 +105,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                                <button type="submit" class="btn btn-primary">שליחה</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
                             </div>
                         </form>
                     </div>
@@ -130,10 +130,10 @@
         });
         
         function assignSubjects() {
-            $('#modal-title').text('Assign Circle');
+            $('#modal-title').text('הקצה חוג');
             $('#clsub_id').val(0); 
             $('#class_id').val(null);
-            $('#class_id').select2({placeholder: "Select a Class",dropdownParent: $('#otherModal3')}); 
+            $('#class_id').select2({placeholder: "בחר כיתה",dropdownParent: $('#otherModal3')}); 
             $('.subjectChecksBox').each(function (index, value){
                 var sub_id = $(this).attr('subject-id');
                 $('.subjectChecks'+sub_id).removeClass('active');
@@ -146,7 +146,7 @@
             if (!(e.isDefaultPrevented())) {
                 e.preventDefault();
                 if (selectedClass == undefined || selectedClass == '' || selectedClass == null) {
-                    return toastr.error('Please select the class');
+                    return toastr.error('אנא בחר את הכיתה');
                 }
                 run_waitMe('#inputmasks');
                 $.ajax({
@@ -157,12 +157,12 @@
                         var responsedata = $.parseJSON(result);
                         if(responsedata.status=='success'){
                             if (responsedata.message =='save') {
-                                toastr.success('Subjects successfully assigned to the class.')
+                                toastr.success('חוגים הוקצו בהצלחה לכיתה.')
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
                             }else{
-                                toastr.success('Subjects successfully updated to the class.')   
+                                toastr.success('חוגים הוקצו בהצלחה לכיתה.')   
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
@@ -183,7 +183,7 @@
         function editAssignedSubject(clid) {  
             $('.custom-checkbox').removeClass('active');
             $(".subjectChecked").prop("checked", false);
-            $('#modal-title').text('Update Assigned Circle'); 
+            $('#modal-title').text('עדכן חוג משוייך'); 
             $('#clsub_id').val(1);
             $('#class_id').val(clid).trigger('change');  
             $('.subjectIds'+clid).each(function (index, value){ 
@@ -196,7 +196,7 @@
         }
 
         function deleteMe(id) {
-            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this assigned institute circle?',{
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק חוג מוסד משוייך זה?',{
                 closeButton: true,
                 allowHtml: true,
                 onShown: function (toast) {
@@ -216,7 +216,7 @@
                         }
                         },
                         error: function(result) {
-                            toastr.error("Somthing went wrong :(");
+                            toastr.error("משהו השתבש :(");
                         }
                     });
                 });

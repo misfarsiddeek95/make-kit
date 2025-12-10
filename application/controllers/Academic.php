@@ -197,7 +197,7 @@ class Academic extends Admin_Controller{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_class_subject= $this->Admin_modal->isAccessRightGiven($group_id,123)?0:1;
             if ($manage_class_subject) {
-                throw new Exception("You don't have the permissoin to manage circle assigning to the institutes.");
+                throw new Exception("אין לך הרשאה לנהל הקצאת חוגים למוסדות.");
             }
 
             $data['assign_subject_list']= $this->Admin_modal->isAccessRightGiven($group_id,124)?1:0;
@@ -220,7 +220,7 @@ class Academic extends Admin_Controller{
             $class_id= $this->input->post('class_id'); 
             
             if ($class_id == null || $class_id == '' || $class_id == 0) {
-                throw new Exception("Please select the institute.");
+                throw new Exception("אנא בחר את המוסד.");
             }
 
             if (isset($_POST['subject'])){
@@ -235,12 +235,12 @@ class Academic extends Admin_Controller{
     
             if ($clsub_id != 0) {
                 if ($edit_assigned_subject) {
-                    throw new Exception("You don't have the permission to edit assigned circle.");
+                    throw new Exception("אין לך הרשאה לערוך חוג משוייך.");
                 } 
                 $type = 'update';
             }else{
                 if ($assign_subject) {
-                    throw new Exception("You don't have the permission to assign circle.");
+                    throw new Exception("אין לך הרשאה להקצות חוג.");
                 } 
                 $type = 'save';
             }
@@ -262,15 +262,15 @@ class Academic extends Admin_Controller{
                 if ($check_used) { 
                     $_delete = $this->Common_modal->delete('class_subjects','class_id',$class_id);
                     if ($_delete) { 
-                        $msg = array("status" => "success","message" => "Institute circle deleted successfully.");
+                        $msg = array("status" => "success","message" => "חוג מוסד נמחק בהצלחה.");
                     }else{
-                        throw new Exception("Unable to delete this institute circle.");
+                        throw new Exception("לא ניתן למחוק חוג מוסד זה.");
                     }
                 }else{
-                    throw new Exception("This institute circle is assigned to the teacher.");
+                    throw new Exception("חוג מוסד זה משוייך למורה.");
                 }
             }else {
-                throw new Exception("You don't have the permission to delete institute circle.");
+                throw new Exception("אין לך הרשאה למחוק חוג מוסד.");
             }
 
         } catch (Exception $ex) {
