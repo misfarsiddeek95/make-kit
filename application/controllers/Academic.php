@@ -380,7 +380,7 @@ class Academic extends Admin_Controller{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_assign_subject= $this->Admin_modal->isAccessRightGiven($group_id,139)?0:1;
             if ($manage_assign_subject) {
-                throw new Exception("You don't have the permissoin to manage subject assigning.");
+                throw new Exception("אין לך הרשאה לנהל הקצאת חוגים.");
             }
 
             $data['assign_subject_list']= $this->Admin_modal->isAccessRightGiven($group_id,140)?1:0;
@@ -434,12 +434,12 @@ class Academic extends Admin_Controller{
     
             if ($sa_id != 0) {
                 if ($edit_assigned_subject) {
-                    throw new Exception("You don't have the permission to edit assigned circle.");
+                    throw new Exception("אין לך הרשאה לערוך חוג משוייך.");
                 } 
                 $type = 'update';
             }else{
                 if ($assign_subject) {
-                    throw new Exception("You don't have the permission to assign circle.");
+                    throw new Exception("אין לך הרשאה להקצות חוג.");
                 } 
                 $type = 'save';
             }
@@ -459,12 +459,12 @@ class Academic extends Admin_Controller{
             if ($delete_assigned_subject) {
                     $assigned_sub_delete = $this->Common_modal->delete('subject_assign','sa_id',$sa_id);
                     if ($assigned_sub_delete) {
-                        $message = array("status" => "success","message" => "Assigned circle deleted successfully.");
+                        $message = array("status" => "success","message" => "חוג משוייך נמחק בהצלחה.");
                     }else{
-                        throw new Exception("Unable to delete this assigned subject.");
+                        throw new Exception("לא ניתן למחוק חוג משוייך זה.");
                     } 
             }else {
-                throw new Exception("You don't have the permission to delete assigned subject.");
+                throw new Exception("אין לך הרשאה למחוק חוג משוייך.");
             }
 
         } catch (Exception $ex) {

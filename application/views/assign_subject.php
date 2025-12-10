@@ -36,7 +36,7 @@
                                 class="zmdi zmdi-plus"></i></button>
                         <?php } ?>
                     </div>
-                    <h3 class="m-t-0 m-b-5">Manage Instructor & Circle Assigment</h3>
+                    <h3 class="m-t-0 m-b-5">ניהול הקצאת מדריך וחוג</h3>
                 </div>
                 <div class="panel-body">
 
@@ -62,12 +62,12 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>Class</th>
-                                                    <th>Teacher</th>
-                                                    <th>Subject</th>
-                                                    <th>Subject Type</th>
+                                                    <th>כיתה</th>
+                                                    <th>מורה</th>
+                                                    <th>חוג</th>
+                                                    <th>סוג חוג</th>
                                                     <?php if($edit_assigned_subject || $delete_assigned_subject){ ?>
-                                                    <th style="text-align:right;">Options</th>
+                                                    <th style="text-align:right;">אפשרויות</th>
                                                     <?php } ?>
                                                 </tr>
                                             </thead>
@@ -78,13 +78,13 @@
                                                         $sub_type = '';
                                                         $cls = '';
                                                         if ($row->subject_type==0) {
-                                                            $sub_type = 'Theroy';
+                                                            $sub_type = 'תיאוריה';
                                                             $cls = 'primary';
                                                         }elseif ($row->subject_type==1) {
-                                                            $sub_type = 'Practical';
+                                                            $sub_type = 'מעשי';
                                                             $cls = 'dark';
                                                         }else {
-                                                            $sub_type = 'Both';
+                                                            $sub_type = 'שניהם';
                                                             $cls = 'success';
                                                         }
                                                 ?>
@@ -131,7 +131,7 @@
                                     <i class="zmdi zmdi-close"></i>
                                 </span>
                             </button>
-                            <h4 class="modal-title" id="modal-title">Assign Instructor</h4>
+                            <h4 class="modal-title" id="modal-title">הקצה מדריך</h4>
                         </div>
 
                         <form data-toggle="validator" id="inputmasks">
@@ -140,10 +140,10 @@
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="class_id" class="control-label">Institute</label>
+                                            <label for="class_id" class="control-label">מוסד</label>
                                             <select id="class_id" name="class_id" class="form-control"
                                                 data-plugin="select2" style="width: 100%;"
-                                                data-placeholder="Select a institute" required data-required-error="Select a institute" style="width:100;" data-allow-clear="true">
+                                                data-placeholder="בחר מוסד" required data-required-error="בחר מוסד" style="width:100;" data-allow-clear="true">
                                                 <option></option>
                                                 <?php foreach ($all_classes as $row ) { ?>
                                                 <option value="<?=$row->class_id?>"><?=$row->class_name?></option>
@@ -154,10 +154,10 @@
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="subject_id" class="control-label">Circle</label>
+                                            <label for="subject_id" class="control-label">חוג</label>
                                             <select id="subject_id" name="subject_id" class="form-control"
                                                 data-plugin="select2" style="width: 100%;"
-                                                data-placeholder="Select a circle" required data-required-error="Select a circle" style="width:100;" data-allow-clear="true">
+                                                data-placeholder="בחר חוג" required data-required-error="בחר חוג" style="width:100;" data-allow-clear="true">
                                                 <option></option>
                                             </select>
                                             <div class="help-block with-errors"></div>
@@ -165,10 +165,10 @@
                                     </div>
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="teacher_id" class="control-label">Instructor</label>
+                                            <label for="teacher_id" class="control-label">מדריך</label>
                                             <select id="teacher_id" name="teacher_id" class="form-control"
                                                 data-plugin="select2" style="width: 100%;"
-                                                data-placeholder="Select a instructor" required data-required-error="Select a instructor" style="width:100;" data-allow-clear="true">
+                                                data-placeholder="בחר מדריך" required data-required-error="בחר מדריך" style="width:100;" data-allow-clear="true">
                                                 <option></option>
                                             </select>
                                             <div class="help-block with-errors"></div>
@@ -177,8 +177,8 @@
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                                <button type="submit" class="btn btn-primary">שליחה</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
                             </div>
                         </form>
                     </div>
@@ -203,22 +203,22 @@
 
 
         function assignSubjects() {
-            $('#modal-title').text('Assign Subject');
+            $('#modal-title').text('הקצה חוג');
             $('#sa_id').val(0);
             $('#class_id').val(null);
             $('#class_id').select2({
-                placeholder: "Select a Class",
+                placeholder: "בחר כיתה",
                 dropdownParent: $('#otherModal3')
             });
             
             $('#teacher_id').val(null);
             $('#teacher_id').select2({
-                placeholder: "Select a Teacher",
+                placeholder: "בחר מורה",
                 dropdownParent: $('#otherModal3')
             });
             $('#subject_id').val(null);
             $('#subject_id').select2({
-                placeholder: "Select a Subject",
+                placeholder: "בחר חוג",
                 dropdownParent: $('#otherModal3')
             });
         }
@@ -275,13 +275,13 @@
                         var responsedata = $.parseJSON(result);
                         if (responsedata.status == 'success') {
                             if (responsedata.message == 'save') {
-                                toastr.success('Circle and instructor assigned successfully.')
+                                toastr.success('חוג ומדריך הוקצו בהצלחה.')
                                 setTimeout(function () {
                                     location.reload();
                                 }, 1000);
                             } else {
                                 toastr.success(
-                                    'Circle and instructor assigning updated successfully.')
+                                    'חוג ומדריך עודכנו בהצלחה.')
                                 setTimeout(function () {
                                     location.reload();
                                 }, 1000);
@@ -300,7 +300,7 @@
         });
 
         function editAssignedSubject(id) {
-            $('#modal-title').text('Update Assigned Subject');
+            $('#modal-title').text('עדכן חוג משוייך');
             var class_id = $('#subjassgnrow' + id).find('td:eq(0)').attr('cls-id');
             var teacher_id = $('#subjassgnrow' + id).find('td:eq(1)').attr('tr-id');
             var subject_id = $('#subjassgnrow' + id).find('td:eq(2)').attr('sub-id');
@@ -317,7 +317,7 @@
         }
 
         function deleteAssignedSubject(id) {
-            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this assinged record?',{
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק רשומה משוייכת זו?',{
                 closeButton: true,
                 allowHtml: true,
                 onShown: function (toast) {
@@ -336,7 +336,7 @@
                             }
                         },
                         error: function(result) {
-                            toastr.error("Somthing went wrong :(")
+                            toastr.error("משהו השתבש :(")
                         }
                         });
                     });
