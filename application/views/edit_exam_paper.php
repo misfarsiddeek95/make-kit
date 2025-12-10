@@ -233,7 +233,7 @@
                                                 <textarea name="mcq_main_title" id="mcq_main_title"><?=$getQuestionPaper->mcq_main_title?></textarea>
                                             </div>
                                         </div>
-                                        <div class="col-md-12 m-b-10">
+                                        <!-- <div class="col-md-12 m-b-10">
                                             <div class="form-group">
                                                 <label for="structured_main_title" class="control-label">STRUCTURED Main Title</label>
                                                 <textarea name="structured_main_title" id="structured_main_title"><?=$getQuestionPaper->structured_main_title?></textarea>
@@ -244,7 +244,7 @@
                                                 <label for="essay_main_title" class="control-label">ESSAY Main Title</label>
                                                 <textarea name="essay_main_title" id="essay_main_title"><?=$getQuestionPaper->essay_main_title?></textarea>
                                             </div>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 <div id="question-list-div"></div>
@@ -558,8 +558,8 @@
                 $('#update-btn').text('UPDATING...').attr('disabled','disabled');
                 var form_data = new FormData(this);
                 form_data.append('mcq_main_title', mcqEditor.getData());
-                form_data.append('structured_main_title', strEditor.getData());
-                form_data.append('essay_main_title', essEditor.getData());
+                /* form_data.append('structured_main_title', strEditor.getData());
+                form_data.append('essay_main_title', essEditor.getData()); */
                 $.ajax({
                     type: 'POST',
                     url: '<?=base_url()?>update-exam-paper',

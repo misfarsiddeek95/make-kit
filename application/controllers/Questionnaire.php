@@ -24,7 +24,7 @@ class Questionnaire extends Admin_Controller {
             $data['edit'] = $this->Admin_modal->isAccessRightGiven($group_id,99)?1:0;
             $data['delete'] = $this->Admin_modal->isAccessRightGiven($group_id,100)?1:0;
 
-            $data['question_types'] = $this->Common_modal->getAll('question_type');
+            $data['question_types'] = $this->Common_modal->get_all_selected_fields('*','question_type',['status' => 1]);
             $data['questions'] = $this->Questionnaire_Model->loadQuestions();
 
             $this->load->view('questions',$data);
@@ -54,7 +54,7 @@ class Questionnaire extends Admin_Controller {
             }
             $data['class'] = $this->Common_modal->getAll('class');
             $data['terms'] = $this->Common_modal->getAll('exam_types');
-            $data['question_type'] = $this->Common_modal->getAll('question_type');
+            $data['question_type'] = $this->Common_modal->get_all_selected_fields('*','question_type',['status' => 1]);
 
             $this->load->view('add_questions',$data);
 
@@ -307,7 +307,7 @@ class Questionnaire extends Admin_Controller {
             
             $data['exam_types'] = $this->Common_modal->getAll('exam_types');
             $data['class'] = $this->Common_modal->getAll('class');
-            $data['question_type'] = $this->Common_modal->getAll('question_type');
+            $data['question_type'] = $this->Common_modal->get_all_selected_fields('*','question_type',['status' => 1]);
             $data['get_all_papers'] = $this->Questionnaire_Model->loadGeneratedPapers();
 
             $this->load->view('paper_list',$data);
@@ -457,7 +457,7 @@ class Questionnaire extends Admin_Controller {
             
             $data['exam_types'] = $this->Common_modal->getAll('exam_types');
             $data['class'] = $this->Common_modal->getAll('class');
-            $data['question_type'] = $this->Common_modal->getAll('question_type');
+            $data['question_type'] = $this->Common_modal->get_all_selected_fields('*','question_type',['status' => 1]);
             $data['getQuestionPaper'] = $this->Questionnaire_Model->getSingleQuestionPaper($paperId);
             $data['getQuestionPaperQuestions'] = $this->Questionnaire_Model->getQuestionPaperQuestions($paperId);
 

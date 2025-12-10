@@ -17,6 +17,7 @@ class Questionnaire_Model extends CI_Model{
 
         $this->db->select('qt.*');
         $this->db->from('question_type qt');
+        $this->db->where('qt.status', 1);
         $q = $this->db->get();
         $main = $q->result();
         foreach ($main as $row) {
@@ -357,6 +358,7 @@ class Questionnaire_Model extends CI_Model{
     public function getQuestionPaperQuestions($paperId) {
         $this->db->select('qt.*');
         $this->db->from('question_type qt');
+        $this->db->where('qt.status', 1);
         $q = $this->db->get();
         $main = $q->result();
         foreach ($main as $row) {

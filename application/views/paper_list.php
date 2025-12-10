@@ -188,7 +188,7 @@
                                             <textarea name="mcq_main_title" id="mcq_main_title"></textarea>
                                         </div>
                                     </div>
-                                    <div class="col-md-12 m-b-10">
+                                    <!-- <div class="col-md-12 m-b-10">
                                         <div class="form-group">
                                             <label for="structured_main_title" class="control-label">STRUCTURED Main Title</label>
                                             <textarea name="structured_main_title" id="structured_main_title"></textarea>
@@ -199,7 +199,7 @@
                                             <label for="essay_main_title" class="control-label">ESSAY Main Title</label>
                                             <textarea name="essay_main_title" id="essay_main_title"></textarea>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                                 <button type="submit" class="btn btn-success">GENERATE</button>
                                 <button type="button" class="btn btn-outline-danger" onclick="showHideGenerateDiv('hide');">CANCEL</button>
@@ -367,7 +367,7 @@
                         console.error( error );
                 } );
 
-            ClassicEditor
+            /* ClassicEditor
                 .create( document.querySelector( '#structured_main_title' ) )
                 .then( editor => {
                     strEditor = editor;
@@ -383,7 +383,7 @@
                 } )
                 .catch( error => {
                         console.error( error );
-                } );
+                } ); */
         });
 
         $('.this-table').DataTable();
@@ -494,8 +494,8 @@
                 run_waitMe('#inputmasks');
                 var form_data = new FormData(this);
                 form_data.append('mcq_main_title', mcqEditor.getData());
-                form_data.append('structured_main_title', strEditor.getData());
-                form_data.append('essay_main_title', essEditor.getData());
+                /* form_data.append('structured_main_title', strEditor.getData());
+                form_data.append('essay_main_title', essEditor.getData()); */
                 setTimeout(() => {
                     $.ajax({
                         type: 'POST',
