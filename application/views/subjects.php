@@ -31,18 +31,18 @@
                 <button type="button" class="btn btn-outline-success btn-pill"  data-toggle="modal" data-target="#otherModal3" title="Add Subject"  onclick="adSubject();"><i class="zmdi zmdi-plus"></i></button>
                 <?php } ?>
               </div>
-              <h3 class="m-t-0 m-b-5">Circle Management</h3>
+              <h3 class="m-t-0 m-b-5">ניהול חוגים</h3>
             </div>
             <div class="panel-body"> 
               <div class="table-responsive m-y-5"> 
                 <table class="table table-hover" id="table-1">
                     <thead>
                         <tr>
-                            <th>Circle Name</th> 
-                            <th>Circle Code</th> 
-                            <th>Circle Type</th> 
+                            <th>שם חוג</th> 
+                            <th>קוד חוג</th> 
+                            <th>סוג חוג</th> 
                             <?php if($edit_subject || $delete_subject){ ?>
-                            <th style="text-align:right;">Options</th>  
+                            <th style="text-align:right;">אפשרויות</th>  
                             <?php } ?>
                         </tr>
                     </thead>
@@ -52,13 +52,13 @@
                                 $sub_type = '';
                                 $cls = '';
                                 if ($row->subject_type==0) {
-                                    $sub_type = 'Theroy';
+                                    $sub_type = 'תיאוריה';
                                     $cls = 'primary';
                                 }elseif ($row->subject_type==1) {
-                                    $sub_type = 'Practical';
+                                    $sub_type = 'מעשי';
                                     $cls = 'info';
                                 }else {
-                                    $sub_type = 'Both';
+                                    $sub_type = 'שניהם';
                                     $cls = 'success';
                                 }
                         ?>
@@ -91,40 +91,40 @@
                                 <i class="zmdi zmdi-close"></i>
                             </span>
                             </button>
-                            <h4 class="modal-title" id="modal-title">Subject</h4>
+                            <h4 class="modal-title" id="modal-title">חוג</h4>
                         </div>
 
                         <form data-toggle="validator" id="inputmasks">
                             <div class="modal-body">
                                 <input type="hidden" name="subject_id" id="subject_id" value="0"> 
                                 <div class="form-group">
-                                    <label for="form-control-2" class="control-label">Circle Name</label>
-                                    <input type="text" class="form-control" id="subject_name" name="subject_name" placeholder="Circle Name" data-required-error="Subject Name is Required" required autocomplete="off">
+                                    <label for="form-control-2" class="control-label">שם חוג</label>
+                                    <input type="text" class="form-control" id="subject_name" name="subject_name" placeholder="שם חוג" data-required-error="שם חוג נדרש" required autocomplete="off">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="form-control-2" class="control-label">Circle Code</label>
-                                    <input type="text" class="form-control" id="subject_code" name="subject_code" placeholder="Circle Code" autocomplete="off">
+                                    <label for="form-control-2" class="control-label">קוד חוג</label>
+                                    <input type="text" class="form-control" id="subject_code" name="subject_code" placeholder="קוד חוג" autocomplete="off">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="subject_type" class="control-label">Circle Type</label>
+                                    <label for="subject_type" class="control-label">סוג חוג</label>
                                     <div class="btn-group" data-toggle="buttons">
                                         <label class="btn btn-outline-primary subjTypeRadio">
-                                            <input type="radio" name="subject_type" id="theory" autocomplete="off" value="0" checked="checked"> Theory
+                                            <input type="radio" name="subject_type" id="theory" autocomplete="off" value="0" checked="checked"> תיאוריה
                                         </label>
                                         <label class="btn btn-outline-info subjTypeRadio">
-                                            <input type="radio" name="subject_type" id="practical" autocomplete="off" value="1"> Practical
+                                            <input type="radio" name="subject_type" id="practical" autocomplete="off" value="1"> מעשי
                                         </label>
                                         <label class="btn btn-outline-success subjTypeRadio">
-                                            <input type="radio" name="subject_type" id="both" autocomplete="off" value="2"> Both
+                                            <input type="radio" name="subject_type" id="both" autocomplete="off" value="2"> שניהם
                                         </label>
                                     </div>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary">Submit</button>
-                                <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+                                <button type="submit" class="btn btn-primary">שליחה</button>
+                                <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
                             </div>
                         </form>
                     </div>
@@ -147,7 +147,7 @@
         });
     
         function adSubject() {
-            $('#modal-title').text('Add Circle');
+            $('#modal-title').text('הוסף חוג');
             $('#subject_id').val(0);
             $('#subject_name').val('');
             $('#subject_code').val(''); 
@@ -167,18 +167,18 @@
                         var responsedata = $.parseJSON(result);
                         if(responsedata.status=='success'){
                             if (responsedata.message =='save') {
-                                toastr.success('Subject added successfully.')
+                                toastr.success('חוג נוסף בהצלחה.')
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
                             }else{
-                                toastr.success('Subject updated successfully.')   
+                                toastr.success('חוג עודכן בהצלחה.')   
                                 setTimeout(function(){
                                     location.reload();
                                 }, 1000); 
                             } 
                         }else{
-                            toastr.error("Somthing went wrong :(")
+                            toastr.error("משהו השתבש :(")
                         }
                     },
                     error: function(result) {
@@ -191,7 +191,7 @@
         });
 
         function editSubject(id) {  
-            $('#modal-title').text('Update Circle');
+            $('#modal-title').text('עדכן חוג');
             var subject_name = $('#sbjrow'+id).find('td:eq(0)').text();  
             var subject_code = $('#sbjrow'+id).find('td:eq(1)').text();  
             var sub_type = $('#sbjrow'+id).find('td:eq(2)').attr('sbj-type');  
@@ -218,7 +218,7 @@
         }
 
         function deleteSubject(id) {
-            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this Subject?',{
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק חוג זה?',{
                 closeButton: true,
                 allowHtml: true,
                 onShown: function (toast) {
@@ -238,7 +238,7 @@
                         }
                         },
                         error: function(result) {
-                            toastr.error("Somthing went wrong :(");
+                            toastr.error("משהו השתבש :(");
                         }
                     });
                 });

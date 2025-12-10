@@ -107,7 +107,7 @@ class Academic extends Admin_Controller{
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $_manage = $this->Admin_modal->isAccessRightGiven($group_id,118)?0:1;
             if ($_manage) {
-                throw new Exception("You don't have the permissoin to manage circles.");
+                throw new Exception("אין לך הרשאה לנהל חוגים.");
             }
 
             $data['subject_list']= $this->Admin_modal->isAccessRightGiven($group_id,119) ? 1 : 0;
@@ -146,12 +146,12 @@ class Academic extends Admin_Controller{
     
             if ($subject_id != 0) {
                 if ($edit_subject) {
-                    throw new Exception("You don't have the permission to edit circle.");
+                    throw new Exception("אין לך הרשאה לערוך חוג.");
                 } 
                 $type = 'update';
             }else{
                 if ($add_subject) {
-                    throw new Exception("You don't have the permission to add circle.");
+                    throw new Exception("אין לך הרשאה להוסיף חוג.");
                 } 
                 $type = 'save';
             }
@@ -173,15 +173,15 @@ class Academic extends Admin_Controller{
                 if ($check_sbj_used) { 
                     $sbj_delete = $this->Common_modal->delete('subjects','sub_id',$sub_id);
                     if ($sbj_delete) { 
-                        $message = array("status" => "success","message" => "Circle deleted successfully.");
+                        $message = array("status" => "success","message" => "חוג נמחק בהצלחה.");
                     }else{
-                        throw new Exception("Unable to delete this circle.");
+                        throw new Exception("לא ניתן למחוק חוג זה.");
                     }
                 }else{
-                    throw new Exception("This circle is assigned to class and teacher.");
+                    throw new Exception("חוג זה משויך לכיתה ומורה.");
                 }
             }else {
-                throw new Exception("You don't have the permission to delete circle.");
+                throw new Exception("אין לך הרשאה למחוק חוג.");
             }
 
         } catch (Exception $ex) {
