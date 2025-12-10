@@ -21,7 +21,7 @@ class Reports extends Admin_Controller {
             $data['loadCities'] = $this->Common_modal->getAll('cities');
             $data['loadSubjects'] = $this->Common_modal->getAll('subjects');
 
-            $instructorConditions = array('su.access_group' => 2);
+            $instructorConditions = array('su.access_group' => 2, 'su.status' => 1);
             $data['loadInstructors'] = $this->Common_modal->get_all_selected_fields('su.user_id as teacher_id,CONCAT_WS(" ", su.fname, su.lname) AS teacher_name','staff_users su',$instructorConditions);
 
             $this->load->view('report_students',$data);
