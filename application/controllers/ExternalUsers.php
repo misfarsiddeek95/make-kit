@@ -18,7 +18,7 @@ class ExternalUsers extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_students = $this->Admin_modal->isAccessRightGiven($group_id,112) ? 0 : 1;
             if ($manage_students) {
-                throw new Exception("You don't have the permissoin to manage students.");
+                throw new Exception("אין לך הרשאה לנהל תלמידים.");
             }
 
             $data['student_list']= $this->Admin_modal->isAccessRightGiven($group_id,113) ? 1 : 0;
@@ -69,10 +69,10 @@ class ExternalUsers extends Admin_Controller {
                     $data['user']= $this->ExternalUser_model->get_student_detail($this->input->post('user_id'));
                     $data['type']='Update';
                 }else{
-                    throw new Exception("You don't have the permissoin to update student.");
+                    throw new Exception("אין לך הרשאה לעדכן תלמיד.");
                 }
             }else if ($_add){
-                throw new Exception("You don't have the permissoin to add student.");
+                throw new Exception("אין לך הרשאה להוסיף תלמיד.");
             }
 
             $data['loadInstitutes'] = $this->Common_modal->getAll('class');
@@ -87,7 +87,7 @@ class ExternalUsers extends Admin_Controller {
         try {
             $instituteId = $this->input->get('institute_id');
             
-            if(!$instituteId) throw new Exception("Something wen't wrong in passing instittute ID");
+            if(!$instituteId) throw new Exception("משהו השתבש בהעברת מזהה מוסד");
             
             $result = $this->ExternalUser_model->load_institute_circles($instituteId);
             
@@ -104,7 +104,7 @@ class ExternalUsers extends Admin_Controller {
             $instituteId = $this->input->get('institute_id');
             $subjectId = $this->input->get('subject_id');
             
-            if(!$instituteId || !$subjectId) throw new Exception("Something wen't wrong in passing instittute / subject ID");
+            if(!$instituteId || !$subjectId) throw new Exception("משהו השתבש בהעברת מזהה מוסד / חוג");
             
             $result = $this->ExternalUser_model->load_subject_instructor($instituteId, $subjectId);
             
@@ -175,7 +175,7 @@ class ExternalUsers extends Admin_Controller {
                 $parent_email = $this->input->post('parent_email');
                 $checkuser = $this->Common_modal->checkField('external_users','parent_email',$parent_email);
                 if ($checkuser) {
-                    throw new Exception("Username already exists. Please try another.");
+                    throw new Exception("שם משתמש כבר קיים. אנא נסה אחר.");
                 }else{
                     $user_array['parent_email'] = $parent_email;
                 }
@@ -184,21 +184,21 @@ class ExternalUsers extends Admin_Controller {
             if ($user_id == 0 && $add_id==0) {
                 $_add = $this->Admin_modal->isAccessRightGiven($group_id,114)?0:1;
                 if ($_add) {
-                    throw new Exception("You don't have the permissoin to add student.");
+                    throw new Exception("אין לך הרשאה להוסיף תלמיד.");
                 }else{
                     $user_array['created_at'] = $date;
                     $type = 'save';
-                    $msg = 'Student saved successfully.';
+                    $msg = 'תלמיד נשמר בהצלחה.';
                 }
             }else if ($user_id != 0 && $add_id!=0) {
                 $edit_user= $this->Admin_modal->isAccessRightGiven($group_id,115)?0:1;
                 if ($edit_user) {
-                    throw new Exception("You don't have the permissoin to update student.");
+                    throw new Exception("אין לך הרשאה לעדכן תלמיד.");
                 }
                 $type = 'update';
-                $msg = 'Student updated successfully.';
+                $msg = 'תלמיד עודכן בהצלחה.';
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
 
             $returnedUserId = $this->ExternalUser_model->register_external_user($user_id,$add_id,$user_array,$addr_array);
@@ -330,7 +330,7 @@ class ExternalUsers extends Admin_Controller {
             $result = $this->Common_modal->getAllWhere('external_users','id',$user_id);
 
             if (($myGroup == $result->user_type && $user_id == $myUserId)) {
-                throw new Exception("Unable to off your own status.");
+                throw new Exception("לא ניתן לכבות את הסטטוס שלך.");
             }
             if ($result) {
                 if ($result->status==0) {
@@ -341,13 +341,13 @@ class ExternalUsers extends Admin_Controller {
                     if ($ChangeStatus) {
                         $data['status']=0;
                     }else{
-                        throw new Exception("You don't have the permissoin to change status.");
+                        throw new Exception("אין לך הרשאה לשנות סטטוס.");
                     }
                 }
                 $this->Common_modal->update('id',$user_id,'external_users',$data);
-                $message = array("status" => "success","message" => "Status updated successfully.");
+                $message = array("status" => "success","message" => "סטטוס עודכן בהצלחה.");
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());
@@ -362,7 +362,7 @@ class ExternalUsers extends Admin_Controller {
 
             $can_delete = $this->Admin_modal->isAccessRightGiven($group_id,117) ? 0 : 1;
             if ($can_delete) { 
-                throw new Exception("You don't have the permissoin to delete students.");
+                throw new Exception("אין לך הרשאה למחוק תלמידים.");
             }
             
             $_deleted = $this->Common_modal->delete('external_users','id',$user_id);
@@ -384,7 +384,7 @@ class ExternalUsers extends Admin_Controller {
                         }
                     }
                 }
-                $message = array("status" => "success","message" => "Student deleted successfully.");
+                $message = array("status" => "success","message" => "תלמיד נמחק בהצלחה.");
             }
         }catch(Exception $ex){
             $message = array("status" => "error","message" => $ex->getMessage());

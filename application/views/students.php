@@ -20,14 +20,14 @@
                             onclick="location.href='<?=base_url();?>add-student'"><i class="zmdi zmdi-plus"></i></button>
                     </div>
                     <?php }?>
-                    <h3 class="m-t-0 m-b-5">Student Management</h3>
+                    <h3 class="m-t-0 m-b-5">ניהול תלמידים</h3>
                 </div>
                 <div class="panel-body">
-                    <h5>FILTER STUDENTS</h5>
+                    <h5>סנן תלמידים</h5>
                     <div class="row">
                         <div class="col-sm-4 col-md-3">
                             <div class="form-group">
-                                <label for="class_id" class="control-label">Institute</label>
+                                <label for="class_id" class="control-label">מוסד</label>
                                 <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" onchange="filterStudents();">
                                     <option></option>
                                     <?php foreach ($loadInstitutes as $row ) {?>
@@ -38,8 +38,8 @@
                         </div>
                         <div class="col-sm-4 col-md-3">
                             <div class="form-group">
-                                <label for="subject_id" class="control-label">Circle</label>
-                                <select id="subject_id" name="subject_id" class="form-control" data-placeholder="Select a circle" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
+                                <label for="subject_id" class="control-label">חוג</label>
+                                <select id="subject_id" name="subject_id" class="form-control" data-placeholder="בחר חוג" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
                                     <option></option>
                                     <?php foreach ($loadSubjects as $row ) {?>
                                     <option value="<?=$row->sub_id?>"><?=$row->subject_name?></option>
@@ -49,8 +49,8 @@
                         </div>
                         <div class="col-sm-4 col-md-3">
                             <div class="form-group">
-                                <label for="teacher_id" class="control-label">Instructor</label>
-                                <select id="teacher_id" name="teacher_id" class="form-control" data-placeholder="Select an instructor" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
+                                <label for="teacher_id" class="control-label">מדריך</label>
+                                <select id="teacher_id" name="teacher_id" class="form-control" data-placeholder="בחר מדריך" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
                                     <option></option>
                                     <?php foreach ($loadInstructors as $row ) {?>
                                     <option value="<?=$row->teacher_id?>"><?=$row->teacher_name?></option>
@@ -60,8 +60,8 @@
                         </div>
                         <div class="col-sm-4 col-md-3">
                             <div class="form-group">
-                                <label for="city_id" class="control-label">City</label>
-                                <select id="city_id" name="city_id" class="form-control" data-placeholder="Select a city" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
+                                <label for="city_id" class="control-label">עיר</label>
+                                <select id="city_id" name="city_id" class="form-control" data-placeholder="בחר עיר" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
                                     <option></option>
                                     <?php foreach ($loadCities as $row ) {?>
                                     <option value="<?=$row->city_id?>"><?=$row->city_name?> [ <?=$row->city_name_hebrew?> ]</option>
@@ -75,17 +75,17 @@
                             <thead>
                                 <tr>
                                     <th></th>
-                                    <th style="width:20%">Name</th>
-                                    <th>R. No</th>
-                                    <th>Institute</th>
-                                    <th>Gender</th>
-                                    <th>City</th>
-                                    <th>P. Name</th>
-                                    <th>Parent Phone</th>
-                                    <th>Parent Email</th>
-                                    <th>Status</th>
+                                    <th style="width:20%">שם</th>
+                                    <th>מס' תפקיד</th>
+                                    <th>מוסד</th>
+                                    <th>מגדר</th>
+                                    <th>עיר</th>
+                                    <th>שם הורה</th>
+                                    <th>טלפון הורה</th>
+                                    <th>דוא"ל הורה</th>
+                                    <th>סטטוס</th>
                                     <?php if($edit_student || $delete_student){ ?>
-                                    <th style="text-align:right;width:10%">Options</th>
+                                    <th style="text-align:right;width:10%">אפשרויות</th>
                                     <?php } ?>
                                 </tr>
                             </thead>
@@ -119,7 +119,7 @@
         });
 
         $("#class_id").select2({
-            placeholder: "Select a institute",
+            placeholder: "בחר מוסד",
             allowClear: true
         });
 
@@ -142,11 +142,11 @@
                     for (let i = 0; i < resp.length; i++) {
                         let row = resp[i];
 
-                        let gender = 'NOT DISCLOSED';
+                        let gender = 'לא נמסר';
                         let typecls = 'danger';
-                        if (row.gender == 0) { gender = 'Female'; typecls = 'primary'; }
-                        else if (row.gender == 1) { gender = 'Male'; typecls = 'success'; }
-                        else if (row.gender == 2) { gender = 'Other'; typecls = 'warning'; }
+                        if (row.gender == 0) { gender = 'נקבה'; typecls = 'primary'; }
+                        else if (row.gender == 1) { gender = 'זכר'; typecls = 'success'; }
+                        else if (row.gender == 2) { gender = 'אחר'; typecls = 'warning'; }
 
                         let img = row.photo_path ? 'students/' + row.photo_path + '-thu.' + row.extension : 'user_default.jpg';
 
@@ -209,13 +209,13 @@
                     }
                 },
                 error: function (result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                 }
             });
         }
 
         function deleteMe(id) {
-            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this student?',{
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק תלמיד זה?',{
                 closeButton: true,
                 allowHtml: true,
                 onShown: function (toast) {
@@ -235,7 +235,7 @@
                             }
                         },
                         error: function(result) {
-                            toastr.error("Somthing went wrong :(")
+                            toastr.error("משהו השתבש :(")
                         }
                     });
                 });
