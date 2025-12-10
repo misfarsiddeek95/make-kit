@@ -11,7 +11,7 @@
             <div class="site-content"> 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="m-y-0 d-inline"><?=$type?> Student</h3>
+                        <h3 class="m-y-0 d-inline"><?=$type?> תלמיד</h3>
                         <a class="btn btn-outline-warning btn-pill pull-right m-y-0 d-inline" href="<?=base_url()?>ExternalUsers/index/112"><i class="zmdi zmdi-arrow-left"></i></a>
                     </div>
                     <div class="panel-body"> 
@@ -23,22 +23,22 @@
                                 <div class="row">
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="name" class="control-label">Name</label>
-                                            <input type="text" value="<?php if(!(empty($user))){echo($user->name);} ?>" placeholder="Name" id="name" name="name" class="form-control" data-minlength="3" data-pattern-error="Invalid name" data-error="Minimum of 3 characters" data-required-error="Name is Required" required autocomplete="off">
+                                            <label for="name" class="control-label">שם</label>
+                                            <input type="text" value="<?php if(!(empty($user))){echo($user->name);} ?>" placeholder="שם" id="name" name="name" class="form-control" data-minlength="3" data-pattern-error="שם לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם נדרש" required autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="roll_number" class="control-label">Roll Number</label>
-                                            <input type="text" pattern="^[a-zA-Z0-9. ]+$" value="<?php if(!(empty($user))){echo($user->role_number);} ?>" placeholder="Roll number" id="roll_number" name="roll_number" class="form-control" data-pattern-error="Invalid roll number" autocomplete="off">
+                                            <label for="roll_number" class="control-label">מספר תפקיד</label>
+                                            <input type="text" pattern="^[a-zA-Z0-9. ]+$" value="<?php if(!(empty($user))){echo($user->role_number);} ?>" placeholder="מספר תפקיד" id="roll_number" name="roll_number" class="form-control" data-pattern-error="מספר תפקיד לא חוקי" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-4">
                                         <div class="form-group">
-                                            <label for="institute_id" class="control-label">Institute</label> 
-                                            <select id="institute_id" name="institute_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="Institute" data-plugin="select2" data-required-error="Institute is required" required>
+                                            <label for="institute_id" class="control-label">מוסד</label> 
+                                            <select id="institute_id" name="institute_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="מוסד" data-plugin="select2" data-required-error="מוסד נדרש" required>
                                                 <option></option>
                                                 <?php foreach ($loadInstitutes as $row) { ?>
                                                 <option value="<?=$row->class_id?>"><?=$row->class_name?></option>
@@ -48,37 +48,37 @@
                                     </div>
                                     <div class="col-sm-6 col-md-4">
                                         <div class="form-group">
-                                            <label for="subject_id" class="control-label">Circle</label> 
-                                            <select id="subject_id" name="subject_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="Circle" data-plugin="select2" data-required-error="Circle is Required" required> 
+                                            <label for="subject_id" class="control-label">חוג</label> 
+                                            <select id="subject_id" name="subject_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="חוג" data-plugin="select2" data-required-error="חוג נדרש" required> 
                                             </select> 
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-4">
                                         <div class="form-group">
-                                            <label for="instructor_id" class="control-label">Instructor</label> 
-                                            <select id="instructor_id" name="instructor_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="Instructor" data-plugin="select2" data-required-error="Instructor is Required" required> 
+                                            <label for="instructor_id" class="control-label">מדריך</label> 
+                                            <select id="instructor_id" name="instructor_id" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="מדריך" data-plugin="select2" data-required-error="מדריך נדרש" required> 
                                             </select> 
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="" class="control-label">Gender</label>
+                                            <label for="" class="control-label">מגדר</label>
                                             <div class="btn-group" data-toggle="buttons">
                                                 <label class="btn btn-outline-primary">
-                                                    <input type="radio" name="p_gender" id="p_gender1" autocomplete="off" value="0"> Female
+                                                    <input type="radio" name="p_gender" id="p_gender1" autocomplete="off" value="0"> נקבה
                                                 </label>
                                                 <label class="btn btn-outline-success">
-                                                    <input type="radio" name="p_gender" id="p_gender2" autocomplete="off" value="1"> Male
+                                                    <input type="radio" name="p_gender" id="p_gender2" autocomplete="off" value="1"> זכר
                                                 </label>
                                                 <label class="btn btn-outline-warning">
-                                                    <input type="radio" name="p_gender" id="p_gender3" autocomplete="off" value="2"> Other
+                                                    <input type="radio" name="p_gender" id="p_gender3" autocomplete="off" value="2"> אחר
                                                 </label>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="user_pic" class="control-label">Profile Picture</label>
+                                            <label for="user_pic" class="control-label">תמונת פרופיל</label>
                                             <input type="hidden" value="<?php if(!(empty($user))){if(trim($user->photo_path)!=''&&$user->photo_path!=null){echo('photos/students/'.$user->photo_path.'-std.'.$user->extension);}else{echo('photos/default.jpg');}}else{echo('photos/default.jpg');} ?>" name="user_pic" id="user_pic">
                                             <div class="row gutter-sm">
                                                 <div id="imageupdiv"></div>
@@ -88,29 +88,29 @@
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="parent_name" class="control-label">Parent Name</label>
-                                            <input type="text" value="<?php if(!(empty($user))){echo($user->parent_name);} ?>" placeholder="Parent Name" id="parent_name" name="parent_name" class="form-control" data-minlength="3" data-pattern-error="Invalid parent name" data-error="Minimum of 3 characters" data-required-error="Parent name is required" required autocomplete="off">
+                                            <label for="parent_name" class="control-label">שם הורה</label>
+                                            <input type="text" value="<?php if(!(empty($user))){echo($user->parent_name);} ?>" placeholder="שם הורה" id="parent_name" name="parent_name" class="form-control" data-minlength="3" data-pattern-error="שם הורה לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם הורה נדרש" required autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="parent_phone" class="control-label">Parent Phone</label> 
-                                            <input type="text" pattern="^[0-9+]+$" value="<?php if(!(empty($user))){echo($user->parent_phone);} ?>" placeholder="Parent Phone"  id="parent_phone" name="parent_phone" class="form-control" data-pattern-error="Invalid phone number format" autocomplete="off">
+                                            <label for="parent_phone" class="control-label">טלפון הורה</label> 
+                                            <input type="text" pattern="^[0-9+]+$" value="<?php if(!(empty($user))){echo($user->parent_phone);} ?>" placeholder="טלפון הורה"  id="parent_phone" name="parent_phone" class="form-control" data-pattern-error="פורמט מספר טלפון לא חוקי" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            <label for="form-control-4" class="control-label">Address</label>
-                                            <textarea name="address" id="address" class="form-control" rows="3" placeholder="Address" data-plugin="autosize" data-error="Address is required." required  style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($user))){echo($user->address);}?></textarea>
+                                            <label for="form-control-4" class="control-label">כתובת</label>
+                                            <textarea name="address" id="address" class="form-control" rows="3" placeholder="כתובת" data-plugin="autosize" data-error="כתובת נדרשת." required  style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;"><?php if(!(empty($user))){echo($user->address);}?></textarea>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-12">
                                         <div class="form-group">
-                                            <label for="city" class="control-label">City</label> 
-                                            <select id="city" name="city" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="City" data-plugin="select2" data-required-error="City is Required" required> 
+                                            <label for="city" class="control-label">עיר</label> 
+                                            <select id="city" name="city" data-allow-clear="true" style="width:100%;" class="form-control" data-placeholder="עיר" data-plugin="select2" data-required-error="עיר נדרשת" required> 
                                                 <option></option>
                                                 <?php 
                                                     foreach ($cities as $row) {
@@ -128,21 +128,21 @@
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="parent_email" class="control-label">Parent Email</label>
-                                            <input type="email" class="form-control" id="parent_email" name="parent_email" <?php if(empty($user)){echo'required';}else{echo "disabled='disabled'";}?> value="<?php if(!(empty($user))){echo($user->parent_email);} ?>" placeholder="Parent Email" data-error="Please enter a valid email address." required data-required-error="Email is required" autocomplete="off">
+                                            <label for="parent_email" class="control-label">דוא"ל הורה</label>
+                                            <input type="email" class="form-control" id="parent_email" name="parent_email" <?php if(empty($user)){echo'required';}else{echo "disabled='disabled'";}?> value="<?php if(!(empty($user))){echo($user->parent_email);} ?>" placeholder="דוא"ל הורה" data-error="אנא הכנס כתובת דוא"ל חוקית." required data-required-error="דוא"ל נדרש" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
-                                            <label for="password" class="control-label">Password</label>
-                                            <input type="password" class="form-control" id="password" name="password" value="" placeholder="Password" <?php if(empty($user)){echo('required');} ?> data-required-error="Password is required" autocomplete="off">
+                                            <label for="password" class="control-label">סיסמה</label>
+                                            <input type="password" class="form-control" id="password" name="password" value="" placeholder="סיסמה" <?php if(empty($user)){echo('required');} ?> data-required-error="סיסמה נדרשת" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                 </div>
 
-                                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">שליחה</button>
                                 </form>
                             </div>
                         </div>
@@ -182,17 +182,17 @@
                 rowHeight:'120px',
                 maxFileSize:5500000,
                 allowedExt:'jpg|jpeg|png',
-                dropFileLabel:   'Drop logo here',
+                dropFileLabel:   'גרור לוגו לכאן',
                 groupClassName : 'col-md-4 col-sm-4 col-xs-6',
                 placeholderImage: {image:'<?=base_url();?>'+$('#user_pic').val() ,width: '60%'},
                 onRenderedPreview : function(index){
                 },
 
                 onExtensionErr : function(index, file){
-                    toastr["error"]('Please only input png or jpg type file');
+                    toastr["error"]('אנא הכנס רק קובץ מסוג png או jpg');
                 },
                 onSizeErr : function(index, file){
-                    toastr["error"]('This file exceeds the max size(5MB)');
+                    toastr["error"]('קובץ זה חורג מהגודל המקסימלי(5MB)');
                 }
             });
 
