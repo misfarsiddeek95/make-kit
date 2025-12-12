@@ -551,7 +551,7 @@ class Questionnaire extends Admin_Controller {
 
             $arr = [];
             foreach ($question_type as $key => $val) {
-                $simpleName = strtolower($val->question_type);
+                $simpleName = strtolower($val->question_type_english);
                 if (isset($_POST[$simpleName])) {
                     $arr[$simpleName] = array_filter($this->input->post($simpleName));
                 } else {

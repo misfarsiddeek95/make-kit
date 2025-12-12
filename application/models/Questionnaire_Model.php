@@ -386,7 +386,7 @@ class Questionnaire_Model extends CI_Model{
             $this->db->where('q.subject', $subjectId);
             $this->db->where_in('q.exam_type', $termIds);
             $ques = $this->db->get();
-            $questions[strtolower($row->question_type)] = $ques->result();
+            $questions[strtolower($row->question_type_english)] = $ques->result();
         }
         return $questions;
     }
@@ -398,7 +398,7 @@ class Questionnaire_Model extends CI_Model{
         $_array = array();
         $exist_ids = array();
         foreach ($questionType as $key => $qt) {
-            foreach ($qArr[strtolower($qt->question_type)] as $k => $que) {
+            foreach ($qArr[strtolower($qt->question_type_english)] as $k => $que) {
                 $_arr = array(
                     'paper_id' => $paperId, 
                     'question_id' => $que,
@@ -444,9 +444,9 @@ class Questionnaire_Model extends CI_Model{
             $question_types = $this->Common_modal->getAll('question_type');
             foreach ($question_types as $qt) {
                 if (!empty($queIds)) {
-                    $ret[strtolower($qt->question_type) . '_ques_ans'] = $this->getQuestionsAndAnswers($queIds, $qt->qt_id);
+                    $ret[strtolower($qt->question_type_english) . '_ques_ans'] = $this->getQuestionsAndAnswers($queIds, $qt->qt_id);
                 } else {
-                    $ret[strtolower($qt->question_type) . '_ques_ans'] = [];
+                    $ret[strtolower($qt->question_type_english) . '_ques_ans'] = [];
                 }
             }
         }

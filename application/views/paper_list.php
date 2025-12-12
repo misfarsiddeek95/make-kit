@@ -86,7 +86,7 @@
                                                 data-required-error="Point type is required" style="width:100%;" required>
                                                 <option></option>
                                                 <?php foreach ($exam_types as $row) { ?>
-                                                    <option value="<?=$row->extype_id?>" ><?=$row->extype_name?></option>
+                                                    <option value="<?=$row->extype_id?>" data-english="<?=$row->extype_name_english?>"><?=$row->extype_name?></option>
                                                 <?php } ?>
                                             </select>
                                             <div class="help-block with-errors"></div>
@@ -235,7 +235,7 @@
                                 <?php 
                                     $i = 0;
                                     foreach ($exam_types as $row) { 
-                                        $selector = url_title($row->extype_name,'-',true);
+                                        $selector = url_title($row->extype_name_english,'-',true);
                                         if ($i == 0) {
                                             $active = 'active';
                                         }else{
@@ -253,7 +253,7 @@
                                 <?php 
                                     $i = 0;
                                     foreach ($get_all_papers as $row) { 
-                                        $selector = url_title($row->extype_name,'-',true);
+                                        $selector = url_title($row->extype_name_english,'-',true);
                                         if ($i == 0) {
                                             $active = 'in active';
                                         }else{
@@ -489,7 +489,7 @@
                     return toastr.error('Please enter score of question in question type fields (MCQ or STRUCTURED or ESSAY).');
                 }
 
-                const selectedTerm = slugifyUrl($('#term_id option:selected').text());
+                const selectedTerm = slugifyUrl($('#term_id option:selected').data('english'));
 
                 run_waitMe('#inputmasks');
                 var form_data = new FormData(this);
