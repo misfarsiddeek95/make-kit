@@ -178,7 +178,7 @@
                                                             <td style="padding:0px;">No of <?=$row->question_type?></td>
                                                             <td style="padding:0px;">
                                                                 <div class="form-group" style="margin-bottom: 0px;">
-                                                                    <input type="text" name="<?=strtolower($row->question_type)?>Count" pattern="^[0-9+]+$" class="form-control question-types" value="<?=$values?>" placeholder="Number of <?=$row->question_type?> Questions" data-pattern-error="Invalid number" autocomplete="off" value="" readonly />
+                                                                    <input type="text" name="<?=strtolower($row->question_type_english)?>Count" pattern="^[0-9+]+$" class="form-control question-types" value="<?=$values?>" placeholder="Number of <?=$row->question_type?> Questions" data-pattern-error="Invalid number" autocomplete="off" value="" readonly />
                                                                     <p class="help-block">
                                                                         <small>You can not edit this field.</small>
                                                                     </p>
@@ -318,7 +318,7 @@
                 let locallyStoredFilteredQues = localStorage.getItem('filteredQuestions'); // fetching the questions with type from localstorage.
                 let seperatedQuestions = []; // this is used to seperate questions according to their question type. [MCQ, STRUCTURED, ESSAY]
                 questionList.forEach(el => {
-                    switch (el.question_type) {
+                    switch (el.question_type_english) {
                         case 'MCQ':
                             seperatedQuestions = JSON.parse(locallyStoredFilteredQues).mcq; // seperating questions by their question type. JSON.parse is used due to we have stored as stringify format in localstorage.
                             break;
@@ -346,7 +346,7 @@
                                                                                         <th style="width:5%;" class="que-count">${index+1}</th>
                                                                                         <td class="text-center">
                                                                                             <div class="form-group" style="margin-bottom: 0px;">
-                                                                                                <select class="form-control questions selectedQues${que.question_id}" name="${el.question_type.toLowerCase()}[]" data-plugin="select2"
+                                                                                                <select class="form-control questions selectedQues${que.question_id}" name="${el.question_type_english.toLowerCase()}[]" data-plugin="select2"
                                                                                                 data-placeholder="Select a question" style="width: 100%;">
                                                                                                     <option></option>`
                                                                                                     seperatedQuestions.forEach(q => {
@@ -360,7 +360,7 @@
                                                                                             <button type="button"
                                                                                                 class="btn btn-sm btn-pill btn-outline-primary question-add-btn${el.qt_id} m-b-10 add-field"
                                                                                                 style="display:none;"
-                                                                                                onclick="add_fields(this,'question_div${el.qt_id}','question-add-btn${el.qt_id}','question-remove-btn${el.qt_id}','${el.question_type.toLowerCase()}');">
+                                                                                                onclick="add_fields(this,'question_div${el.qt_id}','question-add-btn${el.qt_id}','question-remove-btn${el.qt_id}','${el.question_type_english.toLowerCase()}');">
                                                                                                 <i class="zmdi zmdi-plus"></i>
                                                                                             </button>
                                                                                             <button type="button"
@@ -376,7 +376,7 @@
                                                             <th style="width:5%;" class="que-count">${count+1}</th>
                                                             <td class="text-center">
                                                                 <div class="form-group" style="margin-bottom: 0px;">
-                                                                    <select class="form-control questions" name="${el.question_type.toLowerCase()}[]" data-plugin="select2"
+                                                                    <select class="form-control questions" name="${el.question_type_english.toLowerCase()}[]" data-plugin="select2"
                                                                     data-placeholder="Select a question" style="width: 100%;">
                                                                         <option></option>`
                                                                         seperatedQuestions.forEach(q => {
@@ -389,7 +389,7 @@
                                                             <td style="text-align: center;">
                                                                 <button type="button"
                                                                     class="btn btn-sm btn-pill btn-outline-primary question-add-btn${el.qt_id} m-b-10 add-field"
-                                                                    onclick="add_fields(this,'question_div${el.qt_id}','question-add-btn${el.qt_id}','question-remove-btn${el.qt_id}','${el.question_type.toLowerCase()}');">
+                                                                    onclick="add_fields(this,'question_div${el.qt_id}','question-add-btn${el.qt_id}','question-remove-btn${el.qt_id}','${el.question_type_english.toLowerCase()}');">
                                                                     <i class="zmdi zmdi-plus"></i>
                                                                 </button>
                                                                 <button type="button"
