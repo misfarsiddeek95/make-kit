@@ -136,13 +136,13 @@
                                                         <td style="padding:0px;">No of <?=$row->question_type?></td>
                                                         <td style="padding:0px;">
                                                             <div class="form-group" style="margin-bottom: 0px;">
-                                                                <input type="text" name="<?=strtolower($row->question_type)?>" pattern="^[0-9+]+$" class="form-control question-types" placeholder="Number of <?=$row->question_type?> Questions" data-pattern-error="Invalid number" autocomplete="off" value="">
+                                                                <input type="text" name="<?=strtolower($row->question_type_english)?>" pattern="^[0-9+]+$" class="form-control question-types" placeholder="Number of <?=$row->question_type?> Questions" data-pattern-error="Invalid number" autocomplete="off" value="">
                                                                 <div class="help-block with-errors"></div>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="form-group" style="margin-bottom: 0px;">
-                                                                <input type="text" name="<?=strtolower($row->question_type)?>_score" pattern="^[0-9+]+$" class="form-control question-types-score" placeholder="Score per <?=$row->question_type?> Question" data-pattern-error="Invalid number" autocomplete="off" value="">
+                                                                <input type="text" name="<?=strtolower($row->question_type_english)?>_score" pattern="^[0-9+]+$" class="form-control question-types-score" placeholder="Score per <?=$row->question_type?> Question" data-pattern-error="Invalid number" autocomplete="off" value="">
                                                                 <div class="help-block with-errors"></div>
                                                             </div>
                                                         </td>

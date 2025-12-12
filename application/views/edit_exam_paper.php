@@ -159,7 +159,7 @@
                                                         <?php 
                                                             foreach ($question_type as $row) {
                                                                 
-                                                                switch ($row->question_type) {
+                                                                switch ($row->question_type_english) {
                                                                     case 'MCQ':
                                                                         $values = $getQuestionPaper->no_of_mcqs != 0 ? $getQuestionPaper->no_of_mcqs : '';
                                                                         break;
