@@ -196,8 +196,8 @@
                                                 <h5 class="m-l-15">Select questions from</h5>
                                                 <?php foreach ($exam_types as $row) { ?>
                                                 <div class="col-md-6">
-                                                    <label class="custom-control custom-control-primary custom-checkbox active">
-                                                        <input class="custom-control-input question_from" type="checkbox" name="questions_from[]" value="<?=$row->extype_id?>" onclick="return false;" />
+                                                    <label class="custom-control custom-control-primary custom-radio active">
+                                                        <input class="custom-control-input question_from" type="radio" name="questions_from[]" value="<?=$row->extype_id?>" onclick="return false;" />
                                                         <span class="custom-control-indicator"></span>
                                                         <span class="custom-control-label"><?=$row->extype_name?></span>
                                                     </label>
