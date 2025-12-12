@@ -82,8 +82,8 @@
                                         <div class="form-group">
                                             <label for="term_id" class="control-label">Point Type</label>
                                             <select class="form-control our-select-2" name="term_id" id="term_id"
-                                                data-plugin="select2" data-placeholder="Select a exam term"
-                                                data-required-error="Exam term is required" style="width:100%;" required>
+                                                data-plugin="select2" data-placeholder="Select a point type"
+                                                data-required-error="Point type is required" style="width:100%;" required>
                                                 <option></option>
                                                 <?php foreach ($exam_types as $row) { ?>
                                                     <option value="<?=$row->extype_id?>" ><?=$row->extype_name?></option>
@@ -96,8 +96,8 @@
                                         <div class="form-group">
                                             <label for="class_id" class="control-label">Institute</label>
                                             <select class="form-control our-select-2" name="class_id" id="class_id"
-                                                data-plugin="select2" data-placeholder="Select a class"
-                                                data-required-error="Class is required" style="width:100%;" required>
+                                                data-plugin="select2" data-placeholder="Select a institute"
+                                                data-required-error="Institute is required" style="width:100%;" required>
                                                 <option></option>
                                                 <?php foreach ($class as $row) { ?>
                                                     <option value="<?=$row->class_id?>" ><?=$row->class_name?></option>
@@ -110,8 +110,8 @@
                                         <div class="form-group">
                                             <label for="sub_id" class="control-label">Circle</label>
                                             <select class="form-control our-select-2" name="sub_id" id="sub_id" data-plugin="select2"
-                                                data-placeholder="Select a subject"
-                                                data-required-error="Subject is required" style="width:100%;" required>
+                                                data-placeholder="Select a circle"
+                                                data-required-error="Circle is required" style="width:100%;" required>
                                                 <option></option>
                                                 <option value="">Science</option>
                                             </select>
@@ -157,8 +157,8 @@
                                             <h5 class="m-l-15">Select questions from</h5>
                                             <?php foreach ($exam_types as $row) { ?>
                                             <div class="col-md-6">
-                                                <label class="custom-control custom-control-primary custom-checkbox active">
-                                                    <input class="custom-control-input" type="checkbox" name="questions_from[]" value="<?=$row->extype_id?>">
+                                                <label class="custom-control custom-control-primary custom-radio active">
+                                                    <input class="custom-control-input" type="radio" name="questions_from[]" value="<?=$row->extype_id?>">
                                                     <span class="custom-control-indicator"></span>
                                                     <span class="custom-control-label"><?=$row->extype_name?></span>
                                                 </label>
