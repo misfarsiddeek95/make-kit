@@ -24,3 +24,4 @@ UPDATE `pages` SET `page_for` = 'דפים אחרים', `name` = 'שאלון (מ�
 UPDATE `pages` SET `page_for` = 'דפים אחרים', `name` = 'תשלום ראשי', `page_title` = 'באנר תשלום' WHERE `page_id` = 24;
 UPDATE `pages` SET `page_for` = 'דפים אחרים', `name` = 'שאלון (מדליאן) ראשי', `page_title` = 'באנר שאלון (מדליאן)' WHERE `page_id` = 25;
 UPDATE `pages` SET `page_for` = 'דפים אחרים', `name` = 'איפוס סיסמה ראשי', `page_title` = 'באנר איפוס סיסמה' WHERE `page_id` = 26;
+UPDATE `pages` SET `page_for` = 'דפים אחרים', `name` = 'הצהרת נגישות ראשי', `page_title` = 'באנר הצהרת נגישות' WHERE `page_id` = 27;
