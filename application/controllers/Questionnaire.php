@@ -15,7 +15,7 @@ class Questionnaire extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_main = $this->Admin_modal->isAccessRightGiven($group_id,95)?0:1;
             if ($manage_main) {
-                throw new Exception("You don't have the permissoin to manage questions.");
+                throw new Exception("אין לך הרשאה לנהל שאלות.");
             }
 
             $data['question_list'] = $this->Admin_modal->isAccessRightGiven($group_id,96)?1:0;
@@ -42,15 +42,15 @@ class Questionnaire extends Admin_Controller {
 
             if (isset($_POST['que_id'])) {
                 if ($edit) {
-                    throw new Exception("You don't have the permission to edit question.");
+                    throw new Exception("אין לך הרשאה לערוך שאלה.");
                 }
-                $data['type']='Edit';
+                $data['type']='עריכת';
                 $data['question_detail'] = $this->Questionnaire_Model->getSingleQuestion($this->input->post('que_id'));
             }else{
                 if ($add) {
-                    throw new Exception("You don't have the permission to add question.");
+                    throw new Exception("אין לך הרשאה להוסיף שאלה.");
                 }
-                $data['type']='Add';
+                $data['type']='הוספת';
             }
             $data['class'] = $this->Common_modal->getAll('class');
             $data['terms'] = $this->Common_modal->getAll('exam_types');
@@ -87,20 +87,20 @@ class Questionnaire extends Admin_Controller {
 
                     if(in_array($fileType,$extensions)=== false){
                         $this->output->set_header("HTTP/1.0 400 Bad Request");
-                        throw new Exception("extension not allowed, please choose a JPEG or PNG file.");
+                        throw new Exception("סיומת הקובץ לא מורשית, אנא בחר קובץ JPEG או PNG.");
                     }
 
                     if(move_uploaded_file($_FILES["questionaireImg"]["tmp_name"], $targetFilePath)){
-                        $msg = array('status' => 'success', 'message'=>'Image uploaded successfully.','uploadedImage' => $PhotoFileNameMD5.'.'.$exten);
+                        $msg = array('status' => 'success', 'message'=>'התמונה הועלתה בהצלחה.','uploadedImage' => $PhotoFileNameMD5.'.'.$exten);
                     }else{
                         $this->output->set_header("HTTP/1.0 400 Bad Request");
-                        throw new Exception("File is empty.");
+                        throw new Exception("הקובץ ריק.");
                     }
                 }else{
-                    throw new Exception("File is empty.");
+                    throw new Exception("הקובץ ריק.");
                 }
             }else{
-                throw new Exception("Image not set.");
+                throw new Exception("תמונה לא הוגדרה.");
             }
         } catch (Exception $x) {
             $msg = array('status' => 'success', 'message'=> $x->getMessage());
@@ -125,9 +125,9 @@ class Questionnaire extends Admin_Controller {
                     }
                     $this->Common_modal->delete('photo','photo_path',$image_name);
                 }
-                $msg = array('status' => 'success', 'message'=>'Image removed successfully.');
+                $msg = array('status' => 'success', 'message'=>'התמונה הוסרה בהצלחה.');
             }else{
-                throw new Exception("This image does not exist.");
+                throw new Exception("תמונה זו אינה קיימת.");
             }
         } catch (Exception $x) {
             $msg = array('status' => 'error', 'message'=> $x->getMessage());
@@ -218,12 +218,12 @@ class Questionnaire extends Admin_Controller {
 
             if ($que_id != 0) {
                 if ($edit) {
-                    throw new Exception("You don't have the permission to edit questions.");
+                    throw new Exception("אין לך הרשאה לערוך שאלות.");
                 }
                 $type = 'update';
             }else{
                 if ($add) {
-                    throw new Exception("You don't have the permission to save questions.");
+                    throw new Exception("אין לך הרשאה לשמור שאלות.");
                 }
                 $type = 'save';
             }
@@ -234,7 +234,8 @@ class Questionnaire extends Admin_Controller {
             }else{
                 $this->Questionnaire_Model->update_question($que_id,$que_arr,$questions,$answers,$correctanswer,$questionImgs,$answerImgs);
             }
-            $msg = array('status' => 'success', 'message' => 'Question '.$type.' successfully.');
+            $action_hebrew = ($type == 'save') ? 'נשמרה' : 'עודכנה';
+            $msg = array('status' => 'success', 'message' => 'שאלה '.$action_hebrew.' בהצלחה.');
         } catch (Exception $x) {
             $msg = array('status' => 'error', 'message' => $x->getMessage());
         }
@@ -276,12 +277,12 @@ class Questionnaire extends Admin_Controller {
                         }
                         $this->Common_modal->delete('question_answers','que_id',$que_id);
                     }
-                    $msg = array("status" => "success","message" => "Question deleted successfully.");
+                    $msg = array("status" => "success","message" => "השאלה נמחקה בהצלחה.");
                 }else{
-                    throw new Exception("Unable to delete this question.");
+                    throw new Exception("לא ניתן למחוק שאלה זו.");
                 }
             }else {
-                throw new Exception("You don't have the permission to delete question.");
+                throw new Exception("אין לך הרשאה למחוק שאלה.");
             }
         } catch (Exception $x) {
             $msg = array("status" => "error","message" => $x->getMessage());
@@ -295,7 +296,7 @@ class Questionnaire extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_main = $this->Admin_modal->isAccessRightGiven($group_id,144)?0:1;
             if ($manage_main) {
-                throw new Exception("You don't have the permissoin to manage paper generation.");
+                throw new Exception("אין לך הרשאה לנהל הפקת דפים.");
             }
 
             $data['list'] = $this->Admin_modal->isAccessRightGiven($group_id,145) ? 1 : 0;
@@ -322,7 +323,7 @@ class Questionnaire extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $has_permission = $this->Admin_modal->isAccessRightGiven($group_id,146)?0:1;
             if ($has_permission) {
-                throw new Exception("You don't have the permission to generate question paper.");
+                throw new Exception("אין לך הרשאה להפיק דף שאלות.");
             }
 
             $schoolName = $this->input->post('school_name');
@@ -387,14 +388,14 @@ class Questionnaire extends Admin_Controller {
                     $filetype = pathinfo($PhotoFileName, PATHINFO_EXTENSION);
                     $extensions= array("jpeg","jpg","png", 'svg');
                     if(!in_array($filetype,$extensions)){
-                        throw new Exception("School logo extension not allowed, please choose a JPEG or PNG file.");
+                        throw new Exception("סיומת לוגו בית הספר לא מורשית, אנא בחר קובץ JPEG או PNG.");
                     }
                     $folder = $this->folder."/photos/exam_papers/";
                     if(!is_dir($folder)){
                         mkdir($folder, 0777, true);
                     }
                     $img_org = $folder.$PhotoFileNameMD5.'.'.$filetype;
-                    if (!@move_uploaded_file ($_FILES['fileUpload']['tmp_name'],$img_org)) throw new Exception('Can not upload original file...');
+                    if (!@move_uploaded_file ($_FILES['fileUpload']['tmp_name'],$img_org)) throw new Exception('לא ניתן להעלות את הקובץ המקורי...');
                 }
             }
 
@@ -411,9 +412,9 @@ class Questionnaire extends Admin_Controller {
             if ($mcqLimit != '' && $mcqLimit != null && $mcqLimit != 0) {
                 $createMcqQuestions = $this->Questionnaire_Model->generateQuestions($paperId,$class_id,$sub_id,$question_from,$previousPaperQue,$mcqLimit,1); // 1 : MCQ
                 if ($createMcqQuestions['addedRecordCount'] == 0) {
-                    $queMessage[] = 'Unable to generate MCQ questions due to No data found in the MCQ question list or The question selected is previously used.';
+                    $queMessage[] = 'לא ניתן להפיק שאלות MCQ מכיוון שלא נמצאו נתונים ברשימת שאלות ה-MCQ או שהשאלה שנבחרה כבר בשימוש.';
                 } else if ($createMcqQuestions['addedRecordCount'] != $mcqLimit) {
-                    $queMessage[] = "Only we could add ".$createMcqQuestions['addedRecordCount']." MCQ questions. Reasons either lack of data in MCQ question list or most of the relevant questions were used in the previous papers. Please add some new questions. Edit the paper and include your added questions there.";
+                    $queMessage[] = "הצלחנו להוסיף רק ".$createMcqQuestions['addedRecordCount']." שאלות MCQ. הסיבות הן חוסר בנתונים ברשימת שאלות ה-MCQ או שרוב השאלות הרלוונטיות היו בשימוש בדפים הקודמים. אנא הוסף שאלות חדשות. ערוך את הדף וכלול בו את השאלות החדשות שהוספת.";
                 }
             }
 
@@ -421,9 +422,9 @@ class Questionnaire extends Admin_Controller {
             if ($structuredLimit != '' && $structuredLimit != null && $structuredLimit != 0) {
                 $createStructuredQuestions = $this->Questionnaire_Model->generateQuestions($paperId,$class_id,$sub_id,$question_from,$previousPaperQue,$structuredLimit,2); // 2 : Structured
                 if ($createStructuredQuestions['addedRecordCount'] == 0) {
-                    $queMessage[] = 'Unable to generate Structured questions due to No data found in the Structured question list or The question selected is previously used.';
+                    $queMessage[] = 'לא ניתן להפיק שאלות מובנות מכיוון שלא נמצאו נתונים ברשימת השאלות המובנות או שהשאלה שנבחרה כבר בשימוש.';
                 } else if ($createStructuredQuestions['addedRecordCount'] != $structuredLimit) {
-                    $queMessage[] = "Only we could add ".$createStructuredQuestions['addedRecordCount']." Structured questions. Reasons either lack of data in Structured question list or most of the relevant questions were used in the previous papers. Please add some new questions. Edit the paper and include your added questions there.";
+                    $queMessage[] = "הצלחנו להוסיף רק ".$createStructuredQuestions['addedRecordCount']." שאלות מובנות. הסיבות הן חוסר בנתונים ברשימת השאלות המובנות או שרוב השאלות הרלוונטיות היו בשימוש בדפים הקודמים. אנא הוסף שאלות חדשות. ערוך את הדף וכלול בו את השאלות החדשות שהוספת.";
                 }
             }
 
@@ -431,15 +432,15 @@ class Questionnaire extends Admin_Controller {
             if ($essayLimit != '' && $essayLimit != null && $essayLimit != 0) {
                 $createEssayQuestions = $this->Questionnaire_Model->generateQuestions($paperId,$class_id,$sub_id,$question_from,$previousPaperQue,$essayLimit,3); // 3 : Essay
                 if ($createEssayQuestions['addedRecordCount'] == 0) {
-                    $queMessage[] = 'Unable to generate Essay questions due to No data found in the Essay question list or The question selected is previously used.';
+                    $queMessage[] = 'לא ניתן להפיק שאלות חיבור מכיוון שלא נמצאו נתונים ברשימת שאלות החיבור או שהשאלה שנבחרה כבר בשימוש.';
                 } else if ($createEssayQuestions['addedRecordCount'] != $essayLimit) {
-                    $queMessage[] = "Only we could add ".$createEssayQuestions['addedRecordCount']." Essay questions. Reasons either lack of data in Essay question list or most of the relevant questions were used in the previous papers. Please add some new questions. Edit the paper and include your added questions there.";
+                    $queMessage[] = "הצלחנו להוסיף רק ".$createEssayQuestions['addedRecordCount']." שאלות חיבור. הסיבות הן חוסר בנתונים ברשימת שאלות החיבור או שרוב השאלות הרלוונטיות היו בשימוש בדפים הקודמים. אנא הוסף שאלות חדשות. ערוך את הדף וכלול בו את השאלות החדשות שהוספת.";
                 }
             }
             # Last added question.
             $lastAddedMainQue = $this->Questionnaire_Model->getSingleQuestionPaper($paperId);
             
-            $msg = array("status" => "success","message" => 'Paper generated successfully.', 'queMessage' => $queMessage, 'last_added' => $lastAddedMainQue);
+            $msg = array("status" => "success","message" => 'הדף הופק בהצלחה.', 'queMessage' => $queMessage, 'last_added' => $lastAddedMainQue);
         } catch (Exception $x) {
             $msg = array("status" => "error","message" => $x->getMessage());
         }
@@ -451,7 +452,7 @@ class Questionnaire extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $has_permission = $this->Admin_modal->isAccessRightGiven($group_id,149)?0:1;
             if ($has_permission) {
-                throw new Exception("You don't have the permission to edit generated question paper.");
+                throw new Exception("אין לך הרשאה לערוך דף שאלות שהופק.");
             }
             $paperId = base64_decode($paperId);
             
@@ -478,7 +479,7 @@ class Questionnaire extends Admin_Controller {
                 unlink( $folder . $imagename );
                 $data['school_logo'] = null;
                 $this->Common_modal->update('paper_id',$paperId,'question_paper_main',$data);
-                $msg = array('status' => 'success', 'message' => 'School logo removed from the paper successfully.');
+                $msg = array('status' => 'success', 'message' => 'לוגו בית הספר הוסר מהדף בהצלחה.');
             }
         } catch (Exception $ex) {
             $msg = array('status' => 'error', 'message' => $ex->getMessage());
@@ -499,7 +500,7 @@ class Questionnaire extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $manage_main = $this->Admin_modal->isAccessRightGiven($group_id,149)?0:1;
             if ($manage_main) {
-                throw new Exception("You don't have the permissoin to update paper generation.");
+                throw new Exception("אין לך הרשאה לעדכן הפקת דפים.");
             }
 
             $paperId = $this->input->post('paperId');
@@ -526,14 +527,14 @@ class Questionnaire extends Admin_Controller {
                     $filetype = pathinfo($PhotoFileName, PATHINFO_EXTENSION);
                     $extensions= array("jpeg","jpg","png", 'svg');
                     if(!in_array($filetype,$extensions)){
-                        throw new Exception("School logo extension not allowed, please choose a JPEG or PNG file.");
+                        throw new Exception("סיומת לוגו בית הספר לא מורשית, אנא בחר קובץ JPEG או PNG.");
                     }
                     $folder = $this->folder."/photos/exam_papers/";
                     if(!is_dir($folder)){
                         mkdir($folder, 0777, true);
                     }
                     $img_org = $folder.$PhotoFileNameMD5.'.'.$filetype;
-                    if (!@move_uploaded_file ($_FILES['fileUpload']['tmp_name'],$img_org)) throw new Exception('Can not upload original file...');
+                    if (!@move_uploaded_file ($_FILES['fileUpload']['tmp_name'],$img_org)) throw new Exception('לא ניתן להעלות קובץ מקורי...');
                 }
             }
 
@@ -544,7 +545,7 @@ class Questionnaire extends Admin_Controller {
                     $folder = $this->folder."/";
                     $imagename = $result->school_logo;
                     unlink( $folder . $imagename );
-                    $message = array("status" => "success","message" => 'Deleted successfully');
+                    $message = array("status" => "success","message" => 'נמחק בהצלחה');
                 }
             }
             $this->Common_modal->update('paper_id',$paperId,'question_paper_main',$data_arr);
@@ -560,7 +561,7 @@ class Questionnaire extends Admin_Controller {
             }
             $response = $this->Questionnaire_Model->updateExamPaper($paperId,$arr,$question_type);
             if ($response) {
-                $msg = array('status' => 'success', 'message' => "Exam paper updated successfully.");
+                $msg = array('status' => 'success', 'message' => "דף המבחן עודכן בהצלחה.");
             }
         } catch (Exception $x) {
             $msg = array('status' => 'error', 'message' => $x->getMessage());
@@ -574,7 +575,7 @@ class Questionnaire extends Admin_Controller {
             $manage = $this->Admin_modal->isAccessRightGiven($group_id,147) ? 0 : 1;
             $view_questions = $this->Admin_modal->isAccessRightGiven($group_id,152) ? 0 : 1;
             if ($manage || $view_questions) {
-                throw new Exception("You don't have the permissoin to view exam paper.");
+                throw new Exception("אין לך הרשאה לצפות בדף המבחן.");
             }
             $paperId = base64_decode($paperId);
             $data['paper_detail'] = $this->Questionnaire_Model->viewQuestionPaper($paperId);
@@ -594,7 +595,7 @@ class Questionnaire extends Admin_Controller {
             $delete_ = $this->Admin_modal->isAccessRightGiven($group_id,148) ? 0 : 1;
             
             if ($delete_) {
-                throw new Exception("You don't have the permission to delete exam paper.");
+                throw new Exception("אין לך הרשאה למחוק דף מבחן.");
             }
             $getPaper = $this->Common_modal->getAllWhere('question_paper_main','paper_id',$paperId);
             if ($getPaper && $getPaper->school_logo != null && $getPaper->school_logo != '') {
@@ -606,7 +607,7 @@ class Questionnaire extends Admin_Controller {
             if ($isDeleted) {
                 $this->Questionnaire_Model->update_all_students_points();
             }
-            $msg = array("status" => "success","message" => 'Exam paper deleted successfully.');
+            $msg = array("status" => "success","message" => 'דף המבחן נמחק בהצלחה.');
         } catch (Exception $x) {
             $msg = array("status" => "error","message" => $x->getMessage());
         }
@@ -618,7 +619,7 @@ class Questionnaire extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $has_download = $this->Admin_modal->isAccessRightGiven($group_id,153) ? 0 : 1;
             if ($has_download) {
-                throw new Exception("You don't have the permissoin to download exam paper.");
+                throw new Exception("אין לך הרשאה להוריד דף מבחן.");
             }
             $paperId = base64_decode($paperId);
             $paper_detail = $this->Questionnaire_Model->viewQuestionPaper($paperId);
@@ -724,7 +725,7 @@ class Questionnaire extends Admin_Controller {
                                                 </tr>
                                             </table>';
                         if ($type == 'download_scheme') {
-                            $strQuestionSet .= '<div style="margin:15px 0px 15px 30px;width:100%; border: 1px dashed #000; padding: 10px"><div style="font-weight:700; font-style: italic;"><u>ANSWERS</u></div>';
+                            $strQuestionSet .= '<div style="margin:15px 0px 15px 30px;width:100%; border: 1px dashed #000; padding: 10px"><div style="font-weight:700; font-style: italic;"><u>תשובות</u></div>';
                             foreach ($strucs->answers as $strAns) {
                                 $strQuestionSet .= '<div style="margin-top:10px">'.$strAns->answer.'</div>';
                             }
@@ -757,7 +758,7 @@ class Questionnaire extends Admin_Controller {
 
                     if ($type == 'download_scheme') {
                         $essQuestionSet .= '<div style="margin:15px 0px 15px 30px;width:100%; border: 1px dashed #000; padding: 10px">
-                                                <div style="font-weight:700; font-style: italic;"><u>ANSWERS</u></div>';
+                                                <div style="font-weight:700; font-style: italic;"><u>תשובות</u></div>';
                         foreach ($essay->answers as $essAns) {
                             $essQuestionSet .= '<div style="margin-top:10px"><b><i>'.$essAns->answer.'</i></b></div>';
                         }
@@ -786,7 +787,7 @@ class Questionnaire extends Admin_Controller {
             $mpdf->WriteHTML($paper_temp);
             $mpdf->Output($filename.'.pdf','D');
 
-            $msg = array("status" => "success","message" => 'Exam paper downloaded successfully.');
+            $msg = array("status" => "success","message" => 'דף המבחן ירד בהצלחה.');
         } catch (Exception $ex) {
             $msg = array("status" => "error","message" => $ex->getMessage());
         }

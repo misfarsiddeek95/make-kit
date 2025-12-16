@@ -56,9 +56,9 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-tools">
-                        <button type="button" class="btn btn-outline-warning btn-pill" title="Go Back" onclick="location.href='<?=base_url()?>Questionnaire/questions/137'"><i class="zmdi zmdi-arrow-left"></i></button>
+                        <button type="button" class="btn btn-outline-warning btn-pill" title="חזור" onclick="location.href='<?=base_url()?>Questionnaire/questions/137'"><i class="zmdi zmdi-arrow-left"></i></button>
                     </div>
-                    <h3 class="m-y-0"><?=$type?> Question</h3>
+                    <h3 class="m-y-0"><?=$type?> שאלה</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -68,10 +68,10 @@
                                 <div class="row">
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <label for="class_id" class="control-label">Institute</label>
+                                            <label for="class_id" class="control-label">מוסד</label>
                                             <select class="form-control" name="class_id" id="class_id"
-                                                data-plugin="select2" data-placeholder="Select a institute"
-                                                data-required-error="Institute is required" required>
+                                                data-plugin="select2" data-placeholder="בחר מוסד"
+                                                data-required-error="מוסד הוא שדה חובה" required>
                                                 <option></option>
                                                 <?php foreach ($class as $row) { ?>
                                                     <option value="<?=$row->class_id?>" ><?=$row->class_name?></option>
@@ -82,22 +82,22 @@
                                     </div>
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <label for="sub_id" class="control-label">Circle</label>
+                                            <label for="sub_id" class="control-label">חוג</label>
                                             <select class="form-control" name="sub_id" id="sub_id" data-plugin="select2"
-                                                data-placeholder="Select a circle"
-                                                data-required-error="Circle is required" required>
+                                                data-placeholder="בחר חוג"
+                                                data-required-error="חוג הוא שדה חובה" required>
                                                 <option></option>
-                                                <option value="">Science</option>
+                                                <option value="">מדעים</option>
                                             </select>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <label for="term_id" class="control-label">Point Type</label>
+                                            <label for="term_id" class="control-label">סוג ניקוד</label>
                                             <select class="form-control" name="term_id" id="term_id"
-                                                data-plugin="select2" data-placeholder="Select a point type"
-                                                data-required-error="Point type is required" required>
+                                                data-plugin="select2" data-placeholder="בחר סוג ניקוד"
+                                                data-required-error="סוג ניקוד הוא שדה חובה" required>
                                                 <option></option>
                                                 <?php 
                                                     foreach ($terms as $row) { 
@@ -116,10 +116,10 @@
                                     </div>
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <label for="qt_id" class="control-label">Question Type</label>
+                                            <label for="qt_id" class="control-label">סוג שאלה</label>
                                             <select class="form-control" name="qt_id" id="qt_id" data-plugin="select2"
-                                                data-placeholder="Select a question type"
-                                                data-required-error="Question type is required" required>
+                                                data-placeholder="בחר סוג שאלה"
+                                                data-required-error="סוג שאלה הוא שדה חובה" required>
                                                 <option></option>
                                                 <?php foreach ($question_type as $row) { ?>
                                                     <option value="<?=$row->qt_id?>"><?=$row->question_type?></option>
@@ -135,7 +135,7 @@
                                             <label class="custom-control custom-control-primary custom-radio">
                                                 <input class="custom-control-input" type="radio" name="mcqanswermethods" value="single" onchange="loadFields()">
                                                 <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-label">Single Answer</span>
+                                                <span class="custom-control-label">תשובה יחידה</span>
                                             </label>
                                             <div class="help-block with-errors"></div>
                                         </div>
@@ -145,7 +145,7 @@
                                             <label class="custom-control custom-control-primary custom-radio">
                                                 <input class="custom-control-input" type="radio" name="mcqanswermethods" value="multiple" onchange="loadFields()">
                                                 <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-label">Multiple Answer</span>
+                                                <span class="custom-control-label">תשובות מרובות</span>
                                             </label>
                                             <div class="help-block with-errors"></div>
                                         </div>
@@ -155,7 +155,7 @@
                                             <label class="custom-control custom-control-primary custom-radio">
                                                 <input class="custom-control-input" type="radio" name="structuredanswermethod" value="smallbox" onchange="loadFields()">
                                                 <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-label">Small Box</span>
+                                                <span class="custom-control-label">תיבה קטנה</span>
                                             </label>
                                             <div class="help-block with-errors"></div>
                                         </div>
@@ -165,20 +165,20 @@
                                             <label class="custom-control custom-control-primary custom-radio">
                                                 <input class="custom-control-input" type="radio" name="structuredanswermethod" value="textbox" onchange="loadFields()">
                                                 <span class="custom-control-indicator"></span>
-                                                <span class="custom-control-label">Text Box</span>
+                                                <span class="custom-control-label">תיבת טקסט</span>
                                             </label>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="noq" name="noq" placeholder="No. of Questions" data-required-error="No of questions are required" disabled required autocomplete="off" onchange="loadFields()">
+                                            <input type="text" class="form-control" id="noq" name="noq" placeholder="מספר שאלות" data-required-error="נדרש מספר שאלות" disabled required autocomplete="off" onchange="loadFields()">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="noa" name="noa" placeholder="No. of Answers" data-required-error="No of answers are required" disabled required autocomplete="off" onchange="loadFields()">
+                                            <input type="text" class="form-control" id="noa" name="noa" placeholder="מספר תשובות" data-required-error="נדרש מספר תשובות" disabled required autocomplete="off" onchange="loadFields()">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
@@ -186,7 +186,7 @@
                                 <div class="row" id="question_fields">
                                     
                                 </div>
-                                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">Submit</button> <!-- onclick="tinyMCE.triggerSave(true,true);" -->
+                                <button type="submit" class="btn btn-primary btn-block" id="submitBtn">שמירה</button> <!-- onclick="tinyMCE.triggerSave(true,true);" -->
                             </form>
                         </div>
                     </div>
@@ -358,9 +358,9 @@
                     for (let q = 0; q < noOfQues; q++) {
                         fields +=   '<div class="col-sm-6 col-md-12 authentication-content m-b-10">'+
                                         '<div class="form-group row gutter-xs">'+
-                                            '<label class="col-md-1 control-label">QUE'+(q+1)+'</label>'+
+                                            '<label class="col-md-1 control-label">שאלה'+(q+1)+'</label>'+
                                             '<div class="col-md-10">'+
-                                                '<input class="form-control" type="text" placeholder="Question" name="questions[]" autocomplete="off">'+
+                                                '<input class="form-control" type="text" placeholder="שאלה" name="questions[]" autocomplete="off">'+
                                             '</div>'+
                                             '<div class="col-md-1">'+
                                                 '<span class="input-group-btn" id="question-'+(q+1)+'-img-prv">'+
@@ -412,9 +412,9 @@
                     for (let q = 0; q < noOfQues; q++) {
                         fields +=   '<div class="col-sm-6 col-md-12 authentication-content m-b-10">'+
                                         '<div class="form-group row gutter-xs">'+
-                                            '<label class="col-md-1 control-label">QUE'+(q+1)+'</label>'+
+                                            '<label class="col-md-1 control-label">שאלה'+(q+1)+'</label>'+
                                             '<div class="col-md-10">'+
-                                                '<input class="form-control" type="text" placeholder="Question" name="questions[]" autocomplete="off">'+
+                                                '<input class="form-control" type="text" placeholder="שאלה" name="questions[]" autocomplete="off">'+
                                             '</div>'+
                                             '<div class="col-md-1">'+
                                                 '<span class="input-group-btn" id="question-'+(q+1)+'-img-prv">'+
@@ -472,9 +472,9 @@
                     for (let q = 0; q < noOfQues; q++) {
                         fields +=   '<div class="col-sm-6 col-md-12 authentication-content m-b-10">'+
                                         '<div class="form-group row gutter-xs">'+
-                                            '<label class="col-md-1 control-label">QUE'+(q+1)+'</label>'+
+                                            '<label class="col-md-1 control-label">שאלה'+(q+1)+'</label>'+
                                             '<div class="col-md-10">'+
-                                                '<textarea data-plugin="autosize" class="form-control" placeholder="Type your question..." name="questions[]" style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;" autocomplete="off"></textarea>'+
+                                                '<textarea data-plugin="autosize" class="form-control" placeholder="הקלד את השאלה שלך..." name="questions[]" style="resize: none; height: 54px; overflow: hidden; overflow-wrap: break-word;" autocomplete="off"></textarea>'+
                                             '</div>'+
                                             '<div class="col-md-1">'+
                                                 '<span class="input-group-btn" id="question-'+(q+1)+'-img-prv">'+
@@ -493,7 +493,7 @@
                                                             '<div class="form-group row gutter-xs">'+
                                                                 '<label class="col-sm-1 col-md-1 control-label"></label>'+
                                                                 '<div class="col-sm-10 col-md-10 ">'+
-                                                                    '<input class="form-control set-answer-'+a+'" type="text" placeholder="Answer" name="answers['+q+'][]" autocomplete="off">'+
+                                                                    '<input class="form-control set-answer-'+a+'" type="text" placeholder="תשובה" name="answers['+q+'][]" autocomplete="off">'+
                                                                 '</div>'+
                                                             '</div>'+
                                                         '</div>'+
@@ -509,7 +509,7 @@
                     for (let q = 0; q < noOfQues; q++) {
                         fields +=   '<div class="col-sm-6 col-md-12 authentication-content m-b-10">'+
                                         '<div class="form-group row gutter-xs">'+
-                                            '<label class="col-md-1 control-label">QUE'+(q+1)+'</label>'+
+                                            '<label class="col-md-1 control-label">שאלה'+(q+1)+'</label>'+
                                             '<div class="col-md-10">'+
                                                 // '<textarea  class="form-control questionTextBox" id="questionTextBox'+q+'" name="questions[]"></textarea>'+
                                                 '<div id="question-editor-' + q + '" class="quill-editor questionTextBox" data-id="' + q + '"></div>'+
@@ -519,7 +519,7 @@
                                         fields +=   '<div class="row">'+
                                                         '<div class="col-sm-6 col-md-12">'+
                                                             '<div class="form-group row gutter-xs">'+
-                                                                '<label class="col-sm-1 col-md-1 control-label">ANS</label>'+
+                                                                '<label class="col-sm-1 col-md-1 control-label">תשובה</label>'+
                                                                 '<div class="col-sm-10 col-md-10 ">'+
                                                                     // '<textarea  class="form-control answerTextBox" id="answerTextBox'+q+'" name="answers['+q+'][]"></textarea>'+
                                                                     '<div id="answer-editor-' + q +'" class="quill-editor answerTextBox" data-id="' + q +'"></div>'+
@@ -584,7 +584,7 @@
                 for (let q = 0; q < noOfQues; q++) {
                         fields +=   '<div class="col-sm-6 col-md-12 authentication-content m-b-10">'+
                                         '<div class="form-group row gutter-xs">'+
-                                            '<label class="col-md-1 control-label">QUE'+(q+1)+'</label>'+
+                                            '<label class="col-md-1 control-label">שאלה'+(q+1)+'</label>'+
                                             '<div class="col-md-10">'+
                                                 // '<textarea  class="form-control questionTextBox" id="questionTextBox'+q+'" name="questions[]"></textarea>'+
                                                 '<div id="question-editor-' + q + '" class="quill-editor questionTextBox" data-id="' + q + '"></div>'+
@@ -594,7 +594,7 @@
                                         fields +=   '<div class="row">'+
                                                         '<div class="col-sm-6 col-md-12">'+
                                                             '<div class="form-group row gutter-xs">'+
-                                                                '<label class="col-sm-1 col-md-1 control-label">ANS</label>'+
+                                                                '<label class="col-sm-1 col-md-1 control-label">תשובה</label>'+
                                                                 '<div class="col-sm-10 col-md-10 ">'+
                                                                     // '<textarea  class="form-control answerTextBox" id="answerTextBox'+q+'_'+a+'" name="answers['+q+'][]"></textarea>'+
                                                                     '<div id="answer-editor-' + q +'_'+a+'" class="quill-editor answerTextBox" data-id="' + q +'_'+a+'"></div>'+
@@ -743,7 +743,7 @@
 
                 const hasSelected = classId && subId && termId && queType;
                 if (!hasSelected) {
-                    return toastr.error('Please select required fields.');
+                    return toastr.error('אנא בחר שדות חובה.');
                 }
 
                 run_waitMe('#inputmasks');

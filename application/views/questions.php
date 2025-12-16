@@ -58,10 +58,10 @@
                 <div class="panel-heading">
                     <div class="panel-tools">
                         <?php if($add){ ?>
-                        <button type="button" class="btn btn-outline-success btn-pill" title="Add Question" onclick="location.href='<?=base_url()?>add-question'"><i class="zmdi zmdi-plus"></i></button>
+                        <button type="button" class="btn btn-outline-success btn-pill" title="הוסף שאלה" onclick="location.href='<?=base_url()?>add-question'"><i class="zmdi zmdi-plus"></i></button>
                         <?php } ?>
                     </div>
-                    <h3 class="m-t-0 m-b-5">Questions</h3>
+                    <h3 class="m-t-0 m-b-5">שאלות</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -100,15 +100,15 @@
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
-                                                    <th>Question</th> 
-                                                    <th>Q Type</th>
-                                                    <th>Institute</th> 
-                                                    <th>Point Type</th> 
-                                                    <th>Circle</th> 
-                                                    <th>Question By</th>
-                                                    <th style="text-align: center; width:1%;">Img</th>
+                                                    <th>שאלה</th> 
+                                                    <th>סוג שאלה</th>
+                                                    <th>מוסד</th> 
+                                                    <th>סוג ניקוד</th> 
+                                                    <th>חוג</th> 
+                                                    <th>נוסף על ידי</th>
+                                                    <th style="text-align: center; width:1%;">תמונה</th>
                                                     <?php if($view || $edit || $delete) { ?>
-                                                    <th style="text-align:right;" style="width: 20%;">Options</th>  
+                                                    <th style="text-align:right;" style="width: 20%;">אפשרויות</th>  
                                                     <?php } ?>
                                                 </tr>
                                             </thead>
@@ -140,7 +140,7 @@
                                                         $userId = $this->session->userdata['staff_logged_in']['user_id'];
                                                         $nameTextColor = '';
                                                         if ($userId == $que->user_id) {
-                                                            $added_person = 'YOU';
+                                                            $added_person = 'אתה';
                                                             $nameTextColor = 'text-danger';
                                                         }
                                                 ?>
@@ -232,12 +232,12 @@
 
         function deleteQuestion(id) {
             swal({
-                title: "Are you sure?",
-                text: "Your will not be able to recover this!",
+                title: "האם אתה בטוח?",
+                text: "לא תוכל לשחזר את זה!",
                 type: "warning",
                 showCancelButton: true,
                 confirmButtonClass: "btn-danger",
-                confirmButtonText: "Yes, delete it!",
+                confirmButtonText: "כן, מחק את זה!",
                 closeOnConfirm: false
             },
             function(){
@@ -250,20 +250,20 @@
                     if (resp.status=='success') {
                         var table = $('.this-table').DataTable();
                         table.row('#rowId'+id).remove().draw( false );
-                        swal("Done!", resp.message, "success")
+                        swal("בוצע!", resp.message, "success")
                     }else{
-                        swal("Sorry!",resp.message, "error");
+                        swal("מצטערים!",resp.message, "error");
                     }
                     },
                     error: function(result) {
-                        swal("", "Somthing went wrong :(", "error");
+                        swal("", "משהו השתבש :(", "error");
                     }
                 });
             }); 
         } 
 
         function deleteQuestion(id) {
-            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this question?',{
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם אתה רוצה למחוק את השאלה הזו?',{
                 closeButton: true,
                 allowHtml: true,
                 onShown: function (toast) {
@@ -283,7 +283,7 @@
                                 }
                             },
                             error: function(result) {
-                                toastr.error("Somthing went wrong :(")
+                                toastr.error("משהו השתבש :(")
                             }
                         });
                     });

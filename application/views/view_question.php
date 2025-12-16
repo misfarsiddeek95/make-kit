@@ -24,7 +24,7 @@
       <div class="site-content">
         <div class="panel panel-default m-b-0">
           <div class="panel-heading">
-            <h3 class="m-y-0 d-inline">Question</h3>
+            <h3 class="m-y-0 d-inline">שאלה</h3>
             <button class="btn btn-outline-warning btn-pill pull-right m-y-0 d-inline" onclick="location.href='<?=base_url()?>Questionnaire/questions/137'"><i class="zmdi zmdi-arrow-left"></i></button>
           </div>
           <div class="panel-body">
@@ -170,12 +170,12 @@
             <?php } ?>
           </div>
           <div class="panel-footer text-right">
-            <button type="button" class="btn btn-primary btn-labeled" onclick="editQuestion('<?=$question_detail->que_id?>');">Edit
+            <button type="button" class="btn btn-primary btn-labeled" onclick="editQuestion('<?=$question_detail->que_id?>');">ערוך
               <span class="btn-label btn-label-right p-x-10">
                 <i class="zmdi zmdi-edit"></i>
               </span>
             </button>
-            <button type="button" class="btn btn-warning btn-labeled" onclick="location.href='<?=base_url()?>Questionnaire/questions/137'">Back
+            <button type="button" class="btn btn-warning btn-labeled" onclick="location.href='<?=base_url()?>Questionnaire/questions/137'">חזור
               <span class="btn-label btn-label-right p-x-10">
                 <i class="zmdi zmdi-arrow-left"></i>
               </span>
