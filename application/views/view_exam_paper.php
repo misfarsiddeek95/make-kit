@@ -21,7 +21,7 @@
         <div class="site-content">
             <div class="panel panel-default panel-table">
                 <div class="panel-heading">
-                    <h3 class="m-y-0 d-inline">View Exam Paper</h3>
+                    <h3 class="m-y-0 d-inline">צפייה במבחן</h3>
                     <a class="btn btn-outline-warning btn-pill pull-right m-y-0 d-inline" href="<?=base_url()?>Questionnaire/generateQuestionPaper/274"><i class="zmdi zmdi-arrow-left"></i></a>
                 </div>
                 <div class="panel-body">
@@ -38,7 +38,7 @@
                                         ?>
                                         <img src="<?=base_url()?><?=$schoolLogo?>" alt="School Logo" height="100" width="100" class="img-rounded">
                                         <div class="m-t-50">
-                                            <h4>Name / Index No: ...........................</h4>
+                                            <h4>שם / מספר סידורי: ...........................</h4>
                                         </div>
                                     </div>
                                     <div class="col-md-4 col-sm-4 text-center text-uppercase">
@@ -51,9 +51,9 @@
                                         <div class="img-rounded pull-right" style="width:50%;">
                                             <table class="table table-bordered text-center">
                                                 <tr><td class="p-y-40"></td></tr>
-                                                <tr><td class="h4">MARKS (<?=number_format($paper_detail['total_marks_count'],0)?>)</td></tr>
+                                                <tr><td class="h4">ניקוד (<?=number_format($paper_detail['total_marks_count'],0)?>)</td></tr>
                                             </table>
-                                            <h4 class="text-center font-italic"><?=str_pad(number_format($paper_detail['paper_duration'],0), 2, '0', STR_PAD_LEFT)?> hour/s</h4>
+                                            <h4 class="text-center font-italic"><?=str_pad(number_format($paper_detail['paper_duration'],0), 2, '0', STR_PAD_LEFT)?> שעות</h4>
                                         </div>
                                     </div>
                                 </div>
@@ -131,12 +131,12 @@
                                 <div class="ladda-progress">
                                     <?php if($download_paper) { ?>
                                         <a class="btn btn-danger ladda-button" data-style="expand-left" href="<?=base_url()?>download-exam-paper/<?=base64_encode($paper_detail['paper_id'])?>/download_paper">
-                                            <span class="ladda-label">DOWNLOAD EXAM PAPER</span>
+                                            <span class="ladda-label">הורד מבחן</span>
                                             <span class="ladda-spinner"></span><div class="ladda-progress" style="width: 91px;"></div>
                                         </a>
                                     <?php } if($download_scheme) { ?>
                                         <a class="btn btn-warning ladda-button" data-style="expand-left" href="<?=base_url()?>download-exam-paper/<?=base64_encode($paper_detail['paper_id'])?>/download_scheme">
-                                            <span class="ladda-label">DOWNLOAD MARKING SCHEME</span>
+                                            <span class="ladda-label">הורד מחוון</span>
                                             <span class="ladda-spinner"></span><div class="ladda-progress" style="width: 91px;"></div>
                                         </a>
                                     <?php } ?>

@@ -412,9 +412,9 @@ class Questionnaire extends Admin_Controller {
             if ($mcqLimit != '' && $mcqLimit != null && $mcqLimit != 0) {
                 $createMcqQuestions = $this->Questionnaire_Model->generateQuestions($paperId,$class_id,$sub_id,$question_from,$previousPaperQue,$mcqLimit,1); // 1 : MCQ
                 if ($createMcqQuestions['addedRecordCount'] == 0) {
-                    $queMessage[] = 'לא ניתן להפיק שאלות MCQ מכיוון שלא נמצאו נתונים ברשימת שאלות ה-MCQ או שהשאלה שנבחרה כבר בשימוש.';
+                    $queMessage[] = 'לא ניתן ליצור שאלות אמריקאיות מכיוון שלא נמצא מידע ברשימת השאלות, או שהשאלה שנבחרה כבר בשימוש.';
                 } else if ($createMcqQuestions['addedRecordCount'] != $mcqLimit) {
-                    $queMessage[] = "הצלחנו להוסיף רק ".$createMcqQuestions['addedRecordCount']." שאלות MCQ. הסיבות הן חוסר בנתונים ברשימת שאלות ה-MCQ או שרוב השאלות הרלוונטיות היו בשימוש בדפים הקודמים. אנא הוסף שאלות חדשות. ערוך את הדף וכלול בו את השאלות החדשות שהוספת.";
+                    $queMessage[] = "הצלחנו להוסיף רק ".$createMcqQuestions['addedRecordCount']." שאלות אמריקאיות. הסיבה היא או חוסר במידע ברשימת השאלות האמריקאיות, או שרוב השאלות הרלוונטיות כבר היו בשימוש במבחנים קודמים. נא להוסיף שאלות חדשות. ערוך את המבחן וכלול בו את השאלות החדשות שהוספת.";
                 }
             }
 
@@ -422,9 +422,9 @@ class Questionnaire extends Admin_Controller {
             if ($structuredLimit != '' && $structuredLimit != null && $structuredLimit != 0) {
                 $createStructuredQuestions = $this->Questionnaire_Model->generateQuestions($paperId,$class_id,$sub_id,$question_from,$previousPaperQue,$structuredLimit,2); // 2 : Structured
                 if ($createStructuredQuestions['addedRecordCount'] == 0) {
-                    $queMessage[] = 'לא ניתן להפיק שאלות מובנות מכיוון שלא נמצאו נתונים ברשימת השאלות המובנות או שהשאלה שנבחרה כבר בשימוש.';
+                    $queMessage[] = 'לא ניתן ליצור שאלות פתוחות מכיוון שלא נמצא מידע ברשימת השאלות, או שהשאלה שנבחרה כבר בשימוש.';
                 } else if ($createStructuredQuestions['addedRecordCount'] != $structuredLimit) {
-                    $queMessage[] = "הצלחנו להוסיף רק ".$createStructuredQuestions['addedRecordCount']." שאלות מובנות. הסיבות הן חוסר בנתונים ברשימת השאלות המובנות או שרוב השאלות הרלוונטיות היו בשימוש בדפים הקודמים. אנא הוסף שאלות חדשות. ערוך את הדף וכלול בו את השאלות החדשות שהוספת.";
+                    $queMessage[] = "הצלחנו להוסיף רק ".$createStructuredQuestions['addedRecordCount']." שאלות פתוחות. הסיבה היא או חוסר במידע ברשימת השאלות הפתוחות, או שרוב השאלות הרלוונטיות כבר היו בשימוש במבחנים קודמים. נא להוסיף שאלות חדשות. ערוך את המבחן וכלול בו את השאלות החדשות שהוספת.";
                 }
             }
 
@@ -432,9 +432,9 @@ class Questionnaire extends Admin_Controller {
             if ($essayLimit != '' && $essayLimit != null && $essayLimit != 0) {
                 $createEssayQuestions = $this->Questionnaire_Model->generateQuestions($paperId,$class_id,$sub_id,$question_from,$previousPaperQue,$essayLimit,3); // 3 : Essay
                 if ($createEssayQuestions['addedRecordCount'] == 0) {
-                    $queMessage[] = 'לא ניתן להפיק שאלות חיבור מכיוון שלא נמצאו נתונים ברשימת שאלות החיבור או שהשאלה שנבחרה כבר בשימוש.';
+                    $queMessage[] = 'לא ניתן ליצור שאלות חיבור מכיוון שלא נמצא מידע ברשימת השאלות, או שהשאלה שנבחרה כבר בשימוש.';
                 } else if ($createEssayQuestions['addedRecordCount'] != $essayLimit) {
-                    $queMessage[] = "הצלחנו להוסיף רק ".$createEssayQuestions['addedRecordCount']." שאלות חיבור. הסיבות הן חוסר בנתונים ברשימת שאלות החיבור או שרוב השאלות הרלוונטיות היו בשימוש בדפים הקודמים. אנא הוסף שאלות חדשות. ערוך את הדף וכלול בו את השאלות החדשות שהוספת.";
+                    $queMessage[] = "הצלחנו להוסיף רק ".$createEssayQuestions['addedRecordCount']." שאלות חיבור. הסיבה היא או חוסר במידע ברשימת שאלות החיבור, או שרוב השאלות הרלוונטיות כבר היו בשימוש במבחנים קודמים. נא להוסיף שאלות חדשות. ערוך את המבחן וכלול בו את השאלות החדשות שהוספת.";
                 }
             }
             # Last added question.
@@ -479,7 +479,7 @@ class Questionnaire extends Admin_Controller {
                 unlink( $folder . $imagename );
                 $data['school_logo'] = null;
                 $this->Common_modal->update('paper_id',$paperId,'question_paper_main',$data);
-                $msg = array('status' => 'success', 'message' => 'לוגו בית הספר הוסר מהדף בהצלחה.');
+                $msg = array('status' => 'success', 'message' => 'לוגו המוסד הוסר מהמבחן בהצלחה.');
             }
         } catch (Exception $ex) {
             $msg = array('status' => 'error', 'message' => $ex->getMessage());
@@ -809,13 +809,13 @@ class Questionnaire extends Admin_Controller {
                     if ($ChangeStatus) {
                         $data['status']=0;
                     }else{
-                        throw new Exception("You don't have the permissoin to change status.");
+                        throw new Exception("אין לך הרשאה לשנות סטטוס.");
                     }
                 }
                 $this->Common_modal->update('paper_id',$paper_id,'question_paper_main',$data);
-                $message = array("status" => "success","message" => "Status updated successfully.");
+                $message = array("status" => "success","message" => "הסטטוס עודכן בהצלחה.");
             }else{
-                throw new Exception("Something went wrong. Please try again.");
+                throw new Exception("משהו השתבש. נא לנסות שנית.");
             }
         } catch (Exception $ex) {
             $message = array("status" => "error","message" => $ex->getMessage());

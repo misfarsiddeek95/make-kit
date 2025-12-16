@@ -34,7 +34,7 @@
         <div class="site-content">
             <div class="panel panel-default panel-table">
                 <div class="panel-heading">
-                    <h3 class="m-y-0 d-inline">Edit Question Paper</h3>
+                    <h3 class="m-y-0 d-inline">עריכת מבחן</h3>
                     <a class="btn btn-outline-warning btn-pill pull-right m-y-0 d-inline" href="<?=base_url()?>Questionnaire/generateQuestionPaper/274"><i class="zmdi zmdi-arrow-left"></i></a>
                 </div>
                 <div class="panel-body">
@@ -44,10 +44,10 @@
                                 <input type="hidden" name="paperId" value="<?=$getQuestionPaper->paper_id?>" />
                                 <div class="authentication-content m-b-30 m-l-30 m-r-30 m-t-30"> 
                                     <div class="row">
-                                        <h4>PAPER HEADER DETAILS</h4>
+                                        <h4>פרטי כותרת המבחן</h4>
                                         <div class="col-sm-12 col-md-3">
                                             <div class="form-group">
-                                                <label for="school_logo" class="control-label">School Logo</label>
+                                                <label for="school_logo" class="control-label">לוגו מוסד</label>
                                                 <input type="hidden" value="<?php if(!(empty($getQuestionPaper))){if(trim($getQuestionPaper->school_logo)!=''&&$getQuestionPaper->school_logo!=null){echo($getQuestionPaper->school_logo);}else{echo('photos/default.jpg');}}else{echo('photos/default.jpg');} ?>" name="school_logo" id="school_logo">
                                                 <div class="row gutter-sm">
                                                     <div id="imageupdiv"></div>
@@ -57,43 +57,43 @@
                                         </div>
                                         <div class="col-sm-12 col-md-3">
                                             <div class="form-group">
-                                                <label for="school_name" class="control-label">School name</label>
-                                                <input type="text" name="school_name" id="school_name" class="form-control" placeholder="Enter school name here..." value="<?=$getQuestionPaper->school_name?>" autocomplete="off" required data-required-error="School name is required." readonly />
+                                                <label for="school_name" class="control-label">שם מוסד</label>
+                                                <input type="text" name="school_name" id="school_name" class="form-control" placeholder="הזן שם מוסד כאן..." value="<?=$getQuestionPaper->school_name?>" autocomplete="off" required data-required-error="שם מוסד הוא שדה חובה." readonly />
                                                 <p class="help-block">
-                                                    <small>You can not edit this field.</small>
+                                                    <small>לא ניתן לערוך שדה זה.</small>
                                                 </p>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-3">
                                             <div class="form-group">
-                                                <label for="duration" class="control-label">Duration (Hours in numbers)</label>
-                                                <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="Paper duration" value="<?=number_format($getQuestionPaper->paper_duration, 0)?>" autocomplete="off" required data-required-error="Paper duration is required." data-pattern-error="Invalid hours. Should be a number" readonly />
+                                                <label for="duration" class="control-label">משך זמן (בשעות, במספרים)</label>
+                                                <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="משך זמן המבחן" value="<?=number_format($getQuestionPaper->paper_duration, 0)?>" autocomplete="off" required data-required-error="משך זמן המבחן הוא שדה חובה." data-pattern-error="שעות לא תקינות. נא להזין מספר." readonly />
                                                 <p class="help-block">
-                                                    <small>You can not edit this field.</small>
+                                                    <small>לא ניתן לערוך שדה זה.</small>
                                                 </p>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-3">
                                             <div class="form-group">
-                                                <label for="marks_count" class="control-label">Total Marks Count (in numbers)</label>
-                                                <input type="text" name="marks_count" id="marks_count" pattern="^[0-9+.]+$" class="form-control" placeholder="Paper marks count" autocomplete="off" value="<?=number_format($getQuestionPaper->total_marks_count, 0)?>" required data-required-error="Paper marks count is required." data-pattern-error="Invalid marks count. Should be a number" readonly />
+                                                <label for="marks_count" class="control-label">סך הכול ניקוד (במספרים)</label>
+                                                <input type="text" name="marks_count" id="marks_count" pattern="^[0-9+.]+$" class="form-control" placeholder="ניקוד המבחן" autocomplete="off" value="<?=number_format($getQuestionPaper->total_marks_count, 0)?>" required data-required-error="ניקוד המבחן הוא שדה חובה." data-pattern-error="ניקוד לא תקין. נא להזין מספר." readonly />
                                                 <p class="help-block">
-                                                    <small>You can not edit this field.</small>
+                                                    <small>לא ניתן לערוך שדה זה.</small>
                                                 </p>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <h4>PAPER GENERATION DETAILS</h4>
+                                        <h4>פרטי יצירת המבחן</h4>
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
-                                                <label for="term_id" class="control-label">Point Type</label>
+                                                <label for="term_id" class="control-label">סוג ניקוד</label>
                                                 <select class="form-control our-select-2" name="term_id" id="term_id"
-                                                    data-plugin="select2" data-placeholder="Select a exam term"
-                                                    data-required-error="Exam term is required" style="width:100%;" required>
+                                                    data-plugin="select2" data-placeholder="בחר סוג ניקוד"
+                                                    data-required-error="סוג ניקוד הוא שדה חובה" style="width:100%;" required>
                                                     <option></option>
                                                     <?php 
                                                         foreach ($exam_types as $row) {
@@ -106,47 +106,47 @@
                                                     <?php } ?>
                                                 </select>
                                                 <p class="help-block">
-                                                    <small>You can not edit this field.</small>
+                                                    <small>לא ניתן לערוך שדה זה.</small>
                                                 </p>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
-                                                <label for="class_id" class="control-label">Institute</label>
+                                                <label for="class_id" class="control-label">מוסד</label>
                                                 <select class="form-control our-select-2" name="class_id" id="class_id"
-                                                    data-plugin="select2" data-placeholder="Select a class"
-                                                    data-required-error="Class is required" style="width:100%;" required>
+                                                    data-plugin="select2" data-placeholder="בחר מוסד"
+                                                    data-required-error="מוסד הוא שדה חובה" style="width:100%;" required>
                                                     <option></option>
                                                     <?php foreach ($class as $row) { ?>
                                                         <option value="<?=$row->class_id?>" ><?=$row->class_name?></option>
                                                     <?php } ?>
                                                 </select>
                                                 <p class="help-block">
-                                                    <small>You can not edit this field.</small>
+                                                    <small>לא ניתן לערוך שדה זה.</small>
                                                 </p>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
-                                                <label for="sub_id" class="control-label">Circle</label>
+                                                <label for="sub_id" class="control-label">חוג</label>
                                                 <select class="form-control our-select-2" name="sub_id" id="sub_id" data-plugin="select2"
-                                                    data-placeholder="Select a subject"
-                                                    data-required-error="Subject is required" style="width:100%;" required>
+                                                    data-placeholder="בחר חוג"
+                                                    data-required-error="חוג הוא שדה חובה" style="width:100%;" required>
                                                     <option></option>
-                                                    <option value="">Science</option>
+                                                    <option value="">מדעים</option>
                                                 </select>
                                                 <p class="help-block">
-                                                    <small>You can not edit this field.</small>
+                                                    <small>לא ניתן לערוך שדה זה.</small>
                                                 </p>
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6 col-md-3">
                                             <div class="form-group">
-                                                <label for="attempts" class="control-label">No of Attempts</label>
-                                                <input type="text" name="attempts" id="attempts" pattern="^[0-9+.]+$" class="form-control" placeholder="Paper attempts" autocomplete="off" required data-required-error="Paper attempt count is required." data-pattern-error="Invalid attempts. Should be a number" value="<?=$getQuestionPaper->no_of_attempts?>" />
+                                                <label for="attempts" class="control-label">מספר ניסיונות</label>
+                                                <input type="text" name="attempts" id="attempts" pattern="^[0-9+.]+$" class="form-control" placeholder="ניסיונות למבחן" autocomplete="off" required data-required-error="מספר ניסיונות הוא שדה חובה." data-pattern-error="מספר ניסיונות לא תקין. נא להזין מספר." value="<?=$getQuestionPaper->no_of_attempts?>" />
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
@@ -175,12 +175,12 @@
                                                                 }
                                                         ?>
                                                         <tr>
-                                                            <td style="padding:0px;">No of <?=$row->question_type?></td>
+                                                            <td style="padding:0px;">מספר שאלות - <?=$row->question_type?></td>
                                                             <td style="padding:0px;">
                                                                 <div class="form-group" style="margin-bottom: 0px;">
-                                                                    <input type="text" name="<?=strtolower($row->question_type_english)?>Count" pattern="^[0-9+]+$" class="form-control question-types" value="<?=$values?>" placeholder="Number of <?=$row->question_type?> Questions" data-pattern-error="Invalid number" autocomplete="off" value="" readonly />
+                                                                    <input type="text" name="<?=strtolower($row->question_type_english)?>Count" pattern="^[0-9+]+$" class="form-control question-types" value="<?=$values?>" placeholder="מספר שאלות מסוג <?=$row->question_type?>" data-pattern-error="מספר לא תקין" autocomplete="off" value="" readonly />
                                                                     <p class="help-block">
-                                                                        <small>You can not edit this field.</small>
+                                                                        <small>לא ניתן לערוך שדה זה.</small>
                                                                     </p>
                                                                     <div class="help-block with-errors"></div>
                                                                 </div>
@@ -193,7 +193,7 @@
                                         </div>
                                         <div class="col-md-6">
                                             <div class="row">
-                                                <h5 class="m-l-15">Select questions from</h5>
+                                                <h5 class="m-l-15">בחר שאלות מתוך</h5>
                                                 <?php foreach ($exam_types as $row) { ?>
                                                 <div class="col-md-6">
                                                     <label class="custom-control custom-control-primary custom-radio active">
@@ -202,25 +202,25 @@
                                                         <span class="custom-control-label"><?=$row->extype_name?></span>
                                                     </label>
                                                     <p class="help-block">
-                                                        <small>You can not edit this field.</small>
+                                                        <small>לא ניתן לערוך שדה זה.</small>
                                                     </p>
                                                 </div>
                                                 <?php } ?>
-                                                <h5 class="m-l-15 m-t-50">Do you want to add previous paper questions too?</h5>
+                                                <h5 class="m-l-15 m-t-50">האם ברצונך להוסיף גם שאלות ממבחנים קודמים?</h5>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
                                                         <label class="custom-control custom-control-success custom-radio">
                                                             <input class="custom-control-input" type="radio" name="previousPaperQue" value="1" required onclick="return false;" />
                                                             <span class="custom-control-indicator"></span>
-                                                            <span class="custom-control-label">Yes</span>
+                                                            <span class="custom-control-label">כן</span>
                                                         </label>
                                                         <label class="custom-control custom-control-danger custom-radio">
                                                             <input class="custom-control-input" type="radio" name="previousPaperQue" value="0" required onclick="return false;" />
                                                             <span class="custom-control-indicator"></span>
-                                                            <span class="custom-control-label">No</span>
+                                                            <span class="custom-control-label">לא</span>
                                                         </label>
                                                         <p class="help-block">
-                                                            <small>You can not edit this field.</small>
+                                                            <small>לא ניתן לערוך שדה זה.</small>
                                                         </p>
                                                         <div class="help-block with-errors"></div>
                                                     </div>
@@ -229,7 +229,7 @@
                                         </div>
                                         <div class="col-md-12 m-b-10">
                                             <div class="form-group">
-                                                <label for="mcq_main_title" class="control-label">MCQ Main Title</label>
+                                                <label for="mcq_main_title" class="control-label">כותרת ראשית לשאלות אמריקאיות</label>
                                                 <textarea name="mcq_main_title" id="mcq_main_title"><?=$getQuestionPaper->mcq_main_title?></textarea>
                                             </div>
                                         </div>
@@ -248,7 +248,7 @@
                                     </div>
                                 </div>
                                 <div id="question-list-div"></div>
-                                <button type="submit" class="btn btn-success" style="width: 100%;" id="update-btn">UPDATE PAPER</button>
+                                <button type="submit" class="btn btn-success" style="width: 100%;" id="update-btn">עדכן מבחן</button>
                             </form>
                         </div>
                     </div>
@@ -451,17 +451,17 @@
             rowHeight:'60px',
             maxFileSize:5500000,
             allowedExt:'jpg|jpeg|png|svg',
-            dropFileLabel:   'Drop logo here',
+            dropFileLabel:   'גרור לוגו לכאן',
             groupClassName : 'col-md-4 col-sm-4 col-xs-6',
             placeholderImage: {image:'<?=base_url();?>'+$('#school_logo').val() ,width: '60%'},
                 onRenderedPreview : function(index){
             },
 
             onExtensionErr : function(index, file){
-                toastr["error"]('Please only input png or jpg type file');
+                toastr["error"]('נא להעלות קובץ מסוג PNG או JPG בלבד');
             },
             onSizeErr : function(index, file){
-                toastr["error"]('This file exceeds the max size(5MB)');
+                toastr["error"]('הקובץ חורג מהגודל המרבי (5MB)');
             }
         });
 
@@ -487,7 +487,7 @@
             var numItems = $('.' + dvclass).length;
             const questionTypeCount = $(`input[name="${questionType}Count"]`).val();
             if (numItems >= questionTypeCount) {
-                return toastr.error(`Unable to add field more than given ${questionType} question count.`);
+                return toastr.error(`לא ניתן להוסיף שדות מעבר למספר השאלות המוגדר מסוג ${questionType}.`);
             }
 
             $('.' + dvclass + ':last').find('.questions').select2('destroy');
@@ -548,14 +548,14 @@
             const makeArr = existQues.split(',');
             const selectedVal = $(el).val();
             if(makeArr.includes(selectedVal)) {
-                return toastr.error('This question is already selected in this question paper.') 
+                return toastr.error('שאלה זו כבר נבחרה במבחן זה.') 
             };
         }
 
         $('#inputmasks').validator().on('submit', function (e) {
             if (!(e.isDefaultPrevented())) {
                 e.preventDefault();
-                $('#update-btn').text('UPDATING...').attr('disabled','disabled');
+                $('#update-btn').text('מעדכן...').attr('disabled','disabled');
                 var form_data = new FormData(this);
                 form_data.append('mcq_main_title', mcqEditor.getData());
                 /* form_data.append('structured_main_title', strEditor.getData());

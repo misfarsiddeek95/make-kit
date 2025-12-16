@@ -43,19 +43,19 @@
                             </div>
                             <form method="post" id="inputmasks" data-toggle="validator">
                                 <div class="row">
-                                    <h4>PAPER HEADER DETAILS</h4>
+                                    <h4>פרטי כותרת המבחן</h4>
                                     <div class="col-sm-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="school_name" class="control-label">Paper Title</label>
-                                            <input type="text" name="school_name" id="school_name" class="form-control" placeholder="Enter paper title here..." autocomplete="off" required data-required-error="Paper title is required.">
+                                            <label for="school_name" class="control-label">כותרת המבחן</label>
+                                            <input type="text" name="school_name" id="school_name" class="form-control" placeholder="הזן כותרת למבחן כאן..." autocomplete="off" required data-required-error="כותרת המבחן היא שדה חובה.">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-3">
                                         <div class="form-group">
-                                            <label class="control-label">School logo</label>
+                                            <label class="control-label">לוגו מוסד</label>
                                             <label class="btn btn-default file-upload-btn d-block" for="school_logo">
-                                                Choose logo...
+                                                בחר לוגו...
                                                 <input id="school_logo" class="file-upload-input" type="file" name="fileUpload" />
                                             </label>
                                             <div class="help-block with-errors"></div>
@@ -63,27 +63,27 @@
                                     </div>
                                     <div class="col-sm-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="duration" class="control-label">Duration (Hours in numbers)</label>
-                                            <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="Paper duration" autocomplete="off" required data-required-error="Paper duration is required." data-pattern-error="Invalid hours. Should be a number" />
+                                            <label for="duration" class="control-label">משך זמן (בשעות, במספרים)</label>
+                                            <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="משך זמן המבחן" autocomplete="off" required data-required-error="משך זמן המבחן הוא שדה חובה." data-pattern-error="שעות לא תקינות. נא להזין מספר." />
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="marks_count" class="control-label">Total Marks Count (in numbers)</label>
-                                            <input type="text" name="marks_count" id="marks_count" pattern="^[0-9+.]+$" class="form-control" placeholder="Paper marks count" autocomplete="off" required data-required-error="Paper marks count is required." data-pattern-error="Invalid marks count. Should be a number" />
+                                            <label for="marks_count" class="control-label">סך הכול ניקוד (במספרים)</label>
+                                            <input type="text" name="marks_count" id="marks_count" pattern="^[0-9+.]+$" class="form-control" placeholder="ניקוד המבחן" autocomplete="off" required data-required-error="ניקוד המבחן הוא שדה חובה." data-pattern-error="ניקוד לא תקין. נא להזין מספר." />
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <h4>PAPER GENERATION DETAILS</h4>
+                                    <h4>פרטי יצירת המבחן</h4>
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <label for="term_id" class="control-label">Point Type</label>
+                                            <label for="term_id" class="control-label">סוג ניקוד</label>
                                             <select class="form-control our-select-2" name="term_id" id="term_id"
-                                                data-plugin="select2" data-placeholder="Select a point type"
-                                                data-required-error="Point type is required" style="width:100%;" required>
+                                                data-plugin="select2" data-placeholder="בחר סוג ניקוד"
+                                                data-required-error="סוג ניקוד הוא שדה חובה" style="width:100%;" required>
                                                 <option></option>
                                                 <?php foreach ($exam_types as $row) { ?>
                                                     <option value="<?=$row->extype_id?>" data-english="<?=$row->extype_name_english?>"><?=$row->extype_name?></option>
@@ -94,10 +94,10 @@
                                     </div>
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <label for="class_id" class="control-label">Institute</label>
+                                            <label for="class_id" class="control-label">מוסד</label>
                                             <select class="form-control our-select-2" name="class_id" id="class_id"
-                                                data-plugin="select2" data-placeholder="Select a institute"
-                                                data-required-error="Institute is required" style="width:100%;" required>
+                                                data-plugin="select2" data-placeholder="בחר מוסד"
+                                                data-required-error="מוסד הוא שדה חובה" style="width:100%;" required>
                                                 <option></option>
                                                 <?php foreach ($class as $row) { ?>
                                                     <option value="<?=$row->class_id?>" ><?=$row->class_name?></option>
@@ -108,20 +108,20 @@
                                     </div>
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <label for="sub_id" class="control-label">Circle</label>
+                                            <label for="sub_id" class="control-label">חוג</label>
                                             <select class="form-control our-select-2" name="sub_id" id="sub_id" data-plugin="select2"
-                                                data-placeholder="Select a circle"
-                                                data-required-error="Circle is required" style="width:100%;" required>
+                                                data-placeholder="בחר חוג"
+                                                data-required-error="חוג הוא שדה חובה" style="width:100%;" required>
                                                 <option></option>
-                                                <option value="">Science</option>
+                                                <option value="">מדעים</option>
                                             </select>
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
-                                            <label for="attempts" class="control-label">No of Attempts</label>
-                                            <input type="text" name="attempts" id="attempts" pattern="^[0-9+.]+$" class="form-control" placeholder="Paper attempts" autocomplete="off" required data-required-error="Paper attempt count is required." data-pattern-error="Invalid attempts. Should be a number" />
+                                            <label for="attempts" class="control-label">מספר ניסיונות</label>
+                                            <input type="text" name="attempts" id="attempts" pattern="^[0-9+.]+$" class="form-control" placeholder="ניסיונות למבחן" autocomplete="off" required data-required-error="מספר ניסיונות הוא שדה חובה." data-pattern-error="מספר ניסיונות לא תקין. נא להזין מספר" />
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
@@ -133,16 +133,16 @@
                                                 <tbody>
                                                     <?php foreach ($question_type as $row) { ?>
                                                     <tr>
-                                                        <td style="padding:0px;">No of <?=$row->question_type?></td>
+                                                        <td style="padding:0px;">מספר שאלות מסוג <?=$row->question_type?></td>
                                                         <td style="padding:0px;">
                                                             <div class="form-group" style="margin-bottom: 0px;">
-                                                                <input type="text" name="<?=strtolower($row->question_type_english)?>" pattern="^[0-9+]+$" class="form-control question-types" placeholder="Number of <?=$row->question_type?> Questions" data-pattern-error="Invalid number" autocomplete="off" value="">
+                                                                <input type="text" name="<?=strtolower($row->question_type_english)?>" pattern="^[0-9+]+$" class="form-control question-types" placeholder="מספר שאלות מסוג <?=$row->question_type?>" data-pattern-error="מספר לא תקין" autocomplete="off" value="">
                                                                 <div class="help-block with-errors"></div>
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="form-group" style="margin-bottom: 0px;">
-                                                                <input type="text" name="<?=strtolower($row->question_type_english)?>_score" pattern="^[0-9+]+$" class="form-control question-types-score" placeholder="Score per <?=$row->question_type?> Question" data-pattern-error="Invalid number" autocomplete="off" value="">
+                                                                <input type="text" name="<?=strtolower($row->question_type_english)?>_score" pattern="^[0-9+]+$" class="form-control question-types-score" placeholder="ניקוד לשאלה מסוג <?=$row->question_type?>" data-pattern-error="מספר לא תקין" autocomplete="off" value="">
                                                                 <div class="help-block with-errors"></div>
                                                             </div>
                                                         </td>
@@ -154,7 +154,7 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="row">
-                                            <h5 class="m-l-15">Select questions from</h5>
+                                            <h5 class="m-l-15">בחר שאלות מתוך</h5>
                                             <?php foreach ($exam_types as $row) { ?>
                                             <div class="col-md-6">
                                                 <label class="custom-control custom-control-primary custom-radio active">
@@ -164,18 +164,18 @@
                                                 </label>
                                             </div>
                                             <?php } ?>
-                                            <h5 class="m-l-15 m-t-50">Do you want to add previous paper questions too?</h5>
+                                            <h5 class="m-l-15 m-t-50">האם ברצונך להוסיף גם שאלות ממבחנים קודמים?</h5>
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label class="custom-control custom-control-success custom-radio">
                                                         <input class="custom-control-input" type="radio" name="previousPaperQue" value="1" checked="checked" required>
                                                         <span class="custom-control-indicator"></span>
-                                                        <span class="custom-control-label">Yes</span>
+                                                        <span class="custom-control-label">כן</span>
                                                     </label>
                                                     <label class="custom-control custom-control-danger custom-radio">
                                                         <input class="custom-control-input" type="radio" name="previousPaperQue" value="0" required>
                                                         <span class="custom-control-indicator"></span>
-                                                        <span class="custom-control-label">No</span>
+                                                        <span class="custom-control-label">לא</span>
                                                     </label>
                                                     <div class="help-block with-errors"></div>
                                                 </div>
@@ -184,7 +184,7 @@
                                     </div>
                                     <div class="col-md-12 m-b-10">
                                         <div class="form-group">
-                                            <label for="mcq_main_title" class="control-label">MCQ Main Title</label>
+                                            <label for="mcq_main_title" class="control-label">כותרת ראשית לשאלות אמריקאיות</label>
                                             <textarea name="mcq_main_title" id="mcq_main_title"></textarea>
                                         </div>
                                     </div>
@@ -201,8 +201,8 @@
                                         </div>
                                     </div> -->
                                 </div>
-                                <button type="submit" class="btn btn-success">GENERATE</button>
-                                <button type="button" class="btn btn-outline-danger" onclick="showHideGenerateDiv('hide');">CANCEL</button>
+                                <button type="submit" class="btn btn-success">צור מבחן</button>
+                                <button type="button" class="btn btn-outline-danger" onclick="showHideGenerateDiv('hide');">ביטול</button>
                             </form>
                             <?php } else { ?>
                                 <div class="alert alert-danger alert-dismissable" role="alert">
@@ -214,7 +214,7 @@
                                     <span class="alert-icon">
                                         <i class="zmdi zmdi-close-circle-o"></i>
                                     </span>
-                                    <strong>Oh snap!</strong> You don't have the permission to generate question papers.
+                                    <strong>אוי!</strong> אין לך הרשאה ליצור מבחנים.
                                 </div> 
                             <?php } ?>
                         </div>
@@ -223,10 +223,10 @@
                 <div class="panel-heading">
                     <div class="panel-tools">
                         <?php if($add){ ?>
-                        <button type="button" class="btn btn-outline-success btn-pill" title="Generate Paper" onclick="showHideGenerateDiv('show');"><i class="zmdi zmdi-plus"></i></button>
+                        <button type="button" class="btn btn-outline-success btn-pill" title="צור מבחן" onclick="showHideGenerateDiv('show');"><i class="zmdi zmdi-plus"></i></button>
                         <?php } ?>
                     </div>
-                    <h3 class="m-t-0 m-b-5">Question Papers</h3>
+                    <h3 class="m-t-0 m-b-5">מבחנים</h3>
                 </div>
                 <div class="panel-body">
                     <div class="row">
@@ -266,12 +266,12 @@
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th>Paper</th> 
+                                                    <th>מבחן</th> 
                                                     <!-- <th style="text-align: center;">Generated By</th> -->
-                                                    <th style="text-align: center;">Generated At</th>
-                                                    <th style="text-align: center;">Paper Status</th>
+                                                    <th style="text-align: center;">נוצר בתאריך</th>
+                                                    <th style="text-align: center;">סטטוס מבחן</th>
                                                     <?php if($view || $edit || $delete) { ?>
-                                                    <th style="text-align:right;">Options</th>  
+                                                    <th style="text-align:right;">אפשרויות</th>  
                                                     <?php } ?>
                                                 </tr>
                                             </thead>
@@ -298,7 +298,7 @@
                                                         $userId = $this->session->userdata['staff_logged_in']['user_id'];
                                                         $nameTextColor = '';
                                                         if ($userId == $pp->user_id) {
-                                                            $added_person = 'YOU';
+                                                            $added_person = 'אתה';
                                                             $nameTextColor = 'text-danger';
                                                         }
 
@@ -462,7 +462,7 @@
                 e.preventDefault();
                 const checkedQueFrom = $('input[name="questions_from[]"]:checked').length;
                 if (checkedQueFrom <= 0) {
-                    return toastr.error('Please select one of the questions from field.');
+                    return toastr.error('נא לבחור לפחות מקור אחד לשאלות.');
                 }
                 
                 var questionTypeCount = 0;
@@ -475,7 +475,7 @@
                     questionTypeCount += parseInt(count);
                 });
                 if (isNaN(questionTypeCount) || questionTypeCount == 0) {
-                    return toastr.error('Please enter number of questions count in question type fields (MCQ or STRUCTURED or ESSAY).');
+                    return toastr.error('נא להזין מספר שאלות בשדות סוגי השאלות (אמריקאי, טקסט פתוח או חיבור).');
                 }
 
                 $('.question-types-score').each(function() {
@@ -486,7 +486,7 @@
                     questionTypeScore += parseInt(count);
                 });
                 if (isNaN(questionTypeScore) || questionTypeScore == 0) {
-                    return toastr.error('Please enter score of question in question type fields (MCQ or STRUCTURED or ESSAY).');
+                    return toastr.error('נא להזין ניקוד לשאלה בשדות סוגי השאלות (אמריקאי, טקסט פתוח או חיבור).');
                 }
 
                 const selectedTerm = slugifyUrl($('#term_id option:selected').data('english'));
@@ -521,7 +521,7 @@
                                                             <i class="zmdi zmdi-close"></i>
                                                         </span>
                                                         </button>
-                                                        <strong>Warning!</strong> ${el}
+                                                        <strong>אזהרה!</strong> ${el}
                                                     </div>
                                                 </div>`;
                                     });
@@ -557,7 +557,7 @@
                                     const userId = '<?=$this->session->userdata['staff_logged_in']['user_id']?>';
                                     let nameTextColor = '';
                                     if (userId == data.user_id) {
-                                        added_person = 'YOU';
+                                        added_person = 'אתה';
                                         nameTextColor = 'text-danger';
                                     }
 
@@ -630,13 +630,13 @@
                     }
                 },
                 error: function(result) {
-                    toastr.error("Somthing went wrong :(")
+                    toastr.error("משהו השתבש :(")
                 }
             });
         }
 
         function deleteMe(paperId) {
-            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>Yes</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>No</button>",'Do you want to delete this question paper?',{
+            toastr.warning("<button type='button' id='confirmBtn' class='btn btn-danger btn-sm' style='width:40%;display:inline;margin:3px;'>כן</button><button type='button' id='closeBtn' class='btn btn-default btn-sm' style='width:40%;display:inline;margin:3px;'>לא</button>",'האם ברצונך למחוק מבחן זה?',{
                 closeButton: true,
                 allowHtml: true,
                 onShown: function (toast) {
@@ -656,7 +656,7 @@
                             }
                         },
                         error: function(result) {
-                            toastr.error("Somthing went wrong :(")
+                            toastr.error("משהו השתבש :(")
                         }
                     });
                 });
