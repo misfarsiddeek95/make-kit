@@ -40,7 +40,7 @@
                       <th>עץ</th>
                       <th>מספר צפיות</th>
                       <th>סטטוס</th>
-                      <th>הצג באתר</th>
+                      <th>הצג בתפריט</th>
                       <th>הצג בווידג'ט</th>
                       <?php if($edit_cat || $delete_cat || $imageUpload||$manage_attr||$manage_brands){?>
                         <th style="text-align:right;">אפשרויות</th>
