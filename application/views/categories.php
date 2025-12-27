@@ -41,6 +41,7 @@
                       <th>מספר צפיות</th>
                       <th>סטטוס</th>
                       <th>הצג באתר</th>
+                      <th>הצג בווידג'ט</th>
                       <?php if($edit_cat || $delete_cat || $imageUpload||$manage_attr||$manage_brands){?>
                         <th style="text-align:right;">אפשרויות</th>
                       <?php } ?>
@@ -50,6 +51,7 @@
                     <?php foreach ($allCates as $row) { 
                       $status = '';
                       $showInSiteStatus = '';
+                      $showAsWidget = '';
 
                       $img = 'default.jpg';
                       if ($row->status==0) {
@@ -57,6 +59,9 @@
                       }
                       if ($row->show_in_site==1) {
                         $showInSiteStatus = 'checked="checked"';
+                      }
+                      if ($row->show_as_widget==1) {
+                        $showAsWidget = 'checked="checked"';
                       }
                       if ($row->photo_path!=null) {
                         $img = 'categories/'.$row->photo_path.'-sma.jpg';
@@ -75,6 +80,7 @@
                       <td><?=$row->view_count ;?></td>
                       <td><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" <?=$status;?> <?php if ($changeStatus) {echo 'onchange="updateCateStatus('.$row->cate_id.');"';}else{echo "disabled";}?> ></td>
                       <td><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" <?=$showInSiteStatus;?>  onchange="updateShowInStatus('<?=$row->cate_id?>');"></td>
+                      <td><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" <?=$showAsWidget;?>  onchange="updateShowAsWidget('<?=$row->cate_id?>');"></td>
                       <?php if($edit_cat || $delete_cat || $imageUpload||$manage_attr||$manage_brands){ ?>
                       <td align="right">
                       <?php if($imageUpload||$manage_attr||$manage_brands){ ?>
@@ -543,6 +549,25 @@
         $.ajax({
           type: "POST",
           url: "<?=base_url()?>update-show-in-the-site-status",
+          data: 'cate_id='+id,
+          success: function(result) {
+            var responsedata = $.parseJSON(result);
+            if (responsedata.status=='success') {
+              toastr.success(responsedata.message)
+            }else{
+              toastr.error(responsedata.message)
+            }
+          },
+          error: function(result) {
+            toastr.error("Somthing went wrong :(")
+          }
+        });
+      }
+
+      function updateShowAsWidget(id) {
+        $.ajax({
+          type: "POST",
+          url: "<?=base_url()?>update-show-as-widget-status",
           data: 'cate_id='+id,
           success: function(result) {
             var responsedata = $.parseJSON(result);

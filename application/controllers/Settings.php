@@ -122,6 +122,27 @@ class Settings extends Admin_Controller {
         }
         echo json_encode($message);
     }
+    
+    public function updateShowAsWidgetStatus() {
+        try{
+            $cate_id= $this->input->post('cate_id');
+            $result = $this->Common_modal->getAllWhere('categories','cate_id',$cate_id);
+            if ($result) {
+                if ($result->show_as_widget==1) {
+                    $data['show_as_widget']=0;
+                }else{
+                    $data['show_as_widget']=1;
+                }
+                $this->Common_modal->update('cate_id',$cate_id,'categories',$data);
+                $message = array("status" => "success","message" => "ווידג'ט התצוגה בדפי הבית עודכן בהצלחה.");
+            }else{
+                throw new Exception("משהו השתבש. אנא נסה שוב.");
+            }
+        }catch(Exception $ex){
+            $message = array("status" => "error","message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
 
     public function addCategory() {
         try{

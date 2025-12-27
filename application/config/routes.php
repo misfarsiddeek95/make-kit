@@ -91,6 +91,7 @@ $route['deleteGroups'] = 'GroupOptions/deleteAccessGroups';
 $route['deleteCategories'] = 'Settings/deleteCategories';
 $route['updateCateStatus'] = 'Settings/updateCateStatus';
 $route['update-show-in-the-site-status'] = 'Settings/updateMenuShowStatus';
+$route['update-show-as-widget-status'] = 'Settings/updateShowAsWidgetStatus';
 $route['addCategory'] = 'Settings/addCategory';
 $route['check-url-exist'] = 'Settings/checkUrlExist';
 $route['uploadSingleImage'] = 'Settings/upload_single_img';
