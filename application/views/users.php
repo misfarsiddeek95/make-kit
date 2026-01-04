@@ -49,6 +49,15 @@
                       if ($row->group_id==''||$row->group_id==null||$row->group_id==0) {
                         $access_group = 'None';
                       }
+
+                      $loggedInUserId = $this->session->userdata['staff_logged_in']['user_id'];
+                      $loggedInGroupId = $this->session->userdata['staff_logged_in']['group_id'];
+
+                      if ( $loggedInGroupId == $row->group_id && $row->user_id == $loggedInUserId) {
+                        $disableAction = true;
+                      } else {
+                        $disableAction = false;
+                      }
                     ?>
 
                     <tr id="userrow<?=$row->user_id?>">
@@ -59,7 +68,7 @@
                       <td><?=$row->phone;?></td>
                       <td><?=$row->username;?></td>
                       <td><?=$access_group;?></td>
-                      <td><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" <?=$status;?> <?php if ($changeStatus) {echo 'onchange="updateUserStatus('.$row->user_id.');"';}else{echo "disabled";}?> ></td>
+                      <td><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" <?=$status;?> <?php if ($changeStatus && !$disableAction) {echo 'onchange="updateUserStatus('.$row->user_id.');"';}else{echo "disabled";}?> ></td>
                       <?php if($edit_user||$delete_user){?>
                       <td><div class="btn-group">
                           <button type="button" class="btn btn-primary btn-pill btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -68,7 +77,7 @@
                           <ul class="dropdown-menu dropdown-menu-right">
                             <?php if($edit_user){?>
                             <li><a href="javascript:editUser(<?=$row->user_id?>);">ערוך</a></li>
-                            <?php } if($delete_user){?>
+                            <?php } if($delete_user && !$disableAction){?>
                             <li><a href="javascript:deleteUser(<?=$row->user_id?>);">מחק</a></li>
                             <?php }?>
                           </ul>
