@@ -283,7 +283,7 @@ class ExternalUsers extends Admin_Controller {
                         $folder = $this->folder."/photos/students/";
                         $imgExt = array('big','std','thu'); 
                         foreach ($imgExt as $value) {
-                            $imagename = $photos->photo_path.'-'.$value.'.'.$result->extension;
+                            $imagename = $photos->photo_path.'-'.$value.'.'.$photos->extension;
                             unlink( $folder . $imagename );
                         }
                         $message = array("status" => "success","message" => 'Deleted successfully');
@@ -413,16 +413,16 @@ class ExternalUsers extends Admin_Controller {
         }
     }
 
-    function addInstructor() {
+    public function addInstructor() {
         try {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $_add = $this->Admin_modal->isAccessRightGiven($group_id,130)?0:1;
             $_edit = $this->Admin_modal->isAccessRightGiven($group_id,131)?1:0;
-            $data['type']='Add';
+            $data['type']='הוספה';
             if (isset($_POST['user_id'])){
                 if ($_edit) {
                     $data['user']= $this->Admin_modal->getUserDetail($this->input->post('user_id'));
-                    $data['type']='Update';
+                    $data['type']='עדכון';
                 }else{
                     throw new Exception("You don't have the permissoin to update instructor.");
                 }
@@ -438,7 +438,7 @@ class ExternalUsers extends Admin_Controller {
         }
     }
 
-    function saveInstructor() {
+    public function saveInstructor() {
         try {
             $user_id = $this->input->post('user_id');
             $add_id= $this->input->post('add_id');
@@ -572,7 +572,7 @@ class ExternalUsers extends Admin_Controller {
                         $folder = $this->folder."/photos/staff/";
                         $imgExt = array('big','std','thu'); 
                         foreach ($imgExt as $value) {
-                            $imagename = $photos->photo_path.'-'.$value.'.'.$result->extension;
+                            $imagename = $photos->photo_path.'-'.$value.'.'.$photos->extension;
                             unlink( $folder . $imagename );
                         }
                         $message = array("status" => "success","message" => 'Deleted successfully');

@@ -11,7 +11,7 @@
             <div class="site-content"> 
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="m-y-0 d-inline"><?=$type?> Instructor</h3>
+                        <h3 class="m-y-0 d-inline"><?=$type?> מדריכים</h3>
                         <a class="btn btn-outline-warning btn-pill pull-right m-y-0 d-inline" href="<?=base_url()?>ExternalUsers/instructors/128"><i class="zmdi zmdi-arrow-left"></i></a>
                     </div>
                     <div class="panel-body"> 
@@ -26,14 +26,14 @@
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label for="fname" class="control-label">שם פרטי</label>
-                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->fname);} ?>" placeholder="שם פרטי" id="fname" name="fname" class="form-control" data-minlength="3" data-pattern-error="שם פרטי לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם פרטי נדרש" required autocomplete="off">
+                                            <input type="text" value="<?php if(!(empty($user))){echo($user->fname);} ?>" placeholder="שם פרטי" id="fname" name="fname" class="form-control" data-minlength="3" data-pattern-error="שם פרטי לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם פרטי נדרש" required autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
                                     <div class="col-sm-6 col-md-6">
                                         <div class="form-group">
                                             <label for="lname" class="control-label">שם משפחה</label>
-                                            <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="שם משפחה" id="lname" name="lname" class="form-control"  data-pattern-error="שם משפחה לא חוקי" autocomplete="off">
+                                            <input type="text" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="שם משפחה" id="lname" name="lname" class="form-control"  data-pattern-error="שם משפחה לא חוקי" autocomplete="off">
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
