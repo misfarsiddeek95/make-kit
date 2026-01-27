@@ -65,7 +65,9 @@ class Questionnaire extends Admin_Controller {
 
     public function loadClassSubjects() {
         $class_id = $this->input->post('class_id');
-        $result = $this->Questionnaire_Model->loadClassSubjects($class_id);
+        // Handle both single value and array
+        $class_ids = is_array($class_id) ? $class_id : [$class_id];
+        $result = $this->Questionnaire_Model->getCommonSubjects($class_ids);
         echo json_encode($result);
     }
 
@@ -143,11 +145,29 @@ class Questionnaire extends Admin_Controller {
             $edit = $this->Admin_modal->isAccessRightGiven($group_id,99)?0:1;
             
             $que_id = $this->input->post('que_id');
-            $class_id = $this->input->post('class_id');
+            $class_ids = $this->input->post('class_id'); // Now EXPECTING an array
+            // Ensure class_ids is an array
+            if (!is_array($class_ids)) {
+                 $class_ids = [$class_ids];
+            }
+
             $sub_id = $this->input->post('sub_id');
             $term_id = $this->input->post('term_id');
             $qt_id = $this->input->post('qt_id');
             $date = date('Y-m-d H:i:s');
+
+            // VALIDATION: Check if subject is valid for all selected classes
+            $common_subjects = $this->Questionnaire_Model->getCommonSubjects($class_ids);
+            $valid_subject = false;
+            foreach($common_subjects as $subj) {
+                if ($subj->subject_id == $sub_id) {
+                    $valid_subject = true;
+                    break;
+                }
+            }
+            if (!$valid_subject) {
+                throw new Exception("המקצוע שנבחר אינו זמין עבור כל המוסדות שנבחרו.");
+            }
 
             switch ($qt_id) {
                 case 1:
@@ -165,7 +185,8 @@ class Questionnaire extends Admin_Controller {
             }
 
             $que_arr = array(
-                'class_id' => $class_id, 
+                'class_id' => $class_ids[0], // Set primary class_id to first selection to satisfy DB constraint
+                'class_id_array' => $class_ids, // Pass full array for model to handle link table
                 'subject' => $sub_id, 
                 'exam_type' => $term_id, 
                 'qt_id' => $qt_id, 
@@ -276,6 +297,7 @@ class Questionnaire extends Admin_Controller {
                             }
                         }
                         $this->Common_modal->delete('question_answers','que_id',$que_id);
+                        $this->Common_modal->delete('question_classes','que_id',$que_id);
                     }
                     $msg = array("status" => "success","message" => "השאלה נמחקה בהצלחה.");
                 }else{

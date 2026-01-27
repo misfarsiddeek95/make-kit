@@ -69,10 +69,9 @@
                                     <div class="col-sm-6 col-md-3">
                                         <div class="form-group">
                                             <label for="class_id" class="control-label">מוסד</label>
-                                            <select class="form-control" name="class_id" id="class_id"
+                                            <select class="form-control" name="class_id[]" id="class_id" multiple="multiple"
                                                 data-plugin="select2" data-placeholder="בחר מוסד"
                                                 data-required-error="מוסד הוא שדה חובה" required>
-                                                <option></option>
                                                 <?php foreach ($class as $row) { ?>
                                                     <option value="<?=$row->class_id?>" ><?=$row->class_name?></option>
                                                 <?php } ?>
@@ -210,7 +209,11 @@
                 var questionType = '<?=$question_detail->qt_id?>';
                 var queHasImg = '<?=$question_detail->has_img?>';
 
-                $('#class_id').val('<?=$question_detail->class_id?>').trigger('change');
+                var classIds = <?php echo isset($question_detail->class_ids) ? json_encode($question_detail->class_ids) : '[]'; ?>;
+                if(classIds.length == 0 && '<?=$question_detail->class_id?>') {
+                    classIds = ['<?=$question_detail->class_id?>'];
+                }
+                $('#class_id').val(classIds).trigger('change');
                 $('#qt_id').val('<?=$question_detail->qt_id?>').trigger('change');
                 $('input[type="radio"][value="<?=$question_detail->answer_method?>"]').prop('checked',true).trigger('change');
                 $('#noq').val(1).trigger('change').attr('disabled','disabled');
@@ -267,10 +270,11 @@
         });
 
         $('#class_id').on('change',function() {
+            var selectedClasses = $(this).val();
             $.ajax({
                 type: "POST",
                 url: "<?=base_url()?>load-class-subjects",
-                data: 'class_id='+this.value,
+                data: {class_id: selectedClasses},
                 success: function(result){
                     var resp = $.parseJSON(result);
                     var option = '<option></option>';
@@ -278,6 +282,9 @@
                       option += '<option value='+resp[i].subject_id+'>'+resp[i].subject_name+'</option>'; 
                     }
                     $('#sub_id').html(option); 
+                    if (resp.length == 0 && selectedClasses && selectedClasses.length > 0) {
+                        toastr.warning('לא נמצאו מקצועות משותפים למוסדות שנבחרו.');
+                    } 
                     <?php if (!empty($question_detail)) { ?>
                         $('#sub_id').val('<?=$question_detail->subject?>').trigger('change');
                     <?php } ?>
@@ -735,7 +742,7 @@
                 e.preventDefault();
                 var formData = new FormData(this);
 
-                const classId = $('#class_id option:selected').val();
+                const classId = $('#class_id').val();
                 const subId = $('#sub_id option:selected').val();
                 const termId = $('#term_id option:selected').val();
 

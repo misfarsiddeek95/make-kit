@@ -21,16 +21,20 @@ class Questionnaire_Model extends CI_Model{
         $q = $this->db->get();
         $main = $q->result();
         foreach ($main as $row) {
-            $this->db->select('q.que_id,q.question,q.question_showing,q.added_date,q.answer_method,q.has_img,c.class_name,et.extype_name,s.subject_name,s.subject_code,CONCAT_WS(" ",su.fname, '.', su.lname) as added_person,su.user_id,su.access_group');
+            $this->db->select('q.que_id,q.question,q.question_showing,q.added_date,q.answer_method,q.has_img,et.extype_name,s.subject_name,s.subject_code,CONCAT_WS(" ",su.fname, '.', su.lname) as added_person,su.user_id,su.access_group, GROUP_CONCAT(c.class_name SEPARATOR ", ") as class_name');
             $this->db->from('questions q');
             $this->db->where('q.qt_id',$row->qt_id);
             if (!$all_questions) { // when this doens't have the all questions permission, only it will select own person question list.
                 $this->db->where('q.added_by', $userId);
             }
-            $this->db->join('class c','c.class_id=q.class_id');
+            $this->db->join('question_classes qc','qc.que_id=q.que_id', 'left');
+            $this->db->join('class c','c.class_id=qc.class_id', 'left');
+            
             $this->db->join('exam_types et','et.extype_id=q.exam_type');
             $this->db->join('subjects s','s.sub_id=q.subject');
             $this->db->join('staff_users su','su.user_id=q.added_by');
+            
+            $this->db->group_by('q.que_id');
             $this->db->order_by('q.que_id','DESC');
             $que = $this->db->get();
             $row->questions = $que->result();
@@ -47,6 +51,49 @@ class Questionnaire_Model extends CI_Model{
         return $q->result();
     }
 
+    public function getCommonSubjects($class_ids) {
+        if (empty($class_ids)) return [];
+        if (!is_array($class_ids)) $class_ids = [$class_ids];
+
+        $common_subjects = null;
+
+        foreach ($class_ids as $class_id) {
+            $this->db->select('cs.subject_id, s.subject_name');
+            $this->db->from('class_subjects cs');
+            $this->db->where('cs.class_id', $class_id);
+            $this->db->join('subjects s', 's.sub_id = cs.subject_id');
+            $q = $this->db->get();
+            $subjects = $q->result_array();
+
+            $subject_ids = array_column($subjects, 'subject_id');
+            
+            // Create map for easy retrieval of name
+            $subject_map = [];
+            foreach($subjects as $s) {
+                $subject_map[$s['subject_id']] = $s;
+            }
+
+            if ($common_subjects === null) {
+                $common_subjects = $subject_ids;
+                $final_map = $subject_map;
+            } else {
+                $common_subjects = array_intersect($common_subjects, $subject_ids);
+                // Keep the map intersection
+                $final_map = array_intersect_key($final_map, array_flip($common_subjects));
+            }
+        }
+
+        $result = [];
+        if ($common_subjects) {
+            foreach($common_subjects as $sid) {
+                if(isset($final_map[$sid])) {
+                    $result[] = (object) $final_map[$sid]; // Return as object to match loadClassSubjects
+                }
+            }
+        }
+        return $result;
+    }
+
     public function save_questions($que_id,$que_arr,$questions,$answers,$correctanswer,$questionImgs,$answerImgs) {
         $this->db->trans_start();
             if (!empty($questions)) {
@@ -61,8 +108,26 @@ class Questionnaire_Model extends CI_Model{
                             $que_arr['has_img'] = 0;
                         }
                     }
+
+                    // FIX: Extract class_id_array and unset it from que_arr before insert
+                    $class_id_array = isset($que_arr['class_id_array']) ? $que_arr['class_id_array'] : [];
+                    unset($que_arr['class_id_array']);
+
                     $this->db->insert('questions',$que_arr);
                     $que_id =  $this->db->insert_id();
+
+                    if (!empty($class_id_array)) { // Insert into link table
+                        $batch_data = [];
+                        foreach($class_id_array as $c_id) {
+                            $batch_data[] = [
+                                'que_id' => $que_id,
+                                'class_id' => $c_id
+                            ];
+                        }
+                        if(!empty($batch_data)) {
+                             $this->db->insert_batch('question_classes', $batch_data);
+                        }
+                    }
                     if (!empty($questionImgs)) {
                         if ($questionImgs[$key] != '') {
                             $quePhoData = array(
@@ -140,7 +205,45 @@ class Questionnaire_Model extends CI_Model{
                             }
                         }
                         $this->db->where('que_id', $que_id);
+                        // Remove class_id_array before update questions table as it is not a column there
+                        $class_ids_update = isset($que_arr['class_id_array']) ? $que_arr['class_id_array'] : [];
+                        unset($que_arr['class_id_array']);
+                        
 		                $this->db->update('questions', $que_arr);
+                        
+                        // Update question_classes table (Selective Update)
+                        $batch_data = [];
+                        $exist_ids = [];
+                        
+                        if (!empty($class_ids_update) && is_array($class_ids_update)) {
+                             foreach($class_ids_update as $c_id) {
+                                 $check_arr = [
+                                     'que_id' => $que_id,
+                                     'class_id' => $c_id
+                                 ];
+                                 
+                                 // Check if this link already exists
+                                 $result = $this->Common_modal->checkExistForUpdate('id', 'question_classes', $check_arr);
+                                 
+                                 if ($result) {
+                                     $exist_ids[] = $result->id; // Keep this relationship
+                                 } else {
+                                     $batch_data[] = $check_arr; // Add new relationship
+                                 }
+                             }
+                        }
+                        
+                        // Delete removed links
+                        $this->db->where('que_id', $que_id);
+                        if (!empty($exist_ids)) {
+                             $this->db->where_not_in('id', $exist_ids);
+                        }
+                        $this->db->delete('question_classes');
+
+                        // Insert new links
+                        if(!empty($batch_data)) {
+                             $this->db->insert_batch('question_classes', $batch_data);
+                        }
                         if (!empty($questionImgs)) {
                             # exisiting image deleting process
                             $qImg = $this->Common_modal->getImages('questions','que_id',$que_id); 
@@ -246,6 +349,14 @@ class Questionnaire_Model extends CI_Model{
             $this->db->where('qa.que_id',$main->que_id);
             $qa = $this->db->get();
             $main->answers = $qa->result();
+
+            // Get associated classes
+            $this->db->select('class_id');
+            $this->db->from('question_classes');
+            $this->db->where('que_id', $main->que_id);
+            $qc_query = $this->db->get();
+            $main->class_ids = array_column($qc_query->result_array(), 'class_id');
+
             foreach ($main->answers as $ans) {
                 if ($ans->has_img == 1) {
                     $this->db->select('pa.photo_path as ans_pic');
@@ -268,7 +379,8 @@ class Questionnaire_Model extends CI_Model{
     public function generateQuestions($paperId,$class_id,$sub_id,$question_from,$previousPaperQue,$questionLimit,$questionType) {
         $this->db->select('q.que_id');
         $this->db->from('questions q');
-        $this->db->where('q.class_id', $class_id);
+        $this->db->join('question_classes qc', 'qc.que_id = q.que_id'); // Join with link table
+        $this->db->where('qc.class_id', $class_id); // Filter by linked class_id
         $this->db->where('q.subject', $sub_id);
         $this->db->where_in('q.exam_type', $question_from);
         $this->db->where('q.qt_id', $questionType);
