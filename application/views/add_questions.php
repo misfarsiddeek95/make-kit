@@ -283,7 +283,7 @@
                     }
                     $('#sub_id').html(option); 
                     if (resp.length == 0 && selectedClasses && selectedClasses.length > 0) {
-                        toastr.warning('לא נמצאו מקצועות משותפים למוסדות שנבחרו.');
+                        toastr.warning('לא נמצאו מקצועות משותפים למוסדות שנבחרו. אנא הוסף את המקצוע המשותף למכון.');
                     } 
                     <?php if (!empty($question_detail)) { ?>
                         $('#sub_id').val('<?=$question_detail->subject?>').trigger('change');
