@@ -25,13 +25,13 @@
 
                   <div class="form-group">
                     <label for="form-control-3" class="control-label">שם פרטי</label>
-                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->fname);} ?>" placeholder="שם פרטי" id="fName" name="fName" class="form-control" data-minlength="3" data-pattern-error="שם פרטי לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם פרטי נדרש" required>
+                    <input type="text" value="<?php if(!(empty($user))){echo($user->fname);} ?>" placeholder="שם פרטי" id="fName" name="fName" class="form-control" data-minlength="3" data-pattern-error="שם פרטי לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם פרטי נדרש" required>
                     <div class="help-block with-errors"></div>
                   </div>
 
                   <div class="form-group">
                     <label for="form-control-3" class="control-label">שם משפחה</label>
-                    <input type="text" pattern="^[a-zA-Z. ]+$" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="שם משפחה" id="lName" name="lName" class="form-control" data-minlength="3" data-pattern-error="שם משפחה לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם משפחה נדרש" required>
+                    <input type="text" value="<?php if(!(empty($user))){echo($user->lname);} ?>" placeholder="שם משפחה" id="lName" name="lName" class="form-control" data-minlength="3" data-pattern-error="שם משפחה לא חוקי" data-error="מינימום 3 תווים" data-required-error="שם משפחה נדרש" required>
                     <div class="help-block with-errors"></div>
                   </div>
 
