@@ -164,6 +164,7 @@ $route['delete-class'] = 'Academic/deleteClass';
 $route['add-student'] = 'ExternalUsers/addExternalUser';
 $route['edit-student'] = 'ExternalUsers/addExternalUser';
 $route['filter-students'] = 'ExternalUsers/filterStudents';
+$route['export-students'] = 'ExternalUsers/exportStudents';
 $route['load-intitute-circles'] = 'ExternalUsers/loadInstituteCircles';
 $route['load-subject-instructor'] = 'ExternalUsers/loadSubjectInstructor';
 $route['register-student'] = 'ExternalUsers/registerStudent';

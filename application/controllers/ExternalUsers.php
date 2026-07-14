@@ -646,4 +646,84 @@ class ExternalUsers extends Admin_Controller {
             echo "Error: Could not open the CSV file.";
         }
     }
+
+    public function exportStudents() {
+        try {
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $manage_students = $this->Admin_modal->isAccessRightGiven($group_id,112) ? 0 : 1;
+            if ($manage_students) {
+                throw new Exception("אין לך הרשאה.");
+            }
+
+            $data = array(
+                'class_id' => $this->input->get('class_id'),
+                'city_id' => $this->input->get('city_id'),
+                'teacher_id' => $this->input->get('teacher_id'),
+                'subject_id' => $this->input->get('subject_id')
+            );
+
+            $students = $this->ExternalUser_model->filter_students($data);
+
+            @error_reporting(E_ERROR | E_PARSE);
+
+            require_once APPPATH.'third_party/PHPExcel.php';
+
+            $objPHPExcel = new PHPExcel();
+            $sheet = $objPHPExcel->getActiveSheet();
+
+            $sheet->getDefaultColumnDimension()->setWidth(20);
+            $sheet->getDefaultRowDimension()->setRowHeight(20);
+
+            $headers = array('שם', 'מס\' תפקיד', 'מוסד', 'מגדר', 'עיר', 'שם הורה', 'טלפון הורה', 'דוא"ל הורה', 'נקודות', 'נקודות מדליות', 'סטטוס');
+            $col = 'A';
+            foreach ($headers as $header) {
+                $sheet->setCellValue($col.'1', $header);
+                $sheet->getStyle($col.'1')->getFont()->setBold(true)->setSize(12);
+                $sheet->getStyle($col.'1')->getFill()->setFillType(PHPExcel_Style_Fill::FILL_SOLID)->getStartColor()->setRGB('1D87E4');
+                $sheet->getStyle($col.'1')->getFont()->getColor()->setRGB('FFFFFF');
+                $col++;
+            }
+
+            $rowNum = 2;
+            foreach ($students as $student) {
+                $gender = 'לא נמסר';
+                if ($student->gender == 0) $gender = 'נקבה';
+                else if ($student->gender == 1) $gender = 'זכר';
+                else if ($student->gender == 2) $gender = 'אחר';
+
+                $status = $student->status == 1 ? 'פעיל' : 'לא פעיל';
+
+                $sheet->setCellValue('A'.$rowNum, $student->name);
+                $sheet->setCellValue('B'.$rowNum, $student->role_number);
+                $sheet->setCellValue('C'.$rowNum, $student->class_name);
+                $sheet->setCellValue('D'.$rowNum, $gender);
+                $sheet->setCellValue('E'.$rowNum, $student->city_name . ' [' . $student->city_name_hebrew . ']');
+                $sheet->setCellValue('F'.$rowNum, $student->parent_name);
+                $sheet->setCellValue('G'.$rowNum, $student->parent_phone);
+                $sheet->setCellValue('H'.$rowNum, $student->parent_email);
+                $sheet->setCellValue('I'.$rowNum, $student->points_earned);
+                $sheet->setCellValue('J'.$rowNum, $student->points_earned_medalian);
+                $sheet->setCellValue('K'.$rowNum, $status);
+
+                $rowNum++;
+            }
+
+            for ($i = 'A'; $i <= 'K'; $i++) {
+                $sheet->getColumnDimension($i)->setAutoSize(true);
+            }
+
+            $filename = 'students_' . date('Y-m-d_H-i') . '.xls';
+
+            header('Content-Type: application/vnd.ms-excel');
+            header('Content-Disposition: attachment;filename="'.$filename.'"');
+            header('Cache-Control: max-age=0');
+
+            $writer = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+            $writer->save('php://output');
+            exit;
+
+        } catch (Exception $ex) {
+            echo json_encode(array('status' => 'error', 'message' => $ex->getMessage()));
+        }
+    }
 }

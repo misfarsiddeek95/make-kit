@@ -14,18 +14,18 @@
         <div class="site-content">
             <div class="panel panel-default panel-table">
                 <div class="panel-heading">
-                    <?php if($add_student){?>
                     <div class="panel-tools">
+                            <?php if($add_student){?>
                         <button type="button" class="btn btn-outline-success btn-pill" title="Add Student"
                             onclick="location.href='<?=base_url();?>add-student'"><i class="zmdi zmdi-plus"></i></button>
+                        <?php }?>
                     </div>
-                    <?php }?>
                     <h3 class="m-t-0 m-b-5">ניהול תלמידים</h3>
                 </div>
                 <div class="panel-body">
                     <h5>סנן תלמידים</h5>
                     <div class="row">
-                        <div class="col-sm-4 col-md-3">
+                        <div class="col-sm-3 col-md-3">
                             <div class="form-group">
                                 <label for="class_id" class="control-label">מוסד</label>
                                 <select id="class_id" name="class_id" class="form-control" data-plugin="select2" style="width: 100%;" onchange="filterStudents();">
@@ -36,7 +36,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-3">
+                        <div class="col-sm-3 col-md-3">
                             <div class="form-group">
                                 <label for="subject_id" class="control-label">חוג</label>
                                 <select id="subject_id" name="subject_id" class="form-control" data-placeholder="בחר חוג" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
@@ -47,7 +47,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-3">
+                        <div class="col-sm-3 col-md-3">
                             <div class="form-group">
                                 <label for="teacher_id" class="control-label">מדריך</label>
                                 <select id="teacher_id" name="teacher_id" class="form-control" data-placeholder="בחר מדריך" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
@@ -58,7 +58,7 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="col-sm-4 col-md-3">
+                        <div class="col-sm-3 col-md-2">
                             <div class="form-group">
                                 <label for="city_id" class="control-label">עיר</label>
                                 <select id="city_id" name="city_id" class="form-control" data-placeholder="בחר עיר" data-allow-clear="true" style="width: 100%;" data-plugin="select2" onchange="filterStudents();">
@@ -67,6 +67,12 @@
                                     <option value="<?=$row->city_id?>"><?=$row->city_name?> [ <?=$row->city_name_hebrew?> ]</option>
                                     <?php } ?>
                                 </select>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <div class="form-group" style="padding-top:25px;">
+                                <button type="button" class="btn btn-primary" title="ייצוא לאקסל"
+                                    onclick="exportStudents()"><i class="zmdi zmdi-collection-download"></i> ייצוא</button>
                             </div>
                         </div>
                     </div>
@@ -128,6 +134,8 @@
             var city_id = $('#city_id').val();
             var teacher_id = $('#teacher_id').val();
             var subject_id = $('#subject_id').val();
+
+            window._studentFilters = { class_id, city_id, teacher_id, subject_id };
 
             $.ajax({
                 type: "POST",
@@ -259,6 +267,12 @@
 
             document.body.appendChild(form);
             form.submit();
+        }
+
+        function exportStudents() {
+            var f = window._studentFilters || {};
+            var params = $.param(f);
+            window.location.href = '<?=base_url()?>export-students?' + params;
         }
     </script>
 </body>
