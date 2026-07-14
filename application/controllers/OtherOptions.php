@@ -486,5 +486,34 @@ class OtherOptions extends Admin_Controller {
         }
         echo json_encode($message);
     }
+
+    public function print_coupon($id){
+        $coupon = $this->Common_modal->getAllWhere('coupons','cp_id',$id);
+        if (!$coupon) {
+            show_404();
+            return;
+        }
+        $photos = $this->Common_modal->getTablePhotos('coupons',$id);
+        $data['coupon'] = $coupon;
+        $data['photo'] = null;
+        if ($photos) {
+            $data['photo'] = $photos[0];
+        }
+
+        $for_ids = array_filter(array_map('intval', explode(',', $coupon->coupon_for_id)));
+        $data['for_items'] = array();
+        if (!empty($for_ids)) {
+            if ($coupon->coupon_for == 0) {
+                $this->db->where_in('brand_id', $for_ids);
+                $query = $this->db->get('brands');
+            } else {
+                $this->db->where_in('cate_id', $for_ids);
+                $query = $this->db->get('categories');
+            }
+            $data['for_items'] = $query->result();
+        }
+
+        $this->load->view('coupon_print',$data);
+    }
 }
 

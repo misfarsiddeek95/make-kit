@@ -100,6 +100,7 @@
                     <th>ספירה</th>
                     <th>תאריך הוספה</th>
                     <th>סטטוס</th>
+                    <th>הדפסה</th>
                     <?php if($editCoupons){?>
                     <th>עריכה</th>
                     <?php } if($deleteCoupons){ ?>
@@ -355,7 +356,7 @@
               $('#tbody_data,#pagination_ul').empty();
               var tbody = '';
               if (responsedata.rowcount==0) {
-                $('#tbody_data').append('<tr><td colspan="10" class="text-center">אין תוצאות</td></tr>');
+                $('#tbody_data').append('<tr><td colspan="11" class="text-center">אין תוצאות</td></tr>');
               }else{
                 for (var i = 0; i < responsedata.coupons.length; i++) {
                   var coupon_type = '₪';
@@ -388,6 +389,7 @@
                           '<td>'+responsedata.coupons[i]['coupon_count']+'</td>'+
                           '<td>'+responsedata.coupons[i]['create_date']+'</td>'+
                           '<td><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" '+status+'></td>'+
+                          '<td style="padding:0;margin:0;"><button type="button" class="btn btn-info btn-sm" title="הדפס קופון" onclick="printCoupon('+responsedata.coupons[i]['cp_id']+');"><i class="zmdi zmdi-print"></i></button></td>'+
                           <?php if($editCoupons){?>
                           '<td style="padding:0;margin:0;"><button type="button" class="btn btn-primary btn-sm" title="Edit Coupon" onclick="editCoupon('+responsedata.coupons[i]['cp_id']+',\''+responsedata.coupons[i]['coupon_code']+'\',\''+responsedata.coupons[i]['coupon_amount']+'\',\''+responsedata.coupons[i]['valid_from']+'\',\''+responsedata.coupons[i]['valid_to']+'\',\''+responsedata.coupons[i]['coupon_count']+'\',\''+responsedata.coupons[i]['coupon_type']+'\',\''+responsedata.coupons[i]['count_type']+'\',\''+responsedata.coupons[i]['coupon_for']+'\',\''+responsedata.coupons[i]['coupon_for_id']+'\',\''+responsedata.coupons[i]['status']+'\',\''+imgSrc+'\');"><i class="zmdi zmdi-edit"></i></button></td>'+
                           <?php } if($deleteCoupons){?>
@@ -666,6 +668,10 @@
               });
             }
         });
+      }
+
+      function printCoupon(id) {
+        window.open('<?=base_url()?>printCoupon/' + id, '_blank', 'width=600,height=700');
       }
     </script>
   </body>
