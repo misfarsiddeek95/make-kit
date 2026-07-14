@@ -647,14 +647,14 @@ class Questionnaire extends Admin_Controller {
             $paper_detail = $this->Questionnaire_Model->viewQuestionPaper($paperId);
 
             $filename = str_replace(' ', '_', strtolower($paper_detail['extype_name'])).'_'.str_replace(' ', '_', strtolower($paper_detail['class_name'])).'_'.str_replace(' ', '_', strtolower($paper_detail['subject_name']));
-            $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-P']);
+            $mpdf = new \Mpdf\Mpdf(['mode' => 'utf-8', 'format' => 'A4-P', 'default_font' => 'dejavusans']);
             $mpdf->SetHTMLFooter('<table width="100%">
                                     <tr>
                                         <td width="33%" align="center">{PAGENO}</td>
                                     </tr>
                                 </table>');
             
-            $paper_temp = file_get_contents(base_url().'assets/template/exam_paper.html');
+            $paper_temp = file_get_contents(FCPATH.'assets/template/exam_paper.html');
 
             $schoolLogo = 'assets/img/hat.png';
             if ($paper_detail['school_logo'] != null && $paper_detail['school_logo'] != '') {
@@ -791,6 +791,10 @@ class Questionnaire extends Admin_Controller {
             }
 
 
+            $paper_code = '';
+            if ($paper_detail['term_id'] == 2) {
+                $paper_code = 'קוד מבחן: M-' . str_pad($paper_detail['paper_id'], 5, '0', STR_PAD_LEFT);
+            }
             $paper_arr = array(
                 '[school_logo]' => $schoolLogo,
                 '[school_name]' => $paper_detail['school_name'],
@@ -800,6 +804,7 @@ class Questionnaire extends Admin_Controller {
                 '[year]' => $paper_detail['year'],
                 '[total_marks]' => number_format($paper_detail['total_marks_count'],0),
                 '[total_hours]' => str_pad(number_format($paper_detail['paper_duration'],0), 2, '0', STR_PAD_LEFT),
+                '[paper_code]' => $paper_code,
                 '[mcq_question_set]' => $mcqQuestionSet,
                 '[structure_question_set]' => $strQuestionSet,
                 '[essay_question_set]' => $essQuestionSet,

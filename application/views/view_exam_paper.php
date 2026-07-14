@@ -43,6 +43,11 @@
                                     </div>
                                     <div class="col-md-4 col-sm-4 text-center text-uppercase">
                                         <h2><?=$paper_detail['school_name']?></h2>
+                                        <?php if ($paper_detail['term_id'] == 2) { ?>
+                                        <div style="display:inline-block; font-size:14px; font-weight:bold; color:#555; padding:4px 12px; border:1px solid #999; border-radius:3px; background:#f5f5f5; margin:5px 0;">
+                                            קוד מבחן: M-<?=str_pad($paper_detail['paper_id'], 5, '0', STR_PAD_LEFT)?>
+                                        </div>
+                                        <?php } ?>
                                         <h3><?=$paper_detail['subject_name']?></h3>
                                         <h3><?=$paper_detail['extype_name']?></h3>
                                         <h4><?=$paper_detail['class_name']?></h4>

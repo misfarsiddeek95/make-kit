@@ -308,7 +308,7 @@
                                                         }
                                                 ?>
                                                 <tr id="rowId<?=$pp->paper_id?>" class="table-row">
-                                                    <td style="width: <?=$pp->term_id == 2 ?  '10%' : '5%';?>;"><i class="zmdi zmdi-long-arrow-tab"></i> <?=$pp->term_id == 2 ?  base64_encode($pp->paper_id) : '';?> </td>
+                                                    <td style="width: <?=$pp->term_id == 2 ?  '10%' : '5%';?>;"><i class="zmdi zmdi-long-arrow-tab"></i> <?=$pp->term_id == 2 ?  '<span class="paper-code" data-code="M-'.str_pad($pp->paper_id, 5, '0', STR_PAD_LEFT).'">M-'.str_pad($pp->paper_id, 5, '0', STR_PAD_LEFT).'</span> <i class="zmdi zmdi-copy copy-code-btn text-danger" style="cursor:pointer;font-size:14px;" title="העתק קוד"></i>' : '';?> </td>
                                                     <td style="width: 50%;"><?=trim($title)?></td>
                                                     <!-- <td style="text-align: center;"><a href="<?=base_url()?><?=$url_segment?>/<?=$pp->user_id?>" target="_blank" class="<?=$nameTextColor?>"><?=$added_person?></a></td> -->
                                                     <td style="text-align: center;"><?=date('d/m/Y', strtotime($pp->created_at))?></td>
@@ -573,7 +573,7 @@
                                     // <td style="text-align: center;"><a href="<?=base_url()?>${url_segment}/${data.user_id}" target="_blank" class="${nameTextColor}">${added_person}</a></td>
 
                                     tr = `<tr id="rowId${data.paper_id}" class="table-row">
-                                            <td style="width: ${data.term_id == 2 ? '10%' : '5%' };"><i class="zmdi zmdi-long-arrow-tab"></i> ${data.term_id == 2 ? btoa(data.paper_id) : ''}</td>
+                                            <td style="width: ${data.term_id == 2 ? '10%' : '5%' };"><i class="zmdi zmdi-long-arrow-tab"></i> ${data.term_id == 2 ? '<span class="paper-code" data-code="M-' + String(data.paper_id).padStart(5, '0') + '">M-' + String(data.paper_id).padStart(5, '0') + '</span> <i class="zmdi zmdi-copy copy-code-btn text-danger" style="cursor:pointer;font-size:14px;" title="העתק קוד"></i>' : ''}</td>
                                             <td style="width: 50%;">${title.trim()}</td>
                                             <td style="text-align: center;">${dmy_date_format(data.created_at)}</td>
                                             <td style="text-align: center;">
@@ -666,6 +666,21 @@
                 }
             });
         }
+
+        $(document).on('click', '.copy-code-btn', function() {
+            var code = $(this).prev('.paper-code').data('code');
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(code);
+            } else {
+                var tmp = document.createElement('textarea');
+                tmp.value = code;
+                document.body.appendChild(tmp);
+                tmp.select();
+                document.execCommand('copy');
+                document.body.removeChild(tmp);
+            }
+            toastr.success('הועתק: ' + code);
+        });
     </script>
 </body>
 

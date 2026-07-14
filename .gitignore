@@ -11,6 +11,8 @@ photos/*/*
 node_modules/
 dist/
 
+vendor/
+
 # Compiled Java class files
 *.class
 
