@@ -435,17 +435,21 @@ class OtherOptions extends Admin_Controller {
 
             foreach ($coupon_ids as $cid) {
                 $coupon = $this->Common_modal->getAllWhere('coupons','cp_id',$cid);
+                $uniqueMD5 = md5(date('YmdHis').$cid.$PhotoFileName);
+                $uniqueFile = $folder.$uniqueMD5.'-org.'.$filetype;
+                copy($img_org, $uniqueFile);
                 $data = array(
                     'table' => 'coupons',
                     'field' => 'cp_id',
                     'field_id' => $cid,
-                    'photo_path' => $PhotoFileNameMD5,
+                    'photo_path' => $uniqueMD5,
                     'extension' => $filetype,
                     'photo_title' => $coupon ? str_replace(array("-","_",".","jpg")," ", $coupon->coupon_code) : '',
                     'photo_order' => 0
                 );
                 $this->Common_modal->insert('photo',$data);
             }
+            unlink($img_org);
             $message = array("status" => "success", "message" => "תמונה נוספה בהצלחה.");
         } catch(Exception $ex) {
             $message = array("status" => "error", "message" => $ex->getMessage());
