@@ -52,8 +52,9 @@ class Other_modal extends CI_Model {
 	}
 
     function getCoupons($search,$status,$fdate,$tdate,$limit,$offset){
-        $this->db->select('*');
+        $this->db->select('coupons.*, photo.photo_path, photo.extension');
         $this->db->from('coupons');
+        $this->db->join('photo', 'photo.field_id = coupons.cp_id AND photo.table = "coupons" AND photo.field = "cp_id"', 'left');
 
         if ($search!=''&&$search!=null) {
             $this->db->like('coupon_code', $search);

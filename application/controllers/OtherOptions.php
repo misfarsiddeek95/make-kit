@@ -208,6 +208,7 @@ class OtherOptions extends Admin_Controller {
             $status = isset($_POST['coup_status']) ? $_POST['coup_status'] : 1;
             $coupon_for = $this->input->post('coup_for');
             $date = date("Y-m-d H:i:s");
+            $coupon_id = intval($this->input->post('coupon_id'));
 
             if (isset($_POST['coupf'])){
                 $coupf= $this->input->post('coupf');
@@ -228,57 +229,77 @@ class OtherOptions extends Admin_Controller {
                     throw new Exception("אחוז סכום קופון צריך להיות עד 100");
                 }
             }
-            $coupon_array = array();
-            if ($count_type) { 
-            	foreach ($coupf as $key => $value) { 
-	                $coupon_array = array(
-	                    'coupon_code' => $this->couponCodeGen($coupon_code),
-	                    'coupon_type' => $coupon_type, # % or Amnt
-	                    'coupon_amount' => $coupAmount,
-	                    'valid_from' => $valid_from,
-	                    'valid_to' => $valid_to,
-	                    'count_type' => $count_type, # 1
-	                    'coupon_count' => $coupCount,
-	                    'coupon_for' => $coupon_for,
-	                    'coupon_for_id' => $value,
-	                    'create_date' => $date,
-	                    'status' => $status
-	                );
-                	$this->Common_modal->insert('coupons',$coupon_array);
-	            }
-                    /*$coupon_array[$key]['coupon_code'] = $this->couponCodeGen($coupon_code)
-                    $coupon_array[$key]['coupon_type'] = $coupon_type
-                    $coupon_array[$key]['coupon_amount'] = $coupAmount
-                    $coupon_array[$key]['valid_from'] = $valid_from
-                    $coupon_array[$key]['valid_to'] = $valid_to
-                    $coupon_array[$key]['count_type'] = $count_type
-                    $coupon_array[$key]['coupon_count'] = $coupCount
-                    $coupon_array[$key]['coupon_for'] = $coupon_for
-                    $coupon_array[$key]['coupon_for_id'] = $value
-                    $coupon_array[$key]['create_date'] = $date
-                    $coupon_array[$key]['status'] = $status*/ 
-                $message = array("status" => "success","message" => "קופון נוסף בהצלחה.");
-                }else{
-                	foreach ($coupf as $key => $value) {
-	                    for ($i=0; $i < $coupCount; $i++) { 
-	                        $coupon_array[$i]['coupon_code']=$this->couponCodeGen($coupon_code);
-	                        $coupon_array[$i]['coupon_type']=$coupon_type;
-	                        $coupon_array[$i]['coupon_amount']=$coupAmount;
-	                        $coupon_array[$i]['valid_from']=$valid_from;
-	                        $coupon_array[$i]['valid_to']=$valid_to;
-	                        $coupon_array[$i]['count_type']=$count_type;
-	                        $coupon_array[$i]['coupon_count']=1;
-	                        $coupon_array[$i]['coupon_for']=$coupon_for;
-	                        $coupon_array[$i]['coupon_for_id']=$value;
-	                        $coupon_array[$i]['create_date']=$date;
-	                        $coupon_array[$i]['status']=$status;
-	                    }
-                    	$result = $this->Common_modal->insert_batch('coupons',$coupon_array);
-	                }
+            if ($coupon_id > 0) {
+                $existing = $this->Common_modal->getAllWhere('coupons','cp_id',$coupon_id);
+                if (!$existing) {
+                    throw new Exception("קופון לא קיים.");
+                }
+                if (strtoupper($coupon_code) !== strtoupper($existing->coupon_code)) {
+                    $coupon_code = $this->couponCodeGen($coupon_code);
+                }
+                $coupon_data = array(
+                    'coupon_code' => $coupon_code,
+                    'coupon_type' => $coupon_type,
+                    'coupon_amount' => $coupAmount,
+                    'valid_from' => $valid_from,
+                    'valid_to' => $valid_to,
+                    'count_type' => $count_type,
+                    'coupon_count' => $coupCount,
+                    'coupon_for' => $coupon_for,
+                    'coupon_for_id' => implode(',', $coupf),
+                    'status' => $status
+                );
+                $result = $this->Common_modal->update('cp_id',$coupon_id,'coupons',$coupon_data);
                 if ($result) {
-                    $message = array("status" => "success","message" => "קופונים נוספו בהצלחה.");
+                    $message = array("status" => "success","message" => "קופון עודכן בהצלחה.","coupon_ids" => array($coupon_id));
+                } else {
+                    throw new Exception("לא ניתן לעדכן קופון זה.");
+                }
+            } else {
+                $coupon_array = array();
+                $coupon_ids = array();
+                if ($count_type) { 
+                    foreach ($coupf as $key => $value) { 
+                        $coupon_array = array(
+                            'coupon_code' => $this->couponCodeGen($coupon_code),
+                            'coupon_type' => $coupon_type, # % or Amnt
+                            'coupon_amount' => $coupAmount,
+                            'valid_from' => $valid_from,
+                            'valid_to' => $valid_to,
+                            'count_type' => $count_type, # 1
+                            'coupon_count' => $coupCount,
+                            'coupon_for' => $coupon_for,
+                            'coupon_for_id' => $value,
+                            'create_date' => $date,
+                            'status' => $status
+                        );
+                        $coupon_ids[] = $this->Common_modal->insert('coupons',$coupon_array);
+                    }
+                    $message = array("status" => "success","message" => "קופון נוסף בהצלחה.","coupon_ids" => $coupon_ids);
                 }else{
-                    throw new Exception("לא ניתן להוסיף קופונים אלו.");
+                    foreach ($coupf as $key => $value) {
+                        for ($i=0; $i < $coupCount; $i++) { 
+                            $coupon_array = array(
+                                'coupon_code' => $this->couponCodeGen($coupon_code),
+                                'coupon_type' => $coupon_type,
+                                'coupon_amount' => $coupAmount,
+                                'valid_from' => $valid_from,
+                                'valid_to' => $valid_to,
+                                'count_type' => $count_type,
+                                'coupon_count' => 1,
+                                'coupon_for' => $coupon_for,
+                                'coupon_for_id' => $value,
+                                'create_date' => $date,
+                                'status' => $status
+                            );
+                            $coupon_ids[] = $this->Common_modal->insert('coupons',$coupon_array);
+                        }
+                    }
+                    if (!empty($coupon_ids)) {
+                        $message = array("status" => "success","message" => "קופונים נוספו בהצלחה.","coupon_ids" => $coupon_ids);
+                    }else{
+                        throw new Exception("לא ניתן להוסיף קופונים אלו.");
+                    }
                 }
             }
 
@@ -321,6 +342,15 @@ class OtherOptions extends Admin_Controller {
             $group_id = $this->session->userdata['staff_logged_in']['group_id'];
             $deleteCoupon= $this->Admin_modal->isAccessRightGiven($group_id,89)?1:0;
             if ($deleteCoupon) {
+                $photos = $this->Common_modal->getTablePhotos('coupons',$coupon_id);
+                if ($photos) {
+                    $folder = $this->folder."/photos/coupons/";
+                    foreach ($photos as $row) {
+                        $this->Common_modal->delete('photo','pid',$row->pid);
+                        $imagename = $row->photo_path.'-org.'.$row->extension;
+                        unlink( $folder . $imagename);
+                    }
+                }
                 $coupon_deleted = $this->Common_modal->delete('coupons','cp_id',$coupon_id);
                 if ($coupon_deleted) {
                     $message = array("status" => "success","message" => "קופון נמחק בהצלחה.");
@@ -354,6 +384,103 @@ class OtherOptions extends Admin_Controller {
         }else{
             return $ret;
         }
+    }
+
+    function upload_coupon_img(){
+        try {
+            $coupon_ids_str = $this->input->post('coupon_ids');
+            if (empty($coupon_ids_str)) {
+                throw new Exception("קופון לא קיים.");
+            }
+            $coupon_ids = array_filter(array_map('intval', explode(',', $coupon_ids_str)));
+            if (empty($coupon_ids)) {
+                throw new Exception("קופון לא קיים.");
+            }
+            $first_coupon = $this->Common_modal->getAllWhere('coupons','cp_id',$coupon_ids[0]);
+            if (!$first_coupon) {
+                throw new Exception("קופון לא קיים.");
+            }
+            $this->load->library('aayusmain');
+
+            $folder = $this->folder."/photos/coupons/";
+            if(!is_dir($folder)){
+                mkdir($folder, 0777, true);
+            }
+
+            foreach ($coupon_ids as $cid) {
+                $photos = $this->Common_modal->getTablePhotos('coupons',$cid);
+                if ($photos) {
+                    foreach ($photos as $row) {
+                        $this->Common_modal->delete('photo','pid',$row->pid);
+                        $imagename = $row->photo_path.'-org.'.$row->extension;
+                        if (file_exists($folder . $imagename)) {
+                            unlink($folder . $imagename);
+                        }
+                    }
+                }
+            }
+
+            if (empty($_FILES)) {
+                throw new Exception("הקובץ ריק.");
+            }
+            $PhotoFileName = $_FILES["file"]["name"];
+            $PhotoFileNameMD5 = md5(date('YmdHis').$PhotoFileName);
+            $extension = pathinfo($PhotoFileName, PATHINFO_EXTENSION);
+            $filetype = $extension == 'png' ? $extension : 'jpg';
+            $img_org = $folder.$PhotoFileNameMD5.'-org.'.$filetype;
+
+            if (!@move_uploaded_file($_FILES['file']['tmp_name'],$img_org)) {
+                throw new Exception("לא ניתן להעלות את הקובץ.");
+            }
+
+            foreach ($coupon_ids as $cid) {
+                $coupon = $this->Common_modal->getAllWhere('coupons','cp_id',$cid);
+                $data = array(
+                    'table' => 'coupons',
+                    'field' => 'cp_id',
+                    'field_id' => $cid,
+                    'photo_path' => $PhotoFileNameMD5,
+                    'extension' => $filetype,
+                    'photo_title' => $coupon ? str_replace(array("-","_",".","jpg")," ", $coupon->coupon_code) : '',
+                    'photo_order' => 0
+                );
+                $this->Common_modal->insert('photo',$data);
+            }
+            $message = array("status" => "success", "message" => "תמונה נוספה בהצלחה.");
+        } catch(Exception $ex) {
+            $message = array("status" => "error", "message" => $ex->getMessage());
+        }
+        echo json_encode($message);
+    }
+
+    function delete_coupon_photo(){
+        try {
+            $coupon_ids_str = $this->input->post('coupon_ids');
+            if (empty($coupon_ids_str)) {
+                throw new Exception("קופון לא קיים.");
+            }
+            $coupon_ids = array_filter(array_map('intval', explode(',', $coupon_ids_str)));
+            if (empty($coupon_ids)) {
+                throw new Exception("קופון לא קיים.");
+            }
+            $folder = $this->folder."/photos/coupons/";
+            foreach ($coupon_ids as $cid) {
+                $photos = $this->Common_modal->getTablePhotos('coupons',$cid);
+                if ($photos) {
+                    foreach ($photos as $row) {
+                        $this->Common_modal->delete('photo','pid',$row->pid);
+                        $imagename = $row->photo_path.'-org.'.$row->extension;
+                        if (file_exists($folder . $imagename)) {
+                            unlink($folder . $imagename);
+                        }
+                    }
+                }
+            }
+            $message = array("status" => "success", "message" => "תמונה הוסרה בהצלחה.");
+        } catch(Exception $ex) {
+            $message = array("status" => "error", "message" => $ex->getMessage());
+        }
+        echo json_encode($message);
     }
 }
 

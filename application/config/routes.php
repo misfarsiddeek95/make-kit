@@ -152,6 +152,8 @@ $route['getCoupons'] = 'OtherOptions/getCoupons';
 $route['addCoupon'] = 'OtherOptions/saveCoupon';
 $route['updateCouponsStatus'] = 'OtherOptions/updateCouponsStatus';
 $route['deleteCoupons'] = 'OtherOptions/deleteCoupons';
+$route['uploadCouponImage'] = 'OtherOptions/upload_coupon_img';
+$route['deleteCouponPhoto'] = 'OtherOptions/delete_coupon_photo';
 
 # Institutes
 $route['saveClass'] = 'Academic/saveClass';

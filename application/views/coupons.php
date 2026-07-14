@@ -2,6 +2,23 @@
 <html lang="en">
   <head>
     <?php $this->load->view('includes/head'); ?>
+    <style type="text/css">
+    .dz-preview.dz-processing.dz-image-preview.dz-complete{
+      display: table;
+      margin: 0 auto;
+      background-color: transparent;
+      width: 100%;
+    }
+    #myDropzone{
+      background-color: transparent;
+      display: table;
+      margin: 0 auto;
+      padding: 5px;
+    }
+    .dz-default.dz-message{
+      padding: 0;
+    }
+    </style>
   </head>
   <body class="layout layout-header-fixed layout-left-sidebar-fixed">
     <?php $this->load->view('includes/topbar'); ?>
@@ -75,6 +92,7 @@
               <table class="table table-hover m-b-10">
                 <thead>
                   <tr>
+                    <th></th>
                     <th>קוד</th>
                     <th>סכום</th>
                     <th>מתאריך</th>
@@ -82,7 +100,7 @@
                     <th>ספירה</th>
                     <th>תאריך הוספה</th>
                     <th>סטטוס</th>
-                    <?php if($editCoupons&&false){?>
+                    <?php if($editCoupons){?>
                     <th>עריכה</th>
                     <?php } if($deleteCoupons){ ?>
                     <th>מחיקה</th>
@@ -116,7 +134,14 @@
               <h4 class="modal-title" id="modal-title">הוסף קופון</h4>
             </div>
 
-            <form data-toggle="validator" id="inputmasks">
+            <div id="couponModalCont">
+              <form action="<?=base_url()?>uploadCouponImage" class="dropzone" id="myDropzone">
+                <div class="dz-default dz-message">
+                  <span class="text-muted">גרור תמונת קופון לכאן</span>
+                </div>
+              </form>
+
+              <form data-toggle="validator" id="inputmasks">
 
               <div class="modal-body">
                 <input type="hidden" name="coupon_id" id="coupon_id" value="0">
@@ -194,13 +219,13 @@
 
                 <div class="form-group">
                   <label for="form-control-4" class="control-label">תאריך התחלה</label>
-                  <input id="form-control-1" class="form-control" type="text" value="" data-inputmask="'alias': 'yyyy-mm-dd'" name="valid_from" id="valid_from" data-required-error="תאריך התחלה נדרש" required>
+                  <input class="form-control" type="text" value="" data-inputmask="'alias': 'yyyy-mm-dd'" name="valid_from" id="valid_from" data-required-error="תאריך התחלה נדרש" required>
                   <div class="help-block with-errors"></div>
                 </div>
 
                 <div class="form-group">
                   <label for="form-control-4" class="control-label">תאריך סיום</label>
-                  <input id="form-control-1" class="form-control" type="text" value="" data-inputmask="'alias': 'yyyy-mm-dd'" name="valid_to" id="valid_to" data-required-error="תאריך סיום נדרש" required>
+                  <input class="form-control" type="text" value="" data-inputmask="'alias': 'yyyy-mm-dd'" name="valid_to" id="valid_to" data-required-error="תאריך סיום נדרש" required>
                   <div class="help-block with-errors"></div>
                 </div>
 
@@ -234,6 +259,7 @@
                 <button type="button" data-dismiss="modal" class="btn btn-default">סגור</button>
               </div>
             </form>
+            </div>
           </div>
         </div>
       </div>
@@ -246,15 +272,57 @@
     <script src="<?=base_url()?>assets/js/bootstrap-datepicker.js"></script>
     
     <script type="text/javascript">
+      var pendingCouponIds = '';
+      var imageRemoved = false;
+
       $( document ).ready(function() {
         $('#filterByFromDate,#filterByToDate').datepicker({
           format: 'yyyy-mm-dd'
+        });
+        $('#valid_from,#valid_to').datepicker({
+          format: 'yyyy-mm-dd',
+          autoclose: true
         });
         getCoupons();
 
         $('#coupon_for_id_brand_div').hide();
         $('#coupon_for_id_category_div').hide();
 
+      });
+
+      $("#myDropzone").dropzone({
+        acceptedFiles: 'image/*',
+        autoProcessQueue: false,
+        uploadMultiple: false,
+        addRemoveLinks: true,
+        maxFiles: 1,
+        url: "<?=base_url()?>uploadCouponImage",
+        sending: function(file, xhr, formData) {
+          formData.append('coupon_ids', pendingCouponIds);
+        },
+        removedfile: function(file) {
+          imageRemoved = true;
+          var _ref;
+          if (file.previewElement) {
+            if ((_ref = file.previewElement) != null) {
+              _ref.parentNode.removeChild(file.previewElement);
+            }
+          }
+        },
+        success : function(file, response){
+          var responsedata = $.parseJSON(response);
+          if (responsedata.status=='success') {
+            toastr.success(responsedata.message);
+          } else {
+            toastr.error(responsedata.message);
+          }
+          document.getElementById('inputmasks').reset();
+          $('#inputmasks').find("input").val("");
+          $('#inputmasks').validator('destroy').validator();
+          $("#coupon_modal").modal('hide');
+          getCoupons();
+          $('#couponModalCont').waitMe('hide');
+        }
       });
 
       $('.coupRadio input[name="coup_for"]').on('change',function() { 
@@ -290,10 +358,14 @@
                 $('#tbody_data').append('<tr><td colspan="10" class="text-center">אין תוצאות</td></tr>');
               }else{
                 for (var i = 0; i < responsedata.coupons.length; i++) {
-                  var coupon_type = 'LKR';
+                  var coupon_type = '₪';
                   var status = '';
                   if (responsedata.coupons[i]['coupon_type']==1) {
                     coupon_type = '%';
+                  }
+                  var imgSrc = '<?=base_url()?>photos/default.jpg';
+                  if (responsedata.coupons[i]['photo_path'] != null && responsedata.coupons[i]['photo_path'] != '') {
+                    imgSrc = '<?=base_url()?>photos/coupons/'+responsedata.coupons[i]['photo_path']+'-org.'+responsedata.coupons[i]['extension'];
                   }
                   <?php if($couponsStatus){?>
                   if (responsedata.coupons[i]['status']==0) {
@@ -303,22 +375,23 @@
                   }
                   <?php }else{ ?>
                     if (responsedata.coupons[i]['status']==0) {
-                      status = 'onchange="updateCouponsStatus('+responsedata.coupons[i]['cp_id')+');" checked="checked"';
+                      status = 'onchange="updateCouponsStatus('+responsedata.coupons[i]['cp_id']+');" checked="checked"';
                     }else{
                       status = 'disabled="disabled"';
                     }
                   <?php } ?>
-                  tbody +='<tr id="coupRow'+responsedata.coupons[i]['cp_id']+'"><td>'+responsedata.coupons[i]['coupon_code']+'</td>'+
+                  tbody +='<tr id="coupRow'+responsedata.coupons[i]['cp_id']+'"><td><img class="img-rounded" src="'+imgSrc+'" height="32"></td>'+
+                          '<td>'+responsedata.coupons[i]['coupon_code']+'</td>'+
                           '<td>'+responsedata.coupons[i]['coupon_amount']+' '+coupon_type+'</td>'+
                           '<td>'+responsedata.coupons[i]['valid_from']+'</td>'+
                           '<td>'+responsedata.coupons[i]['valid_to']+'</td>'+
                           '<td>'+responsedata.coupons[i]['coupon_count']+'</td>'+
                           '<td>'+responsedata.coupons[i]['create_date']+'</td>'+
                           '<td><input type="checkbox" class="js-switch" data-size="small" data-color="#34a853" '+status+'></td>'+
-                          <?php if($editCoupons&&false){?>
-                          '<td style="padding:0;margin:0;"><button type="button" class="btn btn-primary btn-sm" title="Edit Order Status" onclick="editCoupon('+responsedata.coupons[i]['cp_id']+');"><i class="zmdi zmdi-edit"></i></button></td>'+
+                          <?php if($editCoupons){?>
+                          '<td style="padding:0;margin:0;"><button type="button" class="btn btn-primary btn-sm" title="Edit Coupon" onclick="editCoupon('+responsedata.coupons[i]['cp_id']+',\''+responsedata.coupons[i]['coupon_code']+'\',\''+responsedata.coupons[i]['coupon_amount']+'\',\''+responsedata.coupons[i]['valid_from']+'\',\''+responsedata.coupons[i]['valid_to']+'\',\''+responsedata.coupons[i]['coupon_count']+'\',\''+responsedata.coupons[i]['coupon_type']+'\',\''+responsedata.coupons[i]['count_type']+'\',\''+responsedata.coupons[i]['coupon_for']+'\',\''+responsedata.coupons[i]['coupon_for_id']+'\',\''+responsedata.coupons[i]['status']+'\',\''+imgSrc+'\');"><i class="zmdi zmdi-edit"></i></button></td>'+
                           <?php } if($deleteCoupons){?>
-                          '<td style="padding:0;margin:0;"><button type="button" class="btn btn-danger btn-sm" title="Delete Order" onclick="deleteCoupons('+responsedata.coupons[i]['cp_id']+');"><i class="zmdi zmdi-delete"></i></button></td>'+
+                          '<td style="padding:0;margin:0;"><button type="button" class="btn btn-danger btn-sm" title="Delete Coupon" onclick="deleteCoupons('+responsedata.coupons[i]['cp_id']+');"><i class="zmdi zmdi-delete"></i></button></td>'+
                           <?php } ?>
                           '</tr>';
               }
@@ -382,7 +455,9 @@
       function addCoupon() {
         $('#modal-title').text('הוסף קופון');
         $("#coupon_id").val(0);
-        $('#coupon_for_id').select2({
+        pendingCouponIds = '';
+        imageRemoved = false;
+        $('#coupon_for_id_brand,#coupon_for_id_category').select2({
           dropdownParent: $('#coupon_modal')
         });
 
@@ -391,13 +466,79 @@
         $('#coupon_for_id_brand_div').hide();
         $('#coupon_for_id_category_div').hide();
 
+        var myDropzone = Dropzone.forElement(".dropzone");
+        myDropzone.removeAllFiles();
+
         $("#coupon_modal").modal('show');
       }
 
-      function editCoupon(id) {
-        var category = $("#coupRow"+id).find("td:eq(2)").text();
+      function editCoupon(id, code, amount, valid_from, valid_to, coupon_count, coupon_type, count_type, coupon_for, coupon_for_id, status, imgSrc) {
         $('#modal-title').text('עדכן קופון');
         $("#coupon_id").val(id);
+        pendingCouponIds = id.toString();
+        imageRemoved = false;
+        $("#coupon_code").val(code);
+        $("#coupAmount").val(amount);
+        $('#valid_from').datepicker('setDate', valid_from);
+        $('#valid_to').datepicker('setDate', valid_to);
+        $("#coupCount").val(coupon_count);
+        
+        if (coupon_type == '1') {
+          $('input[name="coupon_type"]').prop('checked', true);
+        } else {
+          $('input[name="coupon_type"]').prop('checked', false);
+        }
+        
+        if (count_type == '1') {
+          $('input[name="count_type"]').prop('checked', true);
+        } else {
+          $('input[name="count_type"]').prop('checked', false);
+        }
+
+        $('#coupon_for_id_brand').select2({ dropdownParent: $('#coupon_modal') });
+        $('#coupon_for_id_category').select2({ dropdownParent: $('#coupon_modal') });
+        $('#coupon_for_id_brand').val(null).trigger('change');
+        $('#coupon_for_id_category').val(null).trigger('change');
+
+        if (coupon_for == '0') {
+          $('#coup_brand').prop('checked', true).parent().addClass('active');
+          $('#coup_cate').prop('checked', false).parent().removeClass('active');
+          $('#coupon_for_id_brand_div').show();
+          $('#coupon_for_id_category_div').hide();
+          if (coupon_for_id) {
+            $('#coupon_for_id_brand').val(coupon_for_id.split(',')).trigger('change');
+          }
+        } else if (coupon_for == '1') {
+          $('#coup_cate').prop('checked', true).parent().addClass('active');
+          $('#coup_brand').prop('checked', false).parent().removeClass('active');
+          $('#coupon_for_id_category_div').show();
+          $('#coupon_for_id_brand_div').hide();
+          if (coupon_for_id) {
+            $('#coupon_for_id_category').val(coupon_for_id.split(',')).trigger('change');
+          }
+        } else {
+          $('#coupon_for_id_brand_div').hide();
+          $('#coupon_for_id_category_div').hide();
+        }
+
+        if (status == '0') {
+          $('#status_on').prop('checked', true).parent().addClass('active');
+          $('#status_off').prop('checked', false).parent().removeClass('active');
+        } else {
+          $('#status_off').prop('checked', true).parent().addClass('active');
+          $('#status_on').prop('checked', false).parent().removeClass('active');
+        }
+
+        var myDropzone = Dropzone.forElement(".dropzone");
+        myDropzone.removeAllFiles();
+        
+        if (imgSrc && imgSrc.indexOf('default.jpg') === -1) {
+          var mockFile = { name: code, size: 20 };
+          myDropzone.options.addedfile.call(myDropzone, mockFile);
+          myDropzone.options.thumbnail.call(myDropzone, mockFile, imgSrc);
+          myDropzone.files.push( mockFile );
+        }
+
         $("#coupon_modal").modal('show');
       }
 
@@ -443,7 +584,9 @@
       $('#inputmasks').validator().on('submit', function (e) {
         if (!(e.isDefaultPrevented())) {
           e.preventDefault();
-          run_waitMe('#inputmasks');
+          run_waitMe('#couponModalCont');
+          var myDropzone = Dropzone.forElement(".dropzone");
+
           $.ajax({
             type: "POST",
             url: "<?=base_url()?>addCoupon",
@@ -451,21 +594,43 @@
             success: function(result) {
               var responsedata = $.parseJSON(result);
               if(responsedata.status=='success'){
-                document.getElementById('inputmasks').reset(); 
-                $('#inputmasks').find("input").val("");
-                $('#inputmasks').validator('destroy').validator();
-                toastr.success(responsedata.message)
-                $("#coupon_modal").modal('hide');
-                getCoupons();
+                if (myDropzone.getQueuedFiles().length > 0) {
+                  pendingCouponIds = responsedata.coupon_ids.join(',');
+                  myDropzone.processQueue();
+                } else if (imageRemoved && responsedata.coupon_ids && responsedata.coupon_ids.length > 0) {
+                  $.ajax({
+                    type: "POST",
+                    url: "<?=base_url()?>deleteCouponPhoto",
+                    data: 'coupon_ids=' + responsedata.coupon_ids.join(','),
+                    complete: function() {
+                      document.getElementById('inputmasks').reset();
+                      $('#inputmasks').find("input").val("");
+                      $('#inputmasks').validator('destroy').validator();
+                      toastr.success(responsedata.message);
+                      $("#coupon_modal").modal('hide');
+                      getCoupons();
+                      $('#couponModalCont').waitMe('hide');
+                    }
+                  });
+                } else {
+                  document.getElementById('inputmasks').reset(); 
+                  $('#inputmasks').find("input").val("");
+                  $('#inputmasks').validator('destroy').validator();
+                  toastr.success(responsedata.message)
+                  $("#coupon_modal").modal('hide');
+                  getCoupons();
+                  $('#couponModalCont').waitMe('hide');
+                }
               }else if(responsedata.status=='error'){
                 toastr.error(responsedata.message)
+                $('#couponModalCont').waitMe('hide');
               }else{
                 toastr.error("משהו השתבש :(")
+                $('#couponModalCont').waitMe('hide');
               }
-              $('#inputmasks').waitMe('hide');
             },
             error: function(result) {
-              $('#inputmasks').waitMe('hide');
+              $('#couponModalCont').waitMe('hide');
               toastr.error('Error :'+result)
             }
           }); 
