@@ -528,6 +528,20 @@ class Questionnaire extends Admin_Controller {
             $paperId = $this->input->post('paperId');
             $question_type = $this->Common_modal->getAll('question_type');
 
+            $schoolName = trim($this->input->post('school_name'));
+            $duration = $this->input->post('duration');
+            $marks_count = $this->input->post('marks_count');
+
+            if (empty($schoolName)) {
+                throw new Exception("שם מוסד הוא שדה חובה.");
+            }
+            if ($duration === '' || !is_numeric($duration)) {
+                throw new Exception("משך זמן המבחן הוא שדה חובה וחייב להיות מספר.");
+            }
+            if ($marks_count === '' || !is_numeric($marks_count)) {
+                throw new Exception("ניקוד המבחן הוא שדה חובה וחייב להיות מספר.");
+            }
+
             $mcqMainTitle = trim($this->input->post('mcq_main_title'));
             $structuredMainTitle = trim($this->input->post('structured_main_title'));
             $essayMainTitle = trim($this->input->post('essay_main_title'));
@@ -537,6 +551,9 @@ class Questionnaire extends Admin_Controller {
             $PhotoFileNameMD5 = '';
             $filetype = '';
             $data_arr = array(
+                'school_name' => $schoolName,
+                'paper_duration' => $duration,
+                'total_marks_count' => $marks_count,
                 'mcq_main_title' => $mcqMainTitle != '' ? $mcqMainTitle : null,
                 'structured_main_title' => $structuredMainTitle != '' ? $structuredMainTitle : null,
                 'essay_main_title' => $essayMainTitle != '' ? $essayMainTitle : null,

@@ -58,30 +58,21 @@
                                         <div class="col-sm-12 col-md-3">
                                             <div class="form-group">
                                                 <label for="school_name" class="control-label">שם מוסד</label>
-                                                <input type="text" name="school_name" id="school_name" class="form-control" placeholder="הזן שם מוסד כאן..." value="<?=$getQuestionPaper->school_name?>" autocomplete="off" required data-required-error="שם מוסד הוא שדה חובה." readonly />
-                                                <p class="help-block">
-                                                    <small>לא ניתן לערוך שדה זה.</small>
-                                                </p>
+                                                <input type="text" name="school_name" id="school_name" class="form-control" placeholder="הזן שם מוסד כאן..." value="<?=$getQuestionPaper->school_name?>" autocomplete="off" required data-required-error="שם מוסד הוא שדה חובה." />
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-3">
                                             <div class="form-group">
                                                 <label for="duration" class="control-label">משך זמן (בדקות, כמספר)</label>
-                                                <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="משך זמן המבחן" value="<?=number_format($getQuestionPaper->paper_duration, 0)?>" autocomplete="off" required data-required-error="משך זמן המבחן הוא שדה חובה." data-pattern-error="פּרוֹטוֹקוֹל לא תקינות. נא להזין מספר." readonly />
-                                                <p class="help-block">
-                                                    <small>לא ניתן לערוך שדה זה.</small>
-                                                </p>
+                                                <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="משך זמן המבחן" value="<?=number_format($getQuestionPaper->paper_duration, 0, '.', '')?>" autocomplete="off" required data-required-error="משך זמן המבחן הוא שדה חובה." data-pattern-error="פּרוֹטוֹקוֹל לא תקינות. נא להזין מספר." />
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
                                         <div class="col-sm-12 col-md-3">
                                             <div class="form-group">
                                                 <label for="marks_count" class="control-label">סך הכול ניקוד (במספרים)</label>
-                                                <input type="text" name="marks_count" id="marks_count" pattern="^[0-9+.]+$" class="form-control" placeholder="ניקוד המבחן" autocomplete="off" value="<?=number_format($getQuestionPaper->total_marks_count, 0)?>" required data-required-error="ניקוד המבחן הוא שדה חובה." data-pattern-error="ניקוד לא תקין. נא להזין מספר." readonly />
-                                                <p class="help-block">
-                                                    <small>לא ניתן לערוך שדה זה.</small>
-                                                </p>
+                                                <input type="text" name="marks_count" id="marks_count" pattern="^[0-9+.]+$" class="form-control" placeholder="ניקוד המבחן" autocomplete="off" value="<?=number_format($getQuestionPaper->total_marks_count, 0, '.', '')?>" required data-required-error="ניקוד המבחן הוא שדה חובה." data-pattern-error="ניקוד לא תקין. נא להזין מספר." />
                                                 <div class="help-block with-errors"></div>
                                             </div>
                                         </div>
@@ -310,23 +301,24 @@
             }
 
             let questionList = <?=json_encode($getQuestionPaperQuestions, JSON_PRETTY_PRINT)?>; // converting php array to js object format.
-            let questionListDiv = ``; // this is used for append the question div with question types and questions.
-            let existingQuestions = []; // this array is for check the already selected questions.
             run_waitMe('.panel-body');
-            setTimeout(() => {
-                loadQuestions(filteredQuestions);
-                let locallyStoredFilteredQues = localStorage.getItem('filteredQuestions'); // fetching the questions with type from localstorage.
-                let seperatedQuestions = []; // this is used to seperate questions according to their question type. [MCQ, STRUCTURED, ESSAY]
+            loadQuestions(function(filteredData) {
+                renderQuestions(filteredData);
+            });
+
+            function renderQuestions(filteredQuestions) {
+                let questionListDiv = ``;
                 questionList.forEach(el => {
+                    let seperatedQuestions = [];
                     switch (el.question_type_english) {
                         case 'MCQ':
-                            seperatedQuestions = JSON.parse(locallyStoredFilteredQues).mcq; // seperating questions by their question type. JSON.parse is used due to we have stored as stringify format in localstorage.
+                            seperatedQuestions = (filteredQuestions && filteredQuestions.mcq) ? filteredQuestions.mcq : [];
                             break;
                         case 'STRUCTURED':
-                            seperatedQuestions = JSON.parse(locallyStoredFilteredQues).structured;
+                            seperatedQuestions = (filteredQuestions && filteredQuestions.structured) ? filteredQuestions.structured : [];
                             break;
                         case 'ESSAY':
-                            seperatedQuestions = JSON.parse(locallyStoredFilteredQues).essay;
+                            seperatedQuestions = (filteredQuestions && filteredQuestions.essay) ? filteredQuestions.essay : [];
                             break;
                         default:
                             seperatedQuestions = [];
@@ -340,14 +332,13 @@
                                                         let count = 0;
                                                         if (el.questions.length > 0) {
                                                             el.questions.forEach((que, index) => {
-                                                                existingQuestions.push(que.question_id); // add all existing question ids to the array declared above.
                                                                 count = index+1;
                                                                 questionListDiv += `<tr class="scorerrow question_div${el.qt_id}">
                                                                                         <th style="width:5%;" class="que-count">${index+1}</th>
                                                                                         <td class="text-center">
                                                                                             <div class="form-group" style="margin-bottom: 0px;">
                                                                                                 <select class="form-control questions selectedQues${que.question_id}" name="${el.question_type_english.toLowerCase()}[]" data-plugin="select2"
-                                                                                                data-placeholder="Select a question" style="width: 100%;">
+                                                                                                data-placeholder="בחר שאלה" style="width: 100%;">
                                                                                                     <option></option>`
                                                                                                     seperatedQuestions.forEach(q => {
                                                                                                         questionListDiv += `<option value="${q.que_id}">${q.question_showing}</option>`;
@@ -377,7 +368,7 @@
                                                             <td class="text-center">
                                                                 <div class="form-group" style="margin-bottom: 0px;">
                                                                     <select class="form-control questions" name="${el.question_type_english.toLowerCase()}[]" data-plugin="select2"
-                                                                    data-placeholder="Select a question" style="width: 100%;">
+                                                                    data-placeholder="בחר שאלה" style="width: 100%;">
                                                                         <option></option>`
                                                                         seperatedQuestions.forEach(q => {
                                                                             questionListDiv += `<option value="${q.que_id}">${q.question_showing}</option>`;
@@ -406,19 +397,15 @@
                                         </div>`;
                 });
                 $('#question-list-div').html(questionListDiv);
-                $(".questions").select2({
-                    allowClear: true
-                });
-                // below code is used to select the questions which is already in the db.
+                initQuestionSelect($(".questions"));
+                // select the questions which is already in the db.
                 questionList.forEach(el => {
-                    el.questions.forEach((que, index) => {
+                    el.questions.forEach((que) => {
                         $('.selectedQues'+que.question_id).val(que.question_id).trigger('change');
                     });
                 });
-                console.log('existingQuestions',existingQuestions);
-                $('.questions').attr(`onchange`, `checkQuestionAlreadySelected(this, '${existingQuestions}')`); // set the onchange function every question selection.
                 $('.panel-body').waitMe('hide');
-            }, 5000);
+            }
         });
         $(".our-select-2").select2({
             allowClear: true,
@@ -483,6 +470,58 @@
             });
         }
 
+        const questionMatcher = (params, data) => {
+            if (!data.id) {
+                return data;
+            }
+            var currentSelect = data.element ? $(data.element).closest('select')[0] : null;
+            var isSelectedElsewhere = false;
+            if (currentSelect) {
+                $('.questions').not(currentSelect).each(function () {
+                    if ($(this).val() == data.id) {
+                        isSelectedElsewhere = true;
+                        return false;
+                    }
+                });
+            }
+            if (isSelectedElsewhere) {
+                return null;
+            }
+            if (!params.term || $.trim(params.term) === '') {
+                return data;
+            }
+            var original = (data.text || '').toUpperCase();
+            var term = params.term.toUpperCase();
+            if (original.indexOf(term) > -1) {
+                return data;
+            }
+            return null;
+        };
+
+        const initQuestionSelect = (selector) => {
+            $(selector).select2({
+                allowClear: true,
+                matcher: questionMatcher
+            });
+        };
+
+        $(document).on('change', '.questions', function () {
+            var val = $(this).val();
+            if (!val) return;
+            var current = this;
+            var isDuplicate = false;
+            $('.questions').not(current).each(function () {
+                if ($(this).val() == val) {
+                    isDuplicate = true;
+                    return false;
+                }
+            });
+            if (isDuplicate) {
+                toastr.error('שאלה זו כבר נבחרה במבחן זה.');
+                $(this).val('').trigger('change');
+            }
+        });
+
         add_fields = function (elms, dvclass, adclass, rmclass, questionType) {
             var numItems = $('.' + dvclass).length;
             const questionTypeCount = $(`input[name="${questionType}Count"]`).val();
@@ -490,67 +529,118 @@
                 return toastr.error(`לא ניתן להוסיף שדות מעבר למספר השאלות המוגדר מסוג ${questionType}.`);
             }
 
-            $('.' + dvclass + ':last').find('.questions').select2('destroy');
-            var ele = $(elms).closest('.' + dvclass).clone(true);
-            $(elms).closest('.' + dvclass).after(ele);
-            $(elms).closest('.' + dvclass).find('.' + rmclass).css({
-                "display": "inline-block"
+            var $currentRow = $(elms).closest('.' + dvclass);
+            $currentRow.find('.questions').select2('destroy');
+            var ele = $currentRow.clone(false);
+
+            initQuestionSelect($currentRow.find('.questions'));
+
+            ele.find('.select2-container').remove();
+            var $newSelect = ele.find('.questions');
+            $newSelect.removeClass(function (index, className) {
+                return (className.match(/(^|\s)selectedQues\S+/g) || []).join(' ');
             });
+            $newSelect.val('');
+
+            $currentRow.find('.' + rmclass).css("display", "inline-block");
             $(elms).css('display', 'none');
-            $('.' + dvclass).last().find('.' + rmclass).css({
-                "display": "inline-block"
+
+            $currentRow.after(ele);
+
+            initQuestionSelect($newSelect);
+
+            $('.' + dvclass).each(function (index) {
+                $(this).find('th.que-count').html(index + 1);
             });
-            $('.'+dvclass+':last th.que-count').html(numItems+1);
-            $('.questions').select2({allowClear: true});
-            $('.' + dvclass).last().find('.' + rmclass).css({
-                "display": "inline-block"
-            });
-        }
+
+            var $allRows = $('.' + dvclass);
+            $allRows.find('.' + adclass).css("display", "none");
+            $allRows.find('.' + rmclass).css("display", "inline-block");
+            $allRows.last().find('.' + adclass).css("display", "inline-block");
+            if ($allRows.length === 1) {
+                $allRows.first().find('.' + rmclass).css("display", "none");
+            }
+        };
 
         remove_fields = function (elms, dvclass, adclass, rmclass) {
-            $(elms).closest('.' + dvclass).remove();
-            $('.' + dvclass).last().find('.' + adclass).css({
-                "display": "inline-block"
-            });
-            $('.' + dvclass).first().find('.' + rmclass).css({
-                "display": "none"
-            });
-            var numItems = $('.' + dvclass).length;
-            $('.'+dvclass+':last th.que-count').html(numItems);
-        }
+            var $row = $(elms).closest('.' + dvclass);
+            $row.find('.questions').select2('destroy');
+            $row.remove();
 
-        const loadQuestions = (filteredQuestions=[]) => {
-            const classId = $('#class_id option:selected').val();
-            const subjectId = $('#sub_id option:selected').val();
-            const termIds = [];
-            $('input:checkbox[name="questions_from[]"]:checked').each(function(){
+            var $allRows = $('.' + dvclass);
+            $allRows.each(function (index) {
+                $(this).find('th.que-count').html(index + 1);
+            });
+
+            if ($allRows.length === 1) {
+                $allRows.first().find('.' + rmclass).css("display", "none");
+                $allRows.first().find('.' + adclass).css("display", "inline-block");
+            } else {
+                $allRows.find('.' + adclass).css("display", "none");
+                $allRows.last().find('.' + adclass).css("display", "inline-block");
+            }
+        };
+
+        const loadQuestions = (callback) => {
+            const classId = $('#class_id').val() || '<?=$getQuestionPaper->class_id?>';
+            const subjectId = '<?=$getQuestionPaper->subject_id?>';
+            let termIds = [];
+            $('input.question_from:checked, input[name="questions_from[]"]:checked').each(function(){
                 termIds.push($(this).val());
             });
+            if (termIds.length === 0) {
+                let selectedQues = '<?=$getQuestionPaper->selected_ques_from?>';
+                termIds = selectedQues.split(',').filter(Boolean);
+            }
             const dataSet = {
                 classId: classId,
                 subjectId: subjectId,
                 termIds: termIds
-            }
+            };
             $.ajax({
                 type: "POST",
                 url: '<?=base_url()?>filter-questions',
                 data: dataSet,
                 success: function (result) {
-                    const resp = $.parseJSON(result);
-                    filteredQuestions = resp;
-                    localStorage.setItem('filteredQuestions', JSON.stringify(filteredQuestions))
+                    try {
+                        const resp = typeof result === 'object' ? result : $.parseJSON(result);
+                        localStorage.setItem('filteredQuestions', JSON.stringify(resp));
+                        if (typeof callback === 'function') {
+                            callback(resp);
+                        }
+                    } catch (e) {
+                        $('.panel-body').waitMe('hide');
+                    }
                 },
-                error: function (result) {}
+                error: function (result) {
+                    try {
+                        let locallyStored = localStorage.getItem('filteredQuestions');
+                        if (locallyStored && typeof callback === 'function') {
+                            callback(JSON.parse(locallyStored));
+                        } else {
+                            $('.panel-body').waitMe('hide');
+                        }
+                    } catch (e) {
+                        $('.panel-body').waitMe('hide');
+                    }
+                }
             });
-        }
+        };
 
         const checkQuestionAlreadySelected = (el, existQues=[]) => {
-            const makeArr = existQues.split(',');
             const selectedVal = $(el).val();
-            if(makeArr.includes(selectedVal)) {
-                return toastr.error('שאלה זו כבר נבחרה במבחן זה.') 
-            };
-        }
+            if (!selectedVal) return;
+            let duplicate = false;
+            $('.questions').not(el).each(function () {
+                if ($(this).val() == selectedVal) {
+                    duplicate = true;
+                    return false;
+                }
+            });
+            if (duplicate) {
+                return toastr.error('שאלה זו כבר נבחרה במבחן זה.');
+            }
+        };
 
         $('#inputmasks').validator().on('submit', function (e) {
             if (!(e.isDefaultPrevented())) {
@@ -575,10 +665,13 @@
                                 location.reload();
                             }, 1500);
                         } else {
-                            toastr.error(resp.message)
+                            toastr.error(resp.message);
+                            $('#update-btn').text('עדכן מבחן').removeAttr('disabled');
                         }
                     },
-                    error: function (result) {}
+                    error: function (result) {
+                        $('#update-btn').text('עדכן מבחן').removeAttr('disabled');
+                    }
                 });
             }
         });
