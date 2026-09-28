@@ -58,7 +58,7 @@
                                                 <tr><td class="p-y-40"></td></tr>
                                                 <tr><td class="h4">ניקוד (<?=number_format($paper_detail['total_marks_count'],0)?>)</td></tr>
                                             </table>
-                                            <h4 class="text-center font-italic"><?=str_pad(number_format($paper_detail['paper_duration'],0), 2, '0', STR_PAD_LEFT)?> שעות</h4>
+                                            <h4 class="text-center font-italic"><?=str_pad(number_format($paper_detail['paper_duration'],0), 2, '0', STR_PAD_LEFT)?> פּרוֹטוֹקוֹל</h4>
                                         </div>
                                     </div>
                                 </div>

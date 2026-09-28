@@ -63,8 +63,8 @@
                                     </div>
                                     <div class="col-sm-12 col-md-3">
                                         <div class="form-group">
-                                            <label for="duration" class="control-label">משך זמן (בשעות, במספרים)</label>
-                                            <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="משך זמן המבחן" autocomplete="off" required data-required-error="משך זמן המבחן הוא שדה חובה." data-pattern-error="שעות לא תקינות. נא להזין מספר." />
+                                            <label for="duration" class="control-label">משך זמן (בדקות, כמספר)</label>
+                                            <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="משך זמן המבחן" autocomplete="off" required data-required-error="משך זמן המבחן הוא שדה חובה." data-pattern-error="פּרוֹטוֹקוֹל לא תקינות. נא להזין מספר." />
                                             <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
@@ -278,7 +278,7 @@
                                             <tbody class="tbody_data">
                                                 <?php 
                                                     foreach ($row->papers as $pp) { 
-                                                        $title = $row->extype_name.' - '.$pp->class_name.' - '.$pp->subject_name.' Paper: <b> '.number_format($pp->paper_duration,0).' Hour/s | Total Marks: '.number_format($pp->total_marks_count,0).'</b>';
+                                                        $title = $row->extype_name.' - '.$pp->class_name.' - '.$pp->subject_name.' נְיָר: <b> '.number_format($pp->paper_duration,0).' פּרוֹטוֹקוֹל | סך כל הנקודות: '.number_format($pp->total_marks_count,0).'</b>';
                                                         $url_segment = 'user-detail';
                                                         switch ($pp->access_group) {
                                                             case 2:
@@ -537,7 +537,7 @@
                                 }
                                 if (resp.last_added != false && jQuery.isEmptyObject(resp.last_added) == false) {
                                     const data = resp.last_added;
-                                    const title = data.extype_name+' - '+data.class_name+' - '+data.subject_name+' Paper: <b> '+number_without_decimal_points(data.paper_duration)+' Hour/s | Total Marks: '+number_without_decimal_points(data.total_marks_count)+'</b>';
+                                    const title = data.extype_name+' - '+data.class_name+' - '+data.subject_name+' נְיָר: <b> '+number_without_decimal_points(data.paper_duration)+' פּרוֹטוֹקוֹל | סך כל הנקודות: '+number_without_decimal_points(data.total_marks_count)+'</b>';
                                     let url_segment = 'user-detail';
                                     switch (data.access_group) {
                                         case '2':

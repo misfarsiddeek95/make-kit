@@ -67,8 +67,8 @@
                                         </div>
                                         <div class="col-sm-12 col-md-3">
                                             <div class="form-group">
-                                                <label for="duration" class="control-label">משך זמן (בשעות, במספרים)</label>
-                                                <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="משך זמן המבחן" value="<?=number_format($getQuestionPaper->paper_duration, 0)?>" autocomplete="off" required data-required-error="משך זמן המבחן הוא שדה חובה." data-pattern-error="שעות לא תקינות. נא להזין מספר." readonly />
+                                                <label for="duration" class="control-label">משך זמן (בדקות, כמספר)</label>
+                                                <input type="text" name="duration" id="duration" pattern="^[0-9+.]+$" class="form-control" placeholder="משך זמן המבחן" value="<?=number_format($getQuestionPaper->paper_duration, 0)?>" autocomplete="off" required data-required-error="משך זמן המבחן הוא שדה חובה." data-pattern-error="פּרוֹטוֹקוֹל לא תקינות. נא להזין מספר." readonly />
                                                 <p class="help-block">
                                                     <small>לא ניתן לערוך שדה זה.</small>
                                                 </p>
