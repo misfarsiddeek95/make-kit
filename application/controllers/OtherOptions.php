@@ -515,5 +515,62 @@ class OtherOptions extends Admin_Controller {
 
         $this->load->view('coupon_print',$data);
     }
+
+    public function print_all_coupons() {
+        $search = $this->input->get('search');
+        $fdate = $this->input->get('fdate');
+        $tdate = $this->input->get('tdate');
+
+        $coupons = $this->Other_modal->getAllActiveCouponsForPrint($search, $fdate, $tdate);
+
+        // Pre-fetch brands and categories mapping for efficient lookup
+        $brands_map = array();
+        $all_brands = $this->Common_modal->getAll('brands');
+        if ($all_brands) {
+            foreach ($all_brands as $b) {
+                $brands_map[$b->brand_id] = $b->brand;
+            }
+        }
+
+        $categories_map = array();
+        $all_categories = $this->Common_modal->getAll('categories');
+        if ($all_categories) {
+            foreach ($all_categories as $c) {
+                $categories_map[$c->cate_id] = $c->category;
+            }
+        }
+
+        foreach ($coupons as $coupon) {
+            $coupon->for_label = '';
+            $coupon->for_value = '';
+            if (!empty($coupon->coupon_for_id)) {
+                $for_ids = array_filter(array_map('intval', explode(',', $coupon->coupon_for_id)));
+                $names = array();
+                if ($coupon->coupon_for == 0) {
+                    $coupon->for_label = 'מותג:';
+                    foreach ($for_ids as $fid) {
+                        if (isset($brands_map[$fid])) {
+                            $names[] = $brands_map[$fid];
+                        }
+                    }
+                } else {
+                    $coupon->for_label = 'קטגוריה:';
+                    foreach ($for_ids as $fid) {
+                        if (isset($categories_map[$fid])) {
+                            $names[] = $categories_map[$fid];
+                        }
+                    }
+                }
+                $coupon->for_value = implode(', ', $names);
+            }
+        }
+
+        $data['coupons'] = $coupons;
+        $data['filter_search'] = $search;
+        $data['filter_fdate'] = $fdate;
+        $data['filter_tdate'] = $tdate;
+
+        $this->load->view('coupons_print_all', $data);
+    }
 }
 

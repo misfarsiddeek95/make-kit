@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <?php $this->load->view('includes/head'); ?>
@@ -29,11 +29,14 @@
 
         <div class="panel panel-default panel-table">
           <div class="panel-heading">
-            <?php if($addCoupons){?>
-              <div class="panel-tools">
+            <div class="panel-tools">
+              <button type="button" class="btn btn-outline-info m-w-120 m-r-5" onclick="printAllCoupons();">
+                <i class="zmdi zmdi-print"></i> הדפס את כל הקופונים
+              </button>
+              <?php if($addCoupons){?>
                 <button type="button" class="btn btn-outline-primary m-w-120" onclick="addCoupon();">הוסף קופון</button>
-              </div>
-            <?php }?>
+              <?php }?>
+            </div>
             <h3 class="m-t-0 m-b-5">קופונים</h3>
           </div>
           <div class="panel-body">
@@ -672,6 +675,14 @@
 
       function printCoupon(id) {
         window.open('<?=base_url()?>printCoupon/' + id, '_blank', 'width=600,height=700');
+      }
+
+      function printAllCoupons() {
+        var search = encodeURIComponent($('#searchField').val() || '');
+        var fdate = encodeURIComponent($('#filterByFromDate').val() || '');
+        var tdate = encodeURIComponent($('#filterByToDate').val() || '');
+        var url = '<?=base_url()?>printAllCoupons?search=' + search + '&fdate=' + fdate + '&tdate=' + tdate;
+        window.open(url, '_blank');
       }
     </script>
   </body>

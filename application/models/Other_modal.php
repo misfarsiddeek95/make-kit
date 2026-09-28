@@ -84,5 +84,30 @@ class Other_modal extends CI_Model {
 
         return $ret;
     }
+
+    public function getAllActiveCouponsForPrint($search = null, $fdate = null, $tdate = null){
+        $this->db->select('coupons.*, photo.photo_path, photo.extension');
+        $this->db->from('coupons');
+        $this->db->join('photo', 'photo.field_id = coupons.cp_id AND photo.table = "coupons" AND photo.field = "cp_id"', 'left');
+        $this->db->where('coupons.status', 0);
+
+        if (!empty($search)) {
+            $this->db->like('coupons.coupon_code', $search);
+        }
+
+        if (!empty($fdate)) {
+            $fdate = date('Y-m-d', strtotime($fdate));
+            $this->db->where('coupons.valid_from >=', $fdate);
+        }
+
+        if (!empty($tdate)) {
+            $tdate = date('Y-m-d', strtotime($tdate));
+            $this->db->where('coupons.valid_to <=', $tdate);
+        }
+
+        $this->db->order_by('coupons.create_date', 'desc');
+        $query = $this->db->get();
+        return $query->result();
+    }
 }
 
