@@ -74,7 +74,7 @@
                                     <th>מדריך</th>
                                     <th style="width:15%;">עיר</th>
                                     <th class="text-center">נקודות MakeKit</th>
-                                    <th>נקודות Medalian</th>
+                                    <th class="text-center">נקודות Medalian</th>
                                 </tr>
                             </thead>
                             <tbody id="tbody_data"></tbody>
@@ -149,7 +149,14 @@
                                 </div>
                             `,
                             `
-                                <span style="font-weight: bold;">סך נקודות: ${parseFloat(row.points_earned_medalian + 0)}</span>
+                                <div style="text-align:center; font-size:12px; line-height:1.4;">
+                                    <div>
+                                        <small><b>נצבר</b>: ${parseFloat(row.points_earned_medalian || 0)}</small>
+                                        <small><b>נוצל</b>: ${parseFloat(row.points_spent_medalian || 0)}</small>
+                                    </div>
+                                    <hr style="margin:4px auto; width:60%; border:0; border-top:1px solid #ccc;">
+                                    <div><span class="text-muted"><b>יתרה</b>: ${(parseFloat(row.points_earned_medalian || 0) - parseFloat(row.points_spent_medalian || 0))}</span></div>
+                                </div>
                             `
                         ]).node().id = 'rowId' + row.user_id;
                     }

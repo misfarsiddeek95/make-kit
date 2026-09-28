@@ -4411,6 +4411,7 @@ CREATE TABLE `external_users` (
   `points_earned` decimal(10,2) DEFAULT 0.00,
   `points_spent` decimal(10,2) DEFAULT 0.00,
   `points_earned_medalian` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `points_spent_medalian` decimal(10,2) NOT NULL DEFAULT 0.00,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='This table is for website users';
 
@@ -4447,6 +4448,24 @@ INSERT INTO `external_users` (`id`, `user_type`, `name`, `role_number`, `city_id
 (26, 3, '???', NULL, NULL, NULL, NULL, NULL, NULL, 'Sivanfaradaa4', '547294902', 'Sivanfaradaa4@gmail.co.com', '$P$BgO8QLcctD76mkGPRCk9asRVXRCfcg1', 1, '0.00', '0.00', '0.00', '2025-04-05 09:53:00'),
 (27, 3, '???? ????', NULL, NULL, NULL, NULL, NULL, NULL, 'diandar26', '547909491', 'diandar26@outlook.com', '$wp$2y$10$Klev1A3u0AkMKV/H/WlUJO3famD4As1lWmZtURmu/V6e/Pf1YLvQi', 1, '0.00', '0.00', '0.00', '2025-05-10 12:11:00'),
 (28, 3, 'Ayaal', '', 1101056, 1, 1, 2, 1, 'Test Parent', '9876543234', 'ayaalshahim@gmail.com', '$wp$2y$10$TLNm/FXHILXdcrMPkO/FY.uCy0d/4RCEJnXRHgrkZbl.jHh0aZHkC', 1, '0.00', '0.00', '10.00', '2025-09-22 00:08:49');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_medals_history`
+--
+
+CREATE TABLE `student_medals_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `student_id` int(11) NOT NULL,
+  `medals_count` decimal(10,2) NOT NULL,
+  `notes` text DEFAULT NULL,
+  `given_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `student_id` (`student_id`),
+  KEY `given_by` (`given_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -4610,7 +4629,13 @@ INSERT INTO `group_progs` (`group_prgid`, `group_id`, `prg_id`) VALUES
 (3113, 1, 149),
 (3114, 1, 155),
 (3115, 1, 156),
-(3116, 1, 157);
+(3116, 1, 157),
+(3117, 1, 158),
+(3118, 1, 159),
+(3119, 1, 160),
+(3120, 2, 158),
+(3121, 2, 159),
+(3122, 2, 160);
 
 -- --------------------------------------------------------
 
@@ -9760,8 +9785,11 @@ INSERT INTO `system_options` (`optid`, `ismain`, `parent_id`, `url`, `descriptio
 (153, 0, 0, '', 'הורד דף בחינה', 4, '', '94/144/145/153', 0, 2, 0),
 (154, 0, 0, '', 'הורד מפתח בחינה', 4, '', '94/144/145/154', 0, 2, 0),
 (155, 0, 144, '', 'שנה סטטוס דף', 3, '', '94/144/155', 0, 2, 0),
-(156, 1, 0, '', 'דוחות', 1, 'zmdi zmdi-file-text', '156', 1, 0, 9),
-(157, 0, 156, 'Reports/studentReport', 'דוח תלמיד', 2, '', '156/157', 0, 0, 1);
+(156, 1, 0, '', 'דוחות', 1, 'zmdi zmdi-file-text', '156', 1, 0, 10),
+(157, 0, 156, 'Reports/studentReport', 'דוח תלמיד', 2, '', '156/157', 0, 0, 1),
+(158, 1, 0, 'ExternalUsers/medals', 'חלוקת מדליות', 1, 'zmdi zmdi-star', '158', 0, 0, 7),
+(159, 0, 158, '', 'רשימת מדליות', 2, '', '158/159', 0, 0, 1),
+(160, 0, 158, '', 'הענקת מדליות', 2, '', '158/160', 0, 2, 2);
 
 -- --------------------------------------------------------
 

@@ -26,6 +26,7 @@ class ExternalUsers extends Admin_Controller {
             $data['edit_student']= $this->Admin_modal->isAccessRightGiven($group_id,115) ? 1 : 0;
             $data['changeStatus']= $this->Admin_modal->isAccessRightGiven($group_id,116) ? 1 : 0;
             $data['delete_student']= $this->Admin_modal->isAccessRightGiven($group_id,117) ? 1 : 0;
+            $data['award_medal']= $this->Admin_modal->isAccessRightGiven($group_id,160) ? 1 : 0;
 
             $data['loadInstitutes'] = $this->Common_modal->getAll('class');
             $data['loadCities'] = $this->Common_modal->getAll('cities');
@@ -674,7 +675,7 @@ class ExternalUsers extends Admin_Controller {
             $sheet->getDefaultColumnDimension()->setWidth(20);
             $sheet->getDefaultRowDimension()->setRowHeight(20);
 
-            $headers = array('שם', 'מס\' תפקיד', 'מוסד', 'מגדר', 'עיר', 'שם הורה', 'טלפון הורה', 'דוא"ל הורה', 'נקודות', 'נקודות מדליות', 'סטטוס');
+            $headers = array('שם', 'מס\' תפקיד', 'מוסד', 'מגדר', 'עיר', 'שם הורה', 'טלפון הורה', 'דוא"ל הורה', 'נקודות MakeKit נצברו', 'נקודות MakeKit נוצלו', 'יתרת MakeKit', 'נקודות מדליות שנצברו', 'מדליות שחולקו', 'יתרת נקודות מדליות', 'סטטוס');
             $col = 'A';
             foreach ($headers as $header) {
                 $sheet->setCellValue($col.'1', $header);
@@ -693,6 +694,14 @@ class ExternalUsers extends Admin_Controller {
 
                 $status = $student->status == 1 ? 'פעיל' : 'לא פעיל';
 
+                $mkEarned = (float)($student->points_earned ?? 0);
+                $mkSpent  = (float)($student->points_spent ?? 0);
+                $mkRemain = $mkEarned - $mkSpent;
+
+                $medEarned = (float)($student->points_earned_medalian ?? 0);
+                $medSpent  = (float)($student->points_spent_medalian ?? 0);
+                $medRemain = $medEarned - $medSpent;
+
                 $sheet->setCellValue('A'.$rowNum, $student->name);
                 $sheet->setCellValue('B'.$rowNum, $student->role_number);
                 $sheet->setCellValue('C'.$rowNum, $student->class_name);
@@ -701,14 +710,18 @@ class ExternalUsers extends Admin_Controller {
                 $sheet->setCellValue('F'.$rowNum, $student->parent_name);
                 $sheet->setCellValue('G'.$rowNum, $student->parent_phone);
                 $sheet->setCellValue('H'.$rowNum, $student->parent_email);
-                $sheet->setCellValue('I'.$rowNum, $student->points_earned);
-                $sheet->setCellValue('J'.$rowNum, $student->points_earned_medalian);
-                $sheet->setCellValue('K'.$rowNum, $status);
+                $sheet->setCellValue('I'.$rowNum, $mkEarned);
+                $sheet->setCellValue('J'.$rowNum, $mkSpent);
+                $sheet->setCellValue('K'.$rowNum, $mkRemain);
+                $sheet->setCellValue('L'.$rowNum, $medEarned);
+                $sheet->setCellValue('M'.$rowNum, $medSpent);
+                $sheet->setCellValue('N'.$rowNum, $medRemain);
+                $sheet->setCellValue('O'.$rowNum, $status);
 
                 $rowNum++;
             }
 
-            for ($i = 'A'; $i <= 'K'; $i++) {
+            for ($i = 'A'; $i <= 'O'; $i++) {
                 $sheet->getColumnDimension($i)->setAutoSize(true);
             }
 
@@ -722,6 +735,75 @@ class ExternalUsers extends Admin_Controller {
             $writer->save('php://output');
             exit;
 
+        } catch (Exception $ex) {
+            echo json_encode(array('status' => 'error', 'message' => $ex->getMessage()));
+        }
+    }
+
+    # Medals Distribution & Management
+    public function medals() {
+        try {
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $manage_medals = $this->Admin_modal->isAccessRightGiven($group_id, 158) ? 0 : 1;
+            if ($manage_medals) {
+                throw new Exception("אין לך הרשאה לחלוקת מדליות.");
+            }
+
+            $data['award_medal'] = $this->Admin_modal->isAccessRightGiven($group_id, 160) ? 1 : 0;
+
+            $data['loadInstitutes'] = $this->Common_modal->getAll('class');
+            $data['loadCities'] = $this->Common_modal->getAll('cities');
+            $data['loadSubjects'] = $this->Common_modal->getAll('subjects');
+
+            $instructorConditions = array('su.access_group' => 2, 'su.status' => 1);
+            $data['loadInstructors'] = $this->Common_modal->get_all_selected_fields('su.user_id as teacher_id,CONCAT_WS(" ", su.fname, su.lname) AS teacher_name', 'staff_users su', $instructorConditions);
+
+            $this->load->view('medals', $data);
+
+        } catch (Exception $ex) {
+            redirect(base_url());
+        }
+    }
+
+    public function giveMedal() {
+        try {
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $can_award = $this->Admin_modal->isAccessRightGiven($group_id, 160) ? 1 : 0;
+            if (!$can_award) {
+                throw new Exception("אין לך הרשאה להעניק מדליות.");
+            }
+
+            $student_id = (int)$this->input->post('student_id');
+            $medals_count = (float)$this->input->post('medals_count');
+            $notes = trim($this->input->post('notes') ?? '');
+            $staff_user_id = (int)$this->session->userdata['staff_logged_in']['user_id'];
+
+            if (!$student_id || $medals_count <= 0) {
+                throw new Exception("נתוני הענקה שגויים. יש לבחור תלמיד וכמות מדליות גדולה מ-0.");
+            }
+
+            $result = $this->ExternalUser_model->award_medals($student_id, $medals_count, $notes, $staff_user_id);
+            echo json_encode($result);
+        } catch (Exception $ex) {
+            echo json_encode(array('status' => 'error', 'message' => $ex->getMessage()));
+        }
+    }
+
+    public function getMedalsHistory() {
+        try {
+            $group_id = $this->session->userdata['staff_logged_in']['group_id'];
+            $manage_medals = $this->Admin_modal->isAccessRightGiven($group_id, 158) ? 0 : 1;
+            if ($manage_medals) {
+                throw new Exception("אין לך הרשאה לצפות בהיסטוריית מדליות.");
+            }
+
+            $student_id = (int)$this->input->post('student_id');
+            if (!$student_id) {
+                throw new Exception("מזהה תלמיד חסר.");
+            }
+
+            $history = $this->ExternalUser_model->get_student_medals_history($student_id);
+            echo json_encode(array('status' => 'success', 'data' => $history));
         } catch (Exception $ex) {
             echo json_encode(array('status' => 'error', 'message' => $ex->getMessage()));
         }

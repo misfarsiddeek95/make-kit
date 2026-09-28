@@ -2,7 +2,7 @@
 class ExternalUser_model extends CI_Model {
 	
     public function filter_students($data){
-        $this->db->select('eu.id as user_id,eu.name,eu.role_number,eu.user_type,eu.gender,eu.parent_name,eu.parent_phone,eu.parent_email,eu.status,eu.points_earned,eu.points_spent,eu.points_earned_medalian,ct.city_name,ct.city_name,ct.city_name_hebrew,p.photo_path,p.extension,c.class_name');
+        $this->db->select('eu.id as user_id,eu.name,eu.role_number,eu.user_type,eu.gender,eu.parent_name,eu.parent_phone,eu.parent_email,eu.status,eu.points_earned,eu.points_spent,eu.points_earned_medalian,eu.points_spent_medalian,ct.city_name,ct.city_name,ct.city_name_hebrew,p.photo_path,p.extension,c.class_name,s.subject_name,CONCAT_WS(" ", su.fname, su.lname) AS instructor_name');
         $this->db->from('external_users eu');
         if ($data['class_id'] != '') {
             $this->db->where('eu.class_id',$data['class_id']);
@@ -18,7 +18,9 @@ class ExternalUser_model extends CI_Model {
         }
         $this->db->join('class c','c.class_id=eu.class_id', 'left outer');
         $this->db->join('cities ct','ct.city_id=eu.city_id', 'left outer');
+        $this->db->join('subjects s', 's.sub_id=eu.subject_id', 'left outer');
         $this->db->join('photo p', 'p.table = "external_users" AND p.field_id = eu.id', 'left outer');
+        $this->db->join('staff_users su', 'su.user_id=eu.instructor_id', 'left outer');
         $this->db->order_by('eu.created_at', 'DESC');
         $query = $this->db->get();
         return $query->result();
@@ -78,7 +80,7 @@ class ExternalUser_model extends CI_Model {
     }
 
     function get_student_detail($user_id) {
-        $this->db->select('eu.id as user_id,d.add_id,eu.name,eu.role_number,eu.city_id,eu.class_id,eu.subject_id,eu.instructor_id,eu.gender,eu.parent_name,eu.parent_phone,eu.parent_email,d.address,p.photo_path,p.extension');
+        $this->db->select('eu.id as user_id,d.add_id,eu.name,eu.role_number,eu.city_id,eu.class_id,eu.subject_id,eu.instructor_id,eu.gender,eu.parent_name,eu.parent_phone,eu.parent_email,eu.points_earned,eu.points_spent,eu.points_earned_medalian,eu.points_spent_medalian,d.address,p.photo_path,p.extension');
         $this->db->from('external_users eu');
         $this->db->where('eu.id', $user_id);
         $this->db->join('addresses d', 'd.user_id = eu.id AND d.user_type = 2 AND d.add_type = 0', 'left outer');
@@ -90,6 +92,87 @@ class ExternalUser_model extends CI_Model {
         } else {
             return false;
         }
+    }
+
+    public function award_medals($student_id, $medals_count, $notes, $staff_user_id) {
+        $this->db->trans_start();
+
+        $this->db->select('eu.points_earned_medalian, eu.points_spent_medalian, eu.instructor_id, sa.teacher_id as assigned_teacher_id');
+        $this->db->from('external_users eu');
+        $this->db->join('subject_assign sa', 'sa.class_id = eu.class_id AND sa.subject_id = eu.subject_id', 'left outer');
+        $this->db->where('eu.id', $student_id);
+        $query = $this->db->get();
+        $student = $query->row();
+
+        if (!$student) {
+            $this->db->trans_rollback();
+            return array('status' => 'error', 'message' => 'תלמיד לא נמצא במערכת.');
+        }
+
+        $earned = (float)$student->points_earned_medalian;
+        $spent = (float)$student->points_spent_medalian;
+        $remaining = $earned - $spent;
+
+        if ($medals_count <= 0) {
+            $this->db->trans_rollback();
+            return array('status' => 'error', 'message' => 'כמות המדליות חייבת להיות גדולה מ-0.');
+        }
+
+        if ($medals_count > $remaining) {
+            $this->db->trans_rollback();
+            return array('status' => 'error', 'message' => 'לא ניתן להעניק יותר מדליות מיתרת הנקודות הקיימת (' . $remaining . ').');
+        }
+
+        $new_spent = $spent + $medals_count;
+        $new_remaining = $earned - $new_spent;
+
+        $this->db->where('id', $student_id);
+        $this->db->update('external_users', array('points_spent_medalian' => $new_spent));
+
+        // Use the student's assigned teacher as given_by, fallback to logged-in staff user if not set
+        $teacher_id = !empty($student->instructor_id) ? (int)$student->instructor_id : (!empty($student->assigned_teacher_id) ? (int)$student->assigned_teacher_id : (int)$staff_user_id);
+
+        $history_data = array(
+            'student_id'   => $student_id,
+            'medals_count' => $medals_count,
+            'notes'        => $notes,
+            'given_by'     => $teacher_id,
+            'created_at'   => date('Y-m-d H:i:s')
+        );
+        $this->db->insert('student_medals_history', $history_data);
+
+        $this->db->trans_complete();
+
+        if ($this->db->trans_status() === FALSE) {
+            return array('status' => 'error', 'message' => 'שגיאה בשמירת הפעולה במסד הנתונים.');
+        }
+
+        return array(
+            'status'        => 'success',
+            'message'       => 'המדליות הוענקו בהצלחה!',
+            'new_spent'     => $new_spent,
+            'new_remaining' => $new_remaining
+        );
+    }
+
+    public function get_student_medals_history($student_id) {
+        $this->db->select('smh.*, 
+            COALESCE(
+                NULLIF(TRIM(CONCAT_WS(" ", teacher.fname, teacher.lname)), ""),
+                NULLIF(TRIM(CONCAT_WS(" ", sa_teacher.fname, sa_teacher.lname)), ""),
+                NULLIF(TRIM(CONCAT_WS(" ", su.fname, su.lname)), ""),
+                "-"
+            ) AS given_by_name');
+        $this->db->from('student_medals_history smh');
+        $this->db->join('external_users eu', 'eu.id = smh.student_id', 'left outer');
+        $this->db->join('staff_users teacher', 'teacher.user_id = eu.instructor_id', 'left outer');
+        $this->db->join('subject_assign sa', 'sa.class_id = eu.class_id AND sa.subject_id = eu.subject_id', 'left outer');
+        $this->db->join('staff_users sa_teacher', 'sa_teacher.user_id = sa.teacher_id', 'left outer');
+        $this->db->join('staff_users su', 'su.user_id = smh.given_by', 'left outer');
+        $this->db->where('smh.student_id', $student_id);
+        $this->db->order_by('smh.created_at', 'DESC');
+        $query = $this->db->get();
+        return $query->result();
     }
 }
 

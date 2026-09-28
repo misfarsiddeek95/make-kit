@@ -172,6 +172,10 @@ $route['register-student'] = 'ExternalUsers/registerStudent';
 $route['remove-student-picture'] = 'ExternalUsers/removeStudentLogo';
 $route['update-student-status'] = 'ExternalUsers/updateStudentStatus';
 $route['delete-student'] = 'ExternalUsers/deleteStudent';
+$route['medals'] = 'ExternalUsers/medals';
+$route['medals/(:num)'] = 'ExternalUsers/medals/$1';
+$route['give-medal'] = 'ExternalUsers/giveMedal';
+$route['medals-history'] = 'ExternalUsers/getMedalsHistory';
 
 
 # Circles

@@ -4473,6 +4473,7 @@ CREATE TABLE `external_users` (
   `points_earned` decimal(10,2) DEFAULT 0.00,
   `points_spent` decimal(10,2) DEFAULT 0.00,
   `points_earned_medalian` decimal(10,2) NOT NULL DEFAULT 0.00,
+  `points_spent_medalian` decimal(10,2) NOT NULL DEFAULT 0.00,
   `created_at` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='This table is for website users';
 
@@ -4482,6 +4483,24 @@ CREATE TABLE `external_users` (
 
 INSERT INTO `external_users` (`id`, `user_type`, `name`, `role_number`, `city_id`, `class_id`, `subject_id`, `instructor_id`, `gender`, `parent_name`, `parent_phone`, `parent_email`, `password`, `status`, `points_earned`, `points_spent`, `points_earned_medalian`, `created_at`) VALUES
 (3, 3, 'Ayaal Shahim', '', 1101056, 1, 1, 7, 1, 'Ahamed Shahim', '0094712625310', 'ayaalshahim@gmail.com', '$2y$10$NJ5WgPJ9bC0vuILylCrtZuaadNp/qvSrMOQK02sPzfIxXIxew6bNu', 1, '50.00', '0.00', '30.00', '2025-08-01 13:06:55');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `student_medals_history`
+--
+
+CREATE TABLE `student_medals_history` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `student_id` int(11) NOT NULL,
+  `medals_count` decimal(10,2) NOT NULL,
+  `notes` text DEFAULT NULL,
+  `given_by` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  KEY `student_id` (`student_id`),
+  KEY `given_by` (`given_by`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -4645,7 +4664,13 @@ INSERT INTO `group_progs` (`group_prgid`, `group_id`, `prg_id`) VALUES
 (2723, 1, 149),
 (2724, 1, 155),
 (2725, 1, 156),
-(2726, 1, 157);
+(2726, 1, 157),
+(2727, 1, 158),
+(2728, 1, 159),
+(2729, 1, 160),
+(2730, 2, 158),
+(2731, 2, 159),
+(2732, 2, 160);
 
 -- --------------------------------------------------------
 
@@ -10727,8 +10752,11 @@ INSERT INTO `system_options` (`optid`, `ismain`, `parent_id`, `url`, `descriptio
 (153, 0, 0, '', 'Download Exam Paper', 4, '', '94/144/145/153', 0, 2, 0),
 (154, 0, 0, '', 'Download Exam Paper Scheme', 4, '', '94/144/145/154', 0, 2, 0),
 (155, 0, 144, '', 'Change Paper Status', 3, '', '94/144/155', 0, 2, 0),
-(156, 1, 0, '', 'Reports', 1, 'zmdi zmdi-file-text', '156', 1, 0, 9),
-(157, 0, 156, 'Reports/studentReport', 'Student Report', 2, '', '156/157', 0, 0, 1);
+(156, 1, 0, '', 'Reports', 1, 'zmdi zmdi-file-text', '156', 1, 0, 10),
+(157, 0, 156, 'Reports/studentReport', 'Student Report', 2, '', '156/157', 0, 0, 1),
+(158, 1, 0, 'ExternalUsers/medals', 'Medals Distribution', 1, 'zmdi zmdi-star', '158', 0, 0, 7),
+(159, 0, 158, '', 'Medals List', 2, '', '158/159', 0, 0, 1),
+(160, 0, 158, '', 'Award Medals', 2, '', '158/160', 0, 2, 2);
 
 -- --------------------------------------------------------
 

@@ -99,6 +99,55 @@
                         </table>
                     </div>
                 </div>
+            <!-- Modal: Award Medals -->
+            <div class="modal fade" id="awardMedalModal" tabindex="-1" role="dialog" aria-labelledby="awardMedalModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form id="awardMedalForm" onsubmit="submitAwardMedal(event);">
+                            <input type="hidden" id="award_student_id" name="student_id" value="">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="awardMedalModalLabel"><i class="zmdi zmdi-star text-warning"></i> הענקת מדליות לתלמיד</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h4 id="award_student_name" class="m-t-0 m-b-15 text-primary text-center"></h4>
+                                <div class="modal-points-box" style="background-color:#f7f9fa; border:1px solid #e4e7ea; border-radius:6px; padding:12px 15px; margin-bottom:15px;">
+                                    <div class="row text-center">
+                                        <div class="col-xs-4">
+                                            <div style="font-size:18px; font-weight:bold;" class="text-primary" id="award_earned_pts">0</div>
+                                            <div style="font-size:12px; color:#777;">נקודות שנצברו</div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div style="font-size:18px; font-weight:bold;" class="text-danger" id="award_spent_pts">0</div>
+                                            <div style="font-size:12px; color:#777;">מדליות שחולקו</div>
+                                        </div>
+                                        <div class="col-xs-4">
+                                            <div style="font-size:18px; font-weight:bold;" class="text-success" id="award_remain_pts">0</div>
+                                            <div style="font-size:12px; color:#777;">יתרה זמינה</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="award_medals_count" class="control-label">מספר מדליות להענקה <span class="text-danger">*</span></label>
+                                    <input type="number" step="0.5" min="0.5" class="form-control" id="award_medals_count" name="medals_count" required placeholder="הזן כמות מדליות">
+                                    <small class="help-block text-muted">הערך ינוכה מיתרת הנקודות הזמינה של התלמיד.</small>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="award_notes" class="control-label">הערות / סיבת הענקה</label>
+                                    <textarea class="form-control" id="award_notes" name="notes" rows="3" placeholder="למשל: מדליית זהב על הצטיינות..."></textarea>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">ביטול</button>
+                                <button type="submit" id="awardSubmitBtn" class="btn btn-warning"><i class="zmdi zmdi-star"></i> הענק מדליות</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -166,6 +215,14 @@
                         let status_action = (status_change == 1 && (myGroup != row.user_type || myId != row.user_id)) ? `onchange="updateUserStatus(${row.user_id})"` : 'disabled';
 
                         let actionBtns = '';
+                        <?php if($award_medal){ ?>
+                            var earnedMed = parseFloat(row.points_earned_medalian || 0);
+                            var spentMed  = parseFloat(row.points_spent_medalian || 0);
+                            var remainMed = earnedMed - spentMed;
+                            if (remainMed < 0) remainMed = 0;
+                            var safeNameMed = $('<div>').text(row.name).html().replace(/'/g, "\\'");
+                            actionBtns += `<button type="button" class="btn btn-outline-warning btn-pill m-r-5" title="הענק מדליה" onclick="openAwardMedalModal(${row.user_id}, '${safeNameMed}', ${earnedMed}, ${spentMed}, ${remainMed})"><i class="zmdi zmdi-star"></i></button>`;
+                        <?php } ?>
                         <?php if($edit_student){ ?>
                             actionBtns += `<button type="button" class="btn btn-outline-primary btn-pill m-r-5" onclick="editUser(${row.user_id})"><i class="zmdi zmdi-edit"></i></button>`;
                         <?php } ?>
@@ -273,6 +330,72 @@
             var f = window._studentFilters || {};
             var params = $.param(f);
             window.location.href = '<?=base_url()?>export-students?' + params;
+        }
+
+        function openAwardMedalModal(studentId, studentName, earned, spent, remain) {
+            $('#award_student_id').val(studentId);
+            $('#award_student_name').text(studentName);
+            $('#award_earned_pts').text(earned);
+            $('#award_spent_pts').text(spent);
+            $('#award_remain_pts').text(remain);
+            $('#award_medals_count').val('');
+            $('#award_medals_count').attr('max', remain);
+            $('#award_notes').val('');
+
+            if (remain <= 0) {
+                toastr.warning('לתלמיד זה אין יתרת נקודות זמינה להענקת מדליות.');
+                return;
+            }
+
+            $('#awardMedalModal').modal('show');
+            setTimeout(function() {
+                $('#award_medals_count').focus();
+            }, 500);
+        }
+
+        function submitAwardMedal(e) {
+            e.preventDefault();
+            var studentId = $('#award_student_id').val();
+            var count = parseFloat($('#award_medals_count').val());
+            var notes = $('#award_notes').val();
+            var currentRemain = parseFloat($('#award_remain_pts').text());
+
+            if (isNaN(count) || count <= 0) {
+                toastr.error('נא להזין כמות מדליות חוקית הגדולה מ-0.');
+                return;
+            }
+
+            if (count > currentRemain) {
+                toastr.error('לא ניתן להעניק יותר מדליות מיתרת הנקודות הקיימת (' + currentRemain + ').');
+                return;
+            }
+
+            $('#awardSubmitBtn').prop('disabled', true).html('<i class="zmdi zmdi-spinner zmdi-hc-spin"></i> מעבד...');
+
+            $.ajax({
+                type: "POST",
+                url: "<?=base_url()?>give-medal",
+                data: { student_id: studentId, medals_count: count, notes: notes },
+                success: function(response) {
+                    $('#awardSubmitBtn').prop('disabled', false).html('<i class="zmdi zmdi-star"></i> הענק מדליות');
+                    try {
+                        var res = (typeof response === 'object') ? response : JSON.parse(response);
+                        if (res.status === 'success') {
+                            toastr.success(res.message);
+                            $('#awardMedalModal').modal('hide');
+                            filterStudents();
+                        } else {
+                            toastr.error(res.message || 'שגיאה בהענקת מדליות.');
+                        }
+                    } catch(err) {
+                        toastr.error('שגיאה בתגובת השרת.');
+                    }
+                },
+                error: function() {
+                    $('#awardSubmitBtn').prop('disabled', false).html('<i class="zmdi zmdi-star"></i> הענק מדליות');
+                    toastr.error('שגיאה בתקשורת עם השרת.');
+                }
+            });
         }
     </script>
 </body>

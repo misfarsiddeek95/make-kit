@@ -606,13 +606,14 @@ class Questionnaire_Model extends CI_Model{
     }    
 
     public function update_all_students_points() {
-        $sql = "
+        // Update Makekit points (term_id = 1 or paper_type = 1)
+        $sql_makekit = "
             UPDATE external_users eu
             LEFT JOIN (
                 SELECT sp.student_id, SUM(sp.points) AS total_points
                 FROM student_points sp
                 INNER JOIN question_paper_main q ON sp.paper_id = q.paper_id
-                WHERE q.status = 1  -- only consider active papers
+                WHERE q.status = 1 AND (sp.paper_type = 1 OR q.term_id = 1)
                 AND sp.attempt_id = (
                     SELECT MAX(sp2.attempt_id)
                     FROM student_points sp2
@@ -623,8 +624,27 @@ class Questionnaire_Model extends CI_Model{
             ) AS scores ON eu.id = scores.student_id
             SET eu.points_earned = IFNULL(scores.total_points, 0)
         ";
+        $this->db->query($sql_makekit);
 
-        return $this->db->query($sql);
+        // Update Medalian points (term_id = 2 or paper_type = 2)
+        $sql_medalian = "
+            UPDATE external_users eu
+            LEFT JOIN (
+                SELECT sp.student_id, SUM(sp.points) AS total_points
+                FROM student_points sp
+                INNER JOIN question_paper_main q ON sp.paper_id = q.paper_id
+                WHERE q.status = 1 AND (sp.paper_type = 2 OR q.term_id = 2)
+                AND sp.attempt_id = (
+                    SELECT MAX(sp2.attempt_id)
+                    FROM student_points sp2
+                    WHERE sp2.student_id = sp.student_id
+                        AND sp2.paper_id = sp.paper_id
+                )
+                GROUP BY sp.student_id
+            ) AS scores ON eu.id = scores.student_id
+            SET eu.points_earned_medalian = IFNULL(scores.total_points, 0)
+        ";
+        return $this->db->query($sql_medalian);
     }
 
 }
