@@ -19,6 +19,7 @@ class ExternalUser_model extends CI_Model {
         $this->db->join('class c','c.class_id=eu.class_id', 'left outer');
         $this->db->join('cities ct','ct.city_id=eu.city_id', 'left outer');
         $this->db->join('photo p', 'p.table = "external_users" AND p.field_id = eu.id', 'left outer');
+        $this->db->order_by('eu.created_at', 'DESC');
         $query = $this->db->get();
         return $query->result();
     }
